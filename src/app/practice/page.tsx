@@ -44,16 +44,17 @@ function PracticeContent() {
 
   return (
     <div className="container max-w-[1400px] py-4 md:py-8 px-2 md:px-4">
-      <div className="mb-6 md:mb-8">
-        <h1 className="text-3xl font-extrabold text-[#1e1b4b] dark:text-white">
+      <div className="mb-4 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-[#1e1b4b] dark:text-white">
           Toán {selectedGrade.label}
         </h1>
-        <p className="text-slate-500 dark:text-slate-400 mt-2">Chọn chuyên đề bên trái để bắt đầu luyện tập</p>
+        <p className="text-slate-500 dark:text-slate-400 mt-1 md:mt-2 text-sm md:text-base hidden md:block">Chọn chuyên đề bên trái để bắt đầu luyện tập</p>
+        <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm md:hidden">Chọn chuyên đề để bắt đầu luyện tập</p>
       </div>
       
-      <div className="flex flex-col md:flex-row gap-8 items-start">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
         {/* Sidebar - Chapters */}
-        <div className="w-full md:w-[240px] shrink-0 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 md:sticky md:top-24 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="w-full md:w-[240px] shrink-0 flex flex-row md:flex-col gap-2 md:gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 md:sticky md:top-24 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <div className="hidden md:flex font-bold text-[#1e1b4b] dark:text-white mb-4 items-center gap-2">
             <BookOpen className="w-5 h-5 text-fuchsia-500" />
             CHƯƠNG
@@ -65,15 +66,15 @@ function PracticeContent() {
                 key={chapter.id}
                 onClick={() => setActiveChapterId(chapter.id)}
                 className={cn(
-                  "w-[200px] md:w-full shrink-0 snap-start text-left px-4 py-3 md:px-5 md:py-4 rounded-[20px] transition-all duration-300 border",
+                  "w-auto md:w-full shrink-0 snap-start text-left px-4 py-2 md:px-5 md:py-4 rounded-full md:rounded-[20px] transition-all border",
                   isActive 
                     ? "bg-fuchsia-500 text-white border-fuchsia-500 shadow-md shadow-fuchsia-500/20 font-bold" 
-                    : "bg-white dark:bg-white/5 border-transparent text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 hover:border-slate-200 dark:hover:border-white/10 font-semibold"
+                    : "bg-white dark:bg-white/5 border-transparent text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 hover:border-slate-200 dark:hover:border-white/10 font-medium md:font-semibold shadow-sm md:shadow-none"
                 )}
               >
-                <div className="flex items-center justify-between">
-                  <span className="line-clamp-2 text-sm md:text-base">{chapter.title}</span>
-                  {isActive && <ChevronRight className="w-4 h-4 md:w-5 md:h-5 opacity-80 shrink-0" />}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="whitespace-nowrap md:whitespace-normal line-clamp-1 md:line-clamp-2 text-sm md:text-base">{chapter.title}</span>
+                  {isActive && <ChevronRight className="hidden md:block w-5 h-5 opacity-80 shrink-0" />}
                 </div>
               </button>
             );

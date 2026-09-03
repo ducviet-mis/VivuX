@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS practice_lessons (id TEXT PRIMARY KEY, grade INTEGER NOT NULL, chapter TEXT NOT NULL, title TEXT NOT NULL); 

@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   EduTutor Design System - Soft Pastel Neumorphism
+   ============================================ */
+
+@layer base {
+  :root {
+    /* ---- Light Mode (Pastel Neumorphism) ---- */
+    --background: 270 20% 98%;       /* #faf9fb */
+    --foreground: 240 60% 20%;       /* #1e1b4b - Deep Indigo */
+
+    --card: 0 0% 100%;               /* white */
+    --card-foreground: 240 60% 20%;  /* #1e1b4b */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 60% 20%;
+
+    --primary: 320 80% 55%;          /* Fuchsia pink */
+    --primary-foreground: 0 0% 100%; /* white */
+
+    --secondary: 240 10% 96%;        /* slate-100 */
+    --secondary-foreground: 240 60% 20%;
+
+    --muted: 290 30% 96%;            /* soft pinkish white */
+    --muted-foreground: 240 20% 65%; /* slate-400 */
+
+    --accent: 320 80% 55%;           /* Fuchsia pink */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;        /* red-500 */
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 160 84% 39%;          /* emerald-500 */
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;           /* amber-500 */
+    --warning-foreground: 0 0% 100%;
+
+    --border: 240 20% 92%;           /* slate-100 border */
+    --input: 240 20% 92%;
+    --ring: 320 80% 55%;             /* Fuchsia ring */
+
+    --radius: 1.5rem;                /* 24px default radius for modern look */
+  }
+
+  .dark {
+    /* ---- Dark Mode ---- */
+    --background: 260 20% 10%;       /* #1a1625 */
+    --foreground: 240 20% 95%;       /* whiteish */
+
+    --card: 260 22% 18%;             /* #2a2438 */
+    --card-foreground: 240 20% 95%;
+
+    --popover: 260 22% 18%;
+    --popover-foreground: 240 20% 95%;
+
+    --primary: 320 80% 65%;          /* Lighter Fuchsia */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 260 20% 25%;
+    --secondary-foreground: 240 20% 95%;
+
+    --muted: 260 20% 20%;
+    --muted-foreground: 240 20% 70%;
+
+    --accent: 320 80% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 63%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 160 64% 52%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 43 96% 56%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 260 20% 25%;
+    --input: 260 20% 25%;
+    --ring: 320 80% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* ---- Widget Card Hover Effect ---- */
+@layer components {
+  .widget-card {
+    @apply rounded-2xl border border-border bg-card shadow-sm 
+           transition-all duration-200 ease-out;
+  }
+
+  .widget-card:hover {
+    @apply shadow-md -translate-y-0.5;
+  }
+
+  .widget-card-static {
+    @apply rounded-2xl border border-border bg-card shadow-sm;
+  }
+}
+
+/* ---- KaTeX Math Display ---- */
+.katex-display {
+  margin: 0.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex {
+  font-size: 1.1em;
+}
+
+/* ---- Custom Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/50;
+}
+
+/* ---- Exam Timer Flash ---- */
+@keyframes timer-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.timer-danger {
+  animation: timer-flash 1s ease-in-out infinite;
+  @apply text-destructive;
+}
+
+/* ---- Flag Button Pulse ---- */
+.flag-active {
+  @apply text-red-500;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ---- Split View (Exam Room) ---- */
+.exam-split-view {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-0 h-[calc(100vh-4rem)];
+}
+
+.exam-split-view > * {
+  @apply overflow-auto;
+}
+
+/* ---- Progress Ring ---- */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+  transition: stroke-dashoffset 0.8s ease-out;
+}

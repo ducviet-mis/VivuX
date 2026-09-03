@@ -1,0 +1,2 @@
+export type DashboardStats = { totalClasses: number; totalStudents: number; totalExams: number; flaggedQuestions: number; };
+export type FlaggedQuestion = { examId: string; examTitle: string; questionNumber: number; studentId: string; studentName: string; flaggedAt: string; };

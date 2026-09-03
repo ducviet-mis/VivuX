@@ -10,8 +10,9 @@ import { FileText, Clock, Hash, Trophy, ArrowRight, Play } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
+import { Suspense } from 'react';
 
-export default function MockExamsPage() {
+function MockExamsContent() {
   const searchParams = useSearchParams();
   const grade = searchParams.get('grade') || '8';
   const { user } = useAuthStore();
@@ -122,5 +123,13 @@ export default function MockExamsPage() {
           </div>
         )}
     </div>
+  );
+}
+
+export default function MockExamsPage() {
+  return (
+    <Suspense fallback={<div className="container max-w-5xl py-8"><p>Đang tải danh sách bài thi...</p></div>}>
+      <MockExamsContent />
+    </Suspense>
   );
 }

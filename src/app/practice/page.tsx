@@ -53,8 +53,8 @@ function PracticeContent() {
       
       <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* Sidebar - Chapters */}
-        <div className="w-full md:w-[240px] shrink-0 space-y-2 sticky top-24">
-          <div className="font-bold text-[#1e1b4b] dark:text-white mb-4 flex items-center gap-2">
+        <div className="w-full md:w-[240px] shrink-0 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 md:sticky md:top-24 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="hidden md:flex font-bold text-[#1e1b4b] dark:text-white mb-4 items-center gap-2">
             <BookOpen className="w-5 h-5 text-fuchsia-500" />
             CHƯƠNG
           </div>
@@ -65,15 +65,15 @@ function PracticeContent() {
                 key={chapter.id}
                 onClick={() => setActiveChapterId(chapter.id)}
                 className={cn(
-                  "w-full text-left px-5 py-4 rounded-[20px] transition-all duration-300 border",
+                  "w-[200px] md:w-full shrink-0 snap-start text-left px-4 py-3 md:px-5 md:py-4 rounded-[20px] transition-all duration-300 border",
                   isActive 
                     ? "bg-fuchsia-500 text-white border-fuchsia-500 shadow-md shadow-fuchsia-500/20 font-bold" 
                     : "bg-white dark:bg-white/5 border-transparent text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 hover:border-slate-200 dark:hover:border-white/10 font-semibold"
                 )}
               >
                 <div className="flex items-center justify-between">
-                  <span className="line-clamp-2">{chapter.title}</span>
-                  {isActive && <ChevronRight className="w-5 h-5 opacity-80" />}
+                  <span className="line-clamp-2 text-sm md:text-base">{chapter.title}</span>
+                  {isActive && <ChevronRight className="w-4 h-4 md:w-5 md:h-5 opacity-80 shrink-0" />}
                 </div>
               </button>
             );

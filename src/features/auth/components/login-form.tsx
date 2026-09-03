@@ -43,38 +43,40 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email" className="text-[#1e1b4b] dark:text-slate-300 font-bold ml-1">Email</Label>
         <Input
           id="email"
           type="email"
           placeholder="email@example.com"
+          className="rounded-full bg-white dark:bg-[#1a1625] border-slate-200 dark:border-white/10 px-5 h-12"
           {...register("email")}
         />
         {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
+          <p className="text-sm text-red-500 ml-1">{errors.email.message}</p>
         )}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Mật khẩu</Label>
+        <Label htmlFor="password" className="text-[#1e1b4b] dark:text-slate-300 font-bold ml-1">Mật khẩu</Label>
         <Input
           id="password"
           type="password"
           placeholder="••••••••"
+          className="rounded-full bg-white dark:bg-[#1a1625] border-slate-200 dark:border-white/10 px-5 h-12"
           {...register("password")}
         />
         {errors.password && (
-          <p className="text-sm text-destructive">{errors.password.message}</p>
+          <p className="text-sm text-red-500 ml-1">{errors.password.message}</p>
         )}
       </div>
 
       {error && (
-        <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+        <div className="rounded-2xl bg-red-500/10 p-4 text-sm text-red-500 font-medium">
           {error}
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button type="submit" className="w-full rounded-full h-12 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold text-base shadow-lg shadow-fuchsia-500/20 mt-6" disabled={isLoading}>
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

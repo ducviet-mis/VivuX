@@ -61,11 +61,11 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
   };
 
   if (loading || !exam || !attempt) {
-    return <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa] dark:bg-[#15121e] animate-pulse">Đang tải kết quả...</div>;
+    return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-slate-500 font-medium">Đang tải kết quả...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] dark:bg-[#15121e] py-8">
+    <div className="w-full py-4 md:py-8">
       <div className="container max-w-4xl">
         <Button variant="ghost" onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} className="mb-6 rounded-xl hover:bg-slate-200 dark:hover:bg-white/10">
           <ArrowLeft className="w-4 h-4 mr-2" /> Về danh sách đề

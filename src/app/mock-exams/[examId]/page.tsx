@@ -114,17 +114,17 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   };
 
   if (!initialized || !exam) {
-    return <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa] dark:bg-[#15121e] animate-pulse">Đang tải đề thi...</div>;
+    return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-slate-500 font-medium">Đang tải đề thi...</div>;
   }
 
   const currentQuestion = questions[currentIndex];
   const selectedAnswer = currentQuestion ? answers[currentQuestion.id] : null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9fa] dark:bg-[#15121e]">
+    <div className="w-full flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 h-16 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
+      <header className="sticky top-20 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 py-3 flex items-center justify-between shadow-sm rounded-t-3xl -mx-4 -mt-4 mb-4 sm:mx-0 sm:mt-0">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
             <ArrowLeft className="w-5 h-5" />
           </Button>
@@ -134,28 +134,29 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <div className={cn(
-            "flex items-center gap-2 px-4 py-2 rounded-full font-bold font-mono text-lg transition-colors",
+            "flex items-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold font-mono text-sm sm:text-lg transition-colors",
             timeLeft < 300 ? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 animate-pulse" : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
           )}>
-            <Clock className="w-5 h-5" />
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
             {formatTime(timeLeft)}
           </div>
           
           <Button 
             onClick={() => setShowConfirm(true)}
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold rounded-full px-6 shadow-md shadow-fuchsia-500/20"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold rounded-full px-4 sm:px-6 shadow-md shadow-fuchsia-500/20"
           >
-            Nộp bài
-            <Send className="w-4 h-4 ml-2" />
+            <span className="hidden sm:inline">Nộp bài</span>
+            <span className="sm:hidden">Nộp</span>
+            <Send className="w-4 h-4 ml-1 sm:ml-2" />
           </Button>
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      <div className="flex-1 flex flex-col-reverse md:flex-row gap-6">
         {/* Main Content (Question) */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+        <main className="flex-1">
           <div className="max-w-3xl mx-auto">
             {currentQuestion && (
               <div className="bg-white dark:bg-[#1e1a2b] rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/40 dark:shadow-none border border-slate-100 dark:border-white/5">
@@ -222,37 +223,39 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         </main>
 
         {/* Sidebar (Grid) */}
-        <aside className="w-full md:w-80 bg-white dark:bg-[#1a1625] border-t md:border-t-0 md:border-l border-slate-200 dark:border-white/10 flex flex-col h-64 md:h-auto shrink-0 shadow-lg">
-          <div className="p-4 border-b border-slate-100 dark:border-white/5 font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center">
-            <span>Danh sách câu hỏi</span>
-            <span className="text-sm font-normal text-fuchsia-600 dark:text-fuchsia-400">
-              Đã làm: {Object.keys(answers).length} / {questions.length}
-            </span>
-          </div>
-          <div className="p-4 overflow-y-auto flex-1">
-            <div className="grid grid-cols-5 gap-2">
-              {questions.map((q, idx) => {
-                const isAnswered = answers[q.id] !== undefined;
-                const isCurrent = currentIndex === idx;
-                
-                return (
-                  <button
-                    key={q.id}
-                    onClick={() => setCurrentIndex(idx)}
-                    className={cn(
-                      "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
-                      isCurrent 
-                        ? "ring-2 ring-fuchsia-500 ring-offset-2 dark:ring-offset-[#1a1625]" 
-                        : "hover:bg-slate-100 dark:hover:bg-white/5",
-                      isAnswered 
-                        ? "bg-fuchsia-500 text-white shadow-md shadow-fuchsia-500/20" 
-                        : "bg-slate-50 text-slate-500 border border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-white/5"
-                    )}
+        <aside className="w-full md:w-80 shrink-0">
+          <div className="bg-white dark:bg-[#1a1625] rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden md:sticky md:top-40">
+            <div className="p-4 border-b border-slate-100 dark:border-white/5 font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center bg-slate-50/50 dark:bg-black/10">
+              <span>Danh sách câu</span>
+              <span className="text-sm font-bold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-100 dark:bg-fuchsia-900/30 px-3 py-1 rounded-full">
+                {Object.keys(answers).length} / {questions.length}
+              </span>
+            </div>
+            <div className="p-4 max-h-[40vh] md:max-h-[calc(100vh-300px)] overflow-y-auto">
+              <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-5 gap-2">
+                {questions.map((q, idx) => {
+                  const isAnswered = answers[q.id] !== undefined;
+                  const isCurrent = currentIndex === idx;
+                  
+                  return (
+                    <button
+                      key={q.id}
+                      onClick={() => setCurrentIndex(idx)}
+                      className={cn(
+                        "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
+                        isCurrent 
+                          ? "ring-2 ring-fuchsia-500 ring-offset-2 dark:ring-offset-[#1a1625]" 
+                          : "hover:bg-slate-100 dark:hover:bg-white/5",
+                        isAnswered 
+                          ? "bg-fuchsia-500 text-white shadow-md shadow-fuchsia-500/20" 
+                          : "bg-slate-50 text-slate-500 border border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-white/5"
+                      )}
                   >
                     {idx + 1}
                   </button>
                 );
               })}
+              </div>
             </div>
           </div>
         </aside>

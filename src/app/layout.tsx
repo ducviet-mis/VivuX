@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
@@ -6,12 +6,26 @@ import { ClientLayout } from "@/components/layout/client-layout";
 
 const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
+export const viewport: Viewport = {
+  themeColor: "#1a1625",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "EduTutor — Nền tảng Quản lý Lớp Gia sư & Tự luyện Toán",
   description:
     "Hệ thống quản lý lớp gia sư, tạo đề thi trực tuyến, tự luyện toán theo chuyên đề, và tính học phí tự động.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "EduTutor",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
-
 export default function RootLayout({
   children,
 }: {

@@ -9,6 +9,8 @@ import { MathRenderer } from '@/features/practice/components/math-renderer';
 import { ArrowLeft, ArrowRight, Clock, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from '@/components/ui/sheet';
+import { LayoutGrid } from 'lucide-react';
 
 export default function MockExamRoomPage({ params }: { params: { examId: string } }) {
   const router = useRouter();
@@ -123,43 +125,89 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   return (
     <div className="w-full flex flex-col">
       {/* Header */}
-      <header className="sticky top-16 md:top-20 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 py-3 flex items-center justify-between shadow-sm sm:rounded-t-[32px] -mx-3 -mt-3 mb-4 sm:mx-0 sm:mt-0">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-3 py-3 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0">
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <div>
-            <h1 className="font-bold text-slate-800 dark:text-slate-100 hidden sm:block">{exam.title}</h1>
-            <h1 className="font-bold text-slate-800 dark:text-slate-100 sm:hidden text-lg">Thi thử</h1>
+          <div className="hidden sm:block">
+            <h1 className="font-bold text-slate-800 dark:text-slate-100">{exam.title}</h1>
           </div>
+          
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="sm" className="md:hidden flex items-center gap-1.5 rounded-full border-slate-200 dark:border-white/10 px-3">
+                <LayoutGrid className="w-4 h-4" />
+                <span className="font-bold">{currentIndex + 1}/{questions.length}</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="h-[70vh] rounded-t-[32px] p-0 flex flex-col bg-white dark:bg-[#1a1625] border-slate-200 dark:border-white/10">
+              <SheetHeader className="p-4 border-b border-slate-100 dark:border-white/5 text-left">
+                <SheetTitle className="text-lg font-bold flex justify-between items-center">
+                  Danh sách câu
+                  <span className="text-sm font-bold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-100 dark:bg-fuchsia-900/30 px-3 py-1 rounded-full">
+                    Đã làm: {Object.keys(answers).length} / {questions.length}
+                  </span>
+                </SheetTitle>
+                <SheetDescription className="hidden">Question list</SheetDescription>
+              </SheetHeader>
+              <div className="p-4 overflow-y-auto flex-1">
+                <div className="grid grid-cols-6 gap-2">
+                  {questions.map((q, idx) => {
+                    const isAnswered = answers[q.id] !== undefined;
+                    const isCurrent = currentIndex === idx;
+                    return (
+                      <SheetTrigger asChild key={q.id}>
+                        <button
+                          onClick={() => setCurrentIndex(idx)}
+                          className={cn(
+                            "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
+                            isCurrent 
+                              ? "ring-2 ring-fuchsia-500 ring-offset-2 dark:ring-offset-[#1a1625]" 
+                              : "hover:bg-slate-100 dark:hover:bg-white/5",
+                            isAnswered 
+                              ? "bg-fuchsia-500 text-white shadow-md shadow-fuchsia-500/20" 
+                              : "bg-slate-50 text-slate-500 border border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-white/5"
+                          )}
+                        >
+                          {idx + 1}
+                        </button>
+                      </SheetTrigger>
+                    );
+                  })}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
         
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2">
           <div className={cn(
-            "flex items-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold font-mono text-sm sm:text-lg transition-colors",
+            "flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold font-mono text-sm sm:text-lg transition-colors",
             timeLeft < 300 ? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 animate-pulse" : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
           )}>
-            <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-            {formatTime(timeLeft)}
+            <Clock className="w-4 h-4 shrink-0" />
+            <span>{formatTime(timeLeft)}</span>
           </div>
           
           <Button 
             onClick={() => setShowConfirm(true)}
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold rounded-full px-4 sm:px-6 shadow-md shadow-fuchsia-500/20"
+            size="sm"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold rounded-full px-4 shadow-md shadow-fuchsia-500/20"
           >
             <span className="hidden sm:inline">Nộp bài</span>
             <span className="sm:hidden">Nộp</span>
-            <Send className="w-4 h-4 ml-1 sm:ml-2" />
+            <Send className="w-4 h-4 ml-1 sm:ml-2 shrink-0" />
           </Button>
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col-reverse md:flex-row gap-6">
+      <div className="flex-1 flex flex-col md:flex-row gap-6">
         {/* Main Content (Question) */}
-        <main className="flex-1">
+        <main className="flex-1 pb-20 md:pb-0">
           <div className="max-w-3xl mx-auto">
             {currentQuestion && (
-              <div className="bg-white dark:bg-[#1e1a2b] rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-xl shadow-slate-200/40 dark:shadow-none border border-slate-100 dark:border-white/5">
+              <div className="bg-white dark:bg-[#1e1a2b] rounded-none md:rounded-3xl p-4 md:p-8 shadow-none md:shadow-xl md:shadow-slate-200/40 dark:shadow-none border-y md:border border-slate-100 dark:border-white/5">
                 <h2 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-4 md:mb-6">
                   Câu {currentIndex + 1}:
                 </h2>
@@ -223,7 +271,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         </main>
 
         {/* Sidebar (Grid) */}
-        <aside className="w-full md:w-80 shrink-0">
+        <aside className="hidden md:block w-80 shrink-0">
           <div className="bg-white dark:bg-[#1a1625] rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden md:sticky md:top-40">
             <div className="p-4 border-b border-slate-100 dark:border-white/5 font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center bg-slate-50/50 dark:bg-black/10">
               <span>Danh sách câu</span>

@@ -56,9 +56,9 @@ export function QuestionCard({
         )}
       </div>
       
-      <Progress value={progressPercent} className="h-2 md:h-3 mb-6 md:mb-10 bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden [&>div]:bg-gradient-to-r [&>div]:from-fuchsia-500 [&>div]:to-pink-500" />
+      <Progress value={progressPercent} className="h-2 md:h-3 mb-6 md:mb-10 bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden [&>div]:bg-gradient-to-r [&>div]:from-fuchsia-500 [&>div]:to-pink-500 mx-4 md:mx-0" />
       
-      <div className="bg-white dark:bg-[#1a1625] rounded-2xl md:rounded-[32px] shadow-sm border border-slate-100 dark:border-white/5 p-5 md:p-12">
+      <div className="bg-white dark:bg-[#1a1625] rounded-none md:rounded-[32px] shadow-none md:shadow-sm border-y md:border border-slate-100 dark:border-white/5 p-4 md:p-12">
         <div className="text-lg md:text-2xl font-bold text-[#1e1b4b] dark:text-white leading-relaxed mb-6 md:mb-10">
           <MathRenderer content={question.content} />
         </div>

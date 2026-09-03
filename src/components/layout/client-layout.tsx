@@ -21,8 +21,9 @@ export function ClientLayout({ children }: ClientLayoutProps) {
     initAuth();
   }, [initAuth]);
 
-  // If we are taking an exam, hide layout elements to maximize screen space on MOBILE ONLY
-  const isExamMode = pathname?.match(/^\/mock-exams\/[a-zA-Z0-9-]+$/);
+  // If we are taking an exam or practicing, hide layout elements to maximize screen space on MOBILE ONLY
+  const isImmersiveMode = pathname?.match(/^\/mock-exams\/[a-zA-Z0-9-]+$/) || 
+                          (pathname?.match(/^\/practice\/[a-zA-Z0-9-]+$/) && !pathname.match(/\/saved|\/wrong/));
 
   return (
     <AuthGuard>
@@ -31,7 +32,7 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         {/* --- GLOBAL VIBRANT PASTEL BACKGROUND BLOBS (Optimized with radial gradients) --- */}
         <div className={cn(
           "absolute inset-0 overflow-hidden pointer-events-none fixed opacity-90",
-          isExamMode ? "hidden md:block" : ""
+          isImmersiveMode ? "hidden md:block" : ""
         )}>
           {/* Dark mode */}
           <div className="hidden dark:block absolute inset-0">
@@ -49,17 +50,17 @@ export function ClientLayout({ children }: ClientLayoutProps) {
           </div>
         </div>
 
-        <div className={cn(isExamMode ? "hidden md:block" : "block")}>
+        <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}>
           <Navbar />
         </div>
         
         <main className={cn(
           "flex-1 relative z-10 flex flex-col",
-          isExamMode ? "p-0 md:p-8" : "p-0 sm:p-4 md:p-8"
+          isImmersiveMode ? "p-0 md:p-8" : "p-0 sm:p-4 md:p-8"
         )}>
           <div className={cn(
             "mx-auto w-full max-w-[1400px] flex-1 backdrop-blur-xl saturate-[1.1]",
-            isExamMode 
+            isImmersiveMode 
               ? "bg-[#fefdff] dark:bg-[#110c18] md:bg-white/90 md:dark:bg-[#1e1b2e]/90 border-0 md:border md:border-white/80 md:dark:border-white/10 rounded-none md:rounded-[40px] p-0 md:p-10 shadow-none md:shadow-[0_10px_40px_-10px_rgba(200,150,200,0.2)] md:dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)]"
               : "bg-white/90 dark:bg-[#1e1b2e]/90 border-x-0 sm:border-x border-y sm:border-y border-white/80 dark:border-white/10 rounded-none sm:rounded-[24px] md:rounded-[40px] p-3 sm:p-6 md:p-10 shadow-none sm:shadow-[0_10px_40px_-10px_rgba(200,150,200,0.2)] dark:sm:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)]"
           )}>
@@ -67,7 +68,7 @@ export function ClientLayout({ children }: ClientLayoutProps) {
           </div>
         </main>
         
-        <div className={cn(isExamMode ? "hidden md:block" : "block")}>
+        <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}>
           <Footer />
         </div>
       </div>

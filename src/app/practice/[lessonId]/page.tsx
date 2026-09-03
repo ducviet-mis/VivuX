@@ -189,9 +189,9 @@ export default function LessonPracticePage() {
   const { lesson, chapter, grade } = lessonInfo;
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-4">
-      <div className="flex items-start md:items-center gap-3 md:gap-4 mb-6 md:mb-10">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0 bg-white/50 hover:bg-white dark:bg-white/5 dark:hover:bg-white/10 shadow-sm border border-slate-200/50 dark:border-slate-800/50 mt-1 md:mt-0">
+    <div className="w-full flex flex-col md:max-w-4xl md:mx-auto md:py-4">
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#110c18]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 md:border-none md:bg-transparent md:dark:bg-transparent md:backdrop-blur-none px-3 py-3 md:px-0 md:py-0 flex items-start md:items-center gap-3 md:gap-4 mb-6 md:mb-10 shadow-sm md:shadow-none">
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0 bg-white/50 hover:bg-slate-100 dark:bg-white/5 dark:hover:bg-white/10 shadow-sm border border-slate-200/50 dark:border-slate-800/50 mt-1 md:mt-0">
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-slate-700 dark:text-slate-300" />
         </Button>
         <div className="flex-1 min-w-0">
@@ -208,7 +208,7 @@ export default function LessonPracticePage() {
             <span>{progress.answered}/{progress.total}</span>
           </div>
         )}
-      </div>
+      </header>
 
       {isLoading ? (
         <div className="flex flex-col items-center justify-center py-32">

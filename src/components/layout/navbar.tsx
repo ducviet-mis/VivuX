@@ -63,7 +63,7 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-[#fefdff]/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-white/60 dark:border-white/5 shadow-[0_4px_20px_-10px_rgba(200,180,220,0.2)] dark:shadow-none transition-all">
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 md:h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Logo */}
         <Link href="/home" className="flex items-center gap-3 group">

@@ -190,21 +190,22 @@ export default function LessonPracticePage() {
 
   return (
     <div className="w-full max-w-4xl mx-auto py-4">
-      <div className="flex items-center gap-4 mb-10">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0 bg-white/50 hover:bg-white dark:bg-white/5 dark:hover:bg-white/10 shadow-sm border border-slate-200/50 dark:border-slate-800/50">
-          <ArrowLeft className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+      <div className="flex items-start md:items-center gap-3 md:gap-4 mb-6 md:mb-10">
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0 bg-white/50 hover:bg-white dark:bg-white/5 dark:hover:bg-white/10 shadow-sm border border-slate-200/50 dark:border-slate-800/50 mt-1 md:mt-0">
+          <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-slate-700 dark:text-slate-300" />
         </Button>
-        <div className="flex-1">
-          <h1 className="text-xl md:text-2xl font-bold text-[#1e1b4b] dark:text-white leading-tight">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-lg md:text-2xl font-bold text-[#1e1b4b] dark:text-white leading-tight truncate md:whitespace-normal">
             {lesson.title}
           </h1>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs md:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 truncate">
             {mode === 'mix' ? 'Luyện tập' : `${chapter.title} • ${grade.label}`}
           </p>
         </div>
         {mode !== 'mix' && (
-          <div className="shrink-0 text-sm font-bold bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-300 px-4 py-2 rounded-2xl shadow-sm border border-fuchsia-200/50 dark:border-fuchsia-800/50">
-            Tiến độ: <span>{progress.answered}/{progress.total}</span>
+          <div className="shrink-0 text-xs md:text-sm font-bold bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-300 px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-sm border border-fuchsia-200/50 dark:border-fuchsia-800/50 flex flex-col md:flex-row items-center md:gap-1 mt-1 md:mt-0">
+            <span className="hidden md:inline">Tiến độ:</span> 
+            <span>{progress.answered}/{progress.total}</span>
           </div>
         )}
       </div>

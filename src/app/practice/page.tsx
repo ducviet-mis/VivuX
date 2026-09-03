@@ -43,8 +43,8 @@ function PracticeContent() {
   const activeChapter = selectedGrade.chapters.find(c => c.id === activeChapterId);
 
   return (
-    <div className="container max-w-[1400px] py-8">
-      <div className="mb-8">
+    <div className="container max-w-[1400px] py-4 md:py-8 px-2 md:px-4">
+      <div className="mb-6 md:mb-8">
         <h1 className="text-3xl font-extrabold text-[#1e1b4b] dark:text-white">
           Toán {selectedGrade.label}
         </h1>

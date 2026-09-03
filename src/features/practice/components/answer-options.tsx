@@ -16,7 +16,7 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
   const isAnswered = selectedAnswer !== null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-4 md:mt-6">
       {options.map((option, idx) => {
         const isSelected = selectedAnswer === idx;
         const isCorrect = correctAnswer === idx;
@@ -42,7 +42,7 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
             onClick={() => onSelect(idx)}
             disabled={isAnswered}
             className={cn(
-              "flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 text-left group",
+              "flex items-center gap-3 md:gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all duration-200 text-left group",
               stateClass,
               !isAnswered && "hover:shadow-md hover:-translate-y-0.5"
             )}

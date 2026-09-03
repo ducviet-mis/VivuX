@@ -123,14 +123,14 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   return (
     <div className="w-full flex flex-col">
       {/* Header */}
-      <header className="sticky top-20 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 py-3 flex items-center justify-between shadow-sm rounded-t-3xl -mx-4 -mt-4 mb-4 sm:mx-0 sm:mt-0">
+      <header className="sticky top-16 md:top-20 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 py-3 flex items-center justify-between shadow-sm sm:rounded-t-[32px] -mx-3 -mt-3 mb-4 sm:mx-0 sm:mt-0">
         <div className="flex items-center gap-2 sm:gap-4">
           <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
             <h1 className="font-bold text-slate-800 dark:text-slate-100 hidden sm:block">{exam.title}</h1>
-            <h1 className="font-bold text-slate-800 dark:text-slate-100 sm:hidden">Thi thử</h1>
+            <h1 className="font-bold text-slate-800 dark:text-slate-100 sm:hidden text-lg">Thi thử</h1>
           </div>
         </div>
         
@@ -159,8 +159,8 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         <main className="flex-1">
           <div className="max-w-3xl mx-auto">
             {currentQuestion && (
-              <div className="bg-white dark:bg-[#1e1a2b] rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/40 dark:shadow-none border border-slate-100 dark:border-white/5">
-                <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-6">
+              <div className="bg-white dark:bg-[#1e1a2b] rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-xl shadow-slate-200/40 dark:shadow-none border border-slate-100 dark:border-white/5">
+                <h2 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-4 md:mb-6">
                   Câu {currentIndex + 1}:
                 </h2>
                 <div className="prose prose-slate dark:prose-invert max-w-none mb-8 text-lg text-slate-700 dark:text-slate-300">

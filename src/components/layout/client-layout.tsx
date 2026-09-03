@@ -40,8 +40,8 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         </div>
 
         <Navbar />
-        <main className="flex-1 relative z-10 flex flex-col p-2 sm:p-4 md:p-8">
-          <div className="mx-auto w-full max-w-[1400px] flex-1 bg-[#fefdff]/85 dark:bg-[#1e1b2e]/85 backdrop-blur-lg saturate-[1.1] border border-white/80 dark:border-white/10 rounded-[24px] md:rounded-[40px] p-4 sm:p-6 md:p-10 shadow-[0_10px_40px_-10px_rgba(200,150,200,0.2)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)]">
+        <main className="flex-1 relative z-10 flex flex-col p-0 sm:p-4 md:p-8">
+          <div className="mx-auto w-full max-w-[1400px] flex-1 bg-white/90 dark:bg-[#1e1b2e]/90 backdrop-blur-xl saturate-[1.1] border-x-0 sm:border-x border-y sm:border-y border-white/80 dark:border-white/10 rounded-none sm:rounded-[24px] md:rounded-[40px] p-3 sm:p-6 md:p-10 shadow-none sm:shadow-[0_10px_40px_-10px_rgba(200,150,200,0.2)] dark:sm:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)]">
             {children}
           </div>
         </main>

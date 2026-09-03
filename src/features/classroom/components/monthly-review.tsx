@@ -72,7 +72,7 @@ export function MonthlyReview({ students, isTeacher = false }: MonthlyReviewProp
         <CardTitle className="text-lg">Nhận xét tháng</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           {isTeacher && (
             <Select value={selectedStudent} onValueChange={handleStudentChange}>
               <SelectTrigger className="w-[200px]">

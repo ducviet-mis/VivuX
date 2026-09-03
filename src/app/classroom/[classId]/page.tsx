@@ -116,22 +116,22 @@ export default function ClassDetailPage({ params }: { params: { classId: string 
         description={`Giáo viên: ${classroom.teacherName} • ${classroom.studentCount} học sinh`}
       />
 
-      <div className="flex gap-6 mt-6">
+      <div className="flex flex-col md:flex-row gap-6 mt-6">
         {/* Sidebar Navigation */}
-        <div className="w-48 shrink-0">
-          <nav className="sticky top-6 space-y-1">
+        <div className="w-full md:w-56 shrink-0">
+          <nav className="flex flex-row md:flex-col gap-2 overflow-x-auto snap-x [&::-webkit-scrollbar]:hidden md:sticky md:top-24 pb-2 md:pb-0">
             {tabs.map(tab => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                  "flex-1 md:flex-none flex items-center justify-center md:justify-start gap-2.5 px-5 py-3 rounded-[16px] text-sm font-semibold transition-all whitespace-nowrap snap-start",
                   activeTab === tab.key
-                    ? "bg-primary text-primary-foreground shadow-md"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white shadow-md shadow-fuchsia-500/20"
+                    : "bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10"
                 )}
               >
-                <tab.icon className="w-4 h-4" />
+                <tab.icon className="w-4 h-4 shrink-0" />
                 {tab.label}
               </button>
             ))}

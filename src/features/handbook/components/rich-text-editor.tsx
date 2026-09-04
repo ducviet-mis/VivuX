@@ -16,6 +16,9 @@ interface RichTextEditorProps {
 }
 
 export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -41,9 +44,6 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
   if (!editor) {
     return null;
   }
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading] = useState(false);
 
   const addImage = () => {
     fileInputRef.current?.click();

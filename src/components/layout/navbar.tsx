@@ -294,6 +294,15 @@ export function Navbar() {
               </button>
             </>
           )}
+          {!user && (
+            <div className="pt-2 px-2">
+              <Link href="/login" onClick={() => setMobileOpen(false)} className="block">
+                <Button className="w-full rounded-xl bg-[#1e1b4b] text-white font-bold h-11 shadow-sm">
+                  Đăng nhập
+                </Button>
+              </Link>
+            </div>
+          )}
           <div className="pt-2 px-2 flex items-center justify-between">
             <span className="text-sm font-semibold text-slate-500">Giao diện</span>
             <ThemeToggle />

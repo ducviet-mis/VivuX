@@ -5,7 +5,32 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Loader2 } from 'lucide-react';
 
-const PUBLIC_PATHS = ['/', '/home', '/login', '/register', '/practice', '/mock-exams'];
+const EXACT_PUBLIC_PATHS = ['/', '/home', '/login', '/register', '/practice', '/mock-exams'];
+
+function checkIsPublicPath(pathname: string | null): boolean {
+  if (!pathname) return false;
+
+  // Exact public root routes
+  if (EXACT_PUBLIC_PATHS.includes(pathname)) {
+    return true;
+  }
+
+  // Handbook Hub: /handbook is public
+  if (pathname === '/handbook') {
+    return true;
+  }
+
+  // Handbook reading page: /handbook/[id] is public
+  // EXCEPT admin routes: /handbook/new and /handbook/[id]/edit which require authentication
+  if (pathname.startsWith('/handbook/')) {
+    if (pathname === '/handbook/new' || pathname.endsWith('/edit')) {
+      return false; // Require login for authoring/editing
+    }
+    return true; // Reading is 100% public!
+  }
+
+  return false;
+}
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -17,7 +42,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isPublicPath = PUBLIC_PATHS.includes(pathname);
+  const isPublicPath = checkIsPublicPath(pathname);
 
   useEffect(() => {
     // Only redirect AFTER auth has been initialized
@@ -26,7 +51,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     }
   }, [user, initialized, isPublicPath, router]);
 
-  // Public pages: always render immediately
+  // Public pages: always render immediately without waiting for auth
   if (isPublicPath) {
     return <>{children}</>;
   }

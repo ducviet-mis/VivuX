@@ -7,7 +7,7 @@ import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Button } from '@/components/ui/button';
-import { Bold, Italic, Heading2, Heading3, List, ListOrdered, Quote, ImageIcon, LinkIcon } from 'lucide-react';
+import { Bold, Italic, Heading2, Heading3, Quote, ImageIcon, LinkIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface RichTextEditorProps {
@@ -21,7 +21,11 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        bulletList: false,
+        orderedList: false,
+        listItem: false,
+      }),
       Image,
       Link.configure({
         openOnClick: false,
@@ -131,24 +135,6 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         
         <div className="w-px h-6 bg-border mx-1" />
         
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive('bulletList') && "bg-muted text-primary")}
-        >
-          <List className="w-4 h-4" />
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive('orderedList') && "bg-muted text-primary")}
-        >
-          <ListOrdered className="w-4 h-4" />
-        </Button>
         <Button
           type="button"
           variant="ghost"

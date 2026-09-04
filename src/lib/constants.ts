@@ -1,7 +1,7 @@
 /** Application-wide constants */
 
-export const APP_NAME = "EduTutor";
-export const APP_DESCRIPTION = "Nền tảng Quản lý Lớp Gia sư & Tự luyện Toán";
+export const APP_NAME = "VivuX";
+export const APP_DESCRIPTION = "Nền tảng Học & Tự luyện Toán thông minh VivuX";
 
 /** Navigation items */
 export const NAV_ITEMS = [

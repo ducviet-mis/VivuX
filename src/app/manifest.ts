@@ -1,10 +1,10 @@
-﻿import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'EduTutor',
-    short_name: 'EduTutor',
-    description: 'Nền tảng Quản lý Lớp Gia sư & Tự luyện Toán',
+    name: 'VivuX',
+    short_name: 'VivuX',
+    description: 'Nền tảng Học & Tự luyện Toán thông minh VivuX',
     start_url: '/',
     display: 'standalone',
     background_color: '#f7f5fa',
@@ -19,6 +19,11 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         src: '/icon-512.png',
         sizes: '512x512',
+        type: 'image/png',
+      },
+      {
+        src: '/apple-touch-icon.png',
+        sizes: '180x180',
         type: 'image/png',
       },
     ],

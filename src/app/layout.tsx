@@ -14,13 +14,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "EduTutor — Nền tảng Quản lý Lớp Gia sư & Tự luyện Toán",
+  title: "VivuX — Nền tảng Học & Tự luyện Toán thông minh",
   description:
-    "Hệ thống quản lý lớp gia sư, tạo đề thi trực tuyến, tự luyện toán theo chuyên đề, và tính học phí tự động.",
+    "Hệ thống quản lý lớp học, thi thử trực tuyến, cẩm nang toán học và tự luyện toán thông minh.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "EduTutor",
+    title: "VivuX",
   },
   formatDetection: {
     telephone: false,

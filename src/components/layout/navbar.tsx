@@ -67,11 +67,11 @@ export function Navbar() {
       <div className="mx-auto flex h-16 md:h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Logo */}
-        <Link href="/home" className="flex items-center gap-3 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-gradient-to-br from-fuchsia-500 to-pink-500 shadow-lg shadow-pink-500/20 group-hover:scale-105 transition-transform">
-            <GraduationCap className="h-6 w-6 text-white" />
+        <Link href="/home" className="flex items-center gap-2.5 group">
+          <div className="relative h-10 w-10 overflow-hidden rounded-[13px] shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform bg-white/10">
+            <img src="/logo.png" alt={APP_NAME} className="h-full w-full object-cover" />
           </div>
-          <span className="text-xl font-extrabold text-[#1e1b4b] dark:text-white hidden sm:inline tracking-tight">
+          <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 via-indigo-600 to-fuchsia-600 dark:from-blue-400 dark:via-indigo-300 dark:to-pink-400 bg-clip-text text-transparent hidden sm:inline tracking-tight">
             {APP_NAME}
           </span>
         </Link>

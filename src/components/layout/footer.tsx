@@ -1,13 +1,13 @@
 import { APP_NAME } from "@/lib/constants";
-import { GraduationCap, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card/50 py-6 mt-12">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-2 px-4 text-center text-sm text-muted-foreground sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
-          <GraduationCap className="h-4 w-4 text-primary" />
-          <span className="font-medium text-foreground">{APP_NAME}</span>
+          <img src="/logo.png" alt={APP_NAME} className="h-5 w-5 rounded-md object-cover" />
+          <span className="font-bold text-foreground">{APP_NAME}</span>
         </div>
         <p className="flex items-center gap-1">
           Được xây dựng với <Heart className="h-3 w-3 text-red-500 fill-red-500" /> cho giáo dục

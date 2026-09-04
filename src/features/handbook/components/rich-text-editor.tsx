@@ -194,6 +194,15 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
       <EditorContent editor={editor} />
       
       <style jsx global>{`
+        .ProseMirror {
+          outline: none !important;
+          box-shadow: none !important;
+        }
+        .ProseMirror:focus {
+          outline: none !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
         .ProseMirror p.is-editor-empty:first-child::before {
           content: attr(data-placeholder);
           float: left;

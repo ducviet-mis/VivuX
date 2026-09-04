@@ -7,8 +7,9 @@ import { getSupabaseClient } from '@/lib/supabase/client';
 import { HandbookPost } from '@/features/handbook/types';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ChevronLeft, Clock, Share2, Facebook, Twitter, Link as LinkIcon, Loader2, Edit } from 'lucide-react';
+import { ChevronLeft, Clock, Share2, Facebook, Twitter, Link as LinkIcon, Loader2, Edit, Edit3, Save, Check } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function HandbookReadingPage({ params }: { params: { id: string } }) {
@@ -17,6 +18,10 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
   const [post, setPost] = useState<HandbookPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<HandbookPost[]>([]);
   const [authorAvatar, setAuthorAvatar] = useState<string | null>(null);
+  const [bioText, setBioText] = useState<string>('');
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [savingBio, setSavingBio] = useState(false);
+  const [bioSavedSuccess, setBioSavedSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
@@ -34,6 +39,11 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
       
       if (postData) {
         setPost(postData as HandbookPost);
+
+        // Check local storage fallback for bio
+        const cachedBio = typeof window !== 'undefined' ? localStorage.getItem(`handbook_author_bio_${params.id}`) : null;
+        const initialBio = (postData as any).author_bio || cachedBio || `Người đam mê Toán học và truyền cảm hứng. Các bài viết của ${postData.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.`;
+        setBioText(initialBio);
 
         // Fetch author avatar from profiles by name
         if (postData.author_name) {
@@ -65,6 +75,32 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
     }
     fetchPost();
   }, [params.id]);
+
+  const handleSaveBio = async () => {
+    if (!post) return;
+    setSavingBio(true);
+    
+    // Save to localStorage immediately
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`handbook_author_bio_${post.id}`, bioText);
+    }
+
+    // Attempt save to Supabase
+    try {
+      const supabase = getSupabaseClient();
+      await supabase
+        .from('handbook_posts')
+        .update({ author_bio: bioText })
+        .eq('id', post.id);
+    } catch (e) {
+      console.warn('Note: author_bio column might not exist yet in Supabase:', e);
+    }
+
+    setSavingBio(false);
+    setIsEditingBio(false);
+    setBioSavedSuccess(true);
+    setTimeout(() => setBioSavedSuccess(false), 3000);
+  };
 
   const formatPublishTime = (dateStr: string) => {
     try {
@@ -126,7 +162,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
             className="rounded-full gap-2 border-fuchsia-300 dark:border-fuchsia-800 text-fuchsia-600 dark:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-950/30"
           >
             <Edit className="w-3.5 h-3.5" />
-            Sửa bài viết
+            Sửa toàn bộ bài viết
           </Button>
         )}
       </div>
@@ -210,16 +246,69 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
               {post.author_name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1 block">Tác giả</span>
+          <div className="flex-1 w-full">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-400 block">Tác giả</span>
+              {bioSavedSuccess && (
+                <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold animate-in fade-in">
+                  <Check className="w-3.5 h-3.5" /> Đã lưu giới thiệu!
+                </span>
+              )}
+            </div>
+            
             <h3 className="text-xl font-bold text-[#1e1b4b] dark:text-white mb-2">{post.author_name}</h3>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-              Người đam mê Toán học và truyền cảm hứng. Các bài viết của {post.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.
-            </p>
+
+            {/* Editable Author Bio */}
+            {isEditingBio ? (
+              <div className="space-y-3 mt-2">
+                <Textarea
+                  value={bioText}
+                  onChange={(e) => setBioText(e.target.value)}
+                  className="text-sm leading-relaxed min-h-[90px] rounded-xl bg-white dark:bg-white/10 border-fuchsia-300 dark:border-fuchsia-700 focus-visible:ring-fuchsia-500"
+                  placeholder="Nhập lời giới thiệu ngắn về tác giả..."
+                />
+                <div className="flex items-center gap-2 justify-end">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => {
+                      setIsEditingBio(false);
+                      setBioText((post as any).author_bio || localStorage.getItem(`handbook_author_bio_${post.id}`) || `Người đam mê Toán học và truyền cảm hứng. Các bài viết của ${post.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.`);
+                    }}
+                    className="h-8 rounded-lg text-xs"
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={savingBio}
+                    onClick={handleSaveBio}
+                    className="h-8 rounded-lg text-xs bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:from-fuchsia-500 hover:to-pink-500 text-white shadow-sm gap-1.5"
+                  >
+                    {savingBio ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                    Lưu lời giới thiệu
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
+                  {bioText}
+                </p>
+                {isAdmin && (
+                  <button
+                    onClick={() => setIsEditingBio(true)}
+                    className="inline-flex items-center gap-1.5 text-xs text-fuchsia-600 dark:text-fuchsia-400 font-semibold hover:underline mt-2.5 opacity-90 hover:opacity-100 transition-opacity"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" /> Sửa lời giới thiệu này
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Sửa nội dung ở dưới phần tác giả */}
+        {/* Thanh quản trị bài viết */}
         {isAdmin && (
           <div className="mt-6 pt-5 border-t border-slate-200/80 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">
@@ -230,7 +319,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
               className="bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:from-fuchsia-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-md h-10 px-5 gap-2 w-full sm:w-auto"
             >
               <Edit className="w-4 h-4" />
-              Sửa nội dung bài viết
+              Sửa toàn bộ bài viết
             </Button>
           </div>
         )}

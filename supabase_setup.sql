@@ -11,3 +11,6 @@ USING ( bucket_id = 'handbook_images' );
 CREATE POLICY "Public Upload"
 ON storage.objects FOR INSERT
 WITH CHECK ( bucket_id = 'handbook_images' );
+
+-- Bổ sung cột lưu lời giới thiệu tác giả (author_bio) nếu chưa có
+ALTER TABLE handbook_posts ADD COLUMN IF NOT EXISTS author_bio TEXT;

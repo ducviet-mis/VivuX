@@ -8,6 +8,7 @@ export interface HandbookPost {
   content: string;
   cover_url: string | null;
   author_name: string;
+  author_bio?: string | null;
   read_time_minutes: number;
   is_featured: boolean;
   created_at: string;

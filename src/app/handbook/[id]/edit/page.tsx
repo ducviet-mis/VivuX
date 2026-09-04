@@ -29,6 +29,7 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
   const [coverUrl, setCoverUrl] = useState('');
   const [readTime, setReadTime] = useState('3');
   const [isFeatured, setIsFeatured] = useState(false);
+  const [authorBio, setAuthorBio] = useState('');
 
   const coverInputRef = useRef<HTMLInputElement>(null);
   const [uploadingCover, setUploadingCover] = useState(false);
@@ -60,6 +61,9 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
         setCoverUrl(data.cover_url || '');
         setReadTime(data.read_time_minutes?.toString() || '3');
         setIsFeatured(data.is_featured);
+        
+        const cachedBio = typeof window !== 'undefined' ? localStorage.getItem(`handbook_author_bio_${params.id}`) : null;
+        setAuthorBio((data as any).author_bio || cachedBio || `Người đam mê Toán học và truyền cảm hứng. Các bài viết của ${data.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.`);
       }
       setLoading(false);
     }
@@ -105,15 +109,27 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
       await supabase.from('handbook_posts').update({ is_featured: false }).neq('id', params.id);
     }
 
-    const { error } = await supabase.from('handbook_posts').update({
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`handbook_author_bio_${params.id}`, authorBio);
+    }
+
+    const updatePayload: any = {
       category,
       title,
       sapo,
       content,
       cover_url: coverUrl || null,
       read_time_minutes: parseInt(readTime) || 3,
-      is_featured: isFeatured
-    }).eq('id', params.id);
+      is_featured: isFeatured,
+      author_bio: authorBio
+    };
+
+    let { error } = await supabase.from('handbook_posts').update(updatePayload).eq('id', params.id);
+    if (error && error.message?.includes('author_bio')) {
+      delete updatePayload.author_bio;
+      const res = await supabase.from('handbook_posts').update(updatePayload).eq('id', params.id);
+      error = res.error;
+    }
 
     setSaving(false);
 
@@ -243,6 +259,19 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
               />
               <p className="text-xs text-slate-500">
                 Ước tính người học mất khoảng {readTime} phút để đọc hết bài này.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="font-semibold">Lời giới thiệu tác giả (Bio)</Label>
+              <Textarea 
+                placeholder="Giới thiệu ngắn về tác giả dưới chân bài viết..." 
+                value={authorBio} 
+                onChange={e => setAuthorBio(e.target.value)}
+                className="text-sm leading-relaxed h-24 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl resize-none"
+              />
+              <p className="text-xs text-slate-500">
+                Hiển thị trong khung thông tin tác giả ở chân bài đọc.
               </p>
             </div>
 

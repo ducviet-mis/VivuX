@@ -28,6 +28,7 @@ export default function NewHandbookPostPage() {
   const [coverUrl, setCoverUrl] = useState('');
   const [readTime, setReadTime] = useState('3');
   const [isFeatured, setIsFeatured] = useState(false);
+  const [authorBio, setAuthorBio] = useState('Người đam mê Toán học và truyền cảm hứng. Các bài viết tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.');
 
   const coverInputRef = useRef<HTMLInputElement>(null);
   const [uploadingCover, setUploadingCover] = useState(false);
@@ -79,16 +80,29 @@ export default function NewHandbookPostPage() {
       await supabase.from('handbook_posts').update({ is_featured: false }).neq('id', '00000000-0000-0000-0000-000000000000');
     }
 
-    const { error } = await supabase.from('handbook_posts').insert({
+    const insertPayload: any = {
       category,
       title,
       sapo,
       content,
       cover_url: coverUrl || null,
       author_name: user?.name || 'Admin',
+      author_bio: authorBio,
       read_time_minutes: parseInt(readTime) || 3,
       is_featured: isFeatured
-    });
+    };
+
+    let { data: inserted, error } = await supabase.from('handbook_posts').insert(insertPayload).select('id').single();
+    if (error && error.message?.includes('author_bio')) {
+      delete insertPayload.author_bio;
+      const res = await supabase.from('handbook_posts').insert(insertPayload).select('id').single();
+      error = res.error;
+      inserted = res.data;
+    }
+
+    if (inserted?.id && typeof window !== 'undefined') {
+      localStorage.setItem(`handbook_author_bio_${inserted.id}`, authorBio);
+    }
 
     setLoading(false);
 
@@ -218,6 +232,19 @@ export default function NewHandbookPostPage() {
               />
               <p className="text-xs text-slate-500">
                 Ước tính người học mất khoảng {readTime} phút để đọc hết bài này.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="font-semibold">Lời giới thiệu tác giả (Bio)</Label>
+              <Textarea 
+                placeholder="Giới thiệu ngắn về tác giả dưới chân bài viết..." 
+                value={authorBio} 
+                onChange={e => setAuthorBio(e.target.value)}
+                className="text-sm leading-relaxed h-24 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl resize-none"
+              />
+              <p className="text-xs text-slate-500">
+                Hiển thị trong khung thông tin tác giả ở chân bài đọc.
               </p>
             </div>
 

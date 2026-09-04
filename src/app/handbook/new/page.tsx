@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { HandbookCategory } from '@/features/handbook/types';
 import { RichTextEditor } from '@/features/handbook/components/rich-text-editor';
+import { uploadHandbookImage } from '@/features/handbook/utils/upload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Loader2, Save, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Loader2, Save, UploadCloud } from 'lucide-react';
 
 const CATEGORIES: HandbookCategory[] = ['Toán & Đời sống', 'Phương pháp học toán', 'Bản đồ lý thuyết'];
 
@@ -27,6 +28,21 @@ export default function NewHandbookPostPage() {
   const [coverUrl, setCoverUrl] = useState('');
   const [readTime, setReadTime] = useState('3');
   const [isFeatured, setIsFeatured] = useState(false);
+
+  const coverInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingCover, setUploadingCover] = useState(false);
+
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingCover(true);
+    const url = await uploadHandbookImage(file);
+    if (url) {
+      setCoverUrl(url);
+    }
+    setUploadingCover(false);
+    if (coverInputRef.current) coverInputRef.current.value = '';
+  };
 
   const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
 
@@ -144,18 +160,38 @@ export default function NewHandbookPostPage() {
             </div>
 
             <div className="space-y-2">
-              <Label className="font-semibold">Ảnh bìa (Cover URL)</Label>
-              <Input 
-                placeholder="https://..." 
-                value={coverUrl} 
-                onChange={e => setCoverUrl(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl"
+              <Label className="font-semibold">Ảnh bìa (Cover)</Label>
+              <input 
+                type="file"
+                ref={coverInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={handleCoverUpload}
               />
-              {coverUrl && (
-                <div className="mt-3 aspect-[16/9] w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
-                  <img src={coverUrl} alt="Cover Preview" className="w-full h-full object-cover" />
-                </div>
-              )}
+              <div 
+                className="mt-3 aspect-[16/9] w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-white/20 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors overflow-hidden relative group"
+                onClick={() => coverInputRef.current?.click()}
+              >
+                {uploadingCover ? (
+                  <div className="flex flex-col items-center text-slate-500">
+                    <Loader2 className="w-8 h-8 animate-spin mb-2 text-fuchsia-500" />
+                    <span className="text-sm font-medium">Đang tải ảnh...</span>
+                  </div>
+                ) : coverUrl ? (
+                  <>
+                    <img src={coverUrl} alt="Cover Preview" className="w-full h-full object-cover group-hover:opacity-50 transition-opacity" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <UploadCloud className="w-8 h-8 text-white mb-2" />
+                      <span className="text-white font-medium text-sm">Đổi ảnh bìa</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center text-slate-500">
+                    <UploadCloud className="w-8 h-8 mb-2 opacity-50" />
+                    <span className="text-sm font-medium">Tải ảnh lên</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">

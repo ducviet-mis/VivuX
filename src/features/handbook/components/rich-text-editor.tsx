@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
@@ -41,10 +42,30 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
     return null;
   }
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
   const addImage = () => {
-    const url = window.prompt('Nhập đường dẫn ảnh (URL):');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const { uploadHandbookImage } = await import('@/features/handbook/utils/upload');
+      const url = await uploadHandbookImage(file);
+      if (url) {
+        editor.chain().focus().setImage({ src: url }).run();
+      }
+    } finally {
+      setIsUploading(false);
+      // Reset input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -154,11 +175,20 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
           variant="ghost"
           size="sm"
           onClick={addImage}
+          disabled={isUploading}
           className="h-8 w-8 p-0"
         >
-          <ImageIcon className="w-4 h-4" />
+          {isUploading ? <div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" /> : <ImageIcon className="w-4 h-4" />}
         </Button>
       </div>
+      
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        accept="image/*" 
+        className="hidden" 
+      />
 
       {/* Editor Content */}
       <EditorContent editor={editor} />

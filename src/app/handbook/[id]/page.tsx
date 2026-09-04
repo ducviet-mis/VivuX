@@ -2,17 +2,24 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { HandbookPost } from '@/features/handbook/types';
+import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { ChevronLeft, Clock, Share2, Facebook, Twitter, Link as LinkIcon, Loader2 } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ChevronLeft, Clock, Share2, Facebook, Twitter, Link as LinkIcon, Loader2, Edit } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function HandbookReadingPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
+  const { user } = useAuthStore();
   const [post, setPost] = useState<HandbookPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<HandbookPost[]>([]);
+  const [authorAvatar, setAuthorAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
 
   useEffect(() => {
     async function fetchPost() {
@@ -27,6 +34,19 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
       
       if (postData) {
         setPost(postData as HandbookPost);
+
+        // Fetch author avatar from profiles by name
+        if (postData.author_name) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('avatar_url')
+            .eq('name', postData.author_name)
+            .maybeSingle();
+
+          if (profile?.avatar_url) {
+            setAuthorAvatar(profile.avatar_url);
+          }
+        }
         
         // Fetch related posts in the same category
         const { data: relatedData } = await supabase
@@ -46,13 +66,27 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
     fetchPost();
   }, [params.id]);
 
-  const formatDate = (dateStr: string) => {
+  const formatPublishTime = (dateStr: string) => {
     try {
-      return format(new Date(dateStr), 'dd/MM/yyyy');
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSec / 60);
+      const diffHour = Math.floor(diffMin / 60);
+      const diffDay = Math.floor(diffHour / 24);
+
+      if (diffMin < 1) return 'Vừa xong';
+      if (diffMin < 60) return `${diffMin} phút trước`;
+      if (diffHour < 24) return `${diffHour} giờ trước`;
+      if (diffDay < 7) return `${diffDay} ngày trước`;
+      return format(date, 'dd/MM/yyyy');
     } catch {
       return dateStr;
     }
   };
+
+  const currentAuthorAvatar = authorAvatar || (user?.name === post?.author_name ? user?.avatarUrl : null);
 
   if (loading) {
     return (
@@ -79,10 +113,23 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
 
   return (
     <article className="container max-w-[800px] py-8 md:py-12 mx-auto">
-      {/* Back button */}
-      <Link href="/handbook" className="inline-flex items-center text-sm font-semibold text-fuchsia-600 dark:text-fuchsia-400 hover:opacity-80 mb-8 transition-opacity">
-        <ChevronLeft className="w-4 h-4 mr-1" /> Cẩm nang
-      </Link>
+      {/* Back button & Admin Edit top action */}
+      <div className="flex items-center justify-between mb-8">
+        <Link href="/handbook" className="inline-flex items-center text-sm font-semibold text-fuchsia-600 dark:text-fuchsia-400 hover:opacity-80 transition-opacity">
+          <ChevronLeft className="w-4 h-4 mr-1" /> Cẩm nang
+        </Link>
+        {isAdmin && (
+          <Button
+            onClick={() => router.push(`/handbook/${post.id}/edit`)}
+            variant="outline"
+            size="sm"
+            className="rounded-full gap-2 border-fuchsia-300 dark:border-fuchsia-800 text-fuchsia-600 dark:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-950/30"
+          >
+            <Edit className="w-3.5 h-3.5" />
+            Sửa bài viết
+          </Button>
+        )}
+      </div>
 
       {/* Header */}
       <header className="mb-10 text-center md:text-left">
@@ -96,7 +143,8 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
         
         <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-6 text-sm font-medium text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-2">
-            <Avatar className="w-8 h-8 border border-slate-200 dark:border-slate-700">
+            <Avatar className="w-8 h-8 border border-slate-200 dark:border-slate-700 shadow-sm">
+              {currentAuthorAvatar && <AvatarImage src={currentAuthorAvatar} alt={post.author_name} className="object-cover" />}
               <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-xs">
                 {post.author_name.charAt(0).toUpperCase()}
               </AvatarFallback>
@@ -105,12 +153,14 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700 hidden md:block"></span>
-            <span>{formatDate(post.created_at)}</span>
+            <span title={new Date(post.created_at).toLocaleString('vi-VN')}>
+              {formatPublishTime(post.created_at)}
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700 hidden md:block"></span>
-            <Clock className="w-4 h-4" />
-            <span>{post.read_time_minutes} phút đọc</span>
+            <Clock className="w-4 h-4 text-fuchsia-500" />
+            <span>~{post.read_time_minutes || 3} phút đọc</span>
           </div>
         </div>
       </header>
@@ -152,19 +202,38 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
       </div>
 
       {/* Author Footer Box */}
-      <div className="mt-12 bg-slate-50 dark:bg-white/5 rounded-[24px] p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-start text-center md:text-left border border-slate-100 dark:border-white/5">
-        <Avatar className="w-20 h-20 border-4 border-white dark:border-[#1a1625] shadow-sm shrink-0">
-          <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-2xl">
-            {post.author_name.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1 block">Tác giả</span>
-          <h3 className="text-xl font-bold text-[#1e1b4b] dark:text-white mb-2">{post.author_name}</h3>
-          <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-            Người đam mê Toán học và truyền cảm hứng. Các bài viết của {post.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.
-          </p>
+      <div className="mt-12 bg-slate-50 dark:bg-white/5 rounded-[24px] p-6 md:p-8 border border-slate-100 dark:border-white/5 shadow-sm">
+        <div className="flex flex-col md:flex-row gap-6 items-center md:items-start text-center md:text-left">
+          <Avatar className="w-20 h-20 border-4 border-white dark:border-[#1a1625] shadow-sm shrink-0">
+            {currentAuthorAvatar && <AvatarImage src={currentAuthorAvatar} alt={post.author_name} className="object-cover" />}
+            <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-2xl">
+              {post.author_name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1 block">Tác giả</span>
+            <h3 className="text-xl font-bold text-[#1e1b4b] dark:text-white mb-2">{post.author_name}</h3>
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+              Người đam mê Toán học và truyền cảm hứng. Các bài viết của {post.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.
+            </p>
+          </div>
         </div>
+
+        {/* Sửa nội dung ở dưới phần tác giả */}
+        {isAdmin && (
+          <div className="mt-6 pt-5 border-t border-slate-200/80 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+              Bạn đang đăng nhập với tư cách tác giả / quản trị viên
+            </div>
+            <Button
+              onClick={() => router.push(`/handbook/${post.id}/edit`)}
+              className="bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:from-fuchsia-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-md h-10 px-5 gap-2 w-full sm:w-auto"
+            >
+              <Edit className="w-4 h-4" />
+              Sửa nội dung bài viết
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Related Posts */}
@@ -186,7 +255,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
                     {rel.title}
                   </h4>
                   <div className="mt-auto text-xs font-medium text-slate-500">
-                    {formatDate(rel.created_at)}
+                    {formatPublishTime(rel.created_at)}
                   </div>
                 </div>
               </Link>

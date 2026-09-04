@@ -69,6 +69,16 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
     }
   }, [params.id, isAdmin]);
 
+  // Auto-calculate reading time based on word count (~200 words per minute)
+  useEffect(() => {
+    if (content) {
+      const clean = content.replace(/<[^>]*>/g, ' ').trim();
+      const words = clean.split(/\s+/).filter(Boolean).length;
+      const minutes = Math.max(1, Math.ceil(words / 200));
+      setReadTime(minutes.toString());
+    }
+  }, [content]);
+
   if (!isAdmin && user) {
     return (
       <div className="container py-20 text-center">
@@ -220,7 +230,10 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
             </div>
 
             <div className="space-y-2">
-              <Label className="font-semibold">Thời gian đọc (phút)</Label>
+              <div className="flex items-center justify-between">
+                <Label className="font-semibold">Thời gian đọc ước tính (phút)</Label>
+                <span className="text-xs text-fuchsia-600 dark:text-fuchsia-400 font-medium">Tự động tính</span>
+              </div>
               <Input 
                 type="number"
                 min="1"
@@ -228,6 +241,9 @@ export default function EditHandbookPostPage({ params }: { params: { id: string 
                 onChange={e => setReadTime(e.target.value)}
                 className="h-12 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl"
               />
+              <p className="text-xs text-slate-500">
+                Ước tính người học mất khoảng {readTime} phút để đọc hết bài này.
+              </p>
             </div>
 
             <div className="flex items-center gap-3 p-3 bg-fuchsia-50 dark:bg-fuchsia-900/20 rounded-xl border border-fuchsia-100 dark:border-fuchsia-900/30 cursor-pointer" onClick={() => setIsFeatured(!isFeatured)}>

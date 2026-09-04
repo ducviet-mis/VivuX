@@ -17,6 +17,7 @@ const CATEGORIES: HandbookCategory[] = ['Toán & Đời sống', 'Phương pháp
 
 export default function HandbookHubPage() {
   const [posts, setPosts] = useState<HandbookPost[]>([]);
+  const [authorAvatars, setAuthorAvatars] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<HandbookCategory | 'Tất cả'>('Tất cả');
   const { user } = useAuthStore();
@@ -33,6 +34,26 @@ export default function HandbookHubPage() {
       .order('created_at', { ascending: false });
     
     if (!error && data) {
+      // Fetch avatar profiles for all distinct author names
+      const authorNames = Array.from(new Set(data.map((p: any) => p.author_name).filter(Boolean)));
+      if (authorNames.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('name, avatar_url')
+          .in('name', authorNames);
+
+        const avatarMap: Record<string, string> = {};
+        profiles?.forEach((prof: any) => {
+          if (prof.name && prof.avatar_url) {
+            avatarMap[prof.name] = prof.avatar_url;
+          }
+        });
+        // If current user avatar exists, map that too
+        if (user?.name && user?.avatarUrl) {
+          avatarMap[user.name] = user.avatarUrl;
+        }
+        setAuthorAvatars(avatarMap);
+      }
       setPosts(data as HandbookPost[]);
     }
     setLoading(false);
@@ -40,7 +61,7 @@ export default function HandbookHubPage() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [user]);
 
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -63,9 +84,21 @@ export default function HandbookHubPage() {
   const featuredPost = filteredPosts.find(p => p.is_featured) || filteredPosts[0];
   const gridPosts = featuredPost ? filteredPosts.filter(p => p.id !== featuredPost.id) : filteredPosts;
 
-  const formatDate = (dateStr: string) => {
+  const formatPublishTime = (dateStr: string) => {
     try {
-      return format(new Date(dateStr), 'dd/MM/yyyy');
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSec / 60);
+      const diffHour = Math.floor(diffMin / 60);
+      const diffDay = Math.floor(diffHour / 24);
+
+      if (diffMin < 1) return 'Vừa xong';
+      if (diffMin < 60) return `${diffMin} phút trước`;
+      if (diffHour < 24) return `${diffHour} giờ trước`;
+      if (diffDay < 7) return `${diffDay} ngày trước`;
+      return format(date, 'dd/MM/yyyy');
     } catch {
       return dateStr;
     }
@@ -158,6 +191,9 @@ export default function HandbookHubPage() {
 
                   <div className="mt-auto flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-white/10">
                     <Avatar className="w-10 h-10 border-2 border-white dark:border-[#1a1625] shadow-sm">
+                      {authorAvatars[featuredPost.author_name] && (
+                        <AvatarImage src={authorAvatars[featuredPost.author_name]} alt={featuredPost.author_name} className="object-cover" />
+                      )}
                       <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold">
                         {featuredPost.author_name.charAt(0).toUpperCase()}
                       </AvatarFallback>
@@ -165,9 +201,9 @@ export default function HandbookHubPage() {
                     <div className="flex flex-col">
                       <span className="text-sm font-bold text-[#1e1b4b] dark:text-white">{featuredPost.author_name}</span>
                       <div className="flex items-center text-xs text-slate-500 font-medium">
-                        <span>{formatDate(featuredPost.created_at)}</span>
+                        <span title={new Date(featuredPost.created_at).toLocaleString('vi-VN')}>{formatPublishTime(featuredPost.created_at)}</span>
                         <span className="mx-1.5">•</span>
-                        <span className="flex items-center"><Clock className="w-3 h-3 mr-1" /> {featuredPost.read_time_minutes} phút đọc</span>
+                        <span className="flex items-center"><Clock className="w-3 h-3 mr-1 text-fuchsia-500" /> ~{featuredPost.read_time_minutes || 3} phút đọc</span>
                       </div>
                     </div>
                   </div>
@@ -215,7 +251,10 @@ export default function HandbookHubPage() {
                     </p>
 
                     <div className="mt-auto flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-white/10">
-                      <Avatar className="w-8 h-8">
+                      <Avatar className="w-8 h-8 shadow-sm">
+                        {authorAvatars[post.author_name] && (
+                          <AvatarImage src={authorAvatars[post.author_name]} alt={post.author_name} className="object-cover" />
+                        )}
                         <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-xs">
                           {post.author_name.charAt(0).toUpperCase()}
                         </AvatarFallback>
@@ -223,9 +262,9 @@ export default function HandbookHubPage() {
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-[#1e1b4b] dark:text-white line-clamp-1">{post.author_name}</span>
                         <div className="flex items-center text-xs text-slate-500">
-                          <span>{formatDate(post.created_at)}</span>
+                          <span title={new Date(post.created_at).toLocaleString('vi-VN')}>{formatPublishTime(post.created_at)}</span>
                           <span className="mx-1">•</span>
-                          <span>{post.read_time_minutes}p đọc</span>
+                          <span>~{post.read_time_minutes || 3}p đọc</span>
                         </div>
                       </div>
                     </div>

@@ -48,7 +48,6 @@ export default function HandbookHubPage() {
             avatarMap[prof.name] = prof.avatar_url;
           }
         });
-        // If current user avatar exists, map that too
         if (user?.name && user?.avatarUrl) {
           avatarMap[user.name] = user.avatarUrl;
         }
@@ -105,31 +104,37 @@ export default function HandbookHubPage() {
   };
 
   return (
-    <div className="container max-w-7xl py-8 md:py-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+    <div className="max-w-6xl mx-auto py-2 sm:py-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#1e1b4b] dark:text-white tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1e1b4b] dark:text-white tracking-tight">
             Cẩm nang
           </h1>
-          <p className="text-muted-foreground text-lg">Khám phá thế giới Toán học qua những góc nhìn mới mẻ</p>
+          <p className="text-muted-foreground text-sm sm:text-base mt-1">
+            Khám phá thế giới Toán học qua những góc nhìn mới mẻ
+          </p>
         </div>
         
         {isAdmin && (
-          <Button onClick={() => router.push('/handbook/new')} className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white shadow-lg shadow-fuchsia-500/25 rounded-full h-12 px-6 font-bold text-base hover:opacity-90">
-            <PenSquare className="w-5 h-5 mr-2" />
+          <Button 
+            onClick={() => router.push('/handbook/new')} 
+            className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white shadow-md shadow-fuchsia-500/20 rounded-full h-10 px-5 font-semibold text-sm hover:opacity-90 self-start sm:self-auto"
+          >
+            <PenSquare className="w-4 h-4 mr-2" />
             Viết bài mới
           </Button>
         )}
       </div>
 
-      {/* Category Filter */}
-      <div className="flex flex-row overflow-x-auto snap-x [&::-webkit-scrollbar]:hidden gap-3 mb-10 pb-2">
+      {/* Category Filter Pills */}
+      <div className="flex flex-row overflow-x-auto snap-x [&::-webkit-scrollbar]:hidden gap-2 sm:gap-2.5 mb-6 sm:mb-8 pb-1">
         <button
           onClick={() => setActiveCategory('Tất cả')}
           className={cn(
-            "px-6 py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap snap-start border",
+            "px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap snap-start border",
             activeCategory === 'Tất cả'
-              ? "bg-[#1e1b4b] dark:bg-white text-white dark:text-[#1e1b4b] border-transparent shadow-md"
+              ? "bg-[#1e1b4b] dark:bg-white text-white dark:text-[#1e1b4b] border-transparent shadow-sm"
               : "bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10"
           )}
         >
@@ -140,9 +145,9 @@ export default function HandbookHubPage() {
             key={cat}
             onClick={() => setActiveCategory(cat)}
             className={cn(
-              "px-6 py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap snap-start border",
+              "px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap snap-start border",
               activeCategory === cat
-                ? "bg-[#1e1b4b] dark:bg-white text-white dark:text-[#1e1b4b] border-transparent shadow-md"
+                ? "bg-[#1e1b4b] dark:bg-white text-white dark:text-[#1e1b4b] border-transparent shadow-sm"
                 : "bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10"
             )}
           >
@@ -152,55 +157,61 @@ export default function HandbookHubPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-20 text-muted-foreground">Đang tải bài viết...</div>
+        <div className="text-center py-16 text-muted-foreground text-sm">Đang tải bài viết...</div>
       ) : filteredPosts.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground bg-white/50 dark:bg-white/5 rounded-3xl border border-dashed border-slate-300 dark:border-white/20">
+        <div className="text-center py-16 text-muted-foreground text-sm bg-white/50 dark:bg-white/5 rounded-2xl border border-dashed border-slate-300 dark:border-white/20">
           Chưa có bài viết nào trong chuyên mục này.
         </div>
       ) : (
-        <div className="space-y-12">
-          {/* Featured Hero Post */}
+        <div className="space-y-8 sm:space-y-10">
+          {/* Featured Hero Post - Compact & Balanced Proportions */}
           {featuredPost && (
             <Link href={`/handbook/${featuredPost.id}`} className="group block relative">
-              <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 bg-white dark:bg-[#1a1625] rounded-[32px] p-4 lg:p-6 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl hover:border-fuchsia-200 dark:hover:border-fuchsia-900/50 transition-all duration-300">
+              <div className="flex flex-col lg:flex-row gap-5 lg:gap-8 bg-white dark:bg-[#1a1625] rounded-2xl lg:rounded-[24px] p-3 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm hover:shadow-md hover:border-fuchsia-200 dark:hover:border-fuchsia-900/40 transition-all duration-300">
                 
-                {/* 60% Image Left */}
-                <div className="w-full lg:w-[60%] shrink-0">
-                  <div className="relative w-full aspect-[16/9] lg:aspect-[4/3] rounded-2xl lg:rounded-[24px] overflow-hidden bg-slate-100 dark:bg-slate-800">
+                {/* Image (Bounded Height, max 280px on desktop) */}
+                <div className="w-full lg:w-[48%] shrink-0">
+                  <div className="relative w-full h-52 sm:h-64 lg:h-[280px] rounded-xl lg:rounded-[18px] overflow-hidden bg-slate-100 dark:bg-slate-800">
                     {featuredPost.cover_url ? (
-                      <img src={featuredPost.cover_url} alt={featuredPost.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img 
+                        src={featuredPost.cover_url} 
+                        alt={featuredPost.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-400">Không có ảnh</div>
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">Không có ảnh</div>
                     )}
                   </div>
                 </div>
 
-                {/* 40% Text Right */}
-                <div className="w-full lg:w-[40%] flex flex-col justify-center py-4 lg:pr-6">
-                  <Badge className="w-fit bg-fuchsia-100 text-fuchsia-700 hover:bg-fuchsia-200 dark:bg-fuchsia-500/20 dark:text-fuchsia-300 mb-4 rounded-lg px-3 py-1 border-0">
-                    {featuredPost.category}
-                  </Badge>
-                  
-                  <h2 className="text-2xl lg:text-4xl font-bold text-[#1e1b4b] dark:text-white leading-tight mb-4 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors line-clamp-3">
-                    {featuredPost.title}
-                  </h2>
-                  
-                  <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-8 line-clamp-3">
-                    {featuredPost.sapo}
-                  </p>
+                {/* Content */}
+                <div className="w-full lg:w-[52%] flex flex-col justify-between py-1 sm:py-2 lg:pr-2">
+                  <div>
+                    <Badge className="w-fit bg-fuchsia-50 text-fuchsia-700 hover:bg-fuchsia-100 dark:bg-fuchsia-500/15 dark:text-fuchsia-300 mb-2.5 rounded-md px-2.5 py-0.5 text-xs font-semibold border-0">
+                      {featuredPost.category}
+                    </Badge>
+                    
+                    <h2 className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#1e1b4b] dark:text-white leading-snug mb-2.5 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors line-clamp-2">
+                      {featuredPost.title}
+                    </h2>
+                    
+                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4">
+                      {featuredPost.sapo}
+                    </p>
+                  </div>
 
-                  <div className="mt-auto flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-white/10">
-                    <Avatar className="w-10 h-10 border-2 border-white dark:border-[#1a1625] shadow-sm">
+                  <div className="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-white/10">
+                    <Avatar className="w-8 h-8 border border-white dark:border-[#1a1625] shadow-xs">
                       {authorAvatars[featuredPost.author_name] && (
                         <AvatarImage src={authorAvatars[featuredPost.author_name]} alt={featuredPost.author_name} className="object-cover" />
                       )}
-                      <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold">
+                      <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-xs">
                         {featuredPost.author_name.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-[#1e1b4b] dark:text-white">{featuredPost.author_name}</span>
-                      <div className="flex items-center text-xs text-slate-500 font-medium">
+                      <span className="text-xs sm:text-sm font-bold text-[#1e1b4b] dark:text-white">{featuredPost.author_name}</span>
+                      <div className="flex items-center text-[11px] text-slate-500 font-medium">
                         <span title={new Date(featuredPost.created_at).toLocaleString('vi-VN')}>{formatPublishTime(featuredPost.created_at)}</span>
                         <span className="mx-1.5">•</span>
                         <span className="flex items-center"><Clock className="w-3 h-3 mr-1 text-fuchsia-500" /> ~{featuredPost.read_time_minutes || 3} phút đọc</span>
@@ -210,58 +221,58 @@ export default function HandbookHubPage() {
                 </div>
               </div>
 
-              {/* Admin Actions */}
+              {/* Admin Quick Actions */}
               {isAdmin && (
-                <div className="absolute top-8 right-8 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="icon" variant="secondary" className="h-10 w-10 rounded-full shadow-md bg-white/90 hover:bg-white text-slate-700" onClick={(e) => { e.preventDefault(); router.push(`/handbook/${featuredPost.id}/edit`); }}>
-                    <Edit className="w-4 h-4" />
+                <div className="absolute top-5 right-5 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full shadow-sm bg-white/95 hover:bg-white text-slate-700" onClick={(e) => { e.preventDefault(); router.push(`/handbook/${featuredPost.id}/edit`); }}>
+                    <Edit className="w-3.5 h-3.5" />
                   </Button>
-                  <Button size="icon" variant="destructive" className="h-10 w-10 rounded-full shadow-md" onClick={(e) => handleDelete(featuredPost.id, e)}>
-                    <Trash2 className="w-4 h-4" />
+                  <Button size="icon" variant="destructive" className="h-8 w-8 rounded-full shadow-sm" onClick={(e) => handleDelete(featuredPost.id, e)}>
+                    <Trash2 className="w-3.5 h-3.5" />
                   </Button>
                 </div>
               )}
             </Link>
           )}
 
-          {/* Standard Card Grid (3 cols) */}
+          {/* Standard Card Grid (3 columns) */}
           {gridPosts.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
               {gridPosts.map(post => (
-                <Link key={post.id} href={`/handbook/${post.id}`} className="group relative flex flex-col bg-white dark:bg-[#1a1625] rounded-[24px] border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <Link key={post.id} href={`/handbook/${post.id}`} className="group relative flex flex-col bg-white dark:bg-[#1a1625] rounded-2xl border border-slate-200/80 dark:border-white/10 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
                   
-                  <div className="relative w-full aspect-[16/9] bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0">
+                  <div className="relative w-full h-44 sm:h-48 bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0">
                     {post.cover_url ? (
                       <img src={post.cover_url} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-400">Không có ảnh</div>
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">Không có ảnh</div>
                     )}
-                    <Badge className="absolute top-4 left-4 bg-white/90 text-[#1e1b4b] hover:bg-white dark:bg-[#1a1625]/90 dark:text-white border-0 shadow-sm backdrop-blur-sm">
+                    <Badge className="absolute top-3 left-3 bg-white/95 text-[#1e1b4b] hover:bg-white dark:bg-[#1a1625]/95 dark:text-white border-0 shadow-xs backdrop-blur-sm text-[11px] px-2 py-0.5">
                       {post.category}
                     </Badge>
                   </div>
 
-                  <div className="p-5 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold text-[#1e1b4b] dark:text-white mb-3 line-clamp-2 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
+                  <div className="p-4 flex flex-col flex-1">
+                    <h3 className="text-base font-bold text-[#1e1b4b] dark:text-white mb-2 line-clamp-2 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors leading-snug">
                       {post.title}
                     </h3>
                     
-                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 line-clamp-2">
+                    <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2">
                       {post.sapo}
                     </p>
 
-                    <div className="mt-auto flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-white/10">
-                      <Avatar className="w-8 h-8 shadow-sm">
+                    <div className="mt-auto flex items-center gap-2.5 pt-3 border-t border-slate-100 dark:border-white/10">
+                      <Avatar className="w-7 h-7 shadow-xs">
                         {authorAvatars[post.author_name] && (
                           <AvatarImage src={authorAvatars[post.author_name]} alt={post.author_name} className="object-cover" />
                         )}
-                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-xs">
+                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-[10px]">
                           {post.author_name.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-[#1e1b4b] dark:text-white line-clamp-1">{post.author_name}</span>
-                        <div className="flex items-center text-xs text-slate-500">
+                        <span className="text-xs font-bold text-[#1e1b4b] dark:text-white line-clamp-1">{post.author_name}</span>
+                        <div className="flex items-center text-[11px] text-slate-500">
                           <span title={new Date(post.created_at).toLocaleString('vi-VN')}>{formatPublishTime(post.created_at)}</span>
                           <span className="mx-1">•</span>
                           <span>~{post.read_time_minutes || 3}p đọc</span>
@@ -270,13 +281,13 @@ export default function HandbookHubPage() {
                     </div>
                   </div>
 
-                  {/* Admin Actions */}
+                  {/* Admin Quick Actions */}
                   {isAdmin && (
-                    <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full shadow-md bg-white/90 hover:bg-white text-slate-700" onClick={(e) => { e.preventDefault(); router.push(`/handbook/${post.id}/edit`); }}>
+                    <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button size="icon" variant="secondary" className="h-7 w-7 rounded-full shadow-xs bg-white/95 hover:bg-white text-slate-700" onClick={(e) => { e.preventDefault(); router.push(`/handbook/${post.id}/edit`); }}>
                         <Edit className="w-3 h-3" />
                       </Button>
-                      <Button size="icon" variant="destructive" className="h-8 w-8 rounded-full shadow-md" onClick={(e) => handleDelete(post.id, e)}>
+                      <Button size="icon" variant="destructive" className="h-7 w-7 rounded-full shadow-xs" onClick={(e) => handleDelete(post.id, e)}>
                         <Trash2 className="w-3 h-3" />
                       </Button>
                     </div>

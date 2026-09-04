@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Home, BookOpen, GraduationCap, LayoutDashboard,
-  Menu, X, LogOut, User, ChevronDown, Shield, FileText
+  Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { useState, useRef, useEffect } from "react";
 
 const iconMap: Record<string, React.ElementType> = {
-  Home, BookOpen, GraduationCap, LayoutDashboard, Shield, FileText
+  Home, BookOpen, GraduationCap, LayoutDashboard, Shield, FileText, BookText
 };
 
 export function Navbar() {
@@ -43,6 +43,7 @@ export function Navbar() {
     { label: "Tự luyện", href: "/practice", icon: "BookOpen" },
     { label: "Thi thử", href: "/mock-exams", icon: "FileText" },
     { label: "Lớp học", href: "/classroom", icon: "GraduationCap" },
+    { label: "Cẩm nang", href: "/handbook", icon: "BookText" },
   ];
 
   const teacherItems = user?.role === "teacher"

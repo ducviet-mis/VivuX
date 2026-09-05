@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { MathRenderer } from './math-renderer';
+import { MathRenderer, formatOptionMath } from './math-renderer';
 
 interface AnswerOptionsProps {
   options: string[];
@@ -55,11 +55,7 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
               {letters[idx]}
             </div>
             <div className="flex-1 text-[#1e1b4b] dark:text-slate-200">
-              <MathRenderer content={
-                (!option.includes('$') && (option.includes('\\') || option.includes('^') || option.includes('_'))) 
-                  ? `$${option}$` 
-                  : option
-              } />
+              <MathRenderer content={formatOptionMath(option)} />
             </div>
           </button>
         );

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
-import { MathRenderer } from '@/features/practice/components/math-renderer';
+import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
 import { ArrowLeft, CheckCircle2, XCircle, Clock, RotateCcw, Target, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -47,7 +47,13 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
         .eq('exam_id', params.examId)
         .order('order_index');
         
-      if (qData) setQuestions(qData);
+      if (qData) {
+        const sanitized = qData.map((q: any) => ({
+          ...q,
+          options: Array.isArray(q.options) ? q.options.map(formatOptionMath) : q.options
+        }));
+        setQuestions(sanitized);
+      }
       
       setLoading(false);
     }
@@ -179,7 +185,7 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
                             {['A', 'B', 'C', 'D'][optIdx]}
                           </div>
                           <div className={cn("flex-1", isActualCorrect ? "font-semibold text-emerald-900 dark:text-emerald-100" : isStudentChoice ? "text-red-900 dark:text-red-100" : "text-slate-600 dark:text-slate-400")}>
-                            <MathRenderer content={(!opt.includes('$') && (opt.includes('\\') || opt.includes('^') || opt.includes('_'))) ? `$${opt}$` : opt} />
+                            <MathRenderer content={formatOptionMath(opt)} />
                           </div>
                           {isActualCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />}
                           {isStudentChoice && !isActualCorrect && <XCircle className="w-5 h-5 text-red-500 shrink-0" />}

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Button } from '@/components/ui/button';
-import { MathRenderer } from '@/features/practice/components/math-renderer';
+import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
 import { ArrowLeft, ArrowRight, Clock, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -47,7 +47,11 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
           .order('order_index');
           
         if (qData) {
-          setQuestions(qData);
+          const sanitized = qData.map((q: any) => ({
+            ...q,
+            options: Array.isArray(q.options) ? q.options.map(formatOptionMath) : q.options
+          }));
+          setQuestions(sanitized);
         }
       }
     }
@@ -241,7 +245,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                           "flex-1",
                           isSelected ? "text-fuchsia-900 dark:text-fuchsia-100 font-medium" : "text-slate-700 dark:text-slate-300"
                         )}>
-                          <MathRenderer content={(!opt.includes('$') && (opt.includes('\\') || opt.includes('^') || opt.includes('_'))) ? `$${opt}$` : opt} />
+                          <MathRenderer content={formatOptionMath(opt)} />
                         </div>
                       </button>
                     );

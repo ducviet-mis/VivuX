@@ -1,23 +1,36 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { FileText, Clock, Hash, Trophy, ArrowRight, Play } from 'lucide-react';
+import { FileText, Clock, Trophy, Play, RotateCcw, Eye, History, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
-import { Suspense } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+
+interface MockExamAttempt {
+  id: string;
+  exam_id: string;
+  score: number;
+  correct_count: number;
+  total_questions: number;
+  duration_used: number;
+  created_at: string;
+}
 
 function MockExamsContent() {
   const searchParams = useSearchParams();
   const grade = searchParams.get('grade') || '8';
   const { user } = useAuthStore();
   const [exams, setExams] = useState<any[]>([]);
-  const [attempts, setAttempts] = useState<Record<string, number>>({});
+  const [attemptsByExam, setAttemptsByExam] = useState<Record<string, MockExamAttempt[]>>({});
+  const [selectedExamForHistory, setSelectedExamForHistory] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +38,7 @@ function MockExamsContent() {
       setLoading(true);
       const supabase = getSupabaseClient();
       
-      // Fetch exams
+      // Fetch exams for current grade
       const { data: examsData } = await supabase
         .from('mock_exams')
         .select('*')
@@ -35,23 +48,25 @@ function MockExamsContent() {
       if (examsData) {
         setExams(examsData);
         
-        // Fetch highest scores for this user
+        // Fetch all attempts for this user for these exams
         if (user) {
           const examIds = examsData.map((e: any) => e.id);
           const { data: attemptsData } = await supabase
             .from('mock_exam_attempts')
-            .select('exam_id, score')
+            .select('id, exam_id, score, correct_count, total_questions, duration_used, created_at')
             .eq('user_id', user.id)
-            .in('exam_id', examIds);
+            .in('exam_id', examIds)
+            .order('created_at', { ascending: false });
             
           if (attemptsData) {
-            const bestScores: Record<string, number> = {};
+            const grouped: Record<string, MockExamAttempt[]> = {};
             attemptsData.forEach((a: any) => {
-              if (!bestScores[a.exam_id] || a.score > bestScores[a.exam_id]) {
-                bestScores[a.exam_id] = a.score;
+              if (!grouped[a.exam_id]) {
+                grouped[a.exam_id] = [];
               }
+              grouped[a.exam_id].push(a as MockExamAttempt);
             });
-            setAttempts(bestScores);
+            setAttemptsByExam(grouped);
           }
         }
       }
@@ -60,6 +75,44 @@ function MockExamsContent() {
     
     loadExams();
   }, [grade, user]);
+
+  const formatTimeAgo = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSec / 60);
+      const diffHour = Math.floor(diffMin / 60);
+      const diffDay = Math.floor(diffHour / 24);
+
+      if (diffMin < 1) return 'Vừa xong';
+      if (diffMin < 60) return `${diffMin} phút trước`;
+      if (diffHour < 24) return `${diffHour} giờ trước`;
+      if (diffDay < 7) return `${diffDay} ngày trước`;
+      return format(date, 'dd/MM/yyyy');
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const formatDateTime = (dateStr: string) => {
+    try {
+      return format(new Date(dateStr), 'HH:mm - dd/MM/yyyy');
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const formatDuration = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    if (m === 0) return `${s} giây`;
+    return `${m}p ${s}s`;
+  };
+
+  const selectedAttempts = selectedExamForHistory ? (attemptsByExam[selectedExamForHistory.id] || []) : [];
+  const selectedBestScore = selectedAttempts.length > 0 ? Math.max(...selectedAttempts.map(a => a.score)) : 0;
 
   return (
     <div className="container max-w-5xl py-4 md:py-8">
@@ -78,8 +131,10 @@ function MockExamsContent() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {exams.map(exam => {
-            const bestScore = attempts[exam.id];
-            const hasAttempt = bestScore !== undefined;
+            const examAttempts = attemptsByExam[exam.id] || [];
+            const hasAttempt = examAttempts.length > 0;
+            const bestScore = hasAttempt ? Math.max(...examAttempts.map(a => a.score)) : 0;
+            const latestAttempt = examAttempts[0];
 
             return (
               <Card key={exam.id} className="overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-fuchsia-200 dark:hover:border-fuchsia-800 transition-all rounded-[24px] group">
@@ -97,31 +152,153 @@ function MockExamsContent() {
                     </h3>
                   </div>
                   
-                  <div className="bg-slate-50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 p-4 flex items-center justify-between mt-auto">
+                  <div className="bg-slate-50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
                     {hasAttempt ? (
-                      <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
-                        <Trophy className="w-5 h-5" />
-                        <span>Điểm cao nhất: {bestScore.toFixed(2)}</span>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-base">
+                          <Trophy className="w-5 h-5 text-amber-500 fill-amber-500/20" />
+                          <span>Điểm cao nhất: {bestScore.toFixed(2)}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
+                          <span>Đã thi {examAttempts.length} lần</span>
+                          <span>•</span>
+                          <span>{formatTimeAgo(latestAttempt.created_at)}</span>
+                        </div>
                       </div>
                     ) : (
-                      <div className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+                      <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
+                        <FileText className="w-4 h-4 opacity-60" />
                         Chưa làm bài
                       </div>
                     )}
                     
-                    <Link href={`/mock-exams/${exam.id}`}>
-                      <Button className="rounded-xl bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold shadow-md shadow-fuchsia-500/20 gap-2 px-6">
-                        {hasAttempt ? 'Thi lại' : 'Bắt đầu làm bài'}
-                        <Play className="w-4 h-4 fill-current" />
-                      </Button>
-                    </Link>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {hasAttempt && (
+                        <>
+                          {/* Nút Xem lại bài làm gần nhất */}
+                          <Link href={`/mock-exams/${exam.id}/result?attemptId=${latestAttempt.id}`}>
+                            <Button 
+                              variant="outline"
+                              className="rounded-xl border-fuchsia-200 dark:border-fuchsia-900/40 bg-fuchsia-50/50 hover:bg-fuchsia-100 dark:bg-fuchsia-950/20 text-fuchsia-700 dark:text-fuchsia-300 font-bold gap-1.5 h-10 px-3.5 shadow-xs"
+                            >
+                              <Eye className="w-4 h-4 text-fuchsia-500" />
+                              <span>Xem lại bài</span>
+                            </Button>
+                          </Link>
+
+                          {/* Nút Lịch sử thi (nếu thi từ 2 lần trở lên hoặc muốn xem tổng quan) */}
+                          <Button
+                            variant="ghost"
+                            onClick={() => setSelectedExamForHistory(exam)}
+                            className="rounded-xl hover:bg-slate-200/60 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 font-semibold gap-1.5 h-10 px-3"
+                            title="Xem lịch sử các lần thi"
+                          >
+                            <History className="w-4 h-4" />
+                            <span>Lịch sử ({examAttempts.length})</span>
+                          </Button>
+                        </>
+                      )}
+
+                      {/* Nút Bắt đầu hoặc Thi lại */}
+                      <Link href={`/mock-exams/${exam.id}`}>
+                        <Button className="rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white font-bold shadow-md shadow-fuchsia-500/20 gap-1.5 h-10 px-4">
+                          {hasAttempt ? (
+                            <>
+                              <RotateCcw className="w-4 h-4" />
+                              <span>Thi lại</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play className="w-4 h-4 fill-current" />
+                              <span>Bắt đầu làm bài</span>
+                            </>
+                          )}
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Dialog Lịch sử làm bài */}
+      <Dialog open={!!selectedExamForHistory} onOpenChange={(open) => !open && setSelectedExamForHistory(null)}>
+        <DialogContent className="max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl p-6">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+              <History className="w-5 h-5 text-fuchsia-500" />
+              Lịch sử làm bài
+            </DialogTitle>
+            <DialogDescription className="text-sm text-slate-500">
+              {selectedExamForHistory?.title}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 mt-4">
+            {selectedAttempts.map((attempt, idx) => {
+              const attemptNum = selectedAttempts.length - idx;
+              const isLatest = idx === 0;
+              const isBest = attempt.score === selectedBestScore;
+
+              return (
+                <div
+                  key={attempt.id}
+                  className={cn(
+                    "p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4",
+                    isLatest 
+                      ? "bg-fuchsia-50/50 dark:bg-fuchsia-950/20 border-fuchsia-200 dark:border-fuchsia-900/40 shadow-xs"
+                      : "bg-slate-50/60 dark:bg-white/5 border-slate-200/80 dark:border-white/10"
+                  )}
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+                        Lượt thi #{attemptNum}
+                      </span>
+                      {isLatest && (
+                        <Badge className="bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-700 dark:text-fuchsia-300 border-0 text-[10px] px-2 py-0.5">
+                          Mới nhất
+                        </Badge>
+                      )}
+                      {isBest && (
+                        <Badge className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 border-0 text-[10px] px-2 py-0.5">
+                          Điểm cao nhất
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-slate-500">
+                      <span>{formatDateTime(attempt.created_at)}</span>
+                      <span>•</span>
+                      <span>{formatDuration(attempt.duration_used)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between sm:justify-end gap-4 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-white/5">
+                    <div className="text-left sm:text-right">
+                      <div className="text-xl font-extrabold text-slate-800 dark:text-slate-100">
+                        {attempt.score.toFixed(2)}<span className="text-xs text-slate-400 font-normal">/10</span>
+                      </div>
+                      <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                        {attempt.correct_count}/{attempt.total_questions} câu đúng
+                      </div>
+                    </div>
+
+                    <Link href={`/mock-exams/${selectedExamForHistory.id}/result?attemptId=${attempt.id}`}>
+                      <Button size="sm" className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 font-semibold text-xs h-9 px-3 gap-1.5 shadow-xs">
+                        <span>Xem chi tiết</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               );
             })}
           </div>
-        )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

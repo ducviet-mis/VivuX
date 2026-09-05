@@ -67,9 +67,17 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
   return (
     <div className="w-full py-4 md:py-8">
       <div className="container max-w-4xl">
-        <Button variant="ghost" onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} className="mb-6 rounded-xl hover:bg-slate-200 dark:hover:bg-white/10">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Về danh sách đề
-        </Button>
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <Button variant="ghost" onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} className="rounded-xl hover:bg-slate-200 dark:hover:bg-white/10">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Về danh sách đề
+          </Button>
+
+          <Link href={`/mock-exams/${exam.id}`}>
+            <Button variant="outline" className="rounded-xl border-fuchsia-200 dark:border-fuchsia-900/40 text-fuchsia-600 dark:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-950/20 font-bold gap-2">
+              <RotateCcw className="w-4 h-4" /> Thi lại đề này
+            </Button>
+          </Link>
+        </div>
         
         {/* Banner */}
         <div className="bg-gradient-to-br from-fuchsia-600 to-pink-600 rounded-[32px] p-8 text-white shadow-xl shadow-pink-500/20 mb-8 text-center relative overflow-hidden">
@@ -196,10 +204,19 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
           })}
         </div>
         
-        <div className="mt-12 text-center">
-          <Link href={`/mock-exams?grade=${exam.grade}`}>
-            <Button size="lg" className="rounded-full bg-slate-800 hover:bg-slate-900 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-8 font-bold">
-              Hoàn thành <CheckCircle2 className="w-5 h-5 ml-2" />
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button 
+            size="lg" 
+            variant="outline"
+            onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} 
+            className="rounded-full px-8 font-bold w-full sm:w-auto"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" /> Về danh sách đề
+          </Button>
+          
+          <Link href={`/mock-exams/${exam.id}`} className="w-full sm:w-auto">
+            <Button size="lg" className="rounded-full bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white px-8 font-bold shadow-lg shadow-fuchsia-500/25 w-full">
+              <RotateCcw className="w-5 h-5 mr-2" /> Thi lại đề này
             </Button>
           </Link>
         </div>

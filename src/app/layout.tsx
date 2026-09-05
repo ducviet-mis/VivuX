@@ -7,10 +7,12 @@ import { ClientLayout } from "@/components/layout/client-layout";
 const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
 export const viewport: Viewport = {
-  themeColor: "#1a1625",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F7F9FC" },
+    { media: "(prefers-color-scheme: dark)", color: "#0D1020" },
+  ],
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export const metadata: Metadata = {

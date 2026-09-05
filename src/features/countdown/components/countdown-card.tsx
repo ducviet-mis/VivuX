@@ -21,22 +21,22 @@ function CountdownItem({ exam, icon: Icon, onRemove }: { exam: ExamDate, icon: a
   const isWarning = days >= 30 && days < 60;
   
   return (
-    <div className="group flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors relative">
-      <div className="flex items-center gap-3">
-        <div className="p-2 rounded-full bg-background border">
+    <div className="group flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-surface p-3">
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        <div className="p-2 rounded-md bg-primary-soft">
           <Icon className="w-5 h-5 text-primary" />
         </div>
-        <span className="font-medium text-sm">{exam.name}</span>
+        <span className="min-w-0 break-words font-medium text-sm">{exam.name}</span>
       </div>
       <div className="flex items-center gap-3">
         <div className={cn(
           "text-right flex flex-col items-end",
-          isUrgent ? "text-red-500 dark:text-red-400" : 
-          isWarning ? "text-amber-500 dark:text-amber-400" : 
+          isUrgent ? "text-destructive" : 
+          isWarning ? "text-warning" : 
           "text-primary"
         )}>
           <div className="flex items-baseline gap-1">
-            <span className="text-xl font-bold">{days}</span>
+            <span className="text-3xl font-bold tabular-nums">{days}</span>
             <span className="text-xs font-medium">ngày</span>
           </div>
           <span className="text-xs opacity-80">{hours}h {minutes}m</span>
@@ -45,7 +45,7 @@ function CountdownItem({ exam, icon: Icon, onRemove }: { exam: ExamDate, icon: a
         <Button 
           variant="ghost" 
           size="icon" 
-          className="opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+          aria-label={`Xóa kỳ thi ${exam.name}`} className="h-11 w-9 text-muted-foreground hover:bg-destructive-soft hover:text-destructive"
           onClick={() => onRemove(exam.id)}
         >
           <Trash2 className="w-4 h-4" />
@@ -71,14 +71,14 @@ export function CountdownCard() {
   };
 
   return (
-    <Card className="rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all duration-200">
+    <Card level="supporting">
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-base font-bold flex items-center gap-2">
+        <CardTitle className="text-lg font-semibold flex items-center gap-2">
           Kỳ thi sắp tới
         </CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full">
+            <Button variant="ghost" size="icon" aria-label="Thêm kỳ thi mới">
               <Plus className="w-4 h-4" />
             </Button>
           </DialogTrigger>
@@ -88,17 +88,17 @@ export function CountdownCard() {
             </DialogHeader>
             <div className="space-y-4 pt-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Tên kỳ thi</label>
+                <label htmlFor="countdown-name" className="text-sm font-medium">Tên kỳ thi</label>
                 <Input 
-                  placeholder="Ví dụ: Thi cuối kì 1..." 
+                  id="countdown-name" placeholder="Ví dụ: Thi cuối kì 1..." 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Ngày thi</label>
+                <label htmlFor="countdown-date" className="text-sm font-medium">Ngày thi</label>
                 <Input 
-                  type="date"
+                  id="countdown-date" type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />

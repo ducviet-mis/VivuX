@@ -1,12 +1,20 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  level?: "main" | "supporting" | "compact";
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, level = "main", ...props }, ref) => (
     <div
       ref={ref}
+      data-vivux-card={level}
       className={cn(
-        "rounded-2xl border border-border bg-card text-card-foreground shadow-sm",
+        "rounded-xl border border-border bg-card text-card-foreground",
+        level === "main" && "shadow-card",
+        level === "supporting" && "shadow-soft",
+        level === "compact" && "bg-surface shadow-none",
         className
       )}
       {...props}
@@ -26,7 +34,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn("text-2xl font-semibold leading-none tracking-tight", className)}
+      className={cn("text-lg font-semibold leading-snug tracking-tight", className)}
       {...props}
     />
   )

@@ -1,56 +1,29 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Clock3, ListChecks, Target, type LucideIcon } from 'lucide-react';
 import { useDailyGoal } from '../hooks/use-daily-goal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { GoalSettingDialog } from './goal-setting-dialog';
 
-function ProgressCircle({ percent, color, bgColor, label }: { percent: number; color: string; bgColor: string; label: string }) {
-  const size = 90;
-  const strokeWidth = 8;
-  const center = size / 2;
-  const radius = center - strokeWidth;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (Math.min(100, percent) / 100) * circumference;
-
-  return (
-    <div className="flex flex-col items-center gap-1.5">
-      <div className="relative flex justify-center items-center" style={{ width: size, height: size }}>
-        <svg width={size} height={size} className="transform -rotate-90">
-          <circle cx={center} cy={center} r={radius} fill="none" stroke="currentColor" strokeWidth={strokeWidth} className={bgColor} />
-          <circle cx={center} cy={center} r={radius} fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round"
-            className={`${color} transition-all duration-1000 ease-out`}
-            style={{ strokeDasharray: circumference, strokeDashoffset: offset }}
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-lg font-bold">{percent}%</span>
-        </div>
-      </div>
-      <span className="text-xs font-medium text-muted-foreground">{label}</span>
-    </div>
-  );
-}
-
-function GlowBar({ current, target, label, suffix, color, glowColor }: {
-  current: number; target: number; label: string; suffix: string; color: string; glowColor: string;
+function GoalMetric({ percent, current, target, label, suffix, tone, icon: Icon }: {
+  percent: number; current: number; target: number; label: string; suffix: string; tone: string; icon: LucideIcon;
 }) {
-  const percent = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
-
+  const radius = 31;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - Math.min(100, percent) / 100 * circumference;
   return (
-    <div className="space-y-1.5">
-      <div className="flex justify-between text-xs">
-        <span className="font-medium text-muted-foreground">{label}</span>
-        <span className="font-semibold">{current}/{target} {suffix}</span>
+    <div className="flex min-w-0 items-center gap-4 rounded-lg bg-muted/50 p-4 sm:flex-col sm:items-start sm:gap-3">
+      <div className={`relative h-[76px] w-[76px] shrink-0 ${tone}`} role="img" aria-label={`${label}: ${current}/${target} ${suffix}, ${percent}%`}>
+        <svg viewBox="0 0 76 76" className="h-full w-full -rotate-90" aria-hidden="true">
+          <circle cx="38" cy="38" r={radius} fill="none" stroke="currentColor" strokeWidth="5" className="text-track" />
+          <circle cx="38" cy="38" r={radius} fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} className="transition-[stroke-dashoffset] duration-220" />
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center text-base font-bold tabular-nums text-foreground">{percent}%</span>
       </div>
-      <div className="h-3 w-full bg-muted/50 rounded-full overflow-hidden">
-        <div
-          className={`h-full rounded-full ${color} transition-all duration-1000 ease-out`}
-          style={{
-            width: `${percent}%`,
-            boxShadow: percent > 0 ? `0 0 12px ${glowColor}, 0 0 4px ${glowColor}` : 'none'
-          }}
-        />
+      <div className="min-w-0">
+        <p className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground"><Icon aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />{label}</p>
+        <p className="mt-1.5 flex flex-wrap items-baseline gap-1.5"><span className="vivux-stat-number text-2xl">{current}</span><span className="text-sm text-muted-foreground">/ {target} {suffix}</span></p>
       </div>
     </div>
   );
@@ -59,45 +32,18 @@ function GlowBar({ current, target, label, suffix, color, glowColor }: {
 export function GoalRing() {
   const { percentages, progress, goals, currentAccuracy } = useDailyGoal();
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
-
   return (
-    <Card className="rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all duration-200">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-bold">Mục tiêu hằng ngày</CardTitle>
+    <Card>
+      <CardHeader className="flex flex-row items-start justify-between gap-3 pb-5">
+        <div><CardTitle>Mục tiêu hằng ngày</CardTitle><p className="mt-1 text-sm text-muted-foreground">Từng bước nhỏ, tiến bộ mỗi ngày.</p></div>
         <GoalSettingDialog />
       </CardHeader>
-      <CardContent>
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          {/* 3 circles */}
-          <div className="flex items-center justify-center gap-4 shrink-0">
-            <ProgressCircle percent={percentages.study} color="text-teal-500 dark:text-teal-400" bgColor="text-teal-500/15" label="Thời gian" />
-            <ProgressCircle percent={percentages.questions} color="text-emerald-500 dark:text-emerald-400" bgColor="text-emerald-500/15" label="Câu hỏi" />
-            <ProgressCircle percent={currentAccuracy} color="text-amber-500 dark:text-amber-400" bgColor="text-amber-500/15" label="Chính xác" />
-          </div>
-
-          {/* Divider */}
-          <div className="hidden md:block w-px h-20 bg-border shrink-0" />
-          <div className="md:hidden w-full h-px bg-border" />
-
-          {/* 3 glow bars */}
-          <div className="w-full flex-1 space-y-3">
-            <GlowBar
-              label="Thời gian học" current={progress.studyMinutes} target={goals.studyMinutes}
-              suffix="phút" color="bg-teal-500" glowColor="rgba(20,184,166,0.5)"
-            />
-            <GlowBar
-              label="Số câu hoàn thành" current={progress.questionsCount} target={goals.questionsCount}
-              suffix="câu" color="bg-emerald-500" glowColor="rgba(16,185,129,0.5)"
-            />
-            <GlowBar
-              label="Tỉ lệ chính xác" current={currentAccuracy} target={100}
-              suffix="%" color="bg-amber-500" glowColor="rgba(245,158,11,0.5)"
-            />
-          </div>
-        </div>
+      <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <GoalMetric label="Thời gian học" icon={Clock3} percent={percentages.study} current={progress.studyMinutes} target={goals.studyMinutes} suffix="phút" tone="text-primary" />
+        <GoalMetric label="Câu hoàn thành" icon={ListChecks} percent={percentages.questions} current={progress.questionsCount} target={goals.questionsCount} suffix="câu" tone="text-info" />
+        <GoalMetric label="Chính xác" icon={Target} percent={currentAccuracy} current={currentAccuracy} target={100} suffix="%" tone="text-special" />
       </CardContent>
     </Card>
   );

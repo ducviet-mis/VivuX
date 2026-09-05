@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, ArrowUpRight } from 'lucide-react';
 import { QuoteCarousel } from '@/features/dashboard/components/quote-carousel';
 import { CountdownCard } from '@/features/countdown/components/countdown-card';
 import { GoalRing } from '@/features/daily-goal/components/goal-ring';
@@ -19,89 +19,57 @@ function getGreeting() {
 }
 
 const grades = [
-  { id: 6, title: 'Lớp 6' },
-  { id: 7, title: 'Lớp 7' },
-  { id: 8, title: 'Lớp 8' },
-  { id: 9, title: 'Lớp 9' },
+  { id: 6, title: 'Lớp 6', tone: 'bg-primary-soft text-primary' },
+  { id: 7, title: 'Lớp 7', tone: 'bg-info-soft text-info' },
+  { id: 8, title: 'Lớp 8', tone: 'bg-special-soft text-special' },
+  { id: 9, title: 'Lớp 9', tone: 'bg-success-soft text-success' },
 ];
 
 export default function HomePage() {
   const { user } = useAuth();
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col xl:flex-row gap-10">
-        
-        {/* MAIN CONTENT AREA (Left/Center) */}
-        <div className="flex-1">
-          
-          <div className="mb-10">
-            <h1 className="text-[32px] font-extrabold text-[#1e1b4b] dark:text-white tracking-tight mb-2">
-              {getGreeting()}, {user?.name || 'Bạn'}!
-            </h1>
-            <p className="text-base text-slate-500 dark:text-slate-400 font-medium">Sẵn sàng cho buổi học hôm nay chưa?</p>
-          </div>
-
-            {/* Daily Goal (Mục tiêu hàng ngày) - Wide layout */}
-            <div className="mb-8">
-              <GoalRing />
+    <div className="space-y-7">
+      <header className="relative overflow-hidden rounded-xl border border-border bg-hero px-5 py-7 sm:px-8 sm:py-8">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[.14em] text-primary">Không gian học tập</p>
+        <h1 className="max-w-4xl text-[28px] font-bold leading-tight text-foreground sm:text-[36px]">{getGreeting()}, {user?.name || 'Bạn'}!</h1>
+        <p className="mt-3 text-sm text-muted-foreground sm:text-base">Sẵn sàng cho buổi học hôm nay chưa?</p>
+      </header>
+      <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="min-w-0 space-y-6">
+          <GoalRing />
+          <StatsOverviewCard />
+          <section aria-labelledby="practice-heading">
+            <div className="mb-4">
+              <h2 id="practice-heading" className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">Tự luyện theo chuyên đề</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Chọn lớp để tiếp tục hành trình học Toán.</p>
             </div>
-
-            {/* Stats Overview - Wide layout */}
-            <div className="mb-8">
-              <StatsOverviewCard />
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {grades.map(grade => (
+                <Link key={grade.id} href={`/practice?grade=${grade.id}`} className="group block rounded-lg">
+                  <Card level="compact" className="h-full rounded-lg hover:border-primary/40 hover:shadow-card">
+                    <CardContent className="flex items-center gap-4 p-5">
+                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-md ${grade.tone}`}><BookOpen aria-hidden="true" className="h-5 w-5" /></div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-lg font-semibold text-foreground">{grade.title}</h3>
+                        <p className="mt-0.5 text-sm text-muted-foreground">Toán học {grade.title.toLowerCase()}</p>
+                      </div>
+                      <ArrowUpRight aria-hidden="true" className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
             </div>
-
-            {/* Main Cards (Grades - Tự luyện theo chuyên đề) */}
-            <div className="mb-6">
-              <h2 className="text-lg font-bold text-[#1e1b4b] dark:text-white mb-4 uppercase tracking-wider">Tự luyện theo chuyên đề</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {grades.map((grade, i) => (
-                  <Link key={grade.id} href={`/practice?grade=${grade.id}`} className="block">
-                    <Card className="hover:-translate-y-1 hover:shadow-[0_16px_40px_-10px_rgba(200,180,220,0.4)] transition-all duration-300 cursor-pointer group h-full">
-                      <CardContent className="p-5 flex flex-col sm:flex-row items-center gap-5">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${['bg-yellow-100', 'bg-fuchsia-100', 'bg-emerald-100', 'bg-blue-100'][i%4]}`}>
-                          <BookOpen className={`w-7 h-7 ${['text-yellow-500', 'text-fuchsia-500', 'text-emerald-500', 'text-blue-500'][i%4]}`} />
-                        </div>
-                        <div className="flex-1 text-center sm:text-left">
-                          <h3 className="text-[18px] font-bold text-[#1e1b4b] dark:text-white group-hover:text-fuchsia-600 transition-colors">{grade.title}</h3>
-                          <p className="text-xs text-slate-400 font-medium mt-1">Toán học {grade.title.toLowerCase()}</p>
-                        </div>
-                        <div className="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800 hidden sm:flex items-center justify-center text-slate-400 group-hover:bg-fuchsia-50 group-hover:text-fuchsia-500 transition-colors">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-          {/* RIGHT SIDEBAR (Widgets & Reminders) */}
-          <div className="w-full xl:w-[380px] shrink-0 flex flex-col gap-6">
-            
-            <div className="w-full">
-              <QuoteCarousel />
-            </div>
-
-            <div className="w-full">
-              <CountdownCard />
-            </div>
-
-            <div className="w-full">
-              <WrongNotebookCard />
-            </div>
-            
+          </section>
         </div>
+        <aside aria-label="Thông tin học tập bổ trợ" className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-1">
+          <CountdownCard />
+          <QuoteCarousel />
+          <WrongNotebookCard />
+        </aside>
       </div>
     </div>
   );

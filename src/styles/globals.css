@@ -2,175 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ==========================================================================
-   VivuX Design System - Soft Pastel Neumorphism
-   ========================================================================== */
-
+/* VivuX: Soft Aurora / Midnight Aurora. RGB channels support Tailwind opacity. */
 @layer base {
   :root {
-    /* ---- Light Mode (Pastel Neumorphism) ---- */
-    --background: 270 20% 98%;       /* #faf9fb */
-    --foreground: 240 60% 20%;       /* #1e1b4b - Deep Indigo */
-
-    --card: 0 0% 100%;               /* white */
-    --card-foreground: 240 60% 20%;  /* #1e1b4b */
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 60% 20%;
-
-    --primary: 320 80% 55%;          /* Fuchsia pink */
-    --primary-foreground: 0 0% 100%; /* white */
-
-    --secondary: 240 10% 96%;        /* slate-100 */
-    --secondary-foreground: 240 60% 20%;
-
-    --muted: 290 30% 96%;            /* soft pinkish white */
-    --muted-foreground: 240 20% 65%; /* slate-400 */
-
-    --accent: 320 80% 55%;           /* Fuchsia pink */
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;        /* red-500 */
-    --destructive-foreground: 0 0% 100%;
-
-    --success: 160 84% 39%;          /* emerald-500 */
-    --success-foreground: 0 0% 100%;
-
-    --warning: 38 92% 50%;           /* amber-500 */
-    --warning-foreground: 0 0% 100%;
-
-    --border: 240 20% 92%;           /* slate-100 border */
-    --input: 240 20% 92%;
-    --ring: 320 80% 55%;             /* Fuchsia ring */
-
-    --radius: 1.5rem;                /* 24px default radius for modern look */
+    color-scheme: light;
+    --color-background: 247 249 252;
+    --color-surface: 255 255 255;
+    --color-card: 255 255 255;
+    --color-surface-elevated: 255 255 255;
+    --color-text-primary: 23 32 74;
+    --color-text-secondary: 104 115 143;
+    --color-text-muted: 100 111 137;
+    --color-border: 229 233 242;
+    --color-control: 135 146 171;
+    --color-primary: 66 91 221;
+    --color-primary-hover: 53 75 194;
+    --color-on-primary: 255 255 255;
+    --color-primary-soft: 237 241 255;
+    --color-brand: 79 111 255;
+    --color-brand-cyan: 146 238 255;
+    --color-accent: 37 199 232;
+    --color-info: 8 118 143;
+    --color-info-soft: 231 248 252;
+    --color-special: 114 65 205;
+    --color-special-soft: 244 239 255;
+    --color-success: 16 121 90;
+    --color-success-soft: 233 247 240;
+    --color-warning: 151 91 8;
+    --color-warning-soft: 255 247 229;
+    --color-danger: 190 48 68;
+    --color-danger-soft: 255 239 242;
+    --color-on-danger: 255 255 255;
+    --color-muted: 241 244 249;
+    --color-overlay: 13 16 32;
+    --color-track: 228 234 244;
+    --shadow-soft: 0 2px 8px rgb(23 32 74 / .035);
+    --shadow-card: 0 4px 20px -8px rgb(23 32 74 / .10);
+    --shadow-float: 0 16px 48px -12px rgb(23 32 74 / .18);
+    --gradient-hero: linear-gradient(110deg, rgb(237 242 255), rgb(244 250 255) 58%, rgb(237 251 253));
+    --gradient-quote: linear-gradient(145deg, rgb(250 248 255), rgb(242 243 255));
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius: 16px;
+    --motion-fast: 160ms;
+    --motion-normal: 220ms;
+    --ease-out: cubic-bezier(.2, .7, .2, 1);
   }
-
   .dark {
-    /* ---- Dark Mode ---- */
-    --background: 260 20% 10%;       /* #1a1625 */
-    --foreground: 240 20% 95%;       /* whiteish */
-
-    --card: 260 22% 18%;             /* #2a2438 */
-    --card-foreground: 240 20% 95%;
-
-    --popover: 260 22% 18%;
-    --popover-foreground: 240 20% 95%;
-
-    --primary: 320 80% 65%;          /* Lighter Fuchsia */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 260 20% 25%;
-    --secondary-foreground: 240 20% 95%;
-
-    --muted: 260 20% 20%;
-    --muted-foreground: 240 20% 70%;
-
-    --accent: 320 80% 65%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 72% 63%;
-    --destructive-foreground: 0 0% 100%;
-
-    --success: 160 64% 52%;
-    --success-foreground: 0 0% 100%;
-
-    --warning: 43 96% 56%;
-    --warning-foreground: 0 0% 100%;
-
-    --border: 260 20% 25%;
-    --input: 260 20% 25%;
-    --ring: 320 80% 65%;
+    color-scheme: dark;
+    --color-background: 13 16 32;
+    --color-surface: 21 25 43;
+    --color-card: 26 30 50;
+    --color-surface-elevated: 32 37 60;
+    --color-text-primary: 245 247 255;
+    --color-text-secondary: 154 164 192;
+    --color-text-muted: 160 170 196;
+    --color-border: 43 48 67;
+    --color-control: 110 122 153;
+    --color-primary: 133 152 255;
+    --color-primary-hover: 156 171 255;
+    --color-on-primary: 13 16 32;
+    --color-primary-soft: 36 44 77;
+    --color-brand: 102 124 255;
+    --color-brand-cyan: 146 238 255;
+    --color-accent: 57 215 242;
+    --color-info: 91 215 237;
+    --color-info-soft: 22 48 60;
+    --color-special: 190 150 255;
+    --color-special-soft: 46 35 70;
+    --color-success: 99 214 169;
+    --color-success-soft: 22 48 45;
+    --color-warning: 239 193 108;
+    --color-warning-soft: 53 43 33;
+    --color-danger: 255 145 163;
+    --color-danger-soft: 60 30 46;
+    --color-on-danger: 37 12 23;
+    --color-muted: 30 35 56;
+    --color-track: 47 55 80;
+    --shadow-soft: 0 1px 0 rgb(255 255 255 / .025);
+    --shadow-card: 0 1px 0 rgb(255 255 255 / .025), 0 8px 24px -16px rgb(0 0 0 / .32);
+    --shadow-float: 0 20px 60px -12px rgb(0 0 0 / .4);
+    --gradient-hero: radial-gradient(ellipse at 100% 0%, rgb(57 215 242 / .08), transparent 65%), linear-gradient(115deg, rgb(27 34 63), rgb(22 30 49));
+    --gradient-quote: radial-gradient(ellipse at 100% 0%, rgb(168 85 247 / .10), transparent 70%), linear-gradient(145deg, rgb(30 30 55), rgb(24 29 49));
   }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground antialiased; font-feature-settings: "rlig" 1, "calt" 1; line-height: 1.6; }
+  h1, h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
+  h1 { letter-spacing: -.035em; }
+  button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  button, [role="button"] { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid rgb(var(--color-primary)); outline-offset: 3px; }
+  :where(button, a, input, textarea, select, [data-vivux-card]) { transition: color var(--motion-fast) var(--ease-out), background-color var(--motion-normal) var(--ease-out), border-color var(--motion-normal) var(--ease-out), box-shadow var(--motion-normal) var(--ease-out), opacity var(--motion-fast) var(--ease-out); }
+  ::selection { background: rgb(var(--color-primary) / .2); }
+  [id] { scroll-margin-top: 6rem; }
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
-
-/* ---- Widget Card Hover Effect ---- */
 @layer components {
-  .widget-card {
-    @apply rounded-2xl border border-border bg-card shadow-sm 
-           transition-all duration-200 ease-out;
-  }
-
-  .widget-card:hover {
-    @apply shadow-md -translate-y-0.5;
-  }
-
-  .widget-card-static {
-    @apply rounded-2xl border border-border bg-card shadow-sm;
-  }
+  .widget-card { @apply rounded-xl border border-border bg-card shadow-card; }
+  .widget-card-static { @apply rounded-xl border border-border bg-card shadow-soft; }
+  .vivux-page { @apply mx-auto w-full max-w-[1320px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8; }
+  .vivux-nav-link { @apply relative flex min-h-11 items-center gap-2 rounded-md px-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground; }
+  .vivux-nav-link[aria-current="page"] { @apply bg-primary-soft font-semibold text-primary; }
+  .vivux-nav-link[aria-current="page"]::after { content: ''; @apply absolute -bottom-2 left-3 right-3 h-0.5 rounded-full bg-primary; }
+  .vivux-skip-link { @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-md bg-primary px-4 py-3 text-primary-foreground focus:translate-y-0; }
+  .vivux-quote-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+  .vivux-quote-scroll::-webkit-scrollbar { display: none; }
+  .vivux-stat-number { @apply font-bold tracking-tight tabular-nums text-foreground; }
 }
-
-/* ---- KaTeX Math Display ---- */
-.katex-display {
-  margin: 0.5em 0;
-  overflow-x: auto;
-  overflow-y: hidden;
+.katex-display { margin: .5em 0; overflow-x: auto; overflow-y: hidden; }
+.katex { font-size: 1.1em; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgb(var(--color-control) / .5); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--color-control)); }
+.timer-danger { @apply text-destructive font-bold; }
+.flag-active { @apply text-warning; }
+.exam-split-view { @apply grid grid-cols-1 gap-0 lg:grid-cols-2; height: calc(100dvh - 4rem); }
+.exam-split-view > * { @apply overflow-auto; }
+.progress-ring { transform: rotate(-90deg); }
+.progress-ring circle { transition: stroke-dashoffset var(--motion-normal) var(--ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
-
-.katex {
-  font-size: 1.1em;
-}
-
-/* ---- Custom Scrollbar ---- */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-border rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary/50;
-}
-
-/* ---- Exam Timer Flash ---- */
-@keyframes timer-flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-.timer-danger {
-  animation: timer-flash 1s ease-in-out infinite;
-  @apply text-destructive;
-}
-
-/* ---- Flag Button Pulse ---- */
-.flag-active {
-  @apply text-red-500;
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ---- Split View (Exam Room) ---- */
-.exam-split-view {
-  @apply grid grid-cols-1 lg:grid-cols-2 gap-0 h-[calc(100vh-4rem)];
-}
-
-.exam-split-view > * {
-  @apply overflow-auto;
-}
-
-/* ---- Progress Ring ---- */
-.progress-ring {
-  transform: rotate(-90deg);
-}
-
-.progress-ring circle {
-  transition: stroke-dashoffset 0.8s ease-out;
-}
+@media (max-width: 640px) { input, select, textarea { font-size: 16px; } }

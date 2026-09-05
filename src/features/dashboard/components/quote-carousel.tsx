@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Quote } from 'lucide-react';
+import { Quote, Pause, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const quotes = [
@@ -44,98 +44,66 @@ const quotes = [
   }
 ];
 
+
 export function QuoteCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [interacting, setInteracting] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
-  // Auto scroll every 5s
   useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReducedMotion(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
+  useEffect(() => {
+    if (paused || interacting || reducedMotion) return;
     const interval = setInterval(() => {
       if (scrollRef.current) {
-        const max = quotes.length - 1;
-        const next = index >= max ? 0 : index + 1;
-        
-        // Cập nhật index state
+        const next = index >= quotes.length - 1 ? 0 : index + 1;
         setIndex(next);
-        
-        // Scroll đến phần tử tiếp theo
-        const clientWidth = scrollRef.current.clientWidth;
-        scrollRef.current.scrollTo({
-          left: next * clientWidth,
-          behavior: 'smooth'
-        });
+        scrollRef.current.scrollTo({ left: next * scrollRef.current.clientWidth, behavior: 'smooth' });
       }
     }, 5000);
-    
     return () => clearInterval(interval);
-  }, [index]);
+  }, [index, paused, interacting, reducedMotion]);
 
-  // Handle manual scroll (swipe/drag)
   const handleScroll = () => {
     if (scrollRef.current) {
-      const clientWidth = scrollRef.current.clientWidth;
-      const scrollLeft = scrollRef.current.scrollLeft;
-      // Tính index dựa trên vị trí scroll
-      const idx = Math.round(scrollLeft / clientWidth);
-      if (idx !== index) {
-        setIndex(idx);
-      }
+      const idx = Math.round(scrollRef.current.scrollLeft / scrollRef.current.clientWidth);
+      if (idx !== index) setIndex(idx);
     }
   };
-
   return (
-    <Card 
-      className="rounded-[24px] border border-white/60 dark:border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] bg-gradient-to-br from-white to-fuchsia-50 dark:from-fuchsia-500 dark:to-indigo-600 text-[#1e1b4b] dark:text-white overflow-hidden relative group"
-    >
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 dark:bg-white/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/5 dark:bg-white/10 rounded-full blur-xl -ml-10 -mb-10 pointer-events-none" />
-
-      <div 
-        ref={scrollRef} 
-        onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory relative z-10"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {/* Custom scrollbar hide for webkit */}
-        <style dangerouslySetInnerHTML={{__html: `
-          div::-webkit-scrollbar { display: none; }
-        `}} />
-        
+    <Card level="supporting" className="overflow-hidden bg-quote" role="region" aria-roledescription="băng chuyền" aria-label="Góc cảm hứng"
+      onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)}
+      onFocusCapture={() => setInteracting(true)} onBlurCapture={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setInteracting(false); }}>
+      <div className="flex items-center gap-2 px-6 pt-5 text-special"><Quote aria-hidden="true" className="h-5 w-5" /><h2 className="text-sm font-semibold">Góc cảm hứng</h2></div>
+      <div ref={scrollRef} onScroll={handleScroll} className="vivux-quote-scroll flex snap-x snap-mandatory overflow-x-auto">
         {quotes.map((q, i) => (
-          <div key={i} className="w-full flex-shrink-0 snap-center p-8 flex flex-col justify-center items-center text-center min-h-[220px]">
-             <Quote className="w-8 h-8 mx-auto text-fuchsia-500/20 dark:text-white/30 mb-4 fill-fuchsia-500/5 dark:fill-white/10" />
-             <p className="font-semibold text-[15px] leading-relaxed whitespace-pre-line drop-shadow-sm text-slate-700 dark:text-white">
-               "{q.quote}"
-             </p>
-             <p className="mt-4 text-[13px] font-medium text-slate-500 dark:text-white/70 tracking-wide uppercase">
-               — {q.author}
-             </p>
+          <div key={i} className="flex w-full shrink-0 snap-center flex-col justify-center px-6 pb-2 pt-4" aria-hidden={i !== index}>
+            <blockquote className="whitespace-pre-line text-base font-medium leading-relaxed text-foreground">“{q.quote}”</blockquote>
+            <p className="mt-4 text-xs text-muted-foreground">— {q.author}</p>
           </div>
         ))}
       </div>
-
-      {/* Indicators */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-20">
-        {quotes.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => {
-              setIndex(i);
-              scrollRef.current?.scrollTo({
-                left: i * (scrollRef.current?.clientWidth || 0),
-                behavior: 'smooth'
-              });
-            }}
-            className={cn(
-              "h-1.5 rounded-full transition-all duration-300",
-              index === i 
-                ? "w-4 bg-fuchsia-500 dark:bg-white" 
-                : "w-1.5 bg-fuchsia-200 hover:bg-fuchsia-300 dark:bg-white/30 dark:hover:bg-white/50"
-            )}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
+      <div className="flex items-center justify-between gap-1 px-4 pb-3 pt-1">
+        <div className="flex min-w-0 items-center">
+          {quotes.map((_, i) => (
+            <button key={i} className="flex h-11 w-6 items-center justify-center rounded-sm" aria-label={`Xem trích dẫn ${i + 1}`} aria-pressed={index === i}
+              onClick={() => { setIndex(i); scrollRef.current?.scrollTo({ left: i * (scrollRef.current?.clientWidth || 0), behavior: reducedMotion ? 'auto' : 'smooth' }); }}>
+              <span className={cn("h-1.5 rounded-full transition-colors", index === i ? "w-4 bg-special" : "w-1.5 bg-special/25")} />
+            </button>
+          ))}
+        </div>
+        <button className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-special-soft hover:text-special"
+          onClick={() => setPaused(!paused)} aria-label={paused ? 'Tiếp tục chuyển trích dẫn' : 'Tạm dừng chuyển trích dẫn'} aria-pressed={paused}>
+          {paused ? <Play aria-hidden="true" className="h-4 w-4" /> : <Pause aria-hidden="true" className="h-4 w-4" />}
+        </button>
       </div>
     </Card>
   );

@@ -11,7 +11,7 @@ export function PageHeader({ title, description, children, className }: PageHead
   return (
     <div className={cn("mb-6 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between", className)}>
       <div className="min-w-0">
-        <h1 className="break-words text-2xl font-bold tracking-tight">{title}</h1>
+        <h1 className="break-words text-[28px] font-bold tracking-tight sm:text-[34px]">{title}</h1>
         {description && (
           <p className="mt-1 max-w-3xl break-words text-muted-foreground">{description}</p>
         )}

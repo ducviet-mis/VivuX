@@ -2,22 +2,15 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Home, BookOpen, GraduationCap, LayoutDashboard,
-  Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText
-} from "lucide-react";
+import { Home, BookOpen, GraduationCap, LayoutDashboard, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/lib/constants";
 import { useAuthStore } from "@/features/auth/stores/auth-store";
-import { Separator } from "@/components/ui/separator";
-import { useState, useRef, useEffect } from "react";
-
-const iconMap: Record<string, React.ElementType> = {
-  Home, BookOpen, GraduationCap, LayoutDashboard, Shield, FileText, BookText
-};
+import { useState } from "react";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -25,287 +18,104 @@ export function Navbar() {
   const { user, logout } = useAuthStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const navItems = [
-    { label: "Trang chủ", href: "/home", icon: "Home" },
-    { label: "Tự luyện", href: "/practice", icon: "BookOpen" },
-    { label: "Thi thử", href: "/mock-exams", icon: "FileText" },
-    { label: "Lớp học", href: "/classroom", icon: "GraduationCap" },
-    { label: "Cẩm nang", href: "/handbook", icon: "BookText" },
+    { label: "Trang chủ", href: "/home", icon: Home },
+    { label: "Tự luyện", href: "/practice", icon: BookOpen },
+    { label: "Thi thử", href: "/mock-exams", icon: FileText },
+    { label: "Lớp học", href: "/classroom", icon: GraduationCap },
+    { label: "Cẩm nang", href: "/handbook", icon: BookText },
   ];
-
-  const teacherItems = user?.role === "teacher"
-    ? [
-        { label: "Quản lý", href: "/teacher", icon: "LayoutDashboard" },
-      ]
-    : [];
-
+  const teacherItems = user?.role === "teacher" ? [{ label: "Quản lý", href: "/teacher", icon: LayoutDashboard }] : [];
   const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
-
   const allItems = [...navItems, ...teacherItems];
-
   const handleLogout = () => {
     setDropdownOpen(false);
     logout();
     router.push('/login');
   };
-
   return (
-    <nav className="sticky top-0 z-50 w-full bg-[#fefdff]/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-white/60 dark:border-white/5 shadow-[0_4px_20px_-10px_rgba(200,180,220,0.2)] dark:shadow-none transition-all">
-      <div className="mx-auto flex h-16 md:h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        
-        {/* Logo */}
-        <Link href="/home" className="flex items-center gap-2.5 group">
-          <div className="relative h-10 w-10 overflow-hidden rounded-[13px] shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform bg-white/10">
-            <img src="/logo.png" alt={APP_NAME} className="h-full w-full object-cover" />
-          </div>
-          <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 via-indigo-600 to-fuchsia-600 dark:from-blue-400 dark:via-indigo-300 dark:to-pink-400 bg-clip-text text-transparent hidden sm:inline tracking-tight">
-            {APP_NAME}
-          </span>
+    <nav aria-label="Điều hướng chính" className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur-xl">
+      <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <Link href="/home" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label="VivuX — Trang chủ">
+          <img src="/logo.png" alt="" width={36} height={36} className="h-9 w-9 rounded-md object-cover" />
+          <span className="text-2xl font-bold tracking-tight text-foreground">Vivu<span className="text-primary">X</span></span>
         </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-2 p-1.5 bg-slate-100/50 dark:bg-slate-800/50 rounded-full border border-white/50 dark:border-white/5 shadow-inner">
+        <div className="hidden items-center gap-1 xl:flex">
           {allItems.map((item) => {
-            const Icon = iconMap[item.icon];
+            const Icon = item.icon;
             const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
-            
-            if (item.href === '/practice' || item.href === '/mock-exams') {
-              return (
-                <div key={item.href} className="relative group">
-                  <Link href={item.href}>
-                    <div
-                      className={cn(
-                        "flex items-center gap-2 px-5 py-2.5 rounded-full text-sm transition-all duration-300",
-                        isActive 
-                          ? "bg-white dark:bg-[#2a2438] text-[#1e1b4b] dark:text-white font-bold shadow-[0_4px_16px_-4px_rgba(200,180,220,0.5)] dark:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.5)]" 
-                          : "text-slate-500 dark:text-slate-400 font-semibold hover:text-[#1e1b4b] dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5"
-                      )}
-                    >
-                      {Icon && <Icon className="h-4 w-4" />}
-                      {item.label}
-                      <ChevronDown className="h-3 w-3 ml-1 opacity-50 transition-transform group-hover:rotate-180" />
-                    </div>
-                  </Link>
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 rounded-[24px] bg-white dark:bg-[#1a1625] border border-slate-200 dark:border-white/10 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                    <div className="grid grid-cols-2 gap-1 p-2">
-                      {[6, 7, 8, 9].map(grade => (
-                        <Link key={grade} href={`${item.href}?grade=${grade}`} className="px-2 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 hover:text-fuchsia-600 dark:hover:bg-fuchsia-900/30 rounded-xl transition-colors text-center">
-                          Lớp {grade}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
+            const hasGrades = item.href === "/practice" || item.href === "/mock-exams";
             return (
-              <Link key={item.href} href={item.href}>
-                <div
-                  className={cn(
-                    "flex items-center gap-2 px-5 py-2.5 rounded-full text-sm transition-all duration-300",
-                    isActive 
-                      ? "bg-white dark:bg-[#2a2438] text-[#1e1b4b] dark:text-white font-bold shadow-[0_4px_16px_-4px_rgba(200,180,220,0.5)] dark:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.5)]" 
-                      : "text-slate-500 dark:text-slate-400 font-semibold hover:text-[#1e1b4b] dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5"
-                  )}
-                >
-                  {Icon && <Icon className="h-4 w-4" />}
-                  {item.label}
-                </div>
-              </Link>
+              <div key={item.href} className="flex items-center">
+                <Link href={item.href} className="vivux-nav-link" aria-current={isActive ? "page" : undefined}>
+                  <Icon aria-hidden="true" className="h-[18px] w-[18px]" />{item.label}
+                </Link>
+                {hasGrades && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="flex h-11 w-6 items-center justify-center rounded-sm text-muted-foreground hover:bg-muted hover:text-primary" aria-label={`Chọn lớp — ${item.label}`}>
+                        <ChevronDown aria-hidden="true" className="h-3.5 w-3.5" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-40">
+                      {[6, 7, 8, 9].map(grade => <DropdownMenuItem asChild key={grade}><Link href={`${item.href}?grade=${grade}`}>Lớp {grade}</Link></DropdownMenuItem>)}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+              </div>
             );
           })}
         </div>
-
-        {/* Right Side */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:block">
-            <ThemeToggle />
-          </div>
-
+        <div className="flex shrink-0 items-center gap-2">
+          <ThemeToggle />
           {user ? (
-            <div className="relative" ref={dropdownRef}>
-              {/* Avatar + Name - Clickable */}
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full bg-white/60 dark:bg-[#2a2438]/60 border border-white/80 dark:border-white/10 shadow-sm hover:shadow-md hover:bg-white dark:hover:bg-[#2a2438] transition-all"
-              >
-                <Avatar className="h-9 w-9 border-2 border-white dark:border-[#2a2438] shadow-sm">
-                  <AvatarImage src={user.avatarUrl || undefined} />
-                  <AvatarFallback className="text-sm bg-gradient-to-br from-fuchsia-100 to-pink-100 text-fuchsia-600 font-bold">
-                    {user.name?.charAt(0)?.toUpperCase() || "U"}
-                  </AvatarFallback>
-                </Avatar>
-                <span className="text-sm font-bold text-[#1e1b4b] dark:text-white hidden lg:inline">
-                  {user.name}
-                </span>
-                <ChevronDown className={cn(
-                  "h-4 w-4 text-slate-400 transition-transform hidden lg:block",
-                  dropdownOpen && "rotate-180"
-                )} />
-              </button>
-
-              {/* Dropdown Menu */}
-              {dropdownOpen && (
-                <div className="absolute right-0 top-full mt-3 w-64 rounded-[24px] border border-white/60 dark:border-white/10 bg-white/95 dark:bg-[#1a1625]/95 backdrop-blur-xl shadow-[0_20px_60px_-15px_rgba(200,180,220,0.4)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  {/* User info header */}
-                  <div className="px-4 py-4 mb-2 rounded-[16px] bg-slate-50 dark:bg-slate-800/50">
-                    <p className="font-bold text-[#1e1b4b] dark:text-white">{user.name}</p>
-                    <p className="text-xs text-slate-500 font-medium truncate">{user.email}</p>
-                    <span className="inline-block mt-2 text-xs px-2.5 py-1 rounded-full bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400 font-bold">
-                      {user.role === 'teacher' ? '👨‍🏫 Giáo viên' : '🎓 Học sinh'}
-                    </span>
-                  </div>
-
-                  {/* Menu items */}
-                  <div className="space-y-1">
-                    <Link
-                      href="/profile"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-[#1e1b4b] dark:hover:text-white rounded-[16px] transition-colors"
-                    >
-                      <User className="h-4 w-4" />
-                      Thông tin tài khoản
-                    </Link>
-                    
-                    {isAdmin && (
-                      <Link
-                        href="/admin"
-                        onClick={() => setDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-fuchsia-600 dark:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 rounded-[16px] transition-colors"
-                      >
-                        <Shield className="h-4 w-4" />
-                        ADMIN
-                      </Link>
-                    )}
-
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-[16px] transition-colors w-full text-left"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Đăng xuất
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+              <DropdownMenuTrigger asChild>
+                <button className="flex min-h-11 items-center gap-2 rounded-md border border-border bg-surface px-2 text-sm font-semibold hover:bg-muted" aria-label={`Tài khoản ${user.name}`}>
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.avatarUrl || undefined} />
+                    <AvatarFallback className="bg-primary-soft text-primary">{user.name?.charAt(0)?.toUpperCase() || "U"}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden max-w-32 truncate lg:inline">{user.name}</span>
+                  <ChevronDown aria-hidden="true" className="hidden h-4 w-4 text-muted-foreground sm:block" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64 p-2">
+                <DropdownMenuLabel className="rounded-sm bg-muted p-3">
+                  <p className="font-semibold text-foreground">{user.name}</p>
+                  <p className="mt-1 truncate text-xs font-normal text-muted-foreground">{user.email}</p>
+                  <p className="mt-2 text-xs text-primary">{user.role === 'teacher' ? 'Giáo viên' : 'Học sinh'}</p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild><Link href="/profile"><User aria-hidden="true" />Thông tin tài khoản</Link></DropdownMenuItem>
+                {isAdmin && <DropdownMenuItem asChild><Link href="/admin"><Shield aria-hidden="true" />ADMIN</Link></DropdownMenuItem>}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={handleLogout} className="text-destructive focus:bg-destructive-soft focus:text-destructive"><LogOut aria-hidden="true" />Đăng xuất</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <Link href="/login">
-              <Button className="rounded-full bg-[#1e1b4b] text-white hover:bg-[#1e1b4b]/90 px-6 font-bold shadow-lg shadow-[#1e1b4b]/20">Đăng nhập</Button>
-            </Link>
+            <Button asChild className="hidden sm:inline-flex"><Link href="/login">Đăng nhập</Link></Button>
           )}
-
-          {/* Mobile Menu */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden h-10 w-10 rounded-full bg-white dark:bg-[#2a2438] shadow-sm"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Menu"
-          >
-            {mobileOpen ? <X className="h-5 w-5 text-[#1e1b4b] dark:text-white" /> : <Menu className="h-5 w-5 text-[#1e1b4b] dark:text-white" />}
+          <Button variant="ghost" size="icon" className="border border-border xl:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Đóng menu" : "Mở menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation">
+            {mobileOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
           </Button>
         </div>
       </div>
-
-      {/* Mobile Nav Drawer */}
       {mobileOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-[#1a1625]/95 backdrop-blur-xl border-b border-white/60 dark:border-white/10 shadow-[0_20px_40px_-15px_rgba(200,180,220,0.3)] dark:shadow-none px-4 py-4 space-y-2">
-          {allItems.map((item) => {
-            const Icon = iconMap[item.icon];
-            const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
-            
-            if (item.href === '/practice' || item.href === '/mock-exams') {
-              return (
-                <div key={item.href} className="flex flex-col gap-1">
-                  <div className="px-4 py-2 mt-2">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{item.label} theo lớp</span>
-                  </div>
-                  <div className="grid grid-cols-4 gap-2 px-2">
-                    {[6, 7, 8, 9].map(grade => (
-                      <Link 
-                        key={grade} 
-                        href={`${item.href}?grade=${grade}`} 
-                        onClick={() => setMobileOpen(false)}
-                        className="py-3 text-center rounded-[14px] bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-fuchsia-100 hover:text-fuchsia-600 dark:hover:bg-fuchsia-900/40"
-                      >
-                        {grade}
-                      </Link>
-                    ))}
-                  </div>
-                  <Separator className="my-2 bg-slate-100 dark:bg-slate-800" />
-                </div>
-              );
-            }
-
-            return (
-              <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="block">
-                <div
-                  className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-[16px] text-sm transition-all",
-                    isActive 
-                      ? "bg-fuchsia-50 dark:bg-[#2a2438] text-fuchsia-600 dark:text-fuchsia-400 font-bold" 
-                      : "text-slate-600 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-white/5"
-                  )}
-                >
-                  {Icon && <Icon className="h-5 w-5" />}
-                  {item.label}
-                </div>
-              </Link>
-            );
-          })}
-          {user && (
-            <>
-              <Separator className="my-3 bg-slate-100 dark:bg-slate-800" />
-              <Link href="/profile" onClick={() => setMobileOpen(false)} className="block">
-                <div className="flex items-center gap-3 px-4 py-3 rounded-[16px] text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5">
-                  <User className="h-5 w-5" />
-                  Thông tin tài khoản
-                </div>
-              </Link>
-              {isAdmin && (
-                <Link href="/admin" onClick={() => setMobileOpen(false)} className="block">
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-[16px] text-sm font-semibold text-fuchsia-600 dark:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20">
-                    <Shield className="h-5 w-5" />
-                    ADMIN
-                  </div>
-                </Link>
-              )}
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 text-left"
-              >
-                <LogOut className="h-5 w-5" />
-                Đăng xuất
-              </button>
-            </>
-          )}
-          {!user && (
-            <div className="pt-2 px-2">
-              <Link href="/login" onClick={() => setMobileOpen(false)} className="block">
-                <Button className="w-full rounded-xl bg-[#1e1b4b] text-white font-bold h-11 shadow-sm">
-                  Đăng nhập
-                </Button>
-              </Link>
-            </div>
-          )}
-          <div className="pt-2 px-2 flex items-center justify-between">
-            <span className="text-sm font-semibold text-slate-500">Giao diện</span>
-            <ThemeToggle />
+        <div id="mobile-navigation" className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-border bg-surface px-4 py-4 xl:hidden">
+          <div className="mx-auto grid max-w-3xl grid-cols-2 gap-2 sm:grid-cols-3">
+            {allItems.map(item => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
+              return <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} aria-current={isActive ? "page" : undefined} className={cn("flex min-h-12 items-center gap-3 rounded-md px-3 text-sm font-medium", isActive ? "bg-primary-soft text-primary" : "text-muted-foreground hover:bg-muted")}><Icon aria-hidden="true" className="h-[18px] w-[18px]" />{item.label}</Link>;
+            })}
+          </div>
+          <div className="mx-auto mt-3 flex max-w-3xl flex-wrap items-center gap-2 border-t border-border pt-3">
+            {user ? <>
+              <Button asChild variant="ghost"><Link href="/profile" onClick={() => setMobileOpen(false)}><User aria-hidden="true" className="h-4 w-4" />Thông tin tài khoản</Link></Button>
+              {isAdmin && <Button asChild variant="ghost"><Link href="/admin" onClick={() => setMobileOpen(false)}><Shield aria-hidden="true" className="h-4 w-4" />ADMIN</Link></Button>}
+              <Button variant="ghost" onClick={handleLogout} className="text-destructive hover:bg-destructive-soft hover:text-destructive"><LogOut aria-hidden="true" className="h-4 w-4" />Đăng xuất</Button>
+            </> : <Button asChild className="w-full"><Link href="/login" onClick={() => setMobileOpen(false)}>Đăng nhập</Link></Button>}
           </div>
         </div>
       )}

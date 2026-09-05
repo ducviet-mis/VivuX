@@ -1,16 +1,22 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { PageHeader } from '@/components/shared/page-header';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { FileText, Clock, Trophy, Play, RotateCcw, Eye, History, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { FileText, Clock, Trophy, Play, RotateCcw, Eye, History, ArrowRight, CheckCircle2, Menu } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
@@ -26,6 +32,7 @@ interface MockExamAttempt {
 
 function MockExamsContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const grade = searchParams.get('grade') || '8';
   const { user } = useAuthStore();
   const [exams, setExams] = useState<any[]>([]);
@@ -152,14 +159,14 @@ function MockExamsContent() {
                     </h3>
                   </div>
                   
-                  <div className="bg-slate-50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
+                  <div className="bg-slate-50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 p-4 sm:p-5 flex items-center justify-between gap-3 mt-auto">
                     {hasAttempt ? (
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-base">
-                          <Trophy className="w-5 h-5 text-amber-500 fill-amber-500/20" />
-                          <span>Điểm cao nhất: {bestScore.toFixed(2)}</span>
+                      <div className="flex flex-col min-w-0 pr-1">
+                        <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold text-sm sm:text-base">
+                          <Trophy className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-amber-500 fill-amber-500/20 shrink-0" />
+                          <span className="truncate">Điểm cao nhất: {bestScore.toFixed(2)}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                           <span>Đã thi {examAttempts.length} lần</span>
                           <span>•</span>
                           <span>{formatTimeAgo(latestAttempt.created_at)}</span>
@@ -167,54 +174,62 @@ function MockExamsContent() {
                       </div>
                     ) : (
                       <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
-                        <FileText className="w-4 h-4 opacity-60" />
-                        Chưa làm bài
+                        <FileText className="w-4 h-4 opacity-60 shrink-0" />
+                        <span>Chưa làm bài</span>
                       </div>
                     )}
                     
-                    <div className="flex flex-wrap items-center gap-2">
-                      {hasAttempt && (
+                    <div className="flex items-center gap-2 shrink-0">
+                      {hasAttempt ? (
                         <>
-                          {/* Nút Xem lại bài làm gần nhất */}
-                          <Link href={`/mock-exams/${exam.id}/result?attemptId=${latestAttempt.id}`}>
-                            <Button 
-                              variant="outline"
-                              className="rounded-xl border-fuchsia-200 dark:border-fuchsia-900/40 bg-fuchsia-50/50 hover:bg-fuchsia-100 dark:bg-fuchsia-950/20 text-fuchsia-700 dark:text-fuchsia-300 font-bold gap-1.5 h-10 px-3.5 shadow-xs"
-                            >
-                              <Eye className="w-4 h-4 text-fuchsia-500" />
-                              <span>Xem lại bài</span>
+                          {/* Nút Thi lại */}
+                          <Link href={`/mock-exams/${exam.id}`}>
+                            <Button className="rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white font-bold shadow-sm shadow-fuchsia-500/20 gap-1.5 h-10 px-4">
+                              <RotateCcw className="w-4 h-4" />
+                              <span>Thi lại</span>
                             </Button>
                           </Link>
 
-                          {/* Nút Lịch sử thi (nếu thi từ 2 lần trở lên hoặc muốn xem tổng quan) */}
-                          <Button
-                            variant="ghost"
-                            onClick={() => setSelectedExamForHistory(exam)}
-                            className="rounded-xl hover:bg-slate-200/60 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 font-semibold gap-1.5 h-10 px-3"
-                            title="Xem lịch sử các lần thi"
-                          >
-                            <History className="w-4 h-4" />
-                            <span>Lịch sử ({examAttempts.length})</span>
-                          </Button>
+                          {/* Menu 3 gạch gom các tùy chọn xem lại & lịch sử */}
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-10 w-10 rounded-xl border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300"
+                                title="Tùy chọn khác"
+                              >
+                                <Menu className="w-4 h-4" />
+                                <span className="sr-only">Tùy chọn khác</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5 shadow-lg border-slate-200 dark:border-white/10">
+                              <DropdownMenuItem
+                                onClick={() => router.push(`/mock-exams/${exam.id}/result?attemptId=${latestAttempt.id}`)}
+                                className="rounded-xl px-3 py-2.5 cursor-pointer font-semibold text-slate-700 dark:text-slate-200 focus:bg-fuchsia-50 focus:text-fuchsia-600 dark:focus:bg-fuchsia-950/30 dark:focus:text-fuchsia-300 gap-2.5 text-sm"
+                              >
+                                <Eye className="w-4 h-4 text-fuchsia-500" />
+                                <span>Xem lại lần thi gần nhất</span>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => setSelectedExamForHistory(exam)}
+                                className="rounded-xl px-3 py-2.5 cursor-pointer font-semibold text-slate-700 dark:text-slate-200 focus:bg-fuchsia-50 focus:text-fuchsia-600 dark:focus:bg-fuchsia-950/30 dark:focus:text-fuchsia-300 gap-2.5 text-sm"
+                              >
+                                <History className="w-4 h-4 text-slate-500" />
+                                <span>Lịch sử các lần thi ({examAttempts.length})</span>
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </>
+                      ) : (
+                        /* Nút Bắt đầu làm bài khi chưa thi lần nào */
+                        <Link href={`/mock-exams/${exam.id}`}>
+                          <Button className="rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white font-bold shadow-sm shadow-fuchsia-500/20 gap-1.5 h-10 px-4">
+                            <Play className="w-4 h-4 fill-current" />
+                            <span>Bắt đầu làm bài</span>
+                          </Button>
+                        </Link>
                       )}
-
-                      {/* Nút Bắt đầu hoặc Thi lại */}
-                      <Link href={`/mock-exams/${exam.id}`}>
-                        <Button className="rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white font-bold shadow-md shadow-fuchsia-500/20 gap-1.5 h-10 px-4">
-                          {hasAttempt ? (
-                            <>
-                              <RotateCcw className="w-4 h-4" />
-                              <span>Thi lại</span>
-                            </>
-                          ) : (
-                            <>
-                              <Play className="w-4 h-4 fill-current" />
-                              <span>Bắt đầu làm bài</span>
-                            </>
-                          )}
-                        </Button>
-                      </Link>
                     </div>
                   </div>
                 </CardContent>

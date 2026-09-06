@@ -12,7 +12,7 @@ export const BankInfoForm = () => {
   const { bankInfo, setBankInfo, setQrImage } = useBankStore();
   const [isSaved, setIsSaved] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  
+
   const [localInfo, setLocalInfo] = useState({
     bankName: '',
     accountNumber: '',
@@ -40,7 +40,7 @@ export const BankInfoForm = () => {
   if (!isClient) return null;
 
   return (
-    <Card className="rounded-2xl shadow-sm border-border bg-card">
+    <Card className="rounded-2xl shadow-soft border-border bg-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <CreditCard className="w-5 h-5 text-primary" /> Thông tin thanh toán (Bank)
@@ -52,7 +52,7 @@ export const BankInfoForm = () => {
             {isSaved ? (
               <div className="space-y-4 bg-muted/30 p-4 rounded-xl border border-border">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                  <div className="flex items-center gap-2 text-success">
                     <CheckCircle2 className="w-5 h-5" />
                     <span className="font-medium">Đã lưu thông tin</span>
                   </div>
@@ -79,24 +79,24 @@ export const BankInfoForm = () => {
               <>
                 <div className="grid gap-2">
                   <Label>Tên ngân hàng</Label>
-                  <Input 
-                    placeholder="VD: Vietcombank" 
+                  <Input
+                    placeholder="VD: Vietcombank"
                     value={localInfo.bankName}
                     onChange={(e) => setLocalInfo({ ...localInfo, bankName: e.target.value })}
                   />
                 </div>
                 <div className="grid gap-2">
                   <Label>Số tài khoản</Label>
-                  <Input 
-                    placeholder="VD: 0123456789" 
+                  <Input
+                    placeholder="VD: 0123456789"
                     value={localInfo.accountNumber}
                     onChange={(e) => setLocalInfo({ ...localInfo, accountNumber: e.target.value })}
                   />
                 </div>
                 <div className="grid gap-2">
                   <Label>Tên chủ tài khoản</Label>
-                  <Input 
-                    placeholder="VD: NGUYEN VAN A" 
+                  <Input
+                    placeholder="VD: NGUYEN VAN A"
                     value={localInfo.accountHolder}
                     onChange={(e) => setLocalInfo({ ...localInfo, accountHolder: e.target.value })}
                   />
@@ -109,9 +109,9 @@ export const BankInfoForm = () => {
           </div>
           <div>
             <Label className="block mb-2">Mã QR Thanh toán</Label>
-            <QrCodeUpload 
+            <QrCodeUpload
               initialUrl={bankInfo.qrImageUrl}
-              onUpload={setQrImage} 
+              onUpload={setQrImage}
             />
           </div>
         </div>

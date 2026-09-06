@@ -74,7 +74,7 @@ export default function NewHandbookPostPage() {
 
     setLoading(true);
     const supabase = getSupabaseClient();
-    
+
     // Nếu set isFeatured = true, thì un-feature các bài cũ
     if (isFeatured) {
       await supabase.from('handbook_posts').update({ is_featured: false }).neq('id', '00000000-0000-0000-0000-000000000000');
@@ -116,21 +116,21 @@ export default function NewHandbookPostPage() {
 
   return (
     <div className="container max-w-5xl py-8 mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full h-10 w-10 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div className="flex flex-wrap items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-md h-11 w-11 bg-muted hover:bg-muted">
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-2xl md:text-3xl font-bold text-[#1e1b4b] dark:text-white">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">
             Viết bài mới
           </h1>
         </div>
-        
+
         <div className="flex items-center gap-3">
-          <Button variant="outline" onClick={() => router.back()} className="rounded-full px-6">
+          <Button variant="outline" onClick={() => router.back()} className="rounded-md px-6">
             Hủy
           </Button>
-          <Button onClick={handlePublish} disabled={loading} className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white shadow-lg rounded-full px-8">
+          <Button onClick={handlePublish} disabled={loading} className="bg-primary text-primary-foreground shadow-card rounded-md px-8">
             {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
             Đăng bài
           </Button>
@@ -142,21 +142,21 @@ export default function NewHandbookPostPage() {
         <div className="lg:col-span-2 space-y-6">
           <div className="space-y-2">
             <Label className="text-base font-semibold">Tiêu đề bài báo</Label>
-            <Input 
-              placeholder="Nhập tiêu đề thật cuốn hút..." 
-              value={title} 
+            <Input
+              placeholder="Nhập tiêu đề thật cuốn hút..."
+              value={title}
               onChange={e => setTitle(e.target.value)}
-              className="text-xl md:text-2xl font-bold h-14 bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl"
+              className="text-xl md:text-2xl font-bold h-14 bg-card border-control rounded-md"
             />
           </div>
 
           <div className="space-y-2">
             <Label className="text-base font-semibold">Đoạn Sa-pô (Tóm tắt ngắn)</Label>
-            <Textarea 
-              placeholder="1-2 câu tóm tắt nội dung bài viết..." 
-              value={sapo} 
+            <Textarea
+              placeholder="1-2 câu tóm tắt nội dung bài viết..."
+              value={sapo}
               onChange={e => setSapo(e.target.value)}
-              className="text-base leading-relaxed h-24 bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl resize-none"
+              className="text-base leading-relaxed h-24 bg-card border-control rounded-md resize-none"
             />
           </div>
 
@@ -168,11 +168,11 @@ export default function NewHandbookPostPage() {
 
         {/* Sidebar Settings */}
         <div className="space-y-6">
-          <div className="bg-white dark:bg-[#1a1625] rounded-2xl border border-slate-200 dark:border-white/10 p-6 shadow-sm space-y-6">
+          <div className="bg-card rounded-2xl border border-border p-6 shadow-soft space-y-6">
             <div className="space-y-2">
               <Label className="font-semibold">Chuyên mục</Label>
               <Select value={category} onValueChange={(val) => setCategory(val as HandbookCategory)}>
-                <SelectTrigger className="h-12 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl">
+                <SelectTrigger className="h-12 bg-surface border-control rounded-md">
                   <SelectValue placeholder="Chọn chuyên mục" />
                 </SelectTrigger>
                 <SelectContent>
@@ -185,32 +185,32 @@ export default function NewHandbookPostPage() {
 
             <div className="space-y-2">
               <Label className="font-semibold">Ảnh bìa (Cover)</Label>
-              <input 
+              <input
                 type="file"
                 ref={coverInputRef}
                 className="hidden"
                 accept="image/*"
                 onChange={handleCoverUpload}
               />
-              <div 
-                className="mt-3 aspect-[16/9] w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-white/20 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors overflow-hidden relative group"
+              <div
+                className="mt-3 aspect-[16/9] w-full rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:bg-muted transition-colors overflow-hidden relative group"
                 onClick={() => coverInputRef.current?.click()}
               >
                 {uploadingCover ? (
-                  <div className="flex flex-col items-center text-slate-500">
-                    <Loader2 className="w-8 h-8 animate-spin mb-2 text-fuchsia-500" />
+                  <div className="flex flex-col items-center text-muted-foreground">
+                    <Loader2 className="w-8 h-8 animate-spin mb-2 text-primary" />
                     <span className="text-sm font-medium">Đang tải ảnh...</span>
                   </div>
                 ) : coverUrl ? (
                   <>
                     <img src={coverUrl} alt="Cover Preview" className="w-full h-full object-cover group-hover:opacity-50 transition-opacity" />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <UploadCloud className="w-8 h-8 text-white mb-2" />
-                      <span className="text-white font-medium text-sm">Đổi ảnh bìa</span>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 transition-opacity">
+                      <UploadCloud className="w-8 h-8 text-primary-foreground mb-2" />
+                      <span className="text-primary-foreground font-medium text-sm">Đổi ảnh bìa</span>
                     </div>
                   </>
                 ) : (
-                  <div className="flex flex-col items-center text-slate-500">
+                  <div className="flex flex-col items-center text-muted-foreground">
                     <UploadCloud className="w-8 h-8 mb-2 opacity-50" />
                     <span className="text-sm font-medium">Tải ảnh lên</span>
                   </div>
@@ -221,38 +221,38 @@ export default function NewHandbookPostPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label className="font-semibold">Thời gian đọc ước tính (phút)</Label>
-                <span className="text-xs text-fuchsia-600 dark:text-fuchsia-400 font-medium">Tự động tính</span>
+                <span className="text-xs text-primary font-medium">Tự động tính</span>
               </div>
-              <Input 
+              <Input
                 type="number"
                 min="1"
-                value={readTime} 
+                value={readTime}
                 onChange={e => setReadTime(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl"
+                className="h-12 bg-surface border-control rounded-md"
               />
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                 Ước tính người học mất khoảng {readTime} phút để đọc hết bài này.
               </p>
             </div>
 
             <div className="space-y-2">
               <Label className="font-semibold">Lời giới thiệu tác giả (Bio)</Label>
-              <Textarea 
-                placeholder="Giới thiệu ngắn về tác giả dưới chân bài viết..." 
-                value={authorBio} 
+              <Textarea
+                placeholder="Giới thiệu ngắn về tác giả dưới chân bài viết..."
+                value={authorBio}
                 onChange={e => setAuthorBio(e.target.value)}
-                className="text-sm leading-relaxed h-24 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl resize-none"
+                className="text-sm leading-relaxed h-24 bg-surface border-control rounded-md resize-none"
               />
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                 Hiển thị trong khung thông tin tác giả ở chân bài đọc.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 p-3 bg-fuchsia-50 dark:bg-fuchsia-900/20 rounded-xl border border-fuchsia-100 dark:border-fuchsia-900/30 cursor-pointer" onClick={() => setIsFeatured(!isFeatured)}>
-              <input type="checkbox" checked={isFeatured} onChange={() => {}} className="w-5 h-5 rounded border-fuchsia-300 text-fuchsia-600 focus:ring-fuchsia-500" />
+            <div className="flex items-center gap-3 p-3 bg-primary-soft rounded-xl border border-primary cursor-pointer" onClick={() => setIsFeatured(!isFeatured)}>
+              <input type="checkbox" checked={isFeatured} onChange={() => {}} className="w-5 h-5 rounded border-primary text-primary focus:ring-primary" />
               <div className="flex flex-col">
-                <span className="font-bold text-fuchsia-800 dark:text-fuchsia-300 text-sm">Đặt làm Tiêu điểm</span>
-                <span className="text-xs text-fuchsia-600/70 dark:text-fuchsia-400/70">Hiển thị bài viết to nhất ở đầu trang</span>
+                <span className="font-bold text-primary text-sm">Đặt làm Tiêu điểm</span>
+                <span className="text-xs text-primary">Hiển thị bài viết to nhất ở đầu trang</span>
               </div>
             </div>
 

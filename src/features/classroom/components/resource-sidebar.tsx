@@ -18,7 +18,7 @@ interface ResourceSidebarProps {
 export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
   const { resources, addResource, removeResource } = useClassroomStore();
   const [addingTo, setAddingTo] = useState<'document' | 'video' | 'exam' | null>(null);
-  
+
   const [newTitle, setNewTitle] = useState('');
   const [newUrl, setNewUrl] = useState('');
   const [newFolder, setNewFolder] = useState('');
@@ -63,11 +63,11 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
       <div className="mt-3 p-3 bg-muted/50 rounded-lg space-y-3 border border-border">
         <div className="space-y-1">
           <Label className="text-xs">Tên tài nguyên</Label>
-          <Input 
-            placeholder="VD: Bài giảng số 1..." 
-            value={newTitle} 
+          <Input
+            placeholder="VD: Bài giảng số 1..."
+            value={newTitle}
             onChange={e => setNewTitle(e.target.value)}
-            className="h-8 text-sm bg-background"
+            className="h-11 text-sm bg-background"
           />
         </div>
 
@@ -77,7 +77,7 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
             if (val !== 'new') setNewFolder(val);
             else setNewFolder('');
           }}>
-            <SelectTrigger className="h-8 text-sm bg-background">
+            <SelectTrigger className="h-11 text-sm bg-background">
               <SelectValue placeholder="Chọn thư mục..." />
             </SelectTrigger>
             <SelectContent>
@@ -88,11 +88,11 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
             </SelectContent>
           </Select>
           {!existingFolders.includes(newFolder) && (
-            <Input 
-              placeholder="Nhập tên thư mục mới..." 
-              value={newFolder} 
+            <Input
+              placeholder="Nhập tên thư mục mới..."
+              value={newFolder}
               onChange={e => setNewFolder(e.target.value)}
-              className="h-8 text-sm bg-background mt-2"
+              className="h-11 text-sm bg-background mt-2"
             />
           )}
         </div>
@@ -100,35 +100,35 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
         {(type === 'document' || type === 'exam') && (
           <div className="space-y-1">
              <div className="flex items-center gap-2 mb-1">
-                <Button 
-                  variant={inputType === 'url' ? 'secondary' : 'ghost'} 
-                  size="sm" 
-                  className="h-6 text-xs px-2"
+                <Button
+                  variant={inputType === 'url' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  className="h-11 text-xs px-2"
                   onClick={() => setInputType('url')}
                 >
                   Link URL
                 </Button>
-                <Button 
-                  variant={inputType === 'file' ? 'secondary' : 'ghost'} 
-                  size="sm" 
-                  className="h-6 text-xs px-2"
+                <Button
+                  variant={inputType === 'file' ? 'secondary' : 'ghost'}
+                  size="sm"
+                  className="h-11 text-xs px-2"
                   onClick={() => setInputType('file')}
                 >
                   Tải file
                 </Button>
              </div>
              {inputType === 'url' ? (
-                <Input 
-                  placeholder="Đường dẫn (URL)..." 
-                  value={newUrl} 
+                <Input
+                  placeholder="Đường dẫn (URL)..."
+                  value={newUrl}
                   onChange={e => setNewUrl(e.target.value)}
-                  className="h-8 text-sm bg-background"
+                  className="h-11 text-sm bg-background"
                 />
              ) : (
-                <Input 
+                <Input
                   type="file"
                   onChange={e => setFile(e.target.files?.[0] || null)}
-                  className="h-8 text-sm bg-background text-muted-foreground file:text-foreground file:mr-2 file:py-0 file:h-full file:bg-muted file:border-0 file:rounded-sm"
+                  className="h-11 text-sm bg-background text-muted-foreground file:text-foreground file:mr-2 file:py-0 file:h-full file:bg-surface file:border-0 file:rounded-sm"
                 />
              )}
           </div>
@@ -137,17 +137,17 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
         {type === 'video' && (
           <div className="space-y-1">
             <Label className="text-xs">Đường dẫn Video (URL)</Label>
-            <Input 
-              placeholder="VD: https://youtube.com/..." 
-              value={newUrl} 
+            <Input
+              placeholder="VD: https://youtube.com/..."
+              value={newUrl}
               onChange={e => setNewUrl(e.target.value)}
-              className="h-8 text-sm bg-background"
+              className="h-11 text-sm bg-background"
             />
           </div>
         )}
 
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="ghost" size="sm" className="h-7 px-2" onClick={() => {
+          <Button variant="ghost" size="sm" className="h-11 px-2" onClick={() => {
             setAddingTo(null);
             setNewTitle('');
             setNewUrl('');
@@ -156,7 +156,7 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
           }}>
             Hủy
           </Button>
-          <Button variant="default" size="sm" className="h-7 px-3" onClick={() => handleSave(type)} disabled={!newTitle || !newFolder || (inputType === 'url' && !newUrl) || (inputType === 'file' && !file)}>
+          <Button variant="default" size="sm" className="h-11 px-3" onClick={() => handleSave(type)} disabled={!newTitle || !newFolder || (inputType === 'url' && !newUrl) || (inputType === 'file' && !file)}>
             Lưu
           </Button>
         </div>
@@ -165,7 +165,7 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
   };
 
   return (
-    <Card className="rounded-2xl border border-border bg-card shadow-sm h-full flex flex-col">
+    <Card className="rounded-2xl border border-border bg-card shadow-soft h-full flex flex-col">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg">Tài nguyên lớp học</CardTitle>
       </CardHeader>
@@ -174,7 +174,7 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-bold text-muted-foreground uppercase">Kho tài liệu</h3>
             {isTeacher && (
-              <Button variant="ghost" size="icon" className="h-6 w-6 text-primary hover:bg-primary/10" onClick={() => setAddingTo('document')}>
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-primary hover:bg-primary/10" onClick={() => setAddingTo('document')}>
                 <Plus className="w-4 h-4" />
               </Button>
             )}
@@ -189,7 +189,7 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-bold text-muted-foreground uppercase">Kho video</h3>
             {isTeacher && (
-              <Button variant="ghost" size="icon" className="h-6 w-6 text-primary hover:bg-primary/10" onClick={() => setAddingTo('video')}>
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-primary hover:bg-primary/10" onClick={() => setAddingTo('video')}>
                 <Plus className="w-4 h-4" />
               </Button>
             )}
@@ -204,7 +204,7 @@ export function ResourceSidebar({ isTeacher = false }: ResourceSidebarProps) {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-bold text-muted-foreground uppercase">Kho đề thi</h3>
             {isTeacher && (
-              <Button variant="ghost" size="icon" className="h-6 w-6 text-primary hover:bg-primary/10" onClick={() => setAddingTo('exam')}>
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-primary hover:bg-primary/10" onClick={() => setAddingTo('exam')}>
                 <Plus className="w-4 h-4" />
               </Button>
             )}

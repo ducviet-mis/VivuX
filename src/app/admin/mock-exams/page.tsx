@@ -27,7 +27,7 @@ export default function MockExamsAdminPage() {
     async function fetchExams() {
       const supabase = getSupabaseClient();
       const { data, error } = await supabase.from('mock_exams').select('*').order('created_at', { ascending: false });
-      
+
       if (error) {
         if (error.code !== '42P01') {
           console.error('Error fetching mock exams:', error);
@@ -37,7 +37,7 @@ export default function MockExamsAdminPage() {
       }
       setFetching(false);
     }
-    
+
     if (user && (user.email === 'vietdang293.vn@gmail.com' || user.email === 'vietdang293@gmail.com')) {
       fetchExams();
     }
@@ -48,18 +48,18 @@ export default function MockExamsAdminPage() {
       alert('Vui lòng điền đầy đủ thông tin');
       return;
     }
-    
+
     setSaving(true);
     const supabase = getSupabaseClient();
     const { error } = await supabase.from('mock_exams').insert([
-      { 
-        code: code.trim(), 
-        grade: parseInt(grade), 
-        title: title.trim(), 
-        duration: parseInt(duration) 
+      {
+        code: code.trim(),
+        grade: parseInt(grade),
+        title: title.trim(),
+        duration: parseInt(duration)
       }
     ]);
-    
+
     if (error) {
       alert('Lỗi: ' + error.message);
     } else {
@@ -67,7 +67,7 @@ export default function MockExamsAdminPage() {
       // Refresh list
       const { data } = await supabase.from('mock_exams').select('*').order('created_at', { ascending: false });
       if (data) setExams(data);
-      
+
       // Reset form
       setCode('');
       setTitle('');
@@ -77,10 +77,10 @@ export default function MockExamsAdminPage() {
 
   const handleDelete = async (examId: string) => {
     if (!confirm('Bạn có chắc chắn muốn xóa đề thi này VÀ TẤT CẢ câu hỏi, lịch sử thi liên quan?')) return;
-    
+
     const supabase = getSupabaseClient();
     const { error } = await supabase.from('mock_exams').delete().eq('id', examId);
-    
+
     if (error) {
       alert('Lỗi: ' + error.message);
     } else {
@@ -93,9 +93,9 @@ export default function MockExamsAdminPage() {
 
   return (
     <div className="space-y-8">
-      <Card className="border-fuchsia-100 shadow-xl shadow-fuchsia-100/50 dark:shadow-none dark:border-fuchsia-900/30">
-        <CardHeader className="bg-gradient-to-br from-fuchsia-50 to-pink-50 dark:from-fuchsia-900/10 dark:to-pink-900/10 border-b border-fuchsia-100 dark:border-fuchsia-900/30">
-          <CardTitle className="flex items-center gap-2 text-fuchsia-800 dark:text-fuchsia-400">
+      <Card className="border-primary shadow-float dark:shadow-none">
+        <CardHeader className="bg-primary border-b border-primary">
+          <CardTitle className="flex items-center gap-2 text-primary">
             <Plus className="w-5 h-5" />
             Tạo đề thi thử mới
           </CardTitle>
@@ -106,21 +106,21 @@ export default function MockExamsAdminPage() {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="space-y-2">
-              <Label className="text-slate-600 dark:text-slate-300 font-bold flex items-center gap-2">
+              <Label className="text-muted-foreground font-bold flex items-center gap-2">
                 Mã đề (VD: THI-L9-01)
               </Label>
-              <Input 
-                value={code} 
-                onChange={(e) => setCode(e.target.value)} 
+              <Input
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
                 placeholder="Nhập mã đề..."
-                className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-white/10"
+                className="bg-surface border-control"
               />
             </div>
-            
+
             <div className="space-y-2">
-              <Label className="text-slate-600 dark:text-slate-300 font-bold">Lớp</Label>
+              <Label className="text-muted-foreground font-bold">Lớp</Label>
               <Select value={grade} onValueChange={setGrade}>
-                <SelectTrigger className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-white/10">
+                <SelectTrigger className="bg-surface border-control">
                   <SelectValue placeholder="Chọn lớp" />
                 </SelectTrigger>
                 <SelectContent>
@@ -133,33 +133,33 @@ export default function MockExamsAdminPage() {
             </div>
 
             <div className="space-y-2 lg:col-span-2">
-              <Label className="text-slate-600 dark:text-slate-300 font-bold">Tên đề thi</Label>
-              <Input 
-                value={title} 
-                onChange={(e) => setTitle(e.target.value)} 
+              <Label className="text-muted-foreground font-bold">Tên đề thi</Label>
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 placeholder="VD: Đề thi thử giữa kì I Môn Toán..."
-                className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-white/10"
+                className="bg-surface border-control"
               />
             </div>
 
             <div className="space-y-2">
-              <Label className="text-slate-600 dark:text-slate-300 font-bold flex items-center gap-2">
+              <Label className="text-muted-foreground font-bold flex items-center gap-2">
                 Thời gian (Phút)
               </Label>
-              <Input 
+              <Input
                 type="number"
-                value={duration} 
-                onChange={(e) => setDuration(e.target.value)} 
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
                 placeholder="45"
-                className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-white/10"
+                className="bg-surface border-control"
               />
             </div>
           </div>
 
-          <Button 
-            onClick={handleAddExam} 
+          <Button
+            onClick={handleAddExam}
             disabled={saving || !code || !title || !duration}
-            className="mt-6 bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded-xl shadow-md w-full md:w-auto px-8"
+            className="mt-6 bg-primary hover:bg-primary-hover text-primary-foreground rounded-md shadow-card w-full md:w-auto px-8"
           >
             {saving ? 'Đang tạo...' : 'Tạo Đề Thi'}
           </Button>
@@ -167,46 +167,46 @@ export default function MockExamsAdminPage() {
       </Card>
 
       <div className="space-y-4">
-        <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-fuchsia-500" />
+        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+          <FileText className="w-5 h-5 text-primary" />
           Danh sách đề thi thử
         </h3>
-        
+
         {exams.length === 0 ? (
-          <div className="text-center py-12 bg-white dark:bg-[#1e1b4b]/20 rounded-2xl border border-dashed border-slate-300 dark:border-white/10 text-slate-500">
+          <div className="text-center py-12 bg-card rounded-2xl border border-dashed border-border text-muted-foreground">
             Chưa có đề thi thử nào.
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {exams.map(exam => (
-              <Card key={exam.id} className="overflow-hidden border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+              <Card key={exam.id} className="overflow-hidden border-border shadow-soft hover:shadow-card transition-shadow">
                 <CardContent className="p-0">
                   <div className="p-4 flex items-start justify-between gap-4">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-900/30 dark:text-fuchsia-400 dark:border-fuchsia-800">
+                        <Badge variant="outline" className="bg-primary-soft text-primary border-primary">
                           Lớp {exam.grade}
                         </Badge>
-                        <Badge variant="outline" className="bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
+                        <Badge variant="outline" className="bg-muted text-muted-foreground border-border">
                           <Hash className="w-3 h-3 mr-1" />
                           {exam.code}
                         </Badge>
-                        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
+                        <Badge variant="outline" className="bg-primary-soft text-primary border-primary">
                           <Clock className="w-3 h-3 mr-1" />
                           {exam.duration} phút
                         </Badge>
                       </div>
-                      <h4 className="font-bold text-lg text-slate-800 dark:text-slate-200">{exam.title}</h4>
-                      <div className="text-xs text-slate-500">
+                      <h4 className="font-bold text-lg text-foreground">{exam.title}</h4>
+                      <div className="text-xs text-muted-foreground">
                         ID: {exam.id}
                       </div>
                     </div>
-                    
-                    <Button 
-                      variant="destructive" 
+
+                    <Button
+                      variant="destructive"
                       size="icon"
                       onClick={() => handleDelete(exam.id)}
-                      className="shrink-0 rounded-full h-8 w-8 bg-red-100 hover:bg-red-200 text-red-600 dark:bg-red-900/30 dark:hover:bg-red-900/50"
+                      className="shrink-0 rounded-md h-11 w-11 bg-destructive-soft hover:bg-destructive-soft text-destructive"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

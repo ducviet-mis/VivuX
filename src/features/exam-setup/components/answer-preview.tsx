@@ -53,18 +53,18 @@ export function AnswerPreview({ answers, onConfirm, onUpdateAnswer, onDeleteAnsw
           <div className="col-span-1">Loại</div>
           <div className="col-span-1 text-right">Thao tác</div>
         </div>
-        
+
         <div className="max-h-[400px] overflow-y-auto">
           {answers.map((answer) => (
             <div key={answer.questionNumber} className="grid grid-cols-4 gap-4 p-3 border-b last:border-0 items-center text-sm hover:bg-muted/30">
               <div className="col-span-1 text-center font-medium">{answer.questionNumber}</div>
-              
+
               <div className="col-span-1">
                 {editingId === answer.questionNumber ? (
-                  <Input 
-                    size={4} 
-                    className="h-8 w-20" 
-                    value={editValue} 
+                  <Input
+                    size={4}
+                    className="h-11 w-20"
+                    value={editValue}
                     onChange={(e) => setEditValue(e.target.value)}
                     autoFocus
                     onKeyDown={(e) => {
@@ -75,25 +75,25 @@ export function AnswerPreview({ answers, onConfirm, onUpdateAnswer, onDeleteAnsw
                   <span className="font-bold text-primary">{answer.answer}</span>
                 )}
               </div>
-              
+
               <div className="col-span-1">
                 <Badge variant="outline" className="text-xs font-normal">
                   {getTypeLabel(answer.type)}
                 </Badge>
               </div>
-              
+
               <div className="col-span-1 flex justify-end gap-1">
                 {editingId === answer.questionNumber ? (
-                  <Button variant="ghost" size="sm" onClick={() => handleSave(answer.questionNumber)} className="h-8 w-8 p-0 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50">
+                  <Button variant="ghost" size="sm" onClick={() => handleSave(answer.questionNumber)} className="h-11 w-8 p-0 text-success hover:text-success hover:bg-success-soft">
                     <Check className="h-4 w-4" />
                   </Button>
                 ) : (
                   <>
-                    <Button variant="ghost" size="sm" onClick={() => handleEdit(answer.questionNumber, answer.answer)} className="h-8 w-8 p-0 text-muted-foreground hover:text-primary">
+                    <Button variant="ghost" size="sm" onClick={() => handleEdit(answer.questionNumber, answer.answer)} className="h-11 w-8 p-0 text-muted-foreground hover:text-primary">
                       <Edit2 className="h-4 w-4" />
                     </Button>
                     {onDeleteAnswer && (
-                      <Button variant="ghost" size="sm" onClick={() => onDeleteAnswer(answer.questionNumber)} className="h-8 w-8 p-0 text-muted-foreground hover:text-red-500 hover:bg-red-50">
+                      <Button variant="ghost" size="sm" onClick={() => onDeleteAnswer(answer.questionNumber)} className="h-11 w-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive-soft">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     )}

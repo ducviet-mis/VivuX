@@ -77,10 +77,10 @@ export function AnnouncementBoard({ classId, isTeacher = false }: AnnouncementBo
   const others = announcements.filter(a => !a.is_pinned);
 
   return (
-    <Card className="rounded-2xl border border-border bg-primary/10 dark:bg-primary/5 shadow-sm overflow-hidden mb-6 hover:shadow-md transition-all duration-200">
+    <Card className="rounded-2xl border border-border bg-primary/10 shadow-soft overflow-hidden mb-6 hover:shadow-card transition-all duration-200">
       <CardContent className="p-6">
         <div className="flex items-start gap-4">
-          <div className="bg-primary/20 dark:bg-primary/20 p-3 rounded-full shrink-0">
+          <div className="bg-primary/20 p-3 rounded-full shrink-0">
             <Megaphone className="w-6 h-6 text-primary" />
           </div>
           <div className="flex-1 space-y-4">
@@ -97,7 +97,7 @@ export function AnnouncementBoard({ classId, isTeacher = false }: AnnouncementBo
                     {new Date(pinned.created_at).toLocaleDateString('vi-VN')}
                   </span>
                   {isTeacher && (
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(pinned.id)} className="h-6 w-6 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button variant="ghost" size="icon" onClick={() => handleDelete(pinned.id)} className="h-11 w-11 text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   )}
@@ -117,7 +117,7 @@ export function AnnouncementBoard({ classId, isTeacher = false }: AnnouncementBo
                         {new Date(a.created_at).toLocaleDateString('vi-VN')}
                       </span>
                       {isTeacher && (
-                        <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id)} className="h-6 w-6 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id)} className="h-11 w-11 text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       )}

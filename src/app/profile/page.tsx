@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { 
-  User as UserIcon, Shield, Camera, Save, Eye, EyeOff, 
+import {
+  User as UserIcon, Shield, Camera, Save, Eye, EyeOff,
   LogOut, Loader2, CheckCircle, AlertCircle, CalendarDays, Phone, Mail
 } from 'lucide-react';
 
@@ -36,8 +36,8 @@ export default function ProfilePage() {
 
   return (
     <div className="container max-w-5xl py-8">
-      <h1 className="text-2xl font-bold mb-6">Cài đặt tài khoản</h1>
-      
+      <h1 className="text-[28px] sm:text-[34px] font-bold mb-6">Cài đặt tài khoản</h1>
+
       <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar */}
         <nav className="w-full md:w-56 shrink-0">
@@ -45,11 +45,11 @@ export default function ProfilePage() {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => setActiveTab(tab.id)} aria-pressed={activeTab === tab.id}
                 className={`flex items-center justify-center md:justify-start gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap snap-start flex-1 md:flex-none ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white shadow-md'
-                    : 'text-muted-foreground hover:bg-slate-50 dark:hover:bg-white/5 hover:text-foreground'
+                    ? 'bg-primary-soft text-primary'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
               >
                 <tab.icon className="w-4 h-4 shrink-0" />
@@ -117,68 +117,68 @@ function PersonalInfoTab({ user, refreshUser }: { user: any; refreshUser: () => 
   };
 
   const words = name ? name.trim().split(/\s+/) : [];
-  const initials = words.length > 1 
+  const initials = words.length > 1
     ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    : words.length === 1 
-      ? words[0].slice(0, 2).toUpperCase() 
+    : words.length === 1
+      ? words[0].slice(0, 2).toUpperCase()
       : 'U';
 
   return (
-    <Card className="rounded-2xl md:rounded-[32px] border-slate-200 dark:border-white/10 shadow-sm">
-      <CardHeader className="pb-4 border-b border-slate-100 dark:border-white/5 mb-6">
-        <CardTitle className="flex items-center gap-2 text-xl md:text-2xl font-bold text-[#1e1b4b] dark:text-white">
-          <UserIcon className="w-5 h-5 md:w-6 md:h-6 text-fuchsia-500" /> Thông tin cá nhân
+    <Card className="rounded-2xl md:rounded-xl border-border shadow-soft">
+      <CardHeader className="pb-4 border-b border-border mb-6">
+        <CardTitle className="flex items-center gap-2 text-xl md:text-2xl font-bold text-foreground">
+          <UserIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" /> Thông tin cá nhân
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-8 px-4 md:px-8">
         {/* Avatar */}
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-6">
           <div className="relative group">
-            <Avatar className="w-20 h-20 md:w-24 md:h-24 border-[3px] border-white dark:border-[#1a1625] shadow-md">
+            <Avatar className="w-20 h-20 md:w-24 md:h-24 border-[3px] border-border shadow-card">
               <AvatarImage src={avatarPreview} className="object-cover" />
-              <AvatarFallback className="text-2xl font-bold bg-gradient-to-br from-fuchsia-500 to-pink-500 text-white">{initials}</AvatarFallback>
+              <AvatarFallback className="text-2xl font-bold bg-primary text-primary-foreground">{initials}</AvatarFallback>
             </Avatar>
-            <label className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity backdrop-blur-sm">
+            <label className="absolute inset-0 flex items-center justify-center bg-overlay/60 rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 cursor-pointer transition-opacity backdrop-blur-sm">
               <Camera className="w-6 h-6 text-white" />
-              <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+              <input aria-label="Đổi ảnh đại diện" type="file" accept="image/*" className="sr-only" onChange={handleAvatarChange} />
             </label>
           </div>
           <div>
-            <h3 className="font-bold text-xl md:text-2xl text-[#1e1b4b] dark:text-white mb-2">{name}</h3>
-            <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-white/10 dark:text-slate-300 dark:hover:bg-white/20 border-0 rounded-lg px-3 py-1">
+            <h3 className="font-bold text-xl md:text-2xl text-foreground mb-2">{name}</h3>
+            <Badge className="bg-muted text-foreground hover:bg-muted border-0 rounded-lg px-3 py-1">
               {user.role === 'teacher' ? '👨‍🏫 Giáo viên' : '🎓 Học sinh'}
             </Badge>
           </div>
         </div>
 
-        <Separator className="bg-slate-100 dark:bg-white/5" />
+        <Separator className="bg-muted" />
 
         {/* Form fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2.5">
-            <Label className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold"><UserIcon className="w-4 h-4 text-slate-400" /> Họ và tên</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nhập họ và tên" className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 h-12 px-5 text-base font-medium rounded-[16px] focus-visible:ring-fuchsia-500" />
+            <Label htmlFor="profile-name" className="flex items-center gap-2 text-foreground font-semibold"><UserIcon className="w-4 h-4 text-muted-foreground" /> Họ và tên</Label>
+            <Input id="profile-name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nhập họ và tên" className="bg-surface border-control h-12 px-4 text-base rounded-md focus-visible:ring-primary" />
           </div>
 
           <div className="space-y-2.5">
-            <Label className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold"><Mail className="w-4 h-4 text-slate-400" /> Email</Label>
-            <Input value={user.email} disabled className="opacity-70 bg-slate-100 dark:bg-black/20 border-transparent h-12 px-5 text-base font-medium rounded-[16px]" />
-            <p className="text-xs text-slate-500 font-medium px-1">Email không thể thay đổi</p>
+            <Label htmlFor="profile-email" className="flex items-center gap-2 text-foreground font-semibold"><Mail className="w-4 h-4 text-muted-foreground" /> Email</Label>
+            <Input id="profile-email" value={user.email} disabled className="opacity-70 bg-surface border-transparent h-12 px-5 text-base font-medium rounded-md" />
+            <p className="text-xs text-muted-foreground font-medium px-1">Email không thể thay đổi</p>
           </div>
 
           <div className="space-y-2.5">
-            <Label className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold"><Phone className="w-4 h-4 text-slate-400" /> Số điện thoại</Label>
-            <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="0901234567" className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 h-12 px-5 text-base font-medium rounded-[16px] focus-visible:ring-fuchsia-500" />
+            <Label htmlFor="profile-phone" className="flex items-center gap-2 text-foreground font-semibold"><Phone className="w-4 h-4 text-muted-foreground" /> Số điện thoại</Label>
+            <Input id="profile-phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="0901234567" className="bg-surface border-control h-12 px-4 text-base rounded-md focus-visible:ring-primary" />
           </div>
 
           <div className="space-y-2.5">
-            <Label className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold"><CalendarDays className="w-4 h-4 text-slate-400" /> Ngày sinh</Label>
-            <Input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 h-12 px-5 text-base font-medium rounded-[16px] focus-visible:ring-fuchsia-500" />
+            <Label htmlFor="profile-birth" className="flex items-center gap-2 text-foreground font-semibold"><CalendarDays className="w-4 h-4 text-muted-foreground" /> Ngày sinh</Label>
+            <Input id="profile-birth" type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="bg-surface border-control h-12 px-4 text-base rounded-md focus-visible:ring-primary" />
           </div>
         </div>
 
         <div className="pt-4 flex items-center justify-end">
-          <Button onClick={handleSave} disabled={saving} className="w-full md:w-auto min-w-[140px] h-12 rounded-[16px] bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white font-bold text-base shadow-lg shadow-fuchsia-500/25 hover:opacity-90">
+          <Button onClick={handleSave} disabled={saving} className="w-full md:w-auto min-w-[140px] h-12 rounded-md bg-primary text-primary-foreground font-bold text-base shadow-card hover:opacity-90">
             {saving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Save className="w-5 h-5 mr-2" />}
             {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
           </Button>
@@ -253,18 +253,18 @@ function SecurityTab({ logoutAllDevices }: { logoutAllDevices: () => Promise<voi
   return (
     <div className="space-y-6">
       {/* Change Password */}
-      <Card className="rounded-2xl md:rounded-[32px] border-slate-200 dark:border-white/10 shadow-sm">
-        <CardHeader className="pb-4 border-b border-slate-100 dark:border-white/5 mb-6">
-          <CardTitle className="flex items-center gap-2 text-xl md:text-2xl font-bold text-[#1e1b4b] dark:text-white">
-            <Shield className="w-5 h-5 md:w-6 md:h-6 text-fuchsia-500" /> Đổi mật khẩu
+      <Card className="rounded-2xl md:rounded-xl border-border shadow-soft">
+        <CardHeader className="pb-4 border-b border-border mb-6">
+          <CardTitle className="flex items-center gap-2 text-xl md:text-2xl font-bold text-foreground">
+            <Shield className="w-5 h-5 md:w-6 md:h-6 text-primary" /> Đổi mật khẩu
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 px-4 md:px-8 pb-8">
           {message && (
             <div className={`flex items-center gap-2 p-3 rounded-lg text-sm ${
-              message.type === 'success' 
-                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' 
-                : 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400'
+              message.type === 'success'
+                ? 'bg-success-soft text-success'
+                : 'bg-destructive-soft text-destructive'
             }`}>
               {message.type === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
               {message.text}
@@ -272,32 +272,32 @@ function SecurityTab({ logoutAllDevices }: { logoutAllDevices: () => Promise<voi
           )}
 
           <div className="space-y-2.5">
-            <Label className="text-slate-700 dark:text-slate-300 font-semibold">Mật khẩu cũ</Label>
+            <Label htmlFor="profile-old-password" className="text-foreground font-semibold">Mật khẩu cũ</Label>
             <div className="relative">
-              <Input type={showOld ? 'text' : 'password'} value={oldPass} onChange={(e) => setOldPass(e.target.value)} placeholder="Nhập mật khẩu cũ" className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 h-12 px-5 text-base font-medium rounded-[16px] focus-visible:ring-fuchsia-500" />
-              <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" onClick={() => setShowOld(!showOld)}>
+              <Input id="profile-old-password" autoComplete="current-password" type={showOld ? 'text' : 'password'} value={oldPass} onChange={(e) => setOldPass(e.target.value)} placeholder="Nhập mật khẩu cũ" className="pr-12 bg-surface border-control h-12 px-4 text-base rounded-md focus-visible:ring-primary" />
+              <button type="button" className="absolute right-1 top-1/2 flex h-11 w-11 items-center justify-center -translate-y-1/2 rounded-md text-muted-foreground hover:text-foreground" aria-label={showOld ? "Ẩn mật khẩu cũ" : "Hiện mật khẩu cũ"} aria-pressed={showOld} onClick={() => setShowOld(!showOld)}>
                 {showOld ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
 
           <div className="space-y-2.5">
-            <Label className="text-slate-700 dark:text-slate-300 font-semibold">Mật khẩu mới</Label>
+            <Label htmlFor="profile-new-password" className="text-foreground font-semibold">Mật khẩu mới</Label>
             <div className="relative">
-              <Input type={showNew ? 'text' : 'password'} value={newPass} onChange={(e) => setNewPass(e.target.value)} placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)" className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 h-12 px-5 text-base font-medium rounded-[16px] focus-visible:ring-fuchsia-500" />
-              <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" onClick={() => setShowNew(!showNew)}>
+              <Input id="profile-new-password" autoComplete="new-password" type={showNew ? 'text' : 'password'} value={newPass} onChange={(e) => setNewPass(e.target.value)} placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)" className="pr-12 bg-surface border-control h-12 px-4 text-base rounded-md focus-visible:ring-primary" />
+              <button type="button" className="absolute right-1 top-1/2 flex h-11 w-11 items-center justify-center -translate-y-1/2 rounded-md text-muted-foreground hover:text-foreground" aria-label={showNew ? "Ẩn mật khẩu mới" : "Hiện mật khẩu mới"} aria-pressed={showNew} onClick={() => setShowNew(!showNew)}>
                 {showNew ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
 
           <div className="space-y-2.5">
-            <Label className="text-slate-700 dark:text-slate-300 font-semibold">Xác nhận mật khẩu mới</Label>
-            <Input type="password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} placeholder="Nhập lại mật khẩu mới" className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 h-12 px-5 text-base font-medium rounded-[16px] focus-visible:ring-fuchsia-500" />
+            <Label htmlFor="profile-confirm-password" className="text-foreground font-semibold">Xác nhận mật khẩu mới</Label>
+            <Input id="profile-confirm-password" autoComplete="new-password" type="password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} placeholder="Nhập lại mật khẩu mới" className="bg-surface border-control h-12 px-4 text-base rounded-md focus-visible:ring-primary" />
           </div>
 
           <div className="pt-2 flex justify-end">
-            <Button onClick={handleChangePassword} disabled={saving || !oldPass || !newPass || !confirmPass} className="w-full md:w-auto min-w-[140px] h-12 rounded-[16px] bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white font-bold text-base shadow-lg shadow-fuchsia-500/25 hover:opacity-90">
+            <Button onClick={handleChangePassword} disabled={saving || !oldPass || !newPass || !confirmPass} className="w-full md:w-auto min-w-[140px] h-12 rounded-md bg-primary text-primary-foreground font-bold text-base shadow-card hover:opacity-90">
               {saving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Shield className="w-5 h-5 mr-2" />}
               {saving ? 'Đang xử lý...' : 'Đổi mật khẩu'}
             </Button>
@@ -306,9 +306,9 @@ function SecurityTab({ logoutAllDevices }: { logoutAllDevices: () => Promise<voi
       </Card>
 
       {/* Logout All Devices */}
-      <Card className="rounded-2xl border-red-200 dark:border-red-900/50">
+      <Card className="rounded-2xl border-destructive">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-600 dark:text-red-400">
+          <CardTitle className="flex items-center gap-2 text-destructive">
             <LogOut className="w-5 h-5" /> Đăng xuất trên tất cả thiết bị
           </CardTitle>
         </CardHeader>

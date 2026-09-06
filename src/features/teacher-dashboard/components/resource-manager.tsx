@@ -11,7 +11,7 @@ export const ResourceManager = () => {
   ];
 
   return (
-    <Card className="rounded-2xl border border-border bg-card shadow-sm mt-8">
+    <Card className="rounded-2xl border border-border bg-card shadow-soft mt-8">
       <CardHeader>
         <CardTitle className="text-xl">Quản lý Tài nguyên</CardTitle>
       </CardHeader>
@@ -23,7 +23,7 @@ export const ResourceManager = () => {
                 <h3 className="font-semibold flex items-center gap-2">
                   <sec.icon className="w-4 h-4 text-primary" /> {sec.title}
                 </h3>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-primary">
+                <Button variant="ghost" size="icon" className="h-11 w-11 text-primary">
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -34,7 +34,7 @@ export const ResourceManager = () => {
                       <p className="text-sm font-medium line-clamp-1">{item.title}</p>
                       <p className="text-xs text-muted-foreground">{item.date}</p>
                     </div>
-                    <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 h-8 w-8 text-red-500">
+                    <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 h-11 w-11 text-destructive">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>

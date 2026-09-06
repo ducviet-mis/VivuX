@@ -20,19 +20,19 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
       {options.map((option, idx) => {
         const isSelected = selectedAnswer === idx;
         const isCorrect = correctAnswer === idx;
-        
-        let stateClass = "bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 shadow-sm";
-        let letterClass = "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 font-bold";
+
+        let stateClass = "bg-card border-border hover:border-primary hover:bg-primary-soft shadow-soft";
+        let letterClass = "bg-muted text-muted-foreground font-bold";
 
         if (isAnswered) {
           if (isCorrect) {
-            stateClass = "bg-emerald-50 border-emerald-400 dark:bg-emerald-900/30 dark:border-emerald-500 shadow-md ring-2 ring-emerald-500/20";
-            letterClass = "bg-emerald-500 text-white font-bold";
+            stateClass = "bg-success-soft border-success shadow-card ring-2 ring-success/20";
+            letterClass = "bg-success text-success-foreground font-bold";
           } else if (isSelected && !isCorrect) {
-            stateClass = "bg-red-50 border-red-400 dark:bg-red-900/30 dark:border-red-500 shadow-sm";
-            letterClass = "bg-red-500 text-white font-bold";
+            stateClass = "bg-destructive-soft border-destructive shadow-soft";
+            letterClass = "bg-destructive text-destructive-foreground font-bold";
           } else {
-            stateClass = "bg-white/50 dark:bg-white/5 border-slate-200 dark:border-white/5 opacity-50 grayscale-[0.5]";
+            stateClass = "bg-card border-border opacity-50 grayscale-[0.5]";
           }
         }
 
@@ -41,20 +41,22 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
             key={idx}
             onClick={() => onSelect(idx)}
             disabled={isAnswered}
+            aria-pressed={isSelected}
+            aria-label={`${letters[idx]}: ${option}${isAnswered ? (isCorrect ? '. Đáp án đúng' : isSelected ? '. Bạn đã chọn, chưa chính xác' : '') : ''}`}
             className={cn(
               "flex items-center gap-3 md:gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all duration-200 text-left group",
               stateClass,
-              !isAnswered && "hover:shadow-md hover:-translate-y-0.5"
+              !isAnswered && "hover:shadow-card hover:-translate-y-0.5"
             )}
           >
             <div className={cn(
               "w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-sm transition-colors",
               letterClass,
-              !isAnswered && "group-hover:bg-fuchsia-100 dark:group-hover:bg-fuchsia-900 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-300"
+              !isAnswered && "group-hover:bg-primary-soft group-hover:text-primary"
             )}>
               {letters[idx]}
             </div>
-            <div className="flex-1 text-[#1e1b4b] dark:text-slate-200">
+            <div className="flex-1 text-foreground">
               <MathRenderer content={formatOptionMath(option)} />
             </div>
           </button>

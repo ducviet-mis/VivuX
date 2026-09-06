@@ -92,7 +92,7 @@ export const FeeCalculator = () => {
   };
 
   return (
-    <Card className="rounded-2xl shadow-sm h-full">
+    <Card className="rounded-2xl shadow-soft h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl">
           <Calculator className="w-5 h-5 text-primary" /> Tính học phí
@@ -121,8 +121,8 @@ export const FeeCalculator = () => {
           </div>
         </div>
 
-        <div className="border rounded-xl overflow-hidden">
-          <table className="w-full text-sm text-left">
+        <div className="max-w-full overflow-x-auto rounded-lg border border-border" tabIndex={0} role="region" aria-label="Bảng học phí, cuộn ngang để xem đầy đủ">
+          <table className="w-full min-w-[560px] text-sm text-left">
             <thead className="bg-muted text-muted-foreground">
               <tr>
                 <th className="px-4 py-3 font-medium">Họ tên học sinh</th>
@@ -145,7 +145,7 @@ export const FeeCalculator = () => {
                     <tr key={s.id} className="hover:bg-muted/50">
                       <td className="px-4 py-3 font-medium">{s.name}</td>
                       <td className="px-4 py-3 text-center">{calculateForStudent(s.id).sessions}</td>
-                      <td className="px-4 py-3 text-right text-red-600 font-semibold">{formatter.format(subtotal)}</td>
+                      <td className="px-4 py-3 text-right text-destructive font-semibold">{formatter.format(subtotal)}</td>
                       <td className="px-4 py-3 text-center">
                         <Button size="sm" onClick={() => handleExportClick(s.id)}>
                           <FileText className="w-4 h-4 mr-1" /> Xuất phiếu

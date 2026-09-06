@@ -47,11 +47,11 @@ export default function CreateExamPage() {
 
   return (
     <div className="container max-w-4xl py-8">
-      <PageHeader 
-        title="Tạo đề thi mới" 
+      <PageHeader
+        title="Tạo đề thi mới"
         description="Thiết lập đề thi từ file PDF và cấu hình đáp án"
       />
-      
+
       {/* Step Indicator */}
       <div className="flex items-center justify-between mb-8">
         {steps.map((s, idx) => (
@@ -82,7 +82,7 @@ export default function CreateExamPage() {
       </div>
 
       <div className="mt-12">
-        <Card className="rounded-2xl border border-border bg-card shadow-sm">
+        <Card className="rounded-2xl border border-border bg-card shadow-soft">
           <CardHeader>
             <CardTitle>{steps[step - 1].title}</CardTitle>
           </CardHeader>
@@ -90,18 +90,18 @@ export default function CreateExamPage() {
             {step === 1 && (
               <ExamUploadForm pdfFile={pdfFile} setPdfFile={setPdfFile} />
             )}
-            
+
             {step === 2 && (
-              <TimeSetting 
-                duration={examConfig.durationMinutes || 45} 
-                setDuration={setDuration} 
+              <TimeSetting
+                duration={examConfig.durationMinutes || 45}
+                setDuration={setDuration}
               />
             )}
-            
+
             {step === 3 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <AnswerKeyInput 
+                  <AnswerKeyInput
                     answerType={answerType || 'mcq'}
                     setAnswerType={setAnswerType}
                     answerInput={answerInput}
@@ -124,17 +124,17 @@ export default function CreateExamPage() {
           </CardContent>
         </Card>
       </div>
-      
+
       <div className="flex justify-between mt-8">
-        <Button 
-          variant="outline" 
-          onClick={prevStep} 
+        <Button
+          variant="outline"
+          onClick={prevStep}
           disabled={step === 1}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Quay lại
         </Button>
-        
+
         {step < 3 && (
           <Button onClick={nextStep} disabled={step === 1 && !pdfFile}>
             Tiếp tục

@@ -31,14 +31,14 @@ export function ChapterList({ chapters, progress, wrongCounts, savedCounts }: Ch
               onClick={() => toggleChapter(chapter.id)}
             >
               <div className="flex items-center gap-3">
-                {isExpanded ? <ChevronDown className="w-5 h-5 text-teal-600" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
+                {isExpanded ? <ChevronDown className="w-5 h-5 text-info" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
                 <span className="font-semibold text-card-foreground text-left">{chapter.title}</span>
               </div>
-              <Badge variant="secondary" className="bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">
+              <Badge variant="secondary" className="bg-info-soft text-info">
                 {chapter.lessons.length} bài học
               </Badge>
             </button>
-            
+
             {isExpanded && (
               <div className="p-4 pt-0 border-t border-border bg-background/50">
                 <LessonList lessons={chapter.lessons} progress={progress} wrongCounts={wrongCounts} savedCounts={savedCounts} />

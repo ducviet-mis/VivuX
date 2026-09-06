@@ -33,7 +33,7 @@ export function WrongQuestionList() {
     <div className="space-y-4">
       {wrongQuestions.map((q) => (
         <Card key={q.id} className="overflow-hidden transition-all">
-          <div className="p-4 sm:p-6 border-l-4 border-red-500 flex flex-col gap-4">
+          <div className="p-4 sm:p-6 border-l-4 border-destructive flex flex-col gap-4">
             <div className="flex items-start justify-between gap-4">
               <p className="font-medium text-foreground line-clamp-2">{q.content}</p>
               <Link href={`/practice/${q.lessonId}`}>
@@ -42,13 +42,13 @@ export function WrongQuestionList() {
                 </Badge>
               </Link>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-              <div className="flex flex-col gap-1 p-3 rounded-lg bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400">
+              <div className="flex flex-col gap-1 p-3 rounded-lg bg-destructive-soft text-destructive">
                 <span className="flex items-center gap-1 font-semibold text-xs opacity-70"><X className="w-3 h-3"/> Bạn chọn:</span>
                 <span>{letters[q.selectedAnswer] || q.selectedAnswer}</span>
               </div>
-              <div className="flex flex-col gap-1 p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400">
+              <div className="flex flex-col gap-1 p-3 rounded-lg bg-success-soft text-success">
                 <span className="flex items-center gap-1 font-semibold text-xs opacity-70"><Check className="w-3 h-3"/> Đáp án đúng:</span>
                 <span>{letters[q.correctAnswer] || q.correctAnswer}</span>
               </div>

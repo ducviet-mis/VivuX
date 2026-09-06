@@ -40,7 +40,8 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
     },
     editorProps: {
       attributes: {
-        className: 'prose prose-slate dark:prose-invert max-w-none focus:outline-none min-h-[400px] px-4 py-4',
+        class: 'prose vivux-prose max-w-none min-h-[400px] px-4 py-4',
+        'aria-label': 'Nội dung bài viết',
       },
     },
   });
@@ -76,29 +77,29 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
   const setLink = () => {
     const previousUrl = editor.getAttributes('link').href;
     const url = window.prompt('Nhập đường dẫn liên kết:', previousUrl);
-    
+
     if (url === null) {
       return; // cancelled
     }
-    
+
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
       return;
     }
-    
+
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-card">
+    <div className="border border-control rounded-xl overflow-hidden bg-card focus-within:ring-2 focus-within:ring-primary/50 focus-within:ring-offset-2 focus-within:ring-offset-background">
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted/30">
         <Button
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive('bold') && "bg-muted text-primary font-bold")}
+          aria-label="In đậm" aria-pressed={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()}
+          className={cn("h-11 w-11 p-0", editor.isActive('bold') && "bg-muted text-primary font-bold")}
         >
           <Bold className="w-4 h-4" />
         </Button>
@@ -106,20 +107,20 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive('italic') && "bg-muted text-primary")}
+          aria-label="In nghiêng" aria-pressed={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={cn("h-11 w-11 p-0", editor.isActive('italic') && "bg-muted text-primary")}
         >
           <Italic className="w-4 h-4" />
         </Button>
-        
+
         <div className="w-px h-6 bg-border mx-1" />
-        
+
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={cn("h-8 px-2 font-bold", editor.isActive('heading', { level: 2 }) && "bg-muted text-primary")}
+          className={cn("h-11 px-3 font-bold", editor.isActive('heading', { level: 2 }) && "bg-muted text-primary")}
         >
           H2
         </Button>
@@ -128,31 +129,31 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={cn("h-8 px-2 font-semibold", editor.isActive('heading', { level: 3 }) && "bg-muted text-primary")}
+          className={cn("h-11 px-3 font-semibold", editor.isActive('heading', { level: 3 }) && "bg-muted text-primary")}
         >
           H3
         </Button>
-        
-        <div className="w-px h-6 bg-border mx-1" />
-        
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive('blockquote') && "bg-muted text-primary")}
-        >
-          <Quote className="w-4 h-4" />
-        </Button>
-        
+
         <div className="w-px h-6 bg-border mx-1" />
 
         <Button
           type="button"
           variant="ghost"
           size="sm"
-          onClick={setLink}
-          className={cn("h-8 w-8 p-0", editor.isActive('link') && "bg-muted text-primary")}
+          aria-label="Trích dẫn" aria-pressed={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          className={cn("h-11 w-11 p-0", editor.isActive('blockquote') && "bg-muted text-primary")}
+        >
+          <Quote className="w-4 h-4" />
+        </Button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          aria-label="Chèn liên kết" onClick={setLink}
+          className={cn("h-11 w-11 p-0", editor.isActive('link') && "bg-muted text-primary")}
         >
           <LinkIcon className="w-4 h-4" />
         </Button>
@@ -160,25 +161,25 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
           type="button"
           variant="ghost"
           size="sm"
-          onClick={addImage}
+          aria-label="Chèn ảnh" onClick={addImage}
           disabled={isUploading}
-          className="h-8 w-8 p-0"
+          className="h-11 w-11 p-0"
         >
           {isUploading ? <div className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" /> : <ImageIcon className="w-4 h-4" />}
         </Button>
       </div>
-      
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        onChange={handleFileChange} 
-        accept="image/*" 
-        className="hidden" 
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        className="hidden"
       />
 
       {/* Editor Content */}
       <EditorContent editor={editor} />
-      
+
       <style jsx global>{`
         .ProseMirror {
           outline: none !important;
@@ -192,24 +193,24 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         .ProseMirror p.is-editor-empty:first-child::before {
           content: attr(data-placeholder);
           float: left;
-          color: #adb5bd;
+          color: rgb(var(--color-text-secondary));
           pointer-events: none;
           height: 0;
         }
         .ProseMirror img {
           max-width: 100%;
           height: auto;
-          border-radius: 0.5rem;
+          border-radius: var(--radius-md);
           margin: 1.5rem auto;
           display: block;
         }
         .ProseMirror blockquote {
-          border-left: 4px solid var(--primary);
+          border-left: 3px solid rgb(var(--color-special));
           padding-left: 1rem;
           margin-left: 0;
           margin-right: 0;
           font-style: italic;
-          color: var(--muted-foreground);
+          color: rgb(var(--color-text-secondary));
         }
       `}</style>
     </div>

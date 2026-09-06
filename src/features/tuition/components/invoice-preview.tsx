@@ -8,7 +8,7 @@ import { useInvoice } from "../hooks/use-invoice";
 
 export const InvoicePreview = ({ data, open, onOpenChange }: { data: InvoiceData | null, open: boolean, onOpenChange: (o: boolean) => void }) => {
   const { printInvoice, downloadInvoice } = useInvoice();
-  
+
   if (!data) return null;
 
   return (
@@ -17,7 +17,7 @@ export const InvoicePreview = ({ data, open, onOpenChange }: { data: InvoiceData
         <DialogHeader>
           <DialogTitle>Xem trước Phiếu Thu</DialogTitle>
         </DialogHeader>
-        <div className="flex-1 overflow-auto bg-gray-100 p-4 rounded-md">
+        <div className="flex-1 overflow-auto bg-muted p-4 rounded-md">
           <InvoiceTemplate data={data} />
         </div>
         <div className="flex justify-end gap-2 mt-4">

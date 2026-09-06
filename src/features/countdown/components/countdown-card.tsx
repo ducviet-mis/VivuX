@@ -16,10 +16,10 @@ const icons = [BookOpenCheck, GraduationCap, Trophy];
 function CountdownItem({ exam, icon: Icon, onRemove }: { exam: ExamDate, icon: any, onRemove: (id: string) => void }) {
   const targetDate = new Date(exam.date);
   const { days, hours, minutes } = useCountdown(targetDate);
-  
+
   const isUrgent = days < 30;
   const isWarning = days >= 30 && days < 60;
-  
+
   return (
     <div className="group flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-surface p-3">
       <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -31,8 +31,8 @@ function CountdownItem({ exam, icon: Icon, onRemove }: { exam: ExamDate, icon: a
       <div className="flex items-center gap-3">
         <div className={cn(
           "text-right flex flex-col items-end",
-          isUrgent ? "text-destructive" : 
-          isWarning ? "text-warning" : 
+          isUrgent ? "text-destructive" :
+          isWarning ? "text-warning" :
           "text-primary"
         )}>
           <div className="flex items-baseline gap-1">
@@ -41,11 +41,11 @@ function CountdownItem({ exam, icon: Icon, onRemove }: { exam: ExamDate, icon: a
           </div>
           <span className="text-xs opacity-80">{hours}h {minutes}m</span>
         </div>
-        
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          aria-label={`Xóa kỳ thi ${exam.name}`} className="h-11 w-9 text-muted-foreground hover:bg-destructive-soft hover:text-destructive"
+
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={`Xóa kỳ thi ${exam.name}`} className="h-11 w-11 text-muted-foreground hover:bg-destructive-soft hover:text-destructive"
           onClick={() => onRemove(exam.id)}
         >
           <Trash2 className="w-4 h-4" />
@@ -73,7 +73,7 @@ export function CountdownCard() {
   return (
     <Card level="supporting">
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-semibold flex items-center gap-2">
+        <CardTitle as="h2" className="text-lg font-semibold flex items-center gap-2">
           Kỳ thi sắp tới
         </CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
@@ -89,15 +89,15 @@ export function CountdownCard() {
             <div className="space-y-4 pt-4">
               <div className="space-y-2">
                 <label htmlFor="countdown-name" className="text-sm font-medium">Tên kỳ thi</label>
-                <Input 
-                  id="countdown-name" placeholder="Ví dụ: Thi cuối kì 1..." 
+                <Input
+                  id="countdown-name" placeholder="Ví dụ: Thi cuối kì 1..."
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
                 <label htmlFor="countdown-date" className="text-sm font-medium">Ngày thi</label>
-                <Input 
+                <Input
                   id="countdown-date" type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
@@ -110,10 +110,10 @@ export function CountdownCard() {
       </CardHeader>
       <CardContent className="space-y-3">
         {examDates.length > 0 ? examDates.map((exam, i) => (
-          <CountdownItem 
-            key={exam.id} 
-            exam={exam} 
-            icon={icons[i % icons.length]} 
+          <CountdownItem
+            key={exam.id}
+            exam={exam}
+            icon={icons[i % icons.length]}
             onRemove={removeExam}
           />
         )) : (

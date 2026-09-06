@@ -22,16 +22,16 @@ export function DocumentFolder({ name, items, isTeacher, onDelete }: DocumentFol
 
   return (
     <div className="border border-border rounded-lg overflow-hidden mb-2">
-      <div 
-        className="flex items-center gap-2 p-3 bg-muted/30 cursor-pointer hover:bg-muted/50 transition-colors"
+      <button type="button" aria-expanded={isOpen}
+        className="flex min-h-11 w-full items-center gap-2 p-3 text-left bg-muted/30 hover:bg-muted/50 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform" /> : <ChevronRight className="w-4 h-4 text-muted-foreground transition-transform" />}
         <Folder className="w-4 h-4 text-primary" />
         <span className="font-medium text-sm flex-1">{name}</span>
         <span className="text-xs text-muted-foreground">{items.length} mục</span>
-      </div>
-      
+      </button>
+
       {isOpen && (
         <div className="divide-y divide-border bg-card">
           {items.map(item => (
@@ -43,20 +43,20 @@ export function DocumentFolder({ name, items, isTeacher, onDelete }: DocumentFol
               <div className="flex items-center gap-2">
                 {item.type === 'exam' && classId ? (
                   <Link href={`/classroom/${classId}/exam/${item.id}`}>
-                    <Button variant="secondary" size="sm" className="h-6 text-xs px-2 py-0 gap-1 rounded-sm">
+                    <Button variant="secondary" size="sm" className="min-h-11 text-xs px-2 gap-1 rounded-md">
                       <PlayCircle className="w-3 h-3" /> Làm bài
                     </Button>
                   </Link>
                 ) : (
-                  <Link href={item.url} target="_blank" className="text-muted-foreground hover:text-primary">
+                  <Link href={item.url} target="_blank" aria-label={`Mở ${item.title}`} className="flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:text-primary">
                     <ExternalLink className="w-4 h-4" />
                   </Link>
                 )}
-                
+
                 {isTeacher && onDelete && (
-                  <button 
+                  <button
                     onClick={(e) => { e.stopPropagation(); onDelete(item.id); }}
-                    className="text-muted-foreground hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1"
+                    aria-label={`Xóa ${item.title}`} className="flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:text-destructive opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 transition-opacity ml-1"
                     title="Xóa tài liệu"
                   >
                     <Trash2 className="w-4 h-4" />

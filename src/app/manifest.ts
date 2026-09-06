@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
- 
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'VivuX',
@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Nền tảng Học & Tự luyện Toán thông minh VivuX',
     start_url: '/',
     display: 'standalone',
-    background_color: '#f7f5fa',
-    theme_color: '#1a1625',
+    background_color: '#F7F9FC',
+    theme_color: '#F7F9FC',
     orientation: 'portrait',
     icons: [
       {

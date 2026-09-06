@@ -40,18 +40,18 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
   const handleReset = async (e: React.MouseEvent, lessonId: string, level?: number) => {
     e.stopPropagation();
     if (!user?.id) return;
-    
-    const msg = level 
-      ? `Xóa toàn bộ tiến độ Level ${level} của bài này?` 
+
+    const msg = level
+      ? `Xóa toàn bộ tiến độ Level ${level} của bài này?`
       : `Xóa toàn bộ tiến độ bài này?`;
 
     const confirmed = window.confirm(msg);
     if (!confirmed) return;
-    
+
     const resetKey = level ? `${lessonId}_${level}` : lessonId;
     setResettingId(resetKey);
     const supabase = getSupabaseClient();
-    
+
     try {
       let progQuery = supabase.from('practice_progress').delete().eq('user_id', user.id).eq('lesson_id', lessonId);
       let savedQuery = supabase.from('saved_questions').delete().eq('user_id', user.id).eq('lesson_id', lessonId);
@@ -81,7 +81,7 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
         return (
           <div key={lesson.id} className="w-full">
             {/* Tên bài học */}
-            <h3 className="text-lg md:text-xl font-bold text-[#1e1b4b] dark:text-white mb-4 md:mb-6 border-b border-slate-200 dark:border-white/10 pb-2">
+            <h3 className="text-lg md:text-xl font-bold text-foreground mb-4 md:mb-6 border-b border-border pb-2">
               {lesson.title}
             </h3>
 
@@ -95,31 +95,31 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                 const isCompleted = levelProg.answered === levelProg.total && levelProg.total > 0;
                 const hasProgress = levelProg.answered > 0;
                 const correctCount = levelProg.answered - wrongCount;
-                
+
                 const isResetting = resettingId === levelKey;
 
                 return (
-                  <div 
-                    key={level.id} 
-                    className="flex flex-col p-3 md:p-4 bg-white dark:bg-white/5 rounded-[20px] md:rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-fuchsia-200 dark:hover:border-fuchsia-800 transition-all group"
+                  <div
+                    key={level.id}
+                    className="flex flex-col p-3 md:p-4 bg-card rounded-xl md:rounded-2xl border border-border shadow-soft hover:shadow-card hover:border-primary transition-all group"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <div className="font-bold text-[#1e1b4b] dark:text-white flex items-center gap-1.5 mb-0.5 text-sm md:text-base">
+                        <div className="font-bold text-foreground flex items-center gap-1.5 mb-0.5 text-sm md:text-base">
                           Level {level.id} - {level.name}
-                          {isCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                          {isCompleted && <CheckCircle2 className="w-4 h-4 text-success" />}
                         </div>
-                        <div className="text-xs md:text-sm font-medium text-slate-500">
+                        <div className="text-xs md:text-sm font-medium text-muted-foreground">
                           {levelProg.answered}/{levelProg.total} câu
                         </div>
                       </div>
-                      
+
                       {hasProgress && (
-                        <div className="flex flex-col items-end text-[11px] md:text-xs font-semibold gap-0.5">
-                          <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                        <div className="flex flex-col items-end text-xs md:text-xs font-semibold gap-0.5">
+                          <span className="flex items-center gap-1 text-success">
                             <Check className="w-3 h-3" /> {correctCount} đúng
                           </span>
-                          <span className="flex items-center gap-1 text-red-500">
+                          <span className="flex items-center gap-1 text-destructive">
                             <X className="w-3 h-3" /> {wrongCount} sai
                           </span>
                         </div>
@@ -127,9 +127,9 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                     </div>
 
                     <div className="flex items-center gap-2 mt-auto">
-                      <Button 
+                      <Button
                         onClick={() => router.push(`/practice/${lesson.id}?level=${level.id}`)}
-                        className="flex-1 rounded-xl h-10 bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:opacity-90 text-white font-bold shadow-md shadow-fuchsia-500/20 transition-all"
+                        className="flex-1 rounded-md h-11 bg-primary hover:opacity-90 text-primary-foreground font-bold shadow-card transition-all"
                       >
                         <Play className="w-4 h-4 mr-1.5 hidden md:block" />
                         Luyện tập
@@ -137,35 +137,35 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
 
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="icon" className="w-10 h-10 rounded-xl shrink-0 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5">
+                          <Button variant="outline" size="icon" aria-label="Các lựa chọn luyện tập" className="w-11 h-11 rounded-md shrink-0 text-muted-foreground border-border hover:bg-muted">
                             <MoreVertical className="w-5 h-5" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 bg-white dark:bg-[#1a1625] border-slate-100 dark:border-white/10 shadow-xl">
-                          <DropdownMenuItem 
+                        <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 bg-card border-border shadow-float">
+                          <DropdownMenuItem
                             disabled={wrongCount === 0}
                             onClick={(e) => { e.stopPropagation(); router.push(`/practice/wrong/${lesson.id}?level=${level.id}`); }}
-                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 focus:bg-red-50 dark:focus:bg-red-900/20 text-red-600 dark:text-red-400 font-medium"
+                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-destructive-soft focus:bg-destructive-soft text-destructive font-medium"
                           >
                             <RotateCcw className="w-4 h-4" />
                             <span>Thi lại câu sai ({wrongCount})</span>
                           </DropdownMenuItem>
-                          
-                          <DropdownMenuItem 
+
+                          <DropdownMenuItem
                             disabled={savedCount === 0}
                             onClick={(e) => { e.stopPropagation(); router.push(`/practice/saved/${lesson.id}?level=${level.id}`); }}
-                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 focus:bg-fuchsia-50 dark:focus:bg-fuchsia-900/20 text-fuchsia-600 dark:text-fuchsia-400 font-medium mt-1"
+                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-primary-soft focus:bg-primary-soft text-primary font-medium mt-1"
                           >
                             <ShoppingBasket className="w-4 h-4" />
                             <span>Câu hỏi đã lưu ({savedCount})</span>
                           </DropdownMenuItem>
-                          
-                          <DropdownMenuSeparator className="my-2 bg-slate-100 dark:bg-white/10" />
-                          
-                          <DropdownMenuItem 
+
+                          <DropdownMenuSeparator className="my-2 bg-muted" />
+
+                          <DropdownMenuItem
                             disabled={!hasProgress || isResetting}
                             onClick={(e) => handleReset(e, lesson.id, level.id)}
-                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5 focus:bg-slate-100 dark:focus:bg-white/5 text-slate-600 dark:text-slate-400 font-medium"
+                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-muted focus:bg-muted text-muted-foreground font-medium"
                           >
                             {isResetting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                             <span>Xóa tiến độ Level này</span>
@@ -180,10 +180,10 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
 
             {/* Trộn câu */}
             <div className="flex justify-end mt-2">
-              <MixModeDialog 
-                lessonId={lesson.id} 
-                lessonTitle={lesson.title} 
-                totalQuestions={progress[lesson.id]?.total || 0} 
+              <MixModeDialog
+                lessonId={lesson.id}
+                lessonTitle={lesson.title}
+                totalQuestions={progress[lesson.id]?.total || 0}
               />
             </div>
           </div>

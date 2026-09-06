@@ -11,7 +11,7 @@
     --color-card: 255 255 255;
     --color-surface-elevated: 255 255 255;
     --color-text-primary: 23 32 74;
-    --color-text-secondary: 104 115 143;
+    --color-text-secondary: 100 111 137;
     --color-text-muted: 100 111 137;
     --color-border: 229 233 242;
     --color-control: 135 146 171;
@@ -113,6 +113,28 @@
 }
 .katex-display { margin: .5em 0; overflow-x: auto; overflow-y: hidden; }
 .katex { font-size: 1.1em; }
+.vivux-prose {
+  --tw-prose-body: rgb(var(--color-text-primary));
+  --tw-prose-headings: rgb(var(--color-text-primary));
+  --tw-prose-lead: rgb(var(--color-text-secondary));
+  --tw-prose-links: rgb(var(--color-primary));
+  --tw-prose-bold: rgb(var(--color-text-primary));
+  --tw-prose-counters: rgb(var(--color-text-secondary));
+  --tw-prose-bullets: rgb(var(--color-special));
+  --tw-prose-hr: rgb(var(--color-border));
+  --tw-prose-quotes: rgb(var(--color-text-primary));
+  --tw-prose-quote-borders: rgb(var(--color-special));
+  --tw-prose-captions: rgb(var(--color-text-secondary));
+  --tw-prose-code: rgb(var(--color-primary));
+  --tw-prose-pre-code: rgb(var(--color-text-primary));
+  --tw-prose-pre-bg: rgb(var(--color-muted));
+  --tw-prose-th-borders: rgb(var(--color-border));
+  --tw-prose-td-borders: rgb(var(--color-border));
+  overflow-wrap: anywhere;
+}
+.vivux-prose a { text-underline-offset: 3px; }
+.vivux-prose img { border-radius: var(--radius-lg); }
+.vivux-prose :where(table) { display: block; overflow-x: auto; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgb(var(--color-control) / .5); border-radius: 999px; }

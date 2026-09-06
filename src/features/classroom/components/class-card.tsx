@@ -11,14 +11,14 @@ interface ClassCardProps {
 
 export function ClassCard({ classroom, status }: ClassCardProps) {
   const statusLabels = {
-    active: { label: 'Đang học', color: 'bg-emerald-500 hover:bg-emerald-600' },
-    paused: { label: 'Tạm dừng', color: 'bg-amber-500 hover:bg-amber-600' },
-    completed: { label: 'Đã hoàn thành', color: 'bg-blue-500 hover:bg-blue-600' }
+    active: { label: 'Đang học', color: 'bg-success hover:bg-success' },
+    paused: { label: 'Tạm dừng', color: 'bg-warning hover:bg-warning' },
+    completed: { label: 'Đã hoàn thành', color: 'bg-primary hover:bg-primary-hover' }
   };
 
   return (
     <Link href={`/classroom/${classroom.id}`}>
-      <Card className="rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 cursor-pointer h-full flex flex-col">
+      <Card className="rounded-2xl border border-border bg-card shadow-soft hover:shadow-card transition-all duration-200 hover:-translate-y-0.5 cursor-pointer h-full flex flex-col">
         <CardHeader className="pb-3">
           <div className="flex justify-between items-start gap-3">
             <CardTitle className="text-xl font-bold text-card-foreground line-clamp-2">

@@ -13,7 +13,7 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
   const router = useRouter();
   const searchParams = useSearchParams();
   const attemptId = searchParams.get('attemptId');
-  
+
   const [exam, setExam] = useState<any>(null);
   const [questions, setQuestions] = useState<any[]>([]);
   const [attempt, setAttempt] = useState<any>(null);
@@ -23,30 +23,30 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
     async function loadResult() {
       if (!attemptId) return;
       const supabase = getSupabaseClient();
-      
+
       const { data: attemptData } = await supabase
         .from('mock_exam_attempts')
         .select('*')
         .eq('id', attemptId)
         .single();
-        
+
       if (!attemptData) return;
       setAttempt(attemptData);
-      
+
       const { data: examData } = await supabase
         .from('mock_exams')
         .select('*')
         .eq('id', params.examId)
         .single();
-        
+
       if (examData) setExam(examData);
-      
+
       const { data: qData } = await supabase
         .from('mock_exam_questions')
         .select('*')
         .eq('exam_id', params.examId)
         .order('order_index');
-        
+
       if (qData) {
         const sanitized = qData.map((q: any) => ({
           ...q,
@@ -54,7 +54,7 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
         }));
         setQuestions(sanitized);
       }
-      
+
       setLoading(false);
     }
     loadResult();
@@ -67,53 +67,53 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
   };
 
   if (loading || !exam || !attempt) {
-    return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-slate-500 font-medium">Đang tải kết quả...</div>;
+    return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-muted-foreground font-medium">Đang tải kết quả...</div>;
   }
 
   return (
     <div className="w-full py-4 md:py-8">
       <div className="container max-w-4xl">
         <div className="flex items-center justify-between gap-4 mb-6">
-          <Button variant="ghost" onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} className="rounded-xl hover:bg-slate-200 dark:hover:bg-white/10">
+          <Button variant="ghost" onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} className="rounded-md hover:bg-muted">
             <ArrowLeft className="w-4 h-4 mr-2" /> Về danh sách đề
           </Button>
 
           <Link href={`/mock-exams/${exam.id}`}>
-            <Button variant="outline" className="rounded-xl border-fuchsia-200 dark:border-fuchsia-900/40 text-fuchsia-600 dark:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-950/20 font-bold gap-2">
+            <Button variant="outline" className="rounded-md border-primary text-primary hover:bg-primary-soft font-bold gap-2">
               <RotateCcw className="w-4 h-4" /> Thi lại đề này
             </Button>
           </Link>
         </div>
-        
+
         {/* Banner */}
-        <div className="bg-gradient-to-br from-fuchsia-600 to-pink-600 rounded-[32px] p-8 text-white shadow-xl shadow-pink-500/20 mb-8 text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
+        <div className="bg-hero border border-border rounded-xl p-6 sm:p-8 text-foreground shadow-card mb-8 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full opacity-10 mix-blend-overlay"></div>
           <div className="relative z-10">
             <h1 className="text-2xl font-bold opacity-90 mb-6">{exam.title}</h1>
-            
+
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
               <div className="text-center">
-                <p className="text-fuchsia-200 font-medium mb-2">ĐIỂM SỐ</p>
-                <div className="text-6xl font-extrabold tracking-tighter drop-shadow-lg">
+                <p className="text-primary font-medium mb-2">ĐIỂM SỐ</p>
+                <div className="text-6xl font-bold tracking-tighter">
                   {attempt.score.toFixed(2)}<span className="text-2xl opacity-70">/10</span>
                 </div>
               </div>
-              
+
               <div className="flex flex-row gap-8">
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-2 backdrop-blur-md">
-                    <Target className="w-6 h-6 text-emerald-300" />
+                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center mx-auto mb-2 backdrop-blur-md">
+                    <Target className="w-6 h-6 text-success" />
                   </div>
                   <p className="text-2xl font-bold">{attempt.correct_count}/{attempt.total_questions}</p>
-                  <p className="text-xs text-fuchsia-200 uppercase tracking-widest mt-1">Câu đúng</p>
+                  <p className="text-xs text-primary uppercase tracking-widest mt-1">Câu đúng</p>
                 </div>
-                
+
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-2 backdrop-blur-md">
-                    <Clock className="w-6 h-6 text-blue-300" />
+                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center mx-auto mb-2 backdrop-blur-md">
+                    <Clock className="w-6 h-6 text-primary" />
                   </div>
                   <p className="text-2xl font-bold">{formatTime(attempt.duration_used)}</p>
-                  <p className="text-xs text-fuchsia-200 uppercase tracking-widest mt-1">Thời gian</p>
+                  <p className="text-xs text-primary uppercase tracking-widest mt-1">Thời gian</p>
                 </div>
               </div>
             </div>
@@ -122,61 +122,61 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
 
         {/* Detailed Solutions */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-6">
+          <h2 className="text-2xl font-bold text-foreground flex items-center gap-2 mb-6">
             Đáp án chi tiết
           </h2>
-          
+
           {questions.map((q, idx) => {
             const studentAns = attempt.answers[q.id];
             const isCorrect = studentAns === q.correct_answer;
             const isSkipped = studentAns === undefined;
-            
+
             return (
-              <div key={q.id} className="bg-white dark:bg-[#1e1a2b] rounded-3xl p-6 shadow-md border border-slate-100 dark:border-white/5 relative overflow-hidden">
+              <div key={q.id} className="bg-card rounded-xl p-6 shadow-card border border-border relative overflow-hidden">
                 {/* Status indicator strip */}
                 <div className={cn(
                   "absolute top-0 left-0 w-2 h-full",
-                  isCorrect ? "bg-emerald-500" : isSkipped ? "bg-slate-300 dark:bg-slate-700" : "bg-red-500"
+                  isCorrect ? "bg-success" : isSkipped ? "bg-muted" : "bg-destructive"
                 )}></div>
-                
+
                 <div className="pl-4">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="font-bold text-lg text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                    <h3 className="font-bold text-lg text-foreground flex items-center gap-2">
                       Câu {idx + 1}:
                       {isCorrect ? (
-                        <span className="text-emerald-500 flex items-center text-sm bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-md">
+                        <span className="text-success flex items-center text-sm bg-success-soft px-2 py-1 rounded-md">
                           <CheckCircle2 className="w-4 h-4 mr-1" /> Đúng
                         </span>
                       ) : isSkipped ? (
-                        <span className="text-slate-500 flex items-center text-sm bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
+                        <span className="text-muted-foreground flex items-center text-sm bg-muted px-2 py-1 rounded-md">
                           Chưa làm
                         </span>
                       ) : (
-                        <span className="text-red-500 flex items-center text-sm bg-red-50 dark:bg-red-500/10 px-2 py-1 rounded-md">
+                        <span className="text-destructive flex items-center text-sm bg-destructive-soft px-2 py-1 rounded-md">
                           <XCircle className="w-4 h-4 mr-1" /> Sai
                         </span>
                       )}
                     </h3>
                   </div>
-                  
-                  <div className="prose prose-slate dark:prose-invert max-w-none mb-6 text-slate-700 dark:text-slate-300">
+
+                  <div className="prose vivux-prose max-w-none mb-6 text-foreground">
                     <MathRenderer content={q.content} />
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                     {(q.options as string[]).map((opt, optIdx) => {
                       const isStudentChoice = studentAns === optIdx;
                       const isActualCorrect = q.correct_answer === optIdx;
-                      
-                      let btnClass = "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#15121e]/50 opacity-70";
-                      let indicatorClass = "bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400";
-                      
+
+                      let btnClass = "border-border bg-muted opacity-70";
+                      let indicatorClass = "bg-muted text-muted-foreground";
+
                       if (isActualCorrect) {
-                        btnClass = "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 ring-1 ring-emerald-500 opacity-100";
-                        indicatorClass = "bg-emerald-500 text-white";
+                        btnClass = "border-success bg-success-soft ring-1 ring-success opacity-100";
+                        indicatorClass = "bg-success text-success-foreground";
                       } else if (isStudentChoice && !isActualCorrect) {
-                        btnClass = "border-red-400 bg-red-50 dark:bg-red-900/20 opacity-100";
-                        indicatorClass = "bg-red-500 text-white";
+                        btnClass = "border-destructive bg-destructive-soft opacity-100";
+                        indicatorClass = "bg-destructive text-destructive-foreground";
                       }
 
                       return (
@@ -184,22 +184,22 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
                           <div className={cn("w-8 h-8 shrink-0 rounded-full flex items-center justify-center text-sm font-bold", indicatorClass)}>
                             {['A', 'B', 'C', 'D'][optIdx]}
                           </div>
-                          <div className={cn("flex-1", isActualCorrect ? "font-semibold text-emerald-900 dark:text-emerald-100" : isStudentChoice ? "text-red-900 dark:text-red-100" : "text-slate-600 dark:text-slate-400")}>
+                          <div className={cn("flex-1", isActualCorrect ? "font-semibold text-success" : isStudentChoice ? "text-destructive" : "text-muted-foreground")}>
                             <MathRenderer content={formatOptionMath(opt)} />
                           </div>
-                          {isActualCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />}
-                          {isStudentChoice && !isActualCorrect && <XCircle className="w-5 h-5 text-red-500 shrink-0" />}
+                          {isActualCorrect && <CheckCircle2 className="w-5 h-5 text-success shrink-0" />}
+                          {isStudentChoice && !isActualCorrect && <XCircle className="w-5 h-5 text-destructive shrink-0" />}
                         </div>
                       );
                     })}
                   </div>
-                  
+
                   {q.solution && (
-                    <div className="mt-6 p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
-                      <h4 className="font-bold text-blue-800 dark:text-blue-400 mb-3 flex items-center gap-2">
+                    <div className="mt-6 p-5 rounded-2xl bg-primary-soft border border-primary">
+                      <h4 className="font-bold text-primary mb-3 flex items-center gap-2">
                         <FileText className="w-4 h-4" /> Lời giải chi tiết
                       </h4>
-                      <div className="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
+                      <div className="prose vivux-prose max-w-none text-foreground">
                         <MathRenderer content={q.solution} />
                       </div>
                     </div>
@@ -209,19 +209,19 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
             );
           })}
         </div>
-        
+
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             variant="outline"
-            onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)} 
-            className="rounded-full px-8 font-bold w-full sm:w-auto"
+            onClick={() => router.push(`/mock-exams?grade=${exam.grade}`)}
+            className="rounded-md px-8 font-bold w-full sm:w-auto"
           >
             <ArrowLeft className="w-5 h-5 mr-2" /> Về danh sách đề
           </Button>
-          
+
           <Link href={`/mock-exams/${exam.id}`} className="w-full sm:w-auto">
-            <Button size="lg" className="rounded-full bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white px-8 font-bold shadow-lg shadow-fuchsia-500/25 w-full">
+            <Button size="lg" className="rounded-md bg-primary text-primary-foreground px-8 font-bold shadow-card w-full">
               <RotateCcw className="w-5 h-5 mr-2" /> Thi lại đề này
             </Button>
           </Link>

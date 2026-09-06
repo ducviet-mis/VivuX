@@ -21,10 +21,10 @@ export const FlaggedQuestions = () => {
   }, {} as Record<string, typeof initialFlags>);
 
   return (
-    <Card id="flagged-questions" className="rounded-2xl border border-border bg-card shadow-sm h-full">
+    <Card id="flagged-questions" className="rounded-2xl border border-border bg-card shadow-soft h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl">
-          <Flag className="w-5 h-5 text-red-500" />
+          <Flag className="w-5 h-5 text-destructive" />
           Câu hỏi cần giải đáp
           <Badge variant="destructive" className="ml-auto">{flags.length}</Badge>
         </CardTitle>
@@ -32,7 +32,7 @@ export const FlaggedQuestions = () => {
       <CardContent>
         {flags.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground flex flex-col items-center">
-            <CheckCircle2 className="w-12 h-12 text-emerald-500 mb-3 opacity-50" />
+            <CheckCircle2 className="w-12 h-12 text-success mb-3 opacity-50" />
             <p>Không có câu hỏi nào cần giải đáp.</p>
           </div>
         ) : (
@@ -49,7 +49,7 @@ export const FlaggedQuestions = () => {
                           <Clock className="w-3 h-3 mr-1" /> {new Date(item.flaggedAt).toLocaleDateString('vi-VN')}
                         </p>
                       </div>
-                      <Button variant="outline" size="sm" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={() => handleDismiss(item.examId, item.questionNumber)}>
+                      <Button variant="outline" size="sm" className="text-success hover:text-success hover:bg-success-soft" onClick={() => handleDismiss(item.examId, item.questionNumber)}>
                         <CheckCircle2 className="w-4 h-4 mr-1" /> Đã giải đáp
                       </Button>
                     </div>

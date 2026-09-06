@@ -9,32 +9,32 @@ interface RoleSelectorProps {
 
 export function RoleSelector({ selectedRole, onSelect }: RoleSelectorProps) {
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div
+    <div role="group" aria-label="Vai trò tài khoản" className="grid grid-cols-2 gap-4">
+      <button type="button" aria-pressed={selectedRole === 'student'}
         onClick={() => onSelect('student')}
         className={cn(
-          "cursor-pointer p-4 rounded-3xl border-2 flex flex-col items-center justify-center gap-2 transition-all hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20",
-          selectedRole === 'student' 
-            ? "border-fuchsia-500 bg-fuchsia-50/50 dark:bg-fuchsia-900/20 text-fuchsia-600 dark:text-fuchsia-400 font-bold" 
-            : "border-slate-200 dark:border-white/10 bg-white dark:bg-[#1a1625] text-slate-500 dark:text-slate-400 font-medium"
+          "cursor-pointer p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all hover:bg-primary-soft",
+          selectedRole === 'student'
+            ? "border-primary bg-primary-soft text-primary font-bold"
+            : "border-border bg-card text-muted-foreground font-medium"
         )}
       >
         <GraduationCap className="w-8 h-8" />
         <span>Học sinh</span>
-      </div>
-      
-      <div
+      </button>
+
+      <button type="button" aria-pressed={selectedRole === 'teacher'}
         onClick={() => onSelect('teacher')}
         className={cn(
-          "cursor-pointer p-4 rounded-3xl border-2 flex flex-col items-center justify-center gap-2 transition-all hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20",
-          selectedRole === 'teacher' 
-            ? "border-fuchsia-500 bg-fuchsia-50/50 dark:bg-fuchsia-900/20 text-fuchsia-600 dark:text-fuchsia-400 font-bold" 
-            : "border-slate-200 dark:border-white/10 bg-white dark:bg-[#1a1625] text-slate-500 dark:text-slate-400 font-medium"
+          "cursor-pointer p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all hover:bg-primary-soft",
+          selectedRole === 'teacher'
+            ? "border-primary bg-primary-soft text-primary font-bold"
+            : "border-border bg-card text-muted-foreground font-medium"
         )}
       >
         <Users className="w-8 h-8" />
         <span>Giáo viên</span>
-      </div>
+      </button>
     </div>
   );
 }

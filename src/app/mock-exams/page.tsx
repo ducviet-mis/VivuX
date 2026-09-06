@@ -44,17 +44,17 @@ function MockExamsContent() {
     async function loadExams() {
       setLoading(true);
       const supabase = getSupabaseClient();
-      
+
       // Fetch exams for current grade
       const { data: examsData } = await supabase
         .from('mock_exams')
         .select('*')
         .eq('grade', parseInt(grade))
         .order('created_at', { ascending: false });
-        
+
       if (examsData) {
         setExams(examsData);
-        
+
         // Fetch all attempts for this user for these exams
         if (user) {
           const examIds = examsData.map((e: any) => e.id);
@@ -64,7 +64,7 @@ function MockExamsContent() {
             .eq('user_id', user.id)
             .in('exam_id', examIds)
             .order('created_at', { ascending: false });
-            
+
           if (attemptsData) {
             const grouped: Record<string, MockExamAttempt[]> = {};
             attemptsData.forEach((a: any) => {
@@ -79,7 +79,7 @@ function MockExamsContent() {
       }
       setLoading(false);
     }
-    
+
     loadExams();
   }, [grade, user]);
 
@@ -123,15 +123,15 @@ function MockExamsContent() {
 
   return (
     <div className="container max-w-5xl py-4 md:py-8">
-      <PageHeader 
-        title={`Thi thử Lớp ${grade}`} 
+      <PageHeader
+        title={`Thi thử Lớp ${grade}`}
         description="Làm các bài thi thử trắc nghiệm tính giờ để đánh giá năng lực của bạn."
       />
 
       {loading ? (
-        <div className="py-20 text-center animate-pulse text-slate-500">Đang tải danh sách đề thi...</div>
+        <div className="py-20 text-center animate-pulse text-muted-foreground">Đang tải danh sách đề thi...</div>
       ) : exams.length === 0 ? (
-        <div className="text-center py-20 mt-8 bg-white dark:bg-[#1a1625] rounded-3xl border border-dashed border-slate-200 dark:border-white/5 text-slate-500">
+        <div className="text-center py-20 mt-8 bg-card rounded-xl border border-dashed border-border text-muted-foreground">
           <FileText className="w-12 h-12 mx-auto mb-4 opacity-20" />
           <p className="text-lg">Hiện tại chưa có đề thi thử nào cho Lớp {grade}.</p>
         </div>
@@ -144,47 +144,47 @@ function MockExamsContent() {
             const latestAttempt = examAttempts[0];
 
             return (
-              <Card key={exam.id} className="overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-fuchsia-200 dark:hover:border-fuchsia-800 transition-all rounded-[24px] group">
+              <Card key={exam.id} className="overflow-hidden bg-card border border-border shadow-soft hover:shadow-card hover:border-primary transition-all rounded-xl group">
                 <CardContent className="p-0 flex flex-col h-full">
                   <div className="p-6 flex-1">
                     <div className="flex items-center gap-2 mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20 px-3 py-1 text-xs">
+                      <Badge variant="outline" className="bg-primary-soft text-primary border-primary px-3 py-1 text-xs">
                         <Clock className="w-3.5 h-3.5 mr-1.5" />
                         {exam.duration} phút
                       </Badge>
                     </div>
-                    
-                    <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 leading-tight group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
+
+                    <h3 className="text-xl font-bold text-foreground mb-2 leading-tight group-hover:text-primary transition-colors">
                       {exam.title}
                     </h3>
                   </div>
-                  
-                  <div className="bg-slate-50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 p-4 sm:p-5 flex items-center justify-between gap-3 mt-auto">
+
+                  <div className="bg-muted border-t border-border p-4 sm:p-5 flex items-center justify-between gap-3 mt-auto">
                     {hasAttempt ? (
                       <div className="flex flex-col min-w-0 pr-1">
-                        <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold text-sm sm:text-base">
-                          <Trophy className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-amber-500 fill-amber-500/20 shrink-0" />
+                        <div className="flex items-center gap-1.5 text-success font-bold text-sm sm:text-base">
+                          <Trophy className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-warning fill-warning/20 shrink-0" />
                           <span className="truncate">Điểm cao nhất: {bestScore.toFixed(2)}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium mt-0.5">
                           <span>Đã thi {examAttempts.length} lần</span>
                           <span>•</span>
                           <span>{formatTimeAgo(latestAttempt.created_at)}</span>
                         </div>
                       </div>
                     ) : (
-                      <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
+                      <div className="text-muted-foreground text-sm font-medium flex items-center gap-1.5">
                         <FileText className="w-4 h-4 opacity-60 shrink-0" />
                         <span>Chưa làm bài</span>
                       </div>
                     )}
-                    
+
                     <div className="flex items-center gap-2 shrink-0">
                       {hasAttempt ? (
                         <>
                           {/* Nút Thi lại */}
                           <Link href={`/mock-exams/${exam.id}`}>
-                            <Button className="rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white font-bold shadow-sm shadow-fuchsia-500/20 gap-1.5 h-10 px-4">
+                            <Button className="rounded-md bg-primary text-primary-foreground font-bold shadow-soft gap-1.5 h-11 px-4">
                               <RotateCcw className="w-4 h-4" />
                               <span>Thi lại</span>
                             </Button>
@@ -196,26 +196,26 @@ function MockExamsContent() {
                               <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-10 w-10 rounded-xl border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300"
+                                className="h-11 w-11 rounded-md border-border hover:bg-muted text-muted-foreground"
                                 title="Tùy chọn khác"
                               >
                                 <Menu className="w-4 h-4" />
                                 <span className="sr-only">Tùy chọn khác</span>
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5 shadow-lg border-slate-200 dark:border-white/10">
+                            <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5 shadow-card border-border">
                               <DropdownMenuItem
                                 onClick={() => router.push(`/mock-exams/${exam.id}/result?attemptId=${latestAttempt.id}`)}
-                                className="rounded-xl px-3 py-2.5 cursor-pointer font-semibold text-slate-700 dark:text-slate-200 focus:bg-fuchsia-50 focus:text-fuchsia-600 dark:focus:bg-fuchsia-950/30 dark:focus:text-fuchsia-300 gap-2.5 text-sm"
+                                className="rounded-xl px-3 py-2.5 cursor-pointer font-semibold text-foreground focus:bg-primary-soft focus:text-primary gap-2.5 text-sm"
                               >
-                                <Eye className="w-4 h-4 text-fuchsia-500" />
+                                <Eye className="w-4 h-4 text-primary" />
                                 <span>Xem lại lần thi gần nhất</span>
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => setSelectedExamForHistory(exam)}
-                                className="rounded-xl px-3 py-2.5 cursor-pointer font-semibold text-slate-700 dark:text-slate-200 focus:bg-fuchsia-50 focus:text-fuchsia-600 dark:focus:bg-fuchsia-950/30 dark:focus:text-fuchsia-300 gap-2.5 text-sm"
+                                className="rounded-xl px-3 py-2.5 cursor-pointer font-semibold text-foreground focus:bg-primary-soft focus:text-primary gap-2.5 text-sm"
                               >
-                                <History className="w-4 h-4 text-slate-500" />
+                                <History className="w-4 h-4 text-muted-foreground" />
                                 <span>Lịch sử các lần thi ({examAttempts.length})</span>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -224,7 +224,7 @@ function MockExamsContent() {
                       ) : (
                         /* Nút Bắt đầu làm bài khi chưa thi lần nào */
                         <Link href={`/mock-exams/${exam.id}`}>
-                          <Button className="rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white font-bold shadow-sm shadow-fuchsia-500/20 gap-1.5 h-10 px-4">
+                          <Button className="rounded-md bg-primary text-primary-foreground font-bold shadow-soft gap-1.5 h-11 px-4">
                             <Play className="w-4 h-4 fill-current" />
                             <span>Bắt đầu làm bài</span>
                           </Button>
@@ -243,11 +243,11 @@ function MockExamsContent() {
       <Dialog open={!!selectedExamForHistory} onOpenChange={(open) => !open && setSelectedExamForHistory(null)}>
         <DialogContent className="max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl p-6">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
-              <History className="w-5 h-5 text-fuchsia-500" />
+            <DialogTitle className="text-xl font-bold flex items-center gap-2 text-foreground">
+              <History className="w-5 h-5 text-primary" />
               Lịch sử làm bài
             </DialogTitle>
-            <DialogDescription className="text-sm text-slate-500">
+            <DialogDescription className="text-sm text-muted-foreground">
               {selectedExamForHistory?.title}
             </DialogDescription>
           </DialogHeader>
@@ -263,46 +263,46 @@ function MockExamsContent() {
                   key={attempt.id}
                   className={cn(
                     "p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4",
-                    isLatest 
-                      ? "bg-fuchsia-50/50 dark:bg-fuchsia-950/20 border-fuchsia-200 dark:border-fuchsia-900/40 shadow-xs"
-                      : "bg-slate-50/60 dark:bg-white/5 border-slate-200/80 dark:border-white/10"
+                    isLatest
+                      ? "bg-primary-soft border-primary shadow-soft"
+                      : "bg-muted border-border"
                   )}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+                      <span className="font-bold text-foreground text-sm">
                         Lượt thi #{attemptNum}
                       </span>
                       {isLatest && (
-                        <Badge className="bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-700 dark:text-fuchsia-300 border-0 text-[10px] px-2 py-0.5">
+                        <Badge className="bg-primary-soft text-primary border-0 text-xs px-2 py-0.5">
                           Mới nhất
                         </Badge>
                       )}
                       {isBest && (
-                        <Badge className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 border-0 text-[10px] px-2 py-0.5">
+                        <Badge className="bg-warning-soft text-warning border-0 text-xs px-2 py-0.5">
                           Điểm cao nhất
                         </Badge>
                       )}
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-slate-500">
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span>{formatDateTime(attempt.created_at)}</span>
                       <span>•</span>
                       <span>{formatDuration(attempt.duration_used)}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end gap-4 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-white/5">
+                  <div className="flex items-center justify-between sm:justify-end gap-4 pt-2 sm:pt-0 border-t sm:border-t-0 border-border">
                     <div className="text-left sm:text-right">
-                      <div className="text-xl font-extrabold text-slate-800 dark:text-slate-100">
-                        {attempt.score.toFixed(2)}<span className="text-xs text-slate-400 font-normal">/10</span>
+                      <div className="text-xl font-bold text-foreground">
+                        {attempt.score.toFixed(2)}<span className="text-xs text-muted-foreground font-normal">/10</span>
                       </div>
-                      <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                      <div className="text-xs text-success font-medium">
                         {attempt.correct_count}/{attempt.total_questions} câu đúng
                       </div>
                     </div>
 
                     <Link href={`/mock-exams/${selectedExamForHistory.id}/result?attemptId=${attempt.id}`}>
-                      <Button size="sm" className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 font-semibold text-xs h-9 px-3 gap-1.5 shadow-xs">
+                      <Button size="sm" className="rounded-md bg-muted hover:bg-muted text-foreground font-semibold text-xs h-11 px-3 gap-1.5 shadow-soft">
                         <span>Xem chi tiết</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Button>

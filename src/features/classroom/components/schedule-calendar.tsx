@@ -30,10 +30,10 @@ export function ScheduleCalendar({ classId, isTeacher }: ScheduleCalendarProps) 
       if (!classId) return;
       setLoading(true);
       const supabase = getSupabaseClient();
-      
+
       const startDate = `${year}-${String(month + 1).padStart(2, '0')}-01`;
       const endDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
-      
+
       const { data } = await supabase
         .from('schedule')
         .select('date')
@@ -41,19 +41,19 @@ export function ScheduleCalendar({ classId, isTeacher }: ScheduleCalendarProps) 
         .eq('has_class', true)
         .gte('date', startDate)
         .lte('date', endDate);
-        
+
       if (data) {
         setScheduleData(data.map((r: any) => r.date));
       }
       setLoading(false);
     }
-    
+
     fetchSchedule();
   }, [classId, year, month, daysInMonth]);
 
   const toggleDay = async (dateStr: string, currentStatus: boolean) => {
     if (!isTeacher) return;
-    
+
     const supabase = getSupabaseClient();
     if (currentStatus) {
       // Remove or set false
@@ -80,15 +80,15 @@ export function ScheduleCalendar({ classId, isTeacher }: ScheduleCalendarProps) 
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <WidgetCard 
+    <WidgetCard
       title={`Lịch học tháng ${month + 1}/${year}`}
       icon={CalendarIcon}
       headerAction={
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" onClick={prevMonth} className="h-8 w-8">
+          <Button variant="ghost" size="icon" onClick={prevMonth} aria-label="Tháng trước">
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={nextMonth} className="h-8 w-8">
+          <Button variant="ghost" size="icon" onClick={nextMonth} aria-label="Tháng sau">
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
@@ -104,16 +104,22 @@ export function ScheduleCalendar({ classId, isTeacher }: ScheduleCalendarProps) 
           <div key={`empty-${i}`} className="p-2" />
         ))}
         {days.map(d => (
-          <div 
-            key={d.day} 
+          <div
+            key={d.day}
             onClick={() => toggleDay(d.dateStr, d.hasClass)}
+            role={isTeacher ? 'button' : undefined}
+            tabIndex={isTeacher && !loading ? 0 : undefined}
+            aria-pressed={isTeacher ? d.hasClass : undefined}
+            aria-label={`${d.day}/${month + 1}/${year}: ${d.hasClass ? 'Có lịch học' : 'Không có lịch học'}`}
+            aria-current={d.dateStr === today ? 'date' : undefined}
+            onKeyDown={e => { if (isTeacher && !loading && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleDay(d.dateStr, d.hasClass); } }}
             className={cn(
-              "h-8 w-8 mx-auto flex items-center justify-center rounded-full text-sm transition-all",
-              d.hasClass 
-                ? "bg-primary/20 dark:bg-primary/30 text-primary font-bold" 
+              "h-11 w-full mx-auto flex items-center justify-center rounded-sm text-sm transition-colors",
+              d.hasClass
+                ? "bg-primary/20 text-primary font-bold"
                 : "text-foreground hover:bg-muted",
-              d.dateStr === today 
-                ? "ring-2 ring-primary ring-offset-2 ring-offset-card" 
+              d.dateStr === today
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-card"
                 : "",
               isTeacher ? "cursor-pointer hover:ring-2 hover:ring-primary/50" : ""
             )}
@@ -124,11 +130,11 @@ export function ScheduleCalendar({ classId, isTeacher }: ScheduleCalendarProps) 
       </div>
       <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground justify-center pt-2 border-t border-border/50">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-primary/20 dark:bg-primary/30 ring-1 ring-primary/50" /> 
+          <div className="w-3 h-3 rounded-full bg-primary/20 ring-1 ring-primary/50" />
           <span>Ngày có lịch học</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full border-2 border-primary" /> 
+          <div className="w-3 h-3 rounded-full border-2 border-primary" />
           <span>Hôm nay</span>
         </div>
       </div>

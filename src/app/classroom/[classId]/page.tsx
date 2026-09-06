@@ -111,8 +111,8 @@ export default function ClassDetailPage({ params }: { params: { classId: string 
 
   return (
     <div className="container py-8 max-w-7xl mx-auto">
-      <PageHeader 
-        title={classroom.name} 
+      <PageHeader
+        title={classroom.name}
         description={`Giáo viên: ${classroom.teacherName} • ${classroom.studentCount} học sinh`}
       />
 
@@ -125,10 +125,10 @@ export default function ClassDetailPage({ params }: { params: { classId: string 
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={cn(
-                  "flex-1 md:flex-none flex items-center justify-center md:justify-start gap-2.5 px-5 py-3 rounded-[16px] text-sm font-semibold transition-all whitespace-nowrap snap-start",
+                  "flex-1 md:flex-none flex items-center justify-center md:justify-start gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap snap-start",
                   activeTab === tab.key
-                    ? "bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white shadow-md shadow-fuchsia-500/20"
-                    : "bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10"
+                    ? "bg-primary text-primary-foreground shadow-card"
+                    : "bg-card border border-border text-muted-foreground hover:bg-muted"
                 )}
               >
                 <tab.icon className="w-4 h-4 shrink-0" />
@@ -143,15 +143,15 @@ export default function ClassDetailPage({ params }: { params: { classId: string 
           {activeTab === 'home' && (
             <>
               <AnnouncementBoard classId={classroom.id} isTeacher={isTeacher} />
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1">
                   <ScheduleCalendar classId={classroom.id} isTeacher={isTeacher} />
                 </div>
                 <div className="lg:col-span-2">
-                  <AttendanceTable 
-                    classId={classroom.id} 
-                    students={classroom.students} 
+                  <AttendanceTable
+                    classId={classroom.id}
+                    students={classroom.students}
                     isTeacher={isTeacher}
                   />
                 </div>

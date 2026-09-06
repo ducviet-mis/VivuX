@@ -19,7 +19,7 @@ export const ClassManagement = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  
+
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     alert('Đã copy: ' + text);
@@ -62,7 +62,7 @@ export const ClassManagement = () => {
   };
 
   return (
-    <Card className="rounded-2xl border border-border bg-card shadow-sm h-full">
+    <Card className="rounded-2xl border border-border bg-card shadow-soft h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="flex items-center gap-2 text-xl">
           <Users className="w-5 h-5 text-primary" />
@@ -79,16 +79,16 @@ export const ClassManagement = () => {
             <div className="space-y-4 pt-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Tên lớp</label>
-                <Input 
-                  placeholder="Ví dụ: Toán 8 - Nhóm B" 
+                <Input
+                  placeholder="Ví dụ: Toán 8 - Nhóm B"
                   value={newClassName}
                   onChange={(e) => setNewClassName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Mật khẩu (tùy chọn)</label>
-                <Input 
-                  type="password" 
+                <Input
+                  type="password"
                   placeholder="Mật khẩu tham gia lớp"
                   value={newClassPassword}
                   onChange={(e) => setNewClassPassword(e.target.value)}
@@ -111,14 +111,14 @@ export const ClassManagement = () => {
           <p className="text-center text-muted-foreground py-8">Chưa có lớp học nào. Bấm "Tạo lớp mới" để bắt đầu.</p>
         ) : (
           classes.map(cls => (
-            <div key={cls.id} className="p-4 rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-4">
+            <div key={cls.id} className="p-4 rounded-2xl border border-border bg-card shadow-soft hover:shadow-card transition-all duration-200 flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-semibold text-lg">{cls.name}</h4>
                   <p className="text-sm text-muted-foreground">{cls.students.length} học sinh • ID: {cls.id}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button size="icon" variant="ghost" className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 h-9 w-9"
+                  <Button size="icon" variant="ghost" className="text-destructive hover:text-destructive hover:bg-destructive-soft h-11 w-11"
                     onClick={() => handleDeleteClass(cls.id, cls.name)}
                     disabled={deletingId === cls.id}
                   >
@@ -132,7 +132,7 @@ export const ClassManagement = () => {
               <div className="flex items-center gap-2 text-sm bg-muted p-2 rounded-md">
                 <span className="text-muted-foreground font-medium">Mã mời:</span>
                 <code className="px-2 py-1 bg-background rounded font-bold text-primary">{cls.id.slice(0, 8)}</code>
-                <Button variant="ghost" size="icon" onClick={() => handleCopy(cls.id.slice(0, 8))} className="ml-auto h-8 w-8" title="Copy mã mời">
+                <Button variant="ghost" size="icon" onClick={() => handleCopy(cls.id.slice(0, 8))} className="ml-auto h-11 w-11" title="Copy mã mời">
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>

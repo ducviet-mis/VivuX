@@ -17,7 +17,7 @@ export function JoinClassDialog({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [joining, setJoining] = useState(false);
-  
+
   const { joinClass } = useClassroom();
   const router = useRouter();
 
@@ -79,11 +79,11 @@ export function JoinClassDialog({ children }: { children: React.ReactNode }) {
         <DialogHeader>
           <DialogTitle>Tham gia lớp học</DialogTitle>
         </DialogHeader>
-        
+
         {success ? (
           <div className="flex flex-col items-center justify-center py-8 space-y-4 animate-in fade-in zoom-in">
-            <CheckCircle2 className="w-16 h-16 text-emerald-500" />
-            <p className="text-lg font-medium text-emerald-600 dark:text-emerald-400">Tham gia thành công!</p>
+            <CheckCircle2 className="w-16 h-16 text-success" />
+            <p className="text-lg font-medium text-success">Tham gia thành công!</p>
           </div>
         ) : (
           <Tabs defaultValue="id" className="w-full">
@@ -92,30 +92,30 @@ export function JoinClassDialog({ children }: { children: React.ReactNode }) {
               <TabsTrigger value="link">Link mời</TabsTrigger>
             </TabsList>
             <TabsContent value="id" className="space-y-4 pt-4">
-              <Input 
-                placeholder="Mã lớp" 
+              <Input
+                placeholder="Mã lớp"
                 value={classId}
                 onChange={(e) => setClassId(e.target.value)}
               />
-              <Input 
-                type="password" 
-                placeholder="Mật khẩu (nếu có)" 
+              <Input
+                type="password"
+                placeholder="Mật khẩu (nếu có)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {error && <p className="text-sm text-red-500 dark:text-red-400">{error}</p>}
+              {error && <p className="text-sm text-destructive">{error}</p>}
               <Button className="w-full" onClick={handleJoinById} disabled={joining || !classId}>
                 {joining ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 {joining ? 'Đang tham gia...' : 'Tham gia'}
               </Button>
             </TabsContent>
             <TabsContent value="link" className="space-y-4 pt-4">
-              <Input 
-                placeholder="Dán link mời vào đây..." 
+              <Input
+                placeholder="Dán link mời vào đây..."
                 value={inviteLink}
                 onChange={(e) => setInviteLink(e.target.value)}
               />
-              {error && <p className="text-sm text-red-500 dark:text-red-400">{error}</p>}
+              {error && <p className="text-sm text-destructive">{error}</p>}
               <Button className="w-full" onClick={handleJoinByLink} disabled={joining || !inviteLink}>
                 {joining ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 {joining ? 'Đang tham gia...' : 'Tham gia'}

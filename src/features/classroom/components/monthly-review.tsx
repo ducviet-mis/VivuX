@@ -18,10 +18,10 @@ interface MonthlyReviewProps {
 export function MonthlyReview({ students, isTeacher = false }: MonthlyReviewProps) {
   const { monthlyReviews, addMonthlyReview } = useClassroomStore();
   const { user } = useAuthStore();
-  
+
   // Teacher: select first student. Student: use their own ID
   const defaultStudentId = isTeacher ? (students[0]?.id || '') : (user?.id || '');
-  
+
   const [selectedStudent, setSelectedStudent] = useState<string>(defaultStudentId);
   const [selectedMonth, setSelectedMonth] = useState<string>(new Date().toISOString().substring(0, 7));
   const [content, setContent] = useState('');
@@ -67,7 +67,7 @@ export function MonthlyReview({ students, isTeacher = false }: MonthlyReviewProp
   });
 
   return (
-    <Card className="rounded-2xl border border-border bg-card shadow-sm mt-6">
+    <Card className="rounded-2xl border border-border bg-card shadow-soft mt-6">
       <CardHeader>
         <CardTitle className="text-lg">Nhận xét tháng</CardTitle>
       </CardHeader>
@@ -101,18 +101,18 @@ export function MonthlyReview({ students, isTeacher = false }: MonthlyReviewProp
         {isTeacher ? (
           <div className="space-y-2 flex flex-col">
             {isSaved && currentReview ? (
-              <div className="bg-muted/50 dark:bg-muted/20 p-4 rounded-lg min-h-[100px] border border-border">
+              <div className="bg-muted/50 p-4 rounded-lg min-h-[100px] border border-border">
                 <p className="whitespace-pre-wrap text-foreground/90">{content}</p>
               </div>
             ) : (
-              <Textarea 
+              <Textarea
                 placeholder="Nhập nhận xét..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className="min-h-[100px] bg-background"
               />
             )}
-            
+
             <div className="self-end">
               {isSaved && currentReview ? (
                 <Button onClick={() => setIsSaved(false)} variant="outline">
@@ -128,7 +128,7 @@ export function MonthlyReview({ students, isTeacher = false }: MonthlyReviewProp
             </div>
           </div>
         ) : (
-          <div className="bg-muted/50 dark:bg-muted/20 p-4 rounded-lg min-h-[100px] border border-border">
+          <div className="bg-muted/50 p-4 rounded-lg min-h-[100px] border border-border">
             {currentReview ? (
               <p className="whitespace-pre-wrap text-foreground/90">{currentReview.content}</p>
             ) : (

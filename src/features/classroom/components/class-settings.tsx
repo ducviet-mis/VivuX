@@ -17,7 +17,7 @@ export function ClassSettings({ classId }: ClassSettingsProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  
+
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -44,15 +44,15 @@ export function ClassSettings({ classId }: ClassSettingsProps) {
       alert('Tên lớp không được để trống');
       return;
     }
-    
+
     setSaving(true);
     const supabase = getSupabaseClient();
-    
+
     const { error } = await supabase
       .from('classes')
       .update({ name: name.trim(), password: password })
       .eq('id', classId);
-      
+
     if (error) {
       console.error(error);
       alert('Có lỗi xảy ra khi cập nhật.');
@@ -73,19 +73,19 @@ export function ClassSettings({ classId }: ClassSettingsProps) {
 
     setDeleting(true);
     const supabase = getSupabaseClient();
-    
+
     const { error } = await supabase
       .from('classes')
       .delete()
       .eq('id', classId);
-      
+
     if (error) {
       console.error(error);
       alert('Không thể xóa lớp học.');
       setDeleting(false);
     } else {
       alert('Đã xóa lớp học thành công.');
-      router.push('/teacher'); 
+      router.push('/teacher');
     }
   };
 
@@ -95,49 +95,49 @@ export function ClassSettings({ classId }: ClassSettingsProps) {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <Card className="rounded-[24px] border-none shadow-[0_8px_30px_-10px_rgba(200,180,220,0.3)] dark:shadow-none bg-white dark:bg-[#2a2438]">
+      <Card className="rounded-xl border-none shadow-card dark:shadow-none bg-card">
         <CardHeader>
-          <CardTitle className="text-[#1e1b4b] dark:text-white">Thông tin lớp học</CardTitle>
+          <CardTitle className="text-foreground">Thông tin lớp học</CardTitle>
           <CardDescription>Thay đổi tên và mật khẩu để học sinh tham gia.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="className" className="text-[#1e1b4b] dark:text-slate-200">Tên lớp học</Label>
-            <Input 
-              id="className" 
-              value={name} 
+            <Label htmlFor="className" className="text-foreground">Tên lớp học</Label>
+            <Input
+              id="className"
+              value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="VD: Toán 9 - Luyện Thi"
-              className="rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"
+              className="rounded-md border-control bg-surface"
             />
           </div>
-          
+
           <div className="space-y-2">
-            <Label htmlFor="classPwd" className="text-[#1e1b4b] dark:text-slate-200">Mật khẩu lớp (Tùy chọn)</Label>
-            <Input 
-              id="classPwd" 
-              value={password} 
+            <Label htmlFor="classPwd" className="text-foreground">Mật khẩu lớp (Tùy chọn)</Label>
+            <Input
+              id="classPwd"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Để trống nếu không yêu cầu mật khẩu"
-              className="rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"
+              className="rounded-md border-control bg-surface"
             />
-            <p className="text-xs text-slate-500">Học sinh sẽ cần nhập mật khẩu này khi tham gia lớp học qua mã.</p>
+            <p className="text-xs text-muted-foreground">Học sinh sẽ cần nhập mật khẩu này khi tham gia lớp học qua mã.</p>
           </div>
-          
+
           <div className="pt-4 flex items-center justify-between">
-            <Button 
-              onClick={handleUpdate} 
+            <Button
+              onClick={handleUpdate}
               disabled={saving}
-              className="rounded-xl bg-[#1e1b4b] hover:bg-[#1e1b4b]/90 text-white shadow-md shadow-[#1e1b4b]/20 px-8"
+              className="rounded-md bg-primary hover:bg-primary/90 text-primary-foreground shadow-card px-8"
             >
               {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
             </Button>
 
-            <Button 
+            <Button
               variant="ghost"
               onClick={handleDelete}
               disabled={deleting}
-              className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 px-4"
+              className="text-destructive hover:text-destructive hover:bg-destructive-soft px-4"
             >
               {deleting ? 'Đang xóa...' : 'Xóa lớp học'}
             </Button>

@@ -11,8 +11,8 @@ export default function ExamListPage({ params }: { params: { classId: string } }
 
   return (
     <div className="container py-8">
-      <PageHeader 
-        title="Đề thi & Đề ôn tập" 
+      <PageHeader
+        title="Đề thi & Đề ôn tập"
         description="Danh sách các bài thi và ôn tập cho lớp học"
       />
 
@@ -25,7 +25,7 @@ export default function ExamListPage({ params }: { params: { classId: string } }
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
           {exams.map(exam => (
-            <Card key={exam.id} className="rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 flex flex-col">
+            <Card key={exam.id} className="rounded-2xl border border-border bg-card shadow-soft hover:shadow-card transition-all duration-200 hover:-translate-y-0.5 flex flex-col">
               <CardHeader>
                 <CardTitle className="line-clamp-2 leading-tight">{exam.title}</CardTitle>
                 <CardDescription className="flex items-center mt-2">

@@ -19,7 +19,7 @@ export function StatsOverviewCard() {
   return (
     <Card level="supporting">
       <CardHeader className="gap-4 pb-5">
-        <CardTitle>Tổng quan học tập</CardTitle>
+        <CardTitle as="h2">Tổng quan học tập</CardTitle>
         <TimeFilterTabs value={filter} onChange={setFilter} />
       </CardHeader>
       <CardContent className="grid grid-cols-1 items-center gap-6 sm:grid-cols-[1fr_200px]">

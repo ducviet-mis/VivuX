@@ -37,7 +37,7 @@ export function GoalRing() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between gap-3 pb-5">
-        <div><CardTitle>Mục tiêu hằng ngày</CardTitle><p className="mt-1 text-sm text-muted-foreground">Từng bước nhỏ, tiến bộ mỗi ngày.</p></div>
+        <div><CardTitle as="h2">Mục tiêu hằng ngày</CardTitle><p className="mt-1 text-sm text-muted-foreground">Từng bước nhỏ, tiến bộ mỗi ngày.</p></div>
         <GoalSettingDialog />
       </CardHeader>
       <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3">

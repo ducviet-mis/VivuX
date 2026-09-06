@@ -34,11 +34,11 @@ export const QrCodeUpload = ({ onUpload, initialUrl }: QrCodeUploadProps) => {
     <div className="flex flex-col items-center justify-center min-h-[160px] gap-3 border-2 border-dashed border-border rounded-xl p-6 text-center bg-muted/10 hover:bg-muted/20 transition-colors">
       {preview ? (
         <div className="relative group">
-          <img src={preview} alt="QR Code" className="w-40 h-40 object-contain bg-white rounded-md shadow-sm p-1" />
-          <Button 
-            variant="destructive" 
-            size="icon" 
-            className="absolute -top-2 -right-2 h-7 w-7 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm" 
+          <img src={preview} alt="QR Code" className="w-40 h-40 object-contain bg-card rounded-md shadow-soft p-1" />
+          <Button
+            variant="destructive"
+            size="icon"
+            className="absolute -top-2 -right-2 h-11 w-11 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-soft"
             onClick={() => { setPreview(null); onUpload(null); }}
           >
             <X className="w-3.5 h-3.5" />

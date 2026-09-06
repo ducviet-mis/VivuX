@@ -18,13 +18,13 @@ export default function SavedLessonPracticePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const lessonId = params?.lessonId as string;
-  
+
   const levelStr = searchParams.get('level');
   const level = levelStr ? parseInt(levelStr) : null;
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const supabase = getSupabaseClient();
   const { user } = useAuthStore();
   const { savedIds, toggleSave } = useSavedQuestions(lessonId);
@@ -79,7 +79,7 @@ export default function SavedLessonPracticePage() {
         .select('*')
         .in('id', questionIds)
         .order('order_index');
-        
+
       if (data && !error) {
         const mappedQuestions: Question[] = data.map((q: any) => ({
           id: q.id,
@@ -95,7 +95,7 @@ export default function SavedLessonPracticePage() {
 
       setIsLoading(false);
     }
-    
+
     if (lessonId) {
       loadData();
     }
@@ -139,15 +139,15 @@ export default function SavedLessonPracticePage() {
     <div className="min-h-screen bg-background py-8">
       <div className="container max-w-5xl">
         <div className="flex items-center gap-4 mb-8">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-md">
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-card-foreground">Câu hỏi đã lưu: {lesson.title}</h1>
             <p className="text-sm text-muted-foreground">{chapter.title} • {grade.label}</p>
           </div>
-          <div className="ml-auto text-sm font-medium bg-card px-4 py-2 rounded-full border border-border shadow-sm">
-            Tiến độ: <span className="text-teal-600">{progress.answered}/{progress.total}</span>
+          <div className="ml-auto text-sm font-medium bg-card px-4 py-2 rounded-full border border-border shadow-soft">
+            Tiến độ: <span className="text-info">{progress.answered}/{progress.total}</span>
           </div>
         </div>
 

@@ -39,39 +39,41 @@ export function QuestionCard({
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-6 px-2">
-        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-sm font-bold shadow-sm border border-blue-200/50 dark:border-blue-800/50">
+        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-primary-soft text-primary text-sm font-bold shadow-soft border border-primary/50">
           Câu {currentIndex + 1} / {totalQuestions}
         </div>
-        
+
         {onToggleSave && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onToggleSave}
-            className={`rounded-full transition-colors ${isSaved ? 'text-fuchsia-600 bg-fuchsia-100 dark:bg-fuchsia-900/50 dark:text-fuchsia-400' : 'text-slate-400 hover:text-fuchsia-600 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20'}`}
+            className={`rounded-full transition-colors ${isSaved ? 'text-primary bg-primary-soft' : 'text-muted-foreground hover:text-primary hover:bg-primary-soft'}`}
             title={isSaved ? "Bỏ lưu câu hỏi" : "Lưu câu hỏi"}
+            aria-label={isSaved ? "Bỏ lưu câu hỏi" : "Lưu câu hỏi"}
+            aria-pressed={!!isSaved}
           >
             <ShoppingBasket className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
           </Button>
         )}
       </div>
-      
-      <Progress value={progressPercent} className="h-2 md:h-3 mb-6 md:mb-10 bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden [&>div]:bg-gradient-to-r [&>div]:from-fuchsia-500 [&>div]:to-pink-500 mx-4 md:mx-0" />
-      
-      <div className="bg-white dark:bg-[#1a1625] rounded-none md:rounded-[32px] shadow-none md:shadow-sm border-y md:border border-slate-100 dark:border-white/5 p-4 md:p-12">
-        <div className="text-lg md:text-2xl font-bold text-[#1e1b4b] dark:text-white leading-relaxed mb-6 md:mb-10">
+
+      <Progress value={progressPercent} aria-label="Tiến độ làm bài" className="h-2 md:h-3 mb-6 md:mb-10 bg-muted rounded-full overflow-hidden [&>div]:bg-primary" />
+
+      <div className="bg-card rounded-none md:rounded-xl shadow-none md:shadow-soft border-y md:border border-border p-4 md:p-12">
+        <div className="text-lg md:text-2xl font-bold text-foreground leading-relaxed mb-6 md:mb-10">
           <MathRenderer content={question.content} />
         </div>
-        
-        <AnswerOptions 
+
+        <AnswerOptions
           options={question.options}
           selectedAnswer={selectedAnswer}
           correctAnswer={question.correctAnswer}
           onSelect={onSelectAnswer}
         />
-        
+
         {showSolution && (
-          <SolutionDisplay 
+          <SolutionDisplay
             isCorrect={isCorrect!}
             correctAnswer={question.correctAnswer}
             solution={question.solution}

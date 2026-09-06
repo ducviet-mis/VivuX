@@ -18,7 +18,7 @@ export default function LessonPracticePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const lessonId = params?.lessonId as string;
-  
+
   const levelStr = searchParams.get('level');
   const level = levelStr ? parseInt(levelStr) : null;
   const mode = searchParams.get('mode');
@@ -27,7 +27,7 @@ export default function LessonPracticePage() {
   const [answeredIds, setAnsweredIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dbLessonMeta, setDbLessonMeta] = useState<{grade: number, chapter: string, title: string} | null>(null);
-  
+
   const supabase = getSupabaseClient();
   const { user } = useAuthStore();
   const { savedIds, toggleSave } = useSavedQuestions(lessonId);
@@ -52,25 +52,25 @@ export default function LessonPracticePage() {
   useEffect(() => {
     async function loadData() {
       setIsLoading(true);
-      
+
       let query = supabase
         .from('practice_questions')
         .select('*')
         .eq('lesson_id', lessonId);
-        
+
       if (level) {
         query = query.eq('difficulty_level', level);
       }
 
       const { data, error } = await query;
-        
+
       // Fetch lesson metadata from DB
       const { data: lessonData } = await supabase
         .from('practice_lessons')
         .select('*')
         .eq('id', lessonId)
         .single();
-        
+
       if (lessonData) {
         setDbLessonMeta({
           grade: lessonData.grade,
@@ -78,7 +78,7 @@ export default function LessonPracticePage() {
           title: lessonData.title
         });
       }
-        
+
       if (data && !error) {
         let finalData = data;
 
@@ -88,20 +88,20 @@ export default function LessonPracticePage() {
           const l1Ratio = parseInt(searchParams.get('l1') || '40');
           const l2Ratio = parseInt(searchParams.get('l2') || '30');
           const l3Ratio = parseInt(searchParams.get('l3') || '20');
-          
+
           const byLevel: Record<number, any[]> = { 1: [], 2: [], 3: [], 4: [] };
           data.forEach((q: any) => {
             const lvl = q.difficulty_level || 1;
             if (byLevel[lvl]) byLevel[lvl].push(q);
           });
-          
+
           const l1Count = Math.floor(count * l1Ratio / 100);
           const l2Count = Math.floor(count * l2Ratio / 100);
           const l3Count = Math.floor(count * l3Ratio / 100);
           const l4Count = count - l1Count - l2Count - l3Count;
 
           const shuffle = (arr: any[]) => [...arr].sort(() => 0.5 - Math.random());
-          
+
           const picked = [
             ...shuffle(byLevel[1]).slice(0, l1Count),
             ...shuffle(byLevel[2]).slice(0, l2Count),
@@ -133,13 +133,13 @@ export default function LessonPracticePage() {
           .select('question_id')
           .eq('lesson_id', lessonId)
           .eq('user_id', user.id);
-          
+
         if (level) {
           progQuery = progQuery.eq('difficulty_level', level);
         }
 
         const { data: progressData } = await progQuery;
-          
+
         if (progressData) {
           setAnsweredIds(progressData.map((p: { question_id: string }) => p.question_id));
         }
@@ -148,7 +148,7 @@ export default function LessonPracticePage() {
       }
       setIsLoading(false);
     }
-    
+
     if (lessonId) {
       loadData();
     }
@@ -190,21 +190,21 @@ export default function LessonPracticePage() {
 
   return (
     <div className="w-full flex flex-col md:max-w-4xl md:mx-auto md:py-4">
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#110c18]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 md:border-none md:bg-transparent md:dark:bg-transparent md:backdrop-blur-none px-3 py-3 md:px-0 md:py-0 flex items-start md:items-center gap-3 md:gap-4 mb-6 md:mb-10 shadow-sm md:shadow-none">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0 bg-white/50 hover:bg-slate-100 dark:bg-white/5 dark:hover:bg-white/10 shadow-sm border border-slate-200/50 dark:border-slate-800/50 mt-1 md:mt-0">
-          <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-slate-700 dark:text-slate-300" />
+      <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-md border-b border-border md:border-none md:bg-transparent md:dark:bg-transparent md:backdrop-blur-none px-3 py-3 md:px-0 md:py-0 flex items-start md:items-center gap-3 md:gap-4 mb-6 md:mb-10 shadow-soft md:shadow-none">
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-md shrink-0 bg-card hover:bg-muted shadow-soft border border-border mt-1 md:mt-0">
+          <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-foreground" />
         </Button>
         <div className="flex-1 min-w-0">
-          <h1 className="text-lg md:text-2xl font-bold text-[#1e1b4b] dark:text-white leading-tight truncate md:whitespace-normal">
+          <h1 className="text-lg md:text-2xl font-bold text-foreground leading-tight truncate md:whitespace-normal">
             {lesson.title}
           </h1>
-          <p className="text-xs md:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 truncate">
+          <p className="text-xs md:text-sm font-medium text-muted-foreground mt-1 truncate">
             {mode === 'mix' ? 'Luyện tập' : `${chapter.title} • ${grade.label}`}
           </p>
         </div>
         {mode !== 'mix' && (
-          <div className="shrink-0 text-xs md:text-sm font-bold bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-300 px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-sm border border-fuchsia-200/50 dark:border-fuchsia-800/50 flex flex-col md:flex-row items-center md:gap-1 mt-1 md:mt-0">
-            <span className="hidden md:inline">Tiến độ:</span> 
+          <div className="shrink-0 text-xs md:text-sm font-bold bg-primary-soft text-primary px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-soft border border-primary/50 flex flex-col md:flex-row items-center md:gap-1 mt-1 md:mt-0">
+            <span className="hidden md:inline">Tiến độ:</span>
             <span>{progress.answered}/{progress.total}</span>
           </div>
         )}
@@ -212,11 +212,11 @@ export default function LessonPracticePage() {
 
       {isLoading ? (
         <div className="flex flex-col items-center justify-center py-32">
-          <Loader2 className="w-8 h-8 animate-spin text-fuchsia-500 mb-4" />
-          <p className="text-slate-500 font-medium">Đang tải bài tập...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground font-medium">Đang tải bài tập...</p>
         </div>
       ) : questions.length === 0 ? (
-        <div className="bg-white dark:bg-[#1a1625] rounded-[32px] p-12 text-center text-slate-500 border border-slate-100 dark:border-white/5 shadow-sm">
+        <div className="bg-card rounded-xl p-12 text-center text-muted-foreground border border-border shadow-soft">
           Chưa có câu hỏi nào cho bài học này.
         </div>
       ) : (

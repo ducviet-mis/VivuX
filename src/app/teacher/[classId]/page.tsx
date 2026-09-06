@@ -48,19 +48,19 @@ export default function TeacherClassPage({ params }: { params: { classId: string
       const { data: cls } = await supabase.from('classes').select('*').eq('id', params.classId).single();
       if (cls) {
         const { data: members } = await supabase.from('class_members').select('student_id, status, joined_at').eq('class_id', params.classId);
-        
+
         let loadedStudents: any[] = [];
         if (members && members.length > 0) {
           const studentIds = members.map((m: any) => m.student_id);
           const { data: profiles } = await supabase.from('profiles').select('id, name, email').in('id', studentIds);
-          
+
           const profileMap = new Map();
           if (profiles) {
             profiles.forEach((p: any) => {
               profileMap.set(p.id, { name: p.name || '', email: p.email || '' });
             });
           }
-          
+
           loadedStudents = members.map((m: any) => ({
             id: m.student_id,
             name: profileMap.get(m.student_id)?.name || 'Học sinh',
@@ -69,7 +69,7 @@ export default function TeacherClassPage({ params }: { params: { classId: string
             joinedAt: m.joined_at || ''
           }));
         }
-        
+
         setClassroom({ id: cls.id, name: cls.name, studentCount: loadedStudents.length });
         setStudents(loadedStudents);
       }
@@ -104,7 +104,7 @@ export default function TeacherClassPage({ params }: { params: { classId: string
     newExam.title = examTitle;
     newExam.classId = params.classId;
     addExam(newExam);
-    
+
     addResource({
       id: newExam.id,
       title: examTitle,
@@ -113,7 +113,7 @@ export default function TeacherClassPage({ params }: { params: { classId: string
       folder: examFolder,
       createdAt: new Date().toISOString()
     });
-    
+
     setSaveDialogOpen(false);
     setExamTitle('');
     setExamFolder('');
@@ -130,23 +130,24 @@ export default function TeacherClassPage({ params }: { params: { classId: string
 
   return (
     <div className="container py-8 max-w-7xl mx-auto">
-      <PageHeader 
-        title={`Quản lý lớp: ${classroom.name}`} 
+      <PageHeader
+        title={`Quản lý lớp: ${classroom.name}`}
         description={`${classroom.studentCount} học sinh`}
       />
 
-      <div className="flex gap-6 mt-6">
+      <div className="flex flex-col gap-6 mt-6 lg:flex-row">
         {/* Sidebar Navigation */}
-        <div className="w-48 shrink-0">
-          <nav className="sticky top-6 space-y-1">
+        <div className="w-full shrink-0 lg:w-48">
+          <nav aria-label="Quản lý lớp học" className="flex flex-wrap gap-2 lg:sticky lg:top-24 lg:flex-col">
             {tabs.map(tab => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
+                aria-pressed={activeTab === tab.key}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                  "flex min-h-11 items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors lg:w-full",
                   activeTab === tab.key
-                    ? "bg-primary text-primary-foreground shadow-md"
+                    ? "bg-primary-soft text-primary"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
@@ -162,15 +163,15 @@ export default function TeacherClassPage({ params }: { params: { classId: string
           {activeTab === 'home' && (
             <>
               <AnnouncementBoard classId={classroom.id} isTeacher={isTeacher} />
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1">
                   <ScheduleCalendar classId={classroom.id} isTeacher={isTeacher} />
                 </div>
                 <div className="lg:col-span-2">
-                  <AttendanceTable 
-                    classId={classroom.id} 
-                    students={students} 
+                  <AttendanceTable
+                    classId={classroom.id}
+                    students={students}
                     isTeacher={isTeacher}
                   />
                 </div>
@@ -189,17 +190,17 @@ export default function TeacherClassPage({ params }: { params: { classId: string
           {activeTab === 'exam' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-6">
-                <ExamUploadForm 
+                <ExamUploadForm
                   pdfFile={examSetup.pdfFile}
                   setPdfFile={examSetup.setPdfFile}
                 />
-                <TimeSetting 
+                <TimeSetting
                   duration={examSetup.examConfig.durationMinutes || 45}
                   setDuration={examSetup.setDuration}
                 />
               </div>
               <div className="space-y-6">
-                <AnswerKeyInput 
+                <AnswerKeyInput
                   answerType={examSetup.answerType || 'mcq'}
                   setAnswerType={examSetup.setAnswerType}
                   answerInput={examSetup.answerInput}
@@ -208,7 +209,7 @@ export default function TeacherClassPage({ params }: { params: { classId: string
                   error={examSetup.parseError}
                 />
                 {examSetup.parsedAnswers.length > 0 && (
-                  <AnswerPreview 
+                  <AnswerPreview
                     answers={examSetup.parsedAnswers}
                     onConfirm={() => setSaveDialogOpen(true)}
                     onUpdateAnswer={examSetup.updateAnswer}
@@ -243,8 +244,8 @@ export default function TeacherClassPage({ params }: { params: { classId: string
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label>Tên đề thi</Label>
-              <Input 
-                placeholder="VD: Đề kiểm tra 15 phút Toán 8" 
+              <Input
+                placeholder="VD: Đề kiểm tra 15 phút Toán 8"
                 value={examTitle}
                 onChange={(e) => setExamTitle(e.target.value)}
               />
@@ -252,8 +253,8 @@ export default function TeacherClassPage({ params }: { params: { classId: string
             <div className="space-y-2">
               <Label>Thư mục</Label>
               {!isNewFolder ? (
-                <Select 
-                  value={examFolder} 
+                <Select
+                  value={examFolder}
                   onValueChange={(val) => {
                     if (val === '__new__') {
                       setIsNewFolder(true);
@@ -277,14 +278,14 @@ export default function TeacherClassPage({ params }: { params: { classId: string
                 </Select>
               ) : (
                 <div className="flex gap-2">
-                  <Input 
-                    placeholder="Tên thư mục mới..." 
+                  <Input
+                    placeholder="Tên thư mục mới..."
                     value={examFolder}
                     onChange={(e) => setExamFolder(e.target.value)}
                     autoFocus
                   />
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="shrink-0"
                     onClick={() => { setIsNewFolder(false); setExamFolder(''); }}

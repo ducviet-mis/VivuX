@@ -26,11 +26,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="container max-w-6xl py-8">
-      <PageHeader 
-        title="Quản trị viên (ADMIN)" 
+      <PageHeader
+        title="Quản trị viên (ADMIN)"
         description="Quản lý dữ liệu hệ thống, chuyên đề tự luyện và các đề thi thử."
       />
-      
+
       <div className="flex flex-col md:flex-row gap-8 mt-8">
         {/* Sidebar */}
         <aside className="w-full md:w-64 shrink-0">
@@ -39,20 +39,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-colors whitespace-nowrap",
                 pathname?.includes('/admin/practice')
-                  ? "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-400"
-                  : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+                  ? "bg-primary-soft text-primary"
+                  : "text-muted-foreground hover:bg-muted"
               )}>
                 <BookOpen className="w-5 h-5" />
                 Quản lý Tự luyện
               </div>
             </Link>
-            
+
             <Link href="/admin/mock-exams">
               <div className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-colors whitespace-nowrap",
                 pathname?.includes('/admin/mock-exams')
-                  ? "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-400"
-                  : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+                  ? "bg-primary-soft text-primary"
+                  : "text-muted-foreground hover:bg-muted"
               )}>
                 <FileText className="w-5 h-5" />
                 Quản lý Thi thử

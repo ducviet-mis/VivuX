@@ -19,9 +19,9 @@ export function ExamLayout({ onSubmit }: ExamLayoutProps) {
   if (!examConfig) return null;
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-[calc(100dvh-6rem)] min-h-[560px] bg-background overflow-hidden rounded-lg border border-border">
       {/* Sticky Header */}
-      <header className="h-14 border-b bg-card flex items-center justify-between px-4 sm:px-6 shrink-0 z-10 shadow-sm">
+      <header className="h-14 border-b bg-card flex items-center justify-between px-4 sm:px-6 shrink-0 z-10 shadow-soft">
         <div className="flex items-center truncate mr-4">
           <h1 className="font-bold text-base sm:text-lg truncate">{examConfig.title}</h1>
         </div>
@@ -32,11 +32,11 @@ export function ExamLayout({ onSubmit }: ExamLayoutProps) {
             Thí sinh: <span className="text-foreground font-semibold">{user?.name || 'Chưa đăng nhập'}</span>
           </span>
         </div>
-        
+
         <div className="flex items-center gap-3 shrink-0">
           <ExamTimer />
           <SubmitDialog onSubmit={onSubmit}>
-            <Button variant="default" size="sm" className="font-semibold shadow-md">
+            <Button variant="default" size="sm" className="font-semibold shadow-card">
               Nộp bài
             </Button>
           </SubmitDialog>
@@ -54,9 +54,9 @@ export function ExamLayout({ onSubmit }: ExamLayoutProps) {
         <div className="flex-1 min-h-0 lg:h-full overflow-hidden border-r border-border">
           <PdfViewer pdfUrl={examConfig.pdfUrl} />
         </div>
-        
+
         {/* Right panel - Answer Sheet - SCROLLABLE */}
-        <div className="h-[45vh] lg:h-full lg:w-[400px] xl:w-[440px] shrink-0 overflow-y-auto">
+        <div className="h-[40dvh] min-h-[200px] lg:h-full lg:w-[400px] xl:w-[440px] shrink-0 overflow-y-auto">
           <AnswerSheet />
         </div>
       </div>

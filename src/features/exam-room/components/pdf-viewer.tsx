@@ -16,8 +16,8 @@ export function PdfViewer({ pdfUrl }: PdfViewerProps) {
   const effectiveUrl = localPdfUrl || pdfUrl;
   // Valid if it's a base64 data URL, blob URL, or a real http URL
   const isValidUrl = effectiveUrl && effectiveUrl.length > 0 && (
-    effectiveUrl.startsWith('data:') || 
-    effectiveUrl.startsWith('blob:') || 
+    effectiveUrl.startsWith('data:') ||
+    effectiveUrl.startsWith('blob:') ||
     effectiveUrl.startsWith('http')
   );
 
@@ -33,38 +33,38 @@ export function PdfViewer({ pdfUrl }: PdfViewerProps) {
   const handleZoomOut = () => setZoom(prev => Math.max(prev - 25, 50));
 
   return (
-    <div className="w-full h-full flex flex-col bg-slate-100 dark:bg-slate-950 rounded-xl overflow-hidden border">
-      <div className="bg-white dark:bg-slate-900 border-b p-2 flex items-center justify-between shrink-0">
+    <div className="w-full h-full flex flex-col bg-muted rounded-xl overflow-hidden border">
+      <div className="bg-card border-b p-2 flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-2 text-sm font-medium">
           <FileText className="w-4 h-4 text-primary" />
           <span>Đề thi.pdf</span>
         </div>
-        
+
         <div className="flex items-center space-x-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleZoomOut}>
+          <Button variant="ghost" size="icon" className="h-11 w-11" onClick={handleZoomOut} aria-label="Thu nhỏ đề thi">
             <ZoomOut className="w-4 h-4" />
           </Button>
           <span className="text-xs w-12 text-center">{zoom}%</span>
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleZoomIn}>
+          <Button variant="ghost" size="icon" className="h-11 w-11" onClick={handleZoomIn} aria-label="Phóng to đề thi">
             <ZoomIn className="w-4 h-4" />
           </Button>
         </div>
-        
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => fileInputRef.current?.click()} title="Tải PDF lên">
+
+        <Button variant="ghost" size="icon" className="h-11 w-11" onClick={() => fileInputRef.current?.click()} title="Tải PDF lên">
           <Upload className="w-4 h-4" />
         </Button>
-        <input 
+        <input
           ref={fileInputRef}
-          type="file" 
+          type="file"
           accept=".pdf"
           className="hidden"
           onChange={handleFileUpload}
         />
       </div>
-      
-      <div className="flex-1 overflow-auto bg-zinc-100 dark:bg-zinc-900">
+
+      <div className="flex-1 overflow-auto bg-muted">
         {isValidUrl ? (
-          <iframe 
+          <iframe
             src={`${effectiveUrl}#toolbar=0`}
             className="w-full border-0"
             style={{ height: '100%', minHeight: '100%' }}

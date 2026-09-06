@@ -19,33 +19,33 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  
+
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     async function loadExam() {
       const supabase = getSupabaseClient();
-      
+
       const { data: examData } = await supabase
         .from('mock_exams')
         .select('*')
         .eq('id', params.examId)
         .single();
-        
+
       if (examData) {
         setExam(examData);
         setTimeLeft(examData.duration * 60);
-        
+
         const { data: qData } = await supabase
           .from('mock_exam_questions')
           .select('*')
           .eq('exam_id', params.examId)
           .order('order_index');
-          
+
         if (qData) {
           const sanitized = qData.map((q: any) => ({
             ...q,
@@ -72,7 +72,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         });
       }, 1000);
     }
-    
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -81,18 +81,18 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   const handleSubmit = async () => {
     if (!user || !exam) return;
     setIsSubmitting(true);
-    
+
     const durationUsed = exam.duration * 60 - timeLeft;
     let correctCount = 0;
-    
+
     questions.forEach(q => {
       if (answers[q.id] === q.correct_answer) {
         correctCount++;
       }
     });
-    
+
     const score = questions.length > 0 ? (10 / questions.length) * correctCount : 0;
-    
+
     const supabase = getSupabaseClient();
     const { data, error } = await supabase.from('mock_exam_attempts').insert({
       user_id: user.id,
@@ -103,7 +103,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
       answers: answers,
       duration_used: durationUsed
     }).select().single();
-    
+
     if (!error && data) {
       router.push(`/mock-exams/${exam.id}/result?attemptId=${data.id}`);
     } else {
@@ -120,7 +120,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   };
 
   if (!initialized || !exam) {
-    return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-slate-500 font-medium">Đang tải đề thi...</div>;
+    return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-muted-foreground font-medium">Đang tải đề thi...</div>;
   }
 
   const currentQuestion = questions[currentIndex];
@@ -129,27 +129,27 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   return (
     <div className="w-full flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#1a1625]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-3 py-3 flex items-center justify-between shadow-sm">
+      <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-md border-b border-border px-3 py-3 flex items-center justify-between shadow-soft">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full shrink-0">
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-md shrink-0">
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="hidden sm:block">
-            <h1 className="font-bold text-slate-800 dark:text-slate-100">{exam.title}</h1>
+            <h1 className="font-bold text-foreground">{exam.title}</h1>
           </div>
-          
+
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="sm" className="md:hidden flex items-center gap-1.5 rounded-full border-slate-200 dark:border-white/10 px-3">
+              <Button variant="outline" size="sm" className="md:hidden flex items-center gap-1.5 rounded-md border-border px-3">
                 <LayoutGrid className="w-4 h-4" />
                 <span className="font-bold">{currentIndex + 1}/{questions.length}</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="h-[70vh] rounded-t-[32px] p-0 flex flex-col bg-white dark:bg-[#1a1625] border-slate-200 dark:border-white/10">
-              <SheetHeader className="p-4 border-b border-slate-100 dark:border-white/5 text-left">
+            <SheetContent side="bottom" className="h-[70vh] rounded-t-xl p-0 flex flex-col bg-card border-border">
+              <SheetHeader className="p-4 border-b border-border text-left">
                 <SheetTitle className="text-lg font-bold flex justify-between items-center">
                   Danh sách câu
-                  <span className="text-sm font-bold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-100 dark:bg-fuchsia-900/30 px-3 py-1 rounded-full">
+                  <span className="text-sm font-bold text-primary bg-primary-soft px-3 py-1 rounded-full">
                     Đã làm: {Object.keys(answers).length} / {questions.length}
                   </span>
                 </SheetTitle>
@@ -166,12 +166,12 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                           onClick={() => setCurrentIndex(idx)}
                           className={cn(
                             "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
-                            isCurrent 
-                              ? "ring-2 ring-fuchsia-500 ring-offset-2 dark:ring-offset-[#1a1625]" 
-                              : "hover:bg-slate-100 dark:hover:bg-white/5",
-                            isAnswered 
-                              ? "bg-fuchsia-500 text-white shadow-md shadow-fuchsia-500/20" 
-                              : "bg-slate-50 text-slate-500 border border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-white/5"
+                            isCurrent
+                              ? "ring-2 ring-primary ring-offset-2"
+                              : "hover:bg-muted",
+                            isAnswered
+                              ? "bg-primary text-primary-foreground shadow-card"
+                              : "bg-muted text-muted-foreground border border-border"
                           )}
                         >
                           {idx + 1}
@@ -184,20 +184,20 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
             </SheetContent>
           </Sheet>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <div className={cn(
             "flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold font-mono text-sm sm:text-lg transition-colors",
-            timeLeft < 300 ? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 animate-pulse" : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+            timeLeft < 300 ? "bg-destructive-soft text-destructive animate-pulse" : "bg-muted text-foreground"
           )}>
             <Clock className="w-4 h-4 shrink-0" />
             <span>{formatTime(timeLeft)}</span>
           </div>
-          
-          <Button 
+
+          <Button
             onClick={() => setShowConfirm(true)}
             size="sm"
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold rounded-full px-4 shadow-md shadow-fuchsia-500/20"
+            className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold rounded-md px-4 shadow-card"
           >
             <span className="hidden sm:inline">Nộp bài</span>
             <span className="sm:hidden">Nộp</span>
@@ -211,14 +211,14 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         <main className="flex-1 pb-20 md:pb-0">
           <div className="max-w-3xl mx-auto">
             {currentQuestion && (
-              <div className="bg-white dark:bg-[#1e1a2b] rounded-none md:rounded-3xl p-4 md:p-8 shadow-none md:shadow-xl md:shadow-slate-200/40 dark:shadow-none border-y md:border border-slate-100 dark:border-white/5">
-                <h2 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-4 md:mb-6">
+              <div className="bg-card rounded-none md:rounded-xl p-4 md:p-8 shadow-none md:shadow-float dark:shadow-none border-y md:border border-border">
+                <h2 className="text-lg md:text-xl font-bold text-foreground mb-4 md:mb-6">
                   Câu {currentIndex + 1}:
                 </h2>
-                <div className="prose prose-slate dark:prose-invert max-w-none mb-8 text-lg text-slate-700 dark:text-slate-300">
+                <div className="prose vivux-prose max-w-none mb-8 text-lg text-foreground">
                   <MathRenderer content={currentQuestion.content} />
                 </div>
-                
+
                 <div className="space-y-4">
                   {(currentQuestion.options as string[]).map((opt, idx) => {
                     const isSelected = selectedAnswer === idx;
@@ -228,22 +228,22 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                         onClick={() => setAnswers(prev => ({ ...prev, [currentQuestion.id]: idx }))}
                         className={cn(
                           "w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all duration-200 text-left group",
-                          isSelected 
-                            ? "border-fuchsia-500 bg-fuchsia-50 dark:bg-fuchsia-900/20 shadow-md ring-2 ring-fuchsia-500/20" 
-                            : "border-slate-200 dark:border-white/10 hover:border-fuchsia-300 dark:hover:border-fuchsia-700 hover:bg-slate-50 dark:hover:bg-white/5 bg-white dark:bg-transparent"
+                          isSelected
+                            ? "border-primary bg-primary-soft shadow-card ring-2 ring-primary/20"
+                            : "border-border hover:border-primary hover:bg-muted bg-card dark:bg-transparent"
                         )}
                       >
                         <div className={cn(
                           "w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-sm font-bold transition-colors",
-                          isSelected 
-                            ? "bg-fuchsia-500 text-white" 
-                            : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 group-hover:bg-fuchsia-100 dark:group-hover:bg-fuchsia-900/50 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400"
+                          isSelected
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted text-muted-foreground group-hover:bg-primary-soft group-hover:text-primary"
                         )}>
                           {['A', 'B', 'C', 'D'][idx]}
                         </div>
                         <div className={cn(
                           "flex-1",
-                          isSelected ? "text-fuchsia-900 dark:text-fuchsia-100 font-medium" : "text-slate-700 dark:text-slate-300"
+                          isSelected ? "text-primary font-medium" : "text-foreground"
                         )}>
                           <MathRenderer content={formatOptionMath(opt)} />
                         </div>
@@ -251,20 +251,20 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                     );
                   })}
                 </div>
-                
-                <div className="flex items-center justify-between mt-8 pt-8 border-t border-slate-100 dark:border-white/10">
-                  <Button 
-                    variant="outline" 
+
+                <div className="flex items-center justify-between mt-8 pt-8 border-t border-border">
+                  <Button
+                    variant="outline"
                     onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
                     disabled={currentIndex === 0}
-                    className="rounded-xl px-6 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300"
+                    className="rounded-md px-6 border-border text-muted-foreground"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" /> Quay lại
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))}
                     disabled={currentIndex === questions.length - 1}
-                    className="rounded-xl px-6 bg-slate-800 hover:bg-slate-900 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900"
+                    className="rounded-md px-6 bg-muted hover:bg-muted text-foreground"
                   >
                     Câu tiếp theo <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -276,10 +276,10 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
 
         {/* Sidebar (Grid) */}
         <aside className="hidden md:block w-80 shrink-0">
-          <div className="bg-white dark:bg-[#1a1625] rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden md:sticky md:top-40">
-            <div className="p-4 border-b border-slate-100 dark:border-white/5 font-bold text-slate-800 dark:text-slate-200 flex justify-between items-center bg-slate-50/50 dark:bg-black/10">
+          <div className="bg-card rounded-xl border border-border shadow-card overflow-hidden md:sticky md:top-40">
+            <div className="p-4 border-b border-border font-bold text-foreground flex justify-between items-center bg-muted/50">
               <span>Danh sách câu</span>
-              <span className="text-sm font-bold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-100 dark:bg-fuchsia-900/30 px-3 py-1 rounded-full">
+              <span className="text-sm font-bold text-primary bg-primary-soft px-3 py-1 rounded-full">
                 {Object.keys(answers).length} / {questions.length}
               </span>
             </div>
@@ -288,19 +288,19 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                 {questions.map((q, idx) => {
                   const isAnswered = answers[q.id] !== undefined;
                   const isCurrent = currentIndex === idx;
-                  
+
                   return (
                     <button
                       key={q.id}
                       onClick={() => setCurrentIndex(idx)}
                       className={cn(
                         "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
-                        isCurrent 
-                          ? "ring-2 ring-fuchsia-500 ring-offset-2 dark:ring-offset-[#1a1625]" 
-                          : "hover:bg-slate-100 dark:hover:bg-white/5",
-                        isAnswered 
-                          ? "bg-fuchsia-500 text-white shadow-md shadow-fuchsia-500/20" 
-                          : "bg-slate-50 text-slate-500 border border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-white/5"
+                        isCurrent
+                          ? "ring-2 ring-primary ring-offset-2"
+                          : "hover:bg-muted",
+                        isAnswered
+                          ? "bg-primary text-primary-foreground shadow-card"
+                          : "bg-muted text-muted-foreground border border-border"
                       )}
                   >
                     {idx + 1}
@@ -314,16 +314,16 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
       </div>
 
       <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
-        <AlertDialogContent className="rounded-3xl border-slate-200 dark:border-white/10 dark:bg-[#1e1a2b]">
+        <AlertDialogContent className="rounded-xl border-border bg-card">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-xl">Xác nhận nộp bài?</AlertDialogTitle>
-            <AlertDialogDescription className="text-base text-slate-600 dark:text-slate-400">
+            <AlertDialogDescription className="text-base text-muted-foreground">
               Bạn đã làm {Object.keys(answers).length} / {questions.length} câu. Bạn có chắc chắn muốn nộp bài ngay bây giờ? Thời gian còn lại sẽ không được bảo lưu.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-6">
-            <AlertDialogCancel className="rounded-xl border-slate-200 dark:border-white/10">Tiếp tục làm bài</AlertDialogCancel>
-            <AlertDialogAction onClick={handleSubmit} className="rounded-xl bg-fuchsia-600 hover:bg-fuchsia-700 text-white">
+            <AlertDialogCancel className="rounded-md border-border">Tiếp tục làm bài</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSubmit} className="rounded-md bg-primary hover:bg-primary-hover text-primary-foreground">
               Nộp bài ngay
             </AlertDialogAction>
           </AlertDialogFooter>

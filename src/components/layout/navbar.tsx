@@ -53,7 +53,7 @@ export function Navbar() {
                 {hasGrades && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <button className="flex h-11 w-6 items-center justify-center rounded-sm text-muted-foreground hover:bg-muted hover:text-primary" aria-label={`Chọn lớp — ${item.label}`}>
+                      <button className="flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary" aria-label={`Chọn lớp — ${item.label}`}>
                         <ChevronDown aria-hidden="true" className="h-3.5 w-3.5" />
                       </button>
                     </DropdownMenuTrigger>
@@ -107,7 +107,21 @@ export function Navbar() {
             {allItems.map(item => {
               const Icon = item.icon;
               const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
-              return <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} aria-current={isActive ? "page" : undefined} className={cn("flex min-h-12 items-center gap-3 rounded-md px-3 text-sm font-medium", isActive ? "bg-primary-soft text-primary" : "text-muted-foreground hover:bg-muted")}><Icon aria-hidden="true" className="h-[18px] w-[18px]" />{item.label}</Link>;
+              return (
+                <div key={item.href} className="flex min-w-0 items-center">
+                  <Link href={item.href} onClick={() => setMobileOpen(false)} aria-current={isActive ? "page" : undefined} className={cn("flex min-h-12 min-w-0 flex-1 items-center gap-2 rounded-md px-2 text-sm font-medium", isActive ? "bg-primary-soft text-primary" : "text-muted-foreground hover:bg-muted")}><Icon aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />{item.label}</Link>
+                  {(item.href === "/practice" || item.href === "/mock-exams") && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted" aria-label={`Chọn lớp — ${item.label}`}><ChevronDown aria-hidden="true" className="h-4 w-4" /></button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {[6, 7, 8, 9].map(grade => <DropdownMenuItem asChild key={grade}><Link href={`${item.href}?grade=${grade}`} onClick={() => setMobileOpen(false)}>Lớp {grade}</Link></DropdownMenuItem>)}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </div>
+              );
             })}
           </div>
           <div className="mx-auto mt-3 flex max-w-3xl flex-wrap items-center gap-2 border-t border-border pt-3">

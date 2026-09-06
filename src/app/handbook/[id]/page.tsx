@@ -9,8 +9,9 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ChevronLeft, Clock, Share2, Facebook, Twitter, Link as LinkIcon, Loader2, Edit, Edit3, Save, Check } from 'lucide-react';
+import { ChevronLeft, Clock, Facebook, Link as LinkIcon, Loader2, Edit, Edit3, Save, Check, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { markPostAsRead } from '@/features/handbook/utils/reading-status';
 
 export default function HandbookReadingPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
   const [savingBio, setSavingBio] = useState(false);
   const [bioSavedSuccess, setBioSavedSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle');
 
   const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
 
@@ -39,10 +41,11 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
 
       if (postData) {
         setPost(postData as HandbookPost);
+        markPostAsRead(params.id, user?.id);
 
         // Check local storage fallback for bio
         const cachedBio = typeof window !== 'undefined' ? localStorage.getItem(`handbook_author_bio_${params.id}`) : null;
-        const initialBio = (postData as any).author_bio || cachedBio || `Người đam mê Toán học và truyền cảm hứng. Các bài viết của ${postData.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.`;
+        const initialBio = (postData as any).author_bio || cachedBio || '';
         setBioText(initialBio);
 
         // Fetch author avatar from profiles by name
@@ -74,7 +77,41 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
       setLoading(false);
     }
     fetchPost();
-  }, [params.id]);
+  }, [params.id, user?.id]);
+
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareTitle = post?.title || 'Bài viết Cẩm nang VivuX';
+
+  const openShareWindow = (url: string) => {
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank', 'noopener,noreferrer,width=720,height=620');
+    }
+  };
+
+  const handleFacebookShare = () => openShareWindow(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
+  const handleZaloShare = () => openShareWindow(`https://zalo.me/share?u=${encodeURIComponent(shareUrl)}`);
+  const handleCopyLink = async () => {
+    if (!shareUrl) return;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        const input = document.createElement('textarea');
+        input.value = shareUrl;
+        input.setAttribute('readonly', 'true');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+      }
+      setCopyState('copied');
+      window.setTimeout(() => setCopyState('idle'), 2200);
+    } catch {
+      setCopyState('idle');
+    }
+  };
 
   const handleSaveBio = async () => {
     if (!post) return;
@@ -222,17 +259,21 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
       />
 
       {/* Share Actions */}
-      <div className="mt-16 py-6 border-y border-border flex items-center justify-between">
-        <span className="font-bold text-foreground">Chia sẻ bài viết</span>
-        <div className="flex gap-2">
-          <Button variant="outline" size="icon" aria-label="Chia sẻ qua Facebook" className="rounded-md w-11 h-11 border-border text-primary hover:bg-primary-soft hover:border-primary">
-            <Facebook className="w-4 h-4" />
+      <div className="mt-16 flex flex-col gap-4 border-y border-border py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <span className="font-bold text-foreground">Chia sẻ bài viết</span>
+          <p className="mt-1 text-xs text-muted-foreground">Gửi bài viết này cho bạn bè hoặc lưu lại đường dẫn.</p>
+        </div>
+        <div className="flex flex-wrap gap-2" aria-label="Các lựa chọn chia sẻ">
+          <Button type="button" variant="outline" onClick={handleFacebookShare} aria-label={`Chia sẻ “${shareTitle}” qua Facebook`} className="h-11 min-w-11 gap-2 rounded-md border-border px-3 text-primary hover:bg-primary-soft hover:border-primary">
+            <Facebook aria-hidden="true" className="h-4 w-4" /><span className="hidden sm:inline">Facebook</span>
           </Button>
-          <Button variant="outline" size="icon" aria-label="Chia sẻ qua Twitter" className="rounded-md w-11 h-11 border-border text-info hover:bg-info-soft hover:border-info">
-            <Twitter className="w-4 h-4" />
+          <Button type="button" variant="outline" onClick={handleZaloShare} aria-label={`Chia sẻ “${shareTitle}” qua Zalo`} className="h-11 min-w-11 gap-2 rounded-md border-border px-3 text-info hover:bg-info-soft hover:border-info">
+            <span aria-hidden="true" className="text-sm font-bold leading-none">Zalo</span>
           </Button>
-          <Button variant="outline" size="icon" aria-label="Liên kết bài viết" className="rounded-md w-11 h-11 border-border text-muted-foreground hover:bg-muted">
-            <LinkIcon className="w-4 h-4" />
+          <Button type="button" variant="outline" onClick={handleCopyLink} aria-label={copyState === 'copied' ? 'Đã sao chép liên kết bài viết' : 'Sao chép liên kết bài viết'} className="h-11 min-w-11 gap-2 rounded-md border-border px-3 text-muted-foreground hover:bg-muted">
+            {copyState === 'copied' ? <CheckCircle2 aria-hidden="true" className="h-4 w-4 text-success" /> : <LinkIcon aria-hidden="true" className="h-4 w-4" />}
+            <span>{copyState === 'copied' ? 'Đã sao chép' : 'Sao chép link'}</span>
           </Button>
         </div>
       </div>
@@ -248,10 +289,10 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
           </Avatar>
           <div className="flex-1 w-full">
             <div className="flex items-center justify-between gap-2 mb-1">
-              <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground block">Tác giả</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground block">Lời nhắn từ tác giả</span>
               {bioSavedSuccess && (
                 <span className="inline-flex items-center gap-1 text-xs text-success font-semibold animate-in fade-in">
-                  <Check className="w-3.5 h-3.5" /> Đã lưu giới thiệu!
+                  <Check className="w-3.5 h-3.5" /> Đã lưu lời nhắn!
                 </span>
               )}
             </div>
@@ -265,7 +306,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
                   value={bioText}
                   onChange={(e) => setBioText(e.target.value)}
                   className="text-sm leading-relaxed min-h-[90px] rounded-md bg-card border-primary focus-visible:ring-primary"
-                  placeholder="Nhập lời giới thiệu ngắn về tác giả..."
+                  placeholder="Viết một lời nhắn riêng cho người đọc bài viết này..."
                 />
                 <div className="flex items-center gap-2 justify-end">
                   <Button
@@ -273,7 +314,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
                     variant="ghost"
                     onClick={() => {
                       setIsEditingBio(false);
-                      setBioText((post as any).author_bio || localStorage.getItem(`handbook_author_bio_${post.id}`) || `Người đam mê Toán học và truyền cảm hứng. Các bài viết của ${post.author_name} tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.`);
+                      setBioText((post as any).author_bio || localStorage.getItem(`handbook_author_bio_${post.id}`) || '');
                     }}
                     className="h-11 rounded-lg text-xs"
                   >
@@ -286,21 +327,21 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
                     className="h-11 rounded-lg text-xs bg-primary text-primary-foreground shadow-soft gap-1.5"
                   >
                     {savingBio ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                    Lưu lời giới thiệu
+                    Lưu lời nhắn
                   </Button>
                 </div>
               </div>
             ) : (
               <div>
                 <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  {bioText}
+                  {bioText || 'Tác giả chưa thêm lời nhắn cho bài viết này.'}
                 </p>
                 {isAdmin && (
                   <button
                     onClick={() => setIsEditingBio(true)}
                     className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline mt-2.5 opacity-90 hover:opacity-100 transition-opacity"
                   >
-                    <Edit3 className="w-3.5 h-3.5" /> Sửa lời giới thiệu này
+                    <Edit3 className="w-3.5 h-3.5" /> Sửa lời nhắn này
                   </button>
                 )}
               </div>

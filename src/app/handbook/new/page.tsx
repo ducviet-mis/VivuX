@@ -28,7 +28,7 @@ export default function NewHandbookPostPage() {
   const [coverUrl, setCoverUrl] = useState('');
   const [readTime, setReadTime] = useState('3');
   const [isFeatured, setIsFeatured] = useState(false);
-  const [authorBio, setAuthorBio] = useState('Người đam mê Toán học và truyền cảm hứng. Các bài viết tập trung vào việc áp dụng Toán học vào đời sống và các phương pháp tư duy logic hiện đại.');
+  const [authorBio, setAuthorBio] = useState('');
 
   const coverInputRef = useRef<HTMLInputElement>(null);
   const [uploadingCover, setUploadingCover] = useState(false);
@@ -193,8 +193,12 @@ export default function NewHandbookPostPage() {
                 onChange={handleCoverUpload}
               />
               <div
+                role="button"
+                tabIndex={0}
+                aria-label="Tải ảnh bìa bài viết lên"
                 className="mt-3 aspect-[16/9] w-full rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:bg-muted transition-colors overflow-hidden relative group"
                 onClick={() => coverInputRef.current?.click()}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); coverInputRef.current?.click(); } }}
               >
                 {uploadingCover ? (
                   <div className="flex flex-col items-center text-muted-foreground">
@@ -236,15 +240,15 @@ export default function NewHandbookPostPage() {
             </div>
 
             <div className="space-y-2">
-              <Label className="font-semibold">Lời giới thiệu tác giả (Bio)</Label>
+              <Label className="font-semibold">Lời nhắn từ tác giả</Label>
               <Textarea
-                placeholder="Giới thiệu ngắn về tác giả dưới chân bài viết..."
+                placeholder="Viết một lời nhắn riêng cho người đọc bài viết này..."
                 value={authorBio}
                 onChange={e => setAuthorBio(e.target.value)}
                 className="text-sm leading-relaxed h-24 bg-surface border-control rounded-md resize-none"
               />
               <p className="text-xs text-muted-foreground">
-                Hiển thị trong khung thông tin tác giả ở chân bài đọc.
+                Lời nhắn này sẽ hiển thị riêng ở cuối bài viết.
               </p>
             </div>
 

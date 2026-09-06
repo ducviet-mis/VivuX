@@ -1,5 +1,5 @@
 -- =============================================
--- VivuX Database Schema
+-- FlyDo Database Schema
 -- Chạy SQL này trong Supabase SQL Editor
 -- Dashboard > SQL Editor > New Query > Paste > Run
 -- =============================================

@@ -80,7 +80,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
   }, [params.id, user?.id]);
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-  const shareTitle = post?.title || 'Bài viết Cẩm nang VivuX';
+  const shareTitle = post?.title || 'Bài viết Cẩm nang FlyDo';
 
   const openShareWindow = (url: string) => {
     if (typeof window !== 'undefined') {

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* VivuX: Soft Aurora / Midnight Aurora. RGB channels support Tailwind opacity. */
+/* FlyDo: Soft Aurora / Midnight Aurora. RGB channels support Tailwind opacity. */
 @layer base {
   :root {
     color-scheme: light;

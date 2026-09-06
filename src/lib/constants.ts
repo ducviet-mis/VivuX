@@ -1,7 +1,7 @@
 /** Application-wide constants */
 
-export const APP_NAME = "VivuX";
-export const APP_DESCRIPTION = "Nền tảng Học & Tự luyện Toán thông minh VivuX";
+export const APP_NAME = "FlyDo";
+export const APP_DESCRIPTION = "Nền tảng Học & Tự luyện Toán thông minh FlyDo";
 
 /** Navigation items */
 export const NAV_ITEMS = [

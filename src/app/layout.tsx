@@ -16,13 +16,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "VivuX — Nền tảng Học & Tự luyện Toán thông minh",
+  title: "FlyDo — Nền tảng Học & Tự luyện Toán thông minh",
   description:
     "Hệ thống quản lý lớp học, thi thử trực tuyến, cẩm nang toán học và tự luyện toán thông minh.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "VivuX",
+    title: "FlyDo",
   },
   formatDetection: {
     telephone: false,

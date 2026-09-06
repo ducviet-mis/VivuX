@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'VivuX',
-    short_name: 'VivuX',
-    description: 'Nền tảng Học & Tự luyện Toán thông minh VivuX',
+    name: 'FlyDo',
+    short_name: 'FlyDo',
+    description: 'Nền tảng Học & Tự luyện Toán thông minh FlyDo',
     start_url: '/',
     display: 'standalone',
     background_color: '#F7F9FC',
@@ -15,11 +15,13 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/icon-192.png',
         sizes: '192x192',
         type: 'image/png',
+        purpose: 'maskable',
       },
       {
         src: '/icon-512.png',
         sizes: '512x512',
         type: 'image/png',
+        purpose: 'maskable',
       },
       {
         src: '/apple-touch-icon.png',

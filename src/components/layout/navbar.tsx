@@ -36,9 +36,9 @@ export function Navbar() {
   return (
     <nav aria-label="Điều hướng chính" className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/home" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label="VivuX — Trang chủ">
+        <Link href="/home" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label="FlyDo — Trang chủ">
           <img src="/logo.png" alt="" width={36} height={36} className="h-9 w-9 rounded-md object-cover" />
-          <span className="text-2xl font-bold tracking-tight text-foreground">Vivu<span className="text-primary">X</span></span>
+          <span className="text-2xl font-bold tracking-tight text-foreground">Fly<span className="text-primary">Do</span></span>
         </Link>
         <div className="hidden items-center gap-1 xl:flex">
           {allItems.map((item) => {

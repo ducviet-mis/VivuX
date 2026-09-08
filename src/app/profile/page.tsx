@@ -227,10 +227,13 @@ function MembershipTab({ user }: { user: any }) {
                   <span className="text-sm text-muted-foreground">{ACCOUNT_TIER_META[tier].shortDescription}</span>
                 </div>
                 {expiryDate && (
-                  <p className="mt-3 inline-flex items-center gap-2 rounded-lg border border-primary/15 bg-primary-soft px-3 py-2 text-sm font-semibold text-foreground">
-                    <CalendarDays aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
-                    FlyMax của bạn có hiệu lực đến ngày {expiryDate}
-                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                    <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+                      <CalendarDays aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
+                      Có hiệu lực đến
+                    </span>
+                    <time className="font-bold tabular-nums text-foreground">{expiryDate}</time>
+                  </div>
                 )}
                 {tier === 'flyinfinity' && <p className="mt-2 text-sm font-medium text-foreground">Không giới hạn thời gian sử dụng</p>}
               </div>

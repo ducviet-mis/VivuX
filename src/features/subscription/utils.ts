@@ -6,7 +6,7 @@ export function getEffectiveAccountTier(user: User | null | undefined): AccountT
   if (user.accountTier === 'flyinfinity') return 'flyinfinity';
 
   if (user.accountTier === 'flymax') {
-    if (!user.subscriptionExpiresAt) return 'flymax';
+    if (!user.subscriptionExpiresAt) return 'flygo';
     return new Date(user.subscriptionExpiresAt).getTime() > Date.now() ? 'flymax' : 'flygo';
   }
 

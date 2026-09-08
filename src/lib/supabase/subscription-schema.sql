@@ -191,7 +191,86 @@ CREATE TRIGGER protect_membership_columns_trigger
   BEFORE UPDATE ON public.profiles
   FOR EACH ROW EXECUTE FUNCTION public.protect_membership_columns();
 
--- 7. Đổi mã quà tặng: mỗi tài khoản dùng một mã tối đa một lần.
+-- 7. Đồng bộ cấp tài khoản khi FlyMax đã hết hạn.
+-- Hàm này được web gọi khi đăng nhập/làm mới tài khoản để trạng thái trong
+-- profiles luôn về FlyGo ngay cả khi chưa thiết lập lịch chạy tự động.
+CREATE OR REPLACE FUNCTION public.sync_my_membership_status()
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_user_id UUID := auth.uid();
+  v_tier TEXT;
+  v_expires_at TIMESTAMPTZ;
+BEGIN
+  IF v_user_id IS NULL THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Bạn cần đăng nhập để đồng bộ gói tài khoản.');
+  END IF;
+
+  UPDATE public.subscriptions
+  SET status = 'expired'
+  WHERE user_id = v_user_id
+    AND status = 'active'
+    AND expires_at IS NOT NULL
+    AND expires_at <= NOW();
+
+  UPDATE public.profiles
+  SET
+    account_tier = 'flygo',
+    subscription_started_at = NULL
+  WHERE id = v_user_id
+    AND account_tier = 'flymax'
+    AND (subscription_expires_at IS NULL OR subscription_expires_at <= NOW());
+
+  SELECT account_tier, subscription_expires_at
+  INTO v_tier, v_expires_at
+  FROM public.profiles
+  WHERE id = v_user_id;
+
+  RETURN jsonb_build_object(
+    'success', TRUE,
+    'tier', COALESCE(v_tier, 'flygo'),
+    'expires_at', v_expires_at
+  );
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.sync_my_membership_status() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.sync_my_membership_status() TO authenticated;
+
+-- Hàm dành cho tác vụ nền (cron) để tự xử lý cả những tài khoản đang không mở web.
+CREATE OR REPLACE FUNCTION public.expire_flymax_subscriptions()
+RETURNS INTEGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_expired_count INTEGER;
+BEGIN
+  UPDATE public.subscriptions
+  SET status = 'expired'
+  WHERE status = 'active'
+    AND expires_at IS NOT NULL
+    AND expires_at <= NOW();
+
+  UPDATE public.profiles
+  SET
+    account_tier = 'flygo',
+    subscription_started_at = NULL
+  WHERE account_tier = 'flymax'
+    AND (subscription_expires_at IS NULL OR subscription_expires_at <= NOW());
+
+  GET DIAGNOSTICS v_expired_count = ROW_COUNT;
+  RETURN v_expired_count;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.expire_flymax_subscriptions() FROM PUBLIC;
+
+-- 8. Đổi mã quà tặng: mỗi tài khoản dùng một mã tối đa một lần.
 -- Thời hạn được cộng nối tiếp nếu người dùng vẫn còn FlyMax.
 CREATE OR REPLACE FUNCTION public.redeem_gift_code(p_code TEXT)
 RETURNS JSONB
@@ -390,3 +469,12 @@ GRANT EXECUTE ON FUNCTION public.create_payment_order(TEXT) TO authenticated;
 --     subscription_started_at = NOW(),
 --     subscription_expires_at = NULL
 -- WHERE email = 'email-khach-hang@example.com';
+
+-- D. Tự chuyển FlyMax hết hạn về FlyGo cho cả tài khoản không mở web.
+-- Trong Supabase Dashboard > Database > Extensions, bật pg_cron; sau đó chạy:
+-- SELECT cron.schedule(
+--   'flydo-expire-flymax-hourly',
+--   '5 * * * *',
+--   $$SELECT public.expire_flymax_subscriptions();$$
+-- );
+-- Nếu đã tạo lịch này trước đó, hãy xóa lịch cũ trong cron.job rồi chạy lại lệnh trên.

@@ -56,6 +56,7 @@ export const useAuthStore = create<AuthState>()(
           const { data: { session } } = await supabase.auth.getSession();
 
           if (session?.user) {
+            await supabase.rpc('sync_my_membership_status');
             const { data: profile } = await supabase
               .from("profiles")
               .select("*")
@@ -77,6 +78,7 @@ export const useAuthStore = create<AuthState>()(
             if (event === 'SIGNED_OUT') {
               set({ user: null });
             } else if (event === 'SIGNED_IN' && session?.user) {
+              await supabase.rpc('sync_my_membership_status');
               const { data: profile } = await supabase
                 .from("profiles")
                 .select("*")
@@ -109,6 +111,7 @@ export const useAuthStore = create<AuthState>()(
           }
 
           if (data.user) {
+            await supabase.rpc('sync_my_membership_status');
             const { data: profile } = await supabase
               .from("profiles")
               .select("*")
@@ -191,6 +194,7 @@ export const useAuthStore = create<AuthState>()(
           const { data: { user: authUser } } = await supabase.auth.getUser();
 
           if (authUser) {
+            await supabase.rpc('sync_my_membership_status');
             const { data: profile } = await supabase
               .from("profiles")
               .select("*")

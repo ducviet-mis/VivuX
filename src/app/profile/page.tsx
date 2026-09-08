@@ -226,13 +226,29 @@ function MembershipTab({ user }: { user: any }) {
                   <AccountTierBadge tier={tier} />
                   <span className="text-sm text-muted-foreground">{ACCOUNT_TIER_META[tier].shortDescription}</span>
                 </div>
-                {expiryDate && <p className="mt-2 text-sm font-medium text-foreground">Có hiệu lực đến {expiryDate}</p>}
+                {expiryDate && (
+                  <p className="mt-3 inline-flex items-center gap-2 rounded-lg border border-primary/15 bg-primary-soft px-3 py-2 text-sm font-semibold text-foreground">
+                    <CalendarDays aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
+                    FlyMax của bạn có hiệu lực đến ngày {expiryDate}
+                  </p>
+                )}
                 {tier === 'flyinfinity' && <p className="mt-2 text-sm font-medium text-foreground">Không giới hạn thời gian sử dụng</p>}
               </div>
             </div>
-            <Button asChild>
-              <Link href="/pricing">{tier === 'flygo' ? 'Nâng cấp tài khoản' : 'Xem các gói'}<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
-            </Button>
+            {tier === 'flymax' ? (
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                <Button asChild variant="outline" className="min-h-11">
+                  <Link href="/pricing">Gia hạn FlyMax<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
+                </Button>
+                <Button asChild className="min-h-11">
+                  <Link href="/pricing">Nâng cấp FlyInfinity<InfinityIcon aria-hidden="true" className="h-4 w-4" /></Link>
+                </Button>
+              </div>
+            ) : (
+              <Button asChild className="min-h-11">
+                <Link href="/pricing">{tier === 'flygo' ? 'Nâng cấp tài khoản' : 'Xem các gói'}<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
+              </Button>
+            )}
           </div>
 
           <div>

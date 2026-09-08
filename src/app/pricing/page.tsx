@@ -21,6 +21,7 @@ import { GiftCodeForm } from '@/features/subscription/components/gift-code-form'
 import { PaymentDialog } from '@/features/subscription/components/payment-dialog';
 import {
   FAQ_ITEMS,
+  FLYMAX_CYCLES,
   FLYGO_FEATURES,
   PAID_PLANS,
   PREMIUM_FEATURES,
@@ -29,7 +30,7 @@ import type { PaidPlan } from '@/features/subscription/types';
 import { formatCurrency, formatExpiryDate, getEffectiveAccountTier } from '@/features/subscription/utils';
 import { cn } from '@/lib/utils';
 
-type BillingCycle = 'monthly' | 'yearly';
+type BillingCycle = (typeof FLYMAX_CYCLES)[number]['id'];
 
 export default function PricingPage() {
   const router = useRouter();
@@ -38,7 +39,8 @@ export default function PricingPage() {
   const [selectedPlan, setSelectedPlan] = useState<PaidPlan | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const currentTier = getEffectiveAccountTier(user);
-  const flyMaxPlan = billingCycle === 'yearly' ? PAID_PLANS.flymax_yearly : PAID_PLANS.flymax_monthly;
+  const selectedFlyMaxCycle = FLYMAX_CYCLES.find((cycle) => cycle.id === billingCycle) ?? FLYMAX_CYCLES[0];
+  const flyMaxPlan = PAID_PLANS[selectedFlyMaxCycle.planCode];
   const expiryDate = currentTier === 'flymax' ? formatExpiryDate(user?.subscriptionExpiresAt) : null;
 
   const openPayment = (plan: PaidPlan) => {
@@ -109,7 +111,7 @@ export default function PricingPage() {
             title="FlyMax"
             description="Mở khóa trọn bộ công cụ học tập và luyện đề."
             price={formatCurrency(flyMaxPlan.price)}
-            priceSuffix={billingCycle === 'yearly' ? 'mỗi năm' : 'mỗi tháng'}
+            priceSuffix={`Thời hạn ${flyMaxPlan.billingLabel}`}
             features={PREMIUM_FEATURES}
             icon={Crown}
             featured
@@ -117,12 +119,21 @@ export default function PricingPage() {
             action={() => openPayment(flyMaxPlan)}
             actionLabel={currentTier === 'flyinfinity' ? 'Đã sở hữu FlyInfinity' : currentTier === 'flymax' ? 'Gia hạn FlyMax' : 'Chọn FlyMax'}
             headerExtra={(
-              <div className="grid grid-cols-2 rounded-xl bg-muted p-1" aria-label="Chu kỳ thanh toán">
-                <button type="button" onClick={() => setBillingCycle('monthly')} aria-pressed={billingCycle === 'monthly'} className={cn('min-h-11 rounded-lg px-3 text-sm font-semibold', billingCycle === 'monthly' ? 'bg-surface text-foreground shadow-soft' : 'text-muted-foreground hover:text-foreground')}>Theo tháng</button>
-                <button type="button" onClick={() => setBillingCycle('yearly')} aria-pressed={billingCycle === 'yearly'} className={cn('min-h-11 rounded-lg px-3 text-sm font-semibold', billingCycle === 'yearly' ? 'bg-surface text-foreground shadow-soft' : 'text-muted-foreground hover:text-foreground')}>Theo năm</button>
+              <div className="grid grid-cols-2 gap-1 rounded-xl bg-muted p-1 sm:grid-cols-4" role="group" aria-label="Chọn thời hạn FlyMax">
+                {FLYMAX_CYCLES.map((cycle) => (
+                  <button
+                    key={cycle.id}
+                    type="button"
+                    onClick={() => setBillingCycle(cycle.id)}
+                    aria-pressed={billingCycle === cycle.id}
+                    className={cn('min-h-11 rounded-lg px-2 py-2 text-sm font-semibold transition-colors', billingCycle === cycle.id ? 'bg-surface text-foreground shadow-soft' : 'text-muted-foreground hover:text-foreground')}
+                  >
+                    {cycle.label}
+                  </button>
+                ))}
               </div>
             )}
-            priceNote={billingCycle === 'yearly' ? 'Tiết kiệm 149.000đ so với trả theo tháng' : undefined}
+            priceNote={selectedFlyMaxCycle.savings > 0 ? `Tiết kiệm ${formatCurrency(selectedFlyMaxCycle.savings)} so với gói 1 tháng` : undefined}
           />
 
           <PricingCard

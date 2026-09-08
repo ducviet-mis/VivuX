@@ -47,6 +47,8 @@ INSERT INTO public.subscription_plans (code, name, account_tier, price_vnd, dura
 VALUES
   ('flygo', 'FlyGo', 'flygo', 0, NULL, TRUE),
   ('flymax_monthly', 'FlyMax 1 tháng', 'flymax', 29000, 30, TRUE),
+  ('flymax_quarterly', 'FlyMax 3 tháng', 'flymax', 69000, 90, TRUE),
+  ('flymax_half_yearly', 'FlyMax 6 tháng', 'flymax', 139000, 180, TRUE),
   ('flymax_yearly', 'FlyMax 1 năm', 'flymax', 199000, 365, TRUE),
   ('flyinfinity', 'FlyInfinity trọn đời', 'flyinfinity', 299000, NULL, TRUE),
   ('flymax_gift', 'FlyMax từ mã quà tặng', 'flymax', 0, NULL, FALSE)

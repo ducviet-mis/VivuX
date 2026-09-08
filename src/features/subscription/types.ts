@@ -1,6 +1,11 @@
 export type AccountTier = 'flygo' | 'flymax' | 'flyinfinity';
 
-export type PaidPlanCode = 'flymax_monthly' | 'flymax_yearly' | 'flyinfinity';
+export type PaidPlanCode =
+  | 'flymax_monthly'
+  | 'flymax_quarterly'
+  | 'flymax_half_yearly'
+  | 'flymax_yearly'
+  | 'flyinfinity';
 
 export interface PaidPlan {
   code: PaidPlanCode;

@@ -26,6 +26,20 @@ export const PAID_PLANS: Record<PaidPlanCode, PaidPlan> = {
     price: 29_000,
     durationDays: 30,
   },
+  flymax_quarterly: {
+    code: 'flymax_quarterly',
+    name: 'FlyMax',
+    billingLabel: '3 tháng',
+    price: 69_000,
+    durationDays: 90,
+  },
+  flymax_half_yearly: {
+    code: 'flymax_half_yearly',
+    name: 'FlyMax',
+    billingLabel: '6 tháng',
+    price: 139_000,
+    durationDays: 180,
+  },
   flymax_yearly: {
     code: 'flymax_yearly',
     name: 'FlyMax',
@@ -41,6 +55,13 @@ export const PAID_PLANS: Record<PaidPlanCode, PaidPlan> = {
     durationDays: null,
   },
 };
+
+export const FLYMAX_CYCLES = [
+  { id: 'monthly', label: '1 tháng', planCode: 'flymax_monthly', savings: 0 },
+  { id: 'quarterly', label: '3 tháng', planCode: 'flymax_quarterly', savings: 18_000 },
+  { id: 'half-yearly', label: '6 tháng', planCode: 'flymax_half_yearly', savings: 35_000 },
+  { id: 'yearly', label: '1 năm', planCode: 'flymax_yearly', savings: 149_000 },
+] as const;
 
 export const FLYGO_FEATURES = [
   'Luyện tập miễn phí toàn bộ Level 1 và Level 2',
@@ -64,8 +85,8 @@ export const FAQ_ITEMS = [
     answer: 'Có. FlyGo cho phép bạn luyện tập miễn phí toàn bộ Level 1, Level 2, đọc Cẩm nang và làm một số đề thi thử được chọn. Bạn chỉ cần đăng ký tài khoản để lưu tiến trình học.',
   },
   {
-    question: 'FlyMax tháng và FlyMax năm khác nhau thế nào?',
-    answer: 'Hai lựa chọn có cùng đặc quyền. Điểm khác biệt là thời hạn sử dụng: gói tháng phù hợp để trải nghiệm ngắn hạn, còn gói năm tiết kiệm hơn nếu bạn học thường xuyên.',
+    question: 'FlyMax có những thời hạn nào?',
+    answer: 'Đặc quyền FlyMax là như nhau: 1 tháng 29.000đ, 3 tháng 69.000đ, 6 tháng 139.000đ hoặc 1 năm 199.000đ. Gói dài hơn giúp bạn tiết kiệm hơn so với mua từng tháng.',
   },
   {
     question: 'FlyInfinity có phát sinh phí gia hạn không?',

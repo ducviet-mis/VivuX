@@ -309,3 +309,6 @@ CREATE POLICY "Users can update own files" ON storage.objects FOR UPDATE USING (
 CREATE POLICY "Users can delete own files" ON storage.objects FOR DELETE USING (
   bucket_id = 'edu-tutor' AND auth.uid()::text = (storage.foldername(name))[1]
 );
+
+-- Sau khi chạy file này, chạy tiếp subscription-schema.sql
+-- để bổ sung FlyGo, FlyMax, FlyInfinity, mã quà tặng và thanh toán.

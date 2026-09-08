@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { getSupabaseClient } from '@/lib/supabase/client';
@@ -12,10 +13,15 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import {
   User as UserIcon, Shield, Camera, Save, Eye, EyeOff,
-  LogOut, Loader2, CheckCircle, AlertCircle, CalendarDays, Phone, Mail
+  LogOut, Loader2, CheckCircle, AlertCircle, CalendarDays, Phone, Mail,
+  Crown, ArrowRight, Infinity as InfinityIcon, PlaneTakeoff
 } from 'lucide-react';
+import { AccountTierBadge } from '@/features/subscription/components/account-tier-badge';
+import { GiftCodeForm } from '@/features/subscription/components/gift-code-form';
+import { ACCOUNT_TIER_META } from '@/features/subscription/config';
+import { formatExpiryDate, getEffectiveAccountTier } from '@/features/subscription/utils';
 
-type Tab = 'personal' | 'security';
+type Tab = 'personal' | 'membership' | 'security';
 
 export default function ProfilePage() {
   const { user, refreshUser, logoutAllDevices } = useAuthStore();
@@ -31,6 +37,7 @@ export default function ProfilePage() {
 
   const tabs = [
     { id: 'personal' as Tab, label: 'Thông tin cá nhân', icon: UserIcon },
+    { id: 'membership' as Tab, label: 'Gói tài khoản', icon: Crown },
     { id: 'security' as Tab, label: 'Bảo mật', icon: Shield },
   ];
 
@@ -62,6 +69,7 @@ export default function ProfilePage() {
         {/* Content */}
         <div className="flex-1 min-w-0">
           {activeTab === 'personal' && <PersonalInfoTab user={user} refreshUser={refreshUser} />}
+          {activeTab === 'membership' && <MembershipTab user={user} />}
           {activeTab === 'security' && <SecurityTab logoutAllDevices={logoutAllDevices} />}
         </div>
       </div>
@@ -122,6 +130,7 @@ function PersonalInfoTab({ user, refreshUser }: { user: any; refreshUser: () => 
     : words.length === 1
       ? words[0].slice(0, 2).toUpperCase()
       : 'U';
+  const accountTier = getEffectiveAccountTier(user);
 
   return (
     <Card className="rounded-2xl md:rounded-xl border-border shadow-soft">
@@ -145,9 +154,12 @@ function PersonalInfoTab({ user, refreshUser }: { user: any; refreshUser: () => 
           </div>
           <div>
             <h3 className="font-bold text-xl md:text-2xl text-foreground mb-2">{name}</h3>
-            <Badge className="bg-muted text-foreground hover:bg-muted border-0 rounded-lg px-3 py-1">
-              {user.role === 'teacher' ? '👨‍🏫 Giáo viên' : '🎓 Học sinh'}
-            </Badge>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className="border-0 bg-muted px-3 py-1 text-foreground hover:bg-muted">
+                {user.role === 'teacher' ? 'Giáo viên' : 'Học sinh'}
+              </Badge>
+              <AccountTierBadge tier={accountTier} />
+            </div>
           </div>
         </div>
 
@@ -185,6 +197,52 @@ function PersonalInfoTab({ user, refreshUser }: { user: any; refreshUser: () => 
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+// ─── Membership Tab ─────────────────────────────────────────────
+function MembershipTab({ user }: { user: any }) {
+  const tier = getEffectiveAccountTier(user);
+  const expiryDate = tier === 'flymax' ? formatExpiryDate(user.subscriptionExpiresAt) : null;
+  const TierIcon = tier === 'flyinfinity' ? InfinityIcon : tier === 'flymax' ? Crown : PlaneTakeoff;
+
+  return (
+    <div className="space-y-6">
+      <Card className="overflow-hidden rounded-2xl border-border shadow-soft">
+        <CardHeader className="border-b border-border bg-hero pb-5">
+          <CardTitle className="flex items-center gap-2 text-xl font-bold md:text-2xl">
+            <Crown aria-hidden="true" className="h-6 w-6 text-primary" /> Gói tài khoản
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6 px-4 py-6 md:px-8">
+          <div className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${tier === 'flyinfinity' ? 'bg-special-soft text-special' : tier === 'flymax' ? 'bg-primary-soft text-primary' : 'bg-muted text-foreground'}`}>
+                <TierIcon aria-hidden="true" className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Loại tài khoản hiện tại</p>
+                <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                  <AccountTierBadge tier={tier} />
+                  <span className="text-sm text-muted-foreground">{ACCOUNT_TIER_META[tier].shortDescription}</span>
+                </div>
+                {expiryDate && <p className="mt-2 text-sm font-medium text-foreground">Có hiệu lực đến {expiryDate}</p>}
+                {tier === 'flyinfinity' && <p className="mt-2 text-sm font-medium text-foreground">Không giới hạn thời gian sử dụng</p>}
+              </div>
+            </div>
+            <Button asChild>
+              <Link href="/pricing">{tier === 'flygo' ? 'Nâng cấp tài khoản' : 'Xem các gói'}<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
+            </Button>
+          </div>
+
+          <div>
+            <h3 className="font-bold text-foreground">Nhập mã quà tặng</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Mã hợp lệ sẽ cộng thêm số ngày trải nghiệm FlyMax vào tài khoản này.</p>
+            <div className="mt-4"><GiftCodeForm compact /></div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 

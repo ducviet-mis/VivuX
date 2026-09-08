@@ -20,6 +20,10 @@ interface AuthState {
 }
 
 function mapProfile(profile: any): User {
+  const accountTier = ['flygo', 'flymax', 'flyinfinity'].includes(profile.account_tier)
+    ? profile.account_tier
+    : 'flygo';
+
   return {
     id: profile.id,
     name: profile.name,
@@ -28,6 +32,9 @@ function mapProfile(profile: any): User {
     birthDate: profile.birth_date || '',
     avatarUrl: profile.avatar_url || '',
     role: profile.role as "teacher" | "student",
+    accountTier,
+    subscriptionStartedAt: profile.subscription_started_at || undefined,
+    subscriptionExpiresAt: profile.subscription_expires_at || undefined,
     createdAt: profile.created_at,
   };
 }
@@ -145,6 +152,7 @@ export const useAuthStore = create<AuthState>()(
               user: {
                 id: data.user.id,
                 name, email, role,
+                accountTier: 'flygo',
                 createdAt: new Date().toISOString(),
               },
               isLoading: false,

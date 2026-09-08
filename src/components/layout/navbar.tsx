@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, GraduationCap, LayoutDashboard, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText } from "lucide-react";
+import { Home, BookOpen, GraduationCap, LayoutDashboard, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/lib/constants";
 import { useAuthStore } from "@/features/auth/stores/auth-store";
 import { useState } from "react";
+import { AccountTierBadge } from "@/features/subscription/components/account-tier-badge";
+import { getEffectiveAccountTier } from "@/features/subscription/utils";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -24,9 +26,11 @@ export function Navbar() {
     { label: "Thi thử", href: "/mock-exams", icon: FileText },
     { label: "Lớp học", href: "/classroom", icon: GraduationCap },
     { label: "Cẩm nang", href: "/handbook", icon: BookText },
+    { label: "Gói FlyDo", href: "/pricing", icon: Crown },
   ];
   const teacherItems = user?.role === "teacher" ? [{ label: "Quản lý", href: "/teacher", icon: LayoutDashboard }] : [];
   const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
+  const accountTier = getEffectiveAccountTier(user);
   const allItems = [...navItems, ...teacherItems];
   const handleLogout = () => {
     setDropdownOpen(false);
@@ -77,6 +81,7 @@ export function Navbar() {
                     <AvatarFallback className="bg-primary-soft text-primary">{user.name?.charAt(0)?.toUpperCase() || "U"}</AvatarFallback>
                   </Avatar>
                   <span className="hidden max-w-32 truncate lg:inline">{user.name}</span>
+                  <AccountTierBadge tier={accountTier} compact className="hidden 2xl:inline-flex" />
                   <ChevronDown aria-hidden="true" className="hidden h-4 w-4 text-muted-foreground sm:block" />
                 </button>
               </DropdownMenuTrigger>
@@ -84,10 +89,14 @@ export function Navbar() {
                 <DropdownMenuLabel className="rounded-sm bg-muted p-3">
                   <p className="font-semibold text-foreground">{user.name}</p>
                   <p className="mt-1 truncate text-xs font-normal text-muted-foreground">{user.email}</p>
-                  <p className="mt-2 text-xs text-primary">{user.role === 'teacher' ? 'Giáo viên' : 'Học sinh'}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <AccountTierBadge tier={accountTier} />
+                    <span className="text-xs text-muted-foreground">{user.role === 'teacher' ? 'Giáo viên' : 'Học sinh'}</span>
+                  </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild><Link href="/profile"><User aria-hidden="true" />Thông tin tài khoản</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link href="/pricing"><Crown aria-hidden="true" />Gói đăng ký</Link></DropdownMenuItem>
                 {isAdmin && <DropdownMenuItem asChild><Link href="/admin"><Shield aria-hidden="true" />ADMIN</Link></DropdownMenuItem>}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={handleLogout} className="text-destructive focus:bg-destructive-soft focus:text-destructive"><LogOut aria-hidden="true" />Đăng xuất</DropdownMenuItem>

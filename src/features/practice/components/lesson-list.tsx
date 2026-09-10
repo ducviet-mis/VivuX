@@ -90,11 +90,13 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
               {LEVELS.map(level => {
                 const levelKey = `${lesson.id}_${level.id}`;
                 const levelProg = progress[levelKey] || { answered: 0, total: 0 };
-                const wrongCount = wrongCounts[levelKey] || 0;
+                const wrongCount = Math.min(wrongCounts[levelKey] || 0, levelProg.answered);
                 const savedCount = savedCounts[levelKey] || 0;
                 const isCompleted = levelProg.answered === levelProg.total && levelProg.total > 0;
                 const hasProgress = levelProg.answered > 0;
-                const correctCount = levelProg.answered - wrongCount;
+                const correctCount = Math.max(0, levelProg.answered - wrongCount);
+                const completionPercent = levelProg.total > 0 ? Math.round((levelProg.answered / levelProg.total) * 100) : 0;
+                const accuracyPercent = hasProgress ? Math.round((correctCount / levelProg.answered) * 100) : 0;
 
                 const isResetting = resettingId === levelKey;
 
@@ -103,30 +105,58 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                     key={level.id}
                     className="flex flex-col p-3 md:p-4 bg-card rounded-xl md:rounded-2xl border border-border shadow-soft hover:shadow-card hover:border-primary transition-all group"
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="font-bold text-foreground flex items-center gap-1.5 mb-0.5 text-sm md:text-base">
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 font-bold leading-snug text-foreground text-sm md:text-base">
                           Level {level.id} - {level.name}
-                          {isCompleted && <CheckCircle2 className="w-4 h-4 text-success" />}
+                          {isCompleted && (
+                            <>
+                              <CheckCircle2 aria-hidden="true" className="ml-1.5 inline h-4 w-4 align-[-2px] text-success" />
+                              <span className="sr-only">Đã hoàn thành</span>
+                            </>
+                          )}
                         </div>
-                        <div className="text-xs md:text-sm font-medium text-muted-foreground">
-                          {levelProg.answered}/{levelProg.total} câu
+                        <span className="shrink-0 text-xs font-bold tabular-nums text-primary">{completionPercent}%</span>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between gap-3 text-xs font-medium text-muted-foreground">
+                          <span>Tiến độ</span>
+                          <span className="shrink-0 tabular-nums text-foreground">{levelProg.answered}/{levelProg.total} câu</span>
+                        </div>
+                        <div
+                          role="progressbar"
+                          aria-label={`Tiến độ Level ${level.id}`}
+                          aria-valuemin={0}
+                          aria-valuemax={levelProg.total}
+                          aria-valuenow={levelProg.answered}
+                          className="h-2 overflow-hidden rounded-full bg-track"
+                        >
+                          <div className="h-full rounded-full bg-primary transition-[width] duration-220 ease-out" style={{ width: `${completionPercent}%` }} />
                         </div>
                       </div>
 
-                      {hasProgress && (
-                        <div className="flex flex-col items-end text-xs md:text-xs font-semibold gap-0.5">
-                          <span className="flex items-center gap-1 text-success">
-                            <Check className="w-3 h-3" /> {correctCount} đúng
-                          </span>
-                          <span className="flex items-center gap-1 text-destructive">
-                            <X className="w-3 h-3" /> {wrongCount} sai
-                          </span>
+                      {hasProgress ? (
+                        <div className="rounded-xl border border-border/70 bg-muted/45 px-3 py-2.5">
+                          <div className="flex items-center justify-between gap-3 text-xs">
+                            <span className="font-medium text-muted-foreground">Độ chính xác</span>
+                            <span className="font-bold tabular-nums text-foreground">{accuracyPercent}%</span>
+                          </div>
+                          <div className="mt-2 flex h-1.5 overflow-hidden rounded-full bg-border" aria-label={`${correctCount} câu đúng, ${wrongCount} câu sai`}>
+                            <div className="bg-success transition-[width] duration-220 ease-out" style={{ width: `${(correctCount / levelProg.answered) * 100}%` }} />
+                            <div className="bg-destructive transition-[width] duration-220 ease-out" style={{ width: `${(wrongCount / levelProg.answered) * 100}%` }} />
+                          </div>
+                          <div className="mt-2 flex items-center justify-between gap-3 text-xs font-semibold tabular-nums">
+                            <span className="inline-flex items-center gap-1 text-success"><Check aria-hidden="true" className="h-3.5 w-3.5" />{correctCount} đúng</span>
+                            <span className="inline-flex items-center gap-1 text-destructive"><X aria-hidden="true" className="h-3.5 w-3.5" />{wrongCount} sai</span>
+                          </div>
                         </div>
+                      ) : (
+                        <p className="rounded-xl border border-dashed border-border px-3 py-2.5 text-xs text-muted-foreground">Chưa có dữ liệu làm bài</p>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2 mt-auto">
+                    <div className="mt-4 flex items-center gap-2">
                       <Button
                         onClick={() => router.push(`/practice/${lesson.id}?level=${level.id}`)}
                         className="flex-1 rounded-md h-11 bg-primary hover:opacity-90 text-primary-foreground font-bold shadow-card transition-all"

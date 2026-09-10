@@ -11,7 +11,7 @@ import { RoleSelector } from "./role-selector";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, MailCheck, RefreshCw } from "lucide-react";
 
 const registerSchema = z
   .object({
@@ -28,8 +28,11 @@ const registerSchema = z
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
-  const { register: registerUser, isLoading, error, clearError } = useAuthStore();
+  const { register: registerUser, resendConfirmationEmail, isLoading, error, clearError } = useAuthStore();
   const [role, setRole] = useState<"teacher" | "student">("student");
+  const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null);
+  const [resending, setResending] = useState(false);
+  const [resendMessage, setResendMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const router = useRouter();
 
   const {
@@ -43,11 +46,61 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     clearError();
-    const success = await registerUser(data.name, data.email, data.password, role);
-    if (success) {
+    const result = await registerUser(data.name, data.email, data.password, role);
+    if (result.success && result.requiresEmailConfirmation) {
+      setConfirmationEmail(result.email || data.email);
+      return;
+    }
+    if (result.success) {
       router.push("/home");
     }
   };
+
+  const handleResend = async () => {
+    if (!confirmationEmail) return;
+    setResending(true);
+    setResendMessage(null);
+    const result = await resendConfirmationEmail(confirmationEmail);
+    setResendMessage({ type: result.success ? 'success' : 'error', text: result.message });
+    setResending(false);
+  };
+
+  if (confirmationEmail) {
+    return (
+      <div className="space-y-5" role="status">
+        <div className="rounded-2xl border border-primary/25 bg-primary-soft/55 p-5 text-center sm:p-6">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-soft">
+            <MailCheck aria-hidden="true" className="h-6 w-6" />
+          </div>
+          <h2 className="mt-4 text-xl font-bold text-foreground">Kiểm tra email để kích hoạt tài khoản</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            FlyDo đã gửi liên kết xác nhận đến
+          </p>
+          <p className="mt-1 break-all font-semibold text-foreground">{confirmationEmail}</p>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            Hãy mở email và bấm vào liên kết để hoàn tất đăng ký. Nếu chưa thấy, hãy kiểm tra mục Thư rác hoặc Quảng cáo.
+          </p>
+        </div>
+
+        {resendMessage && (
+          <p role={resendMessage.type === 'error' ? 'alert' : 'status'} className={resendMessage.type === 'success' ? 'flex items-start gap-2 rounded-xl bg-success-soft p-3 text-sm font-medium text-success' : 'flex items-start gap-2 rounded-xl bg-destructive-soft p-3 text-sm font-medium text-destructive'}>
+            {resendMessage.type === 'success' ? <MailCheck aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" /> : <AlertCircle aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />}
+            {resendMessage.text}
+          </p>
+        )}
+
+        <Button type="button" variant="outline" onClick={handleResend} disabled={resending} className="h-12 w-full">
+          {resending ? <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" /> : <RefreshCw aria-hidden="true" className="h-4 w-4" />}
+          {resending ? 'Đang gửi lại...' : 'Gửi lại email xác nhận'}
+        </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Đã xác nhận email?{' '}
+          <Link href="/login" className="font-medium text-primary hover:underline">Đăng nhập</Link>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

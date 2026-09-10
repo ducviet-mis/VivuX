@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useAuthStore } from '@/features/auth/stores/auth-store';
+import { translateAuthError, useAuthStore } from '@/features/auth/stores/auth-store';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -311,7 +311,7 @@ function SecurityTab({ logoutAllDevices }: { logoutAllDevices: () => Promise<voi
 
       const { error } = await supabase.auth.updateUser({ password: newPass });
       if (error) {
-        setMessage({ type: 'error', text: error.message });
+        setMessage({ type: 'error', text: translateAuthError(error.message) });
       } else {
         setMessage({ type: 'success', text: 'Đổi mật khẩu thành công!' });
         setOldPass('');

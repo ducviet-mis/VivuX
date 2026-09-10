@@ -5,13 +5,39 @@ import { persist } from "zustand/middleware";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import type { User } from "../types";
 
+export type RegisterResult = {
+  success: boolean;
+  requiresEmailConfirmation: boolean;
+  email?: string;
+};
+
+function getEmailRedirectUrl() {
+  return typeof window === 'undefined' ? undefined : `${window.location.origin}/home`;
+}
+
+export function translateAuthError(message?: string): string {
+  const normalized = message?.toLowerCase() || '';
+
+  if (normalized.includes('email not confirmed')) return 'Email chưa được xác thực. Vui lòng kiểm tra hộp thư và bấm vào liên kết xác nhận.';
+  if (normalized.includes('invalid login credentials')) return 'Email hoặc mật khẩu không đúng.';
+  if (normalized.includes('already registered') || normalized.includes('already been registered')) return 'Email này đã được đăng ký.';
+  if (normalized.includes('email rate limit exceeded') || normalized.includes('too many requests')) return 'Bạn đã gửi yêu cầu quá nhiều lần. Vui lòng thử lại sau ít phút.';
+  if (normalized.includes('signup is disabled') || normalized.includes('signups not allowed')) return 'Hệ thống hiện chưa mở đăng ký tài khoản mới.';
+  if (normalized.includes('password should be at least') || normalized.includes('password')) return 'Mật khẩu chưa đáp ứng yêu cầu bảo mật. Vui lòng dùng ít nhất 6 ký tự.';
+  if (normalized.includes('email') && (normalized.includes('invalid') || normalized.includes('format'))) return 'Địa chỉ email không hợp lệ.';
+  if (normalized.includes('expired') || normalized.includes('invalid token') || normalized.includes('invalid link')) return 'Liên kết xác thực không hợp lệ hoặc đã hết hạn. Vui lòng gửi lại email xác nhận.';
+
+  return 'Đã xảy ra lỗi xác thực. Vui lòng thử lại.';
+}
+
 interface AuthState {
   user: User | null;
   isLoading: boolean;
   error: string | null;
   initialized: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string, role: "teacher" | "student") => Promise<boolean>;
+  register: (name: string, email: string, password: string, role: "teacher" | "student") => Promise<RegisterResult>;
+  resendConfirmationEmail: (email: string) => Promise<{ success: boolean; message: string }>;
   logout: () => Promise<void>;
   logoutAllDevices: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -107,9 +133,7 @@ export const useAuthStore = create<AuthState>()(
 
           if (error) {
             set({
-              error: error.message === "Invalid login credentials"
-                ? "Email hoặc mật khẩu không đúng"
-                : error.message,
+              error: translateAuthError(error.message),
               isLoading: false
             });
             return false;
@@ -144,18 +168,23 @@ export const useAuthStore = create<AuthState>()(
           const { data, error } = await supabase.auth.signUp({
             email,
             password,
-            options: { data: { name, role } },
+            options: {
+              data: { name, role },
+              emailRedirectTo: getEmailRedirectUrl(),
+            },
           });
 
           if (error) {
-            let msg = error.message;
-            if (msg.includes("already registered")) msg = "Email này đã được đăng ký";
-            else if (msg.includes("Password")) msg = "Mật khẩu phải có ít nhất 6 ký tự";
-            set({ error: msg, isLoading: false });
-            return false;
+            set({ error: translateAuthError(error.message), isLoading: false });
+            return { success: false, requiresEmailConfirmation: false };
           }
 
           if (data.user) {
+            if (!data.session) {
+              set({ user: null, isLoading: false, initialized: true });
+              return { success: true, requiresEmailConfirmation: true, email: data.user.email || email };
+            }
+
             const { data: profile } = await supabase
               .from("profiles")
               .select("*")
@@ -175,14 +204,28 @@ export const useAuthStore = create<AuthState>()(
               isLoading: false,
               initialized: true,
             });
-            return true;
+            return { success: true, requiresEmailConfirmation: false };
           }
 
           set({ isLoading: false });
-          return false;
+          return { success: false, requiresEmailConfirmation: false };
         } catch {
           set({ error: "Đã xảy ra lỗi khi đăng ký", isLoading: false });
-          return false;
+          return { success: false, requiresEmailConfirmation: false };
+        }
+      },
+
+      resendConfirmationEmail: async (email: string) => {
+        try {
+          const { error } = await getSupabaseClient().auth.resend({
+            type: 'signup',
+            email,
+            options: { emailRedirectTo: getEmailRedirectUrl() },
+          });
+          if (error) return { success: false, message: translateAuthError(error.message) };
+          return { success: true, message: 'Email xác nhận mới đã được gửi. Vui lòng kiểm tra hộp thư.' };
+        } catch {
+          return { success: false, message: 'Không thể gửi lại email xác nhận. Vui lòng thử lại sau.' };
         }
       },
 

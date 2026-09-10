@@ -156,7 +156,7 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                       )}
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2">
+                    <div className="mt-auto flex items-center gap-2 pt-4">
                       <Button
                         onClick={() => router.push(`/practice/${lesson.id}?level=${level.id}`)}
                         className="flex-1 rounded-md h-11 bg-primary hover:opacity-90 text-primary-foreground font-bold shadow-card transition-all"

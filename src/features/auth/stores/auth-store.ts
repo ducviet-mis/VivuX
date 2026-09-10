@@ -35,6 +35,10 @@ function mapProfile(profile: any): User {
     accountTier,
     subscriptionStartedAt: profile.subscription_started_at || undefined,
     subscriptionExpiresAt: profile.subscription_expires_at || undefined,
+    referralCode: profile.referral_code || undefined,
+    referralRewardDays: Number(profile.referral_reward_days || 0),
+    referralDiscountPercent: Number(profile.referral_discount_percent || 0),
+    referralRedeemedAt: profile.referral_redeemed_at || undefined,
     createdAt: profile.created_at,
   };
 }
@@ -156,6 +160,8 @@ export const useAuthStore = create<AuthState>()(
                 id: data.user.id,
                 name, email, role,
                 accountTier: 'flygo',
+                referralRewardDays: 0,
+                referralDiscountPercent: 0,
                 createdAt: new Date().toISOString(),
               },
               isLoading: false,

@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
-import { createTransferCode, formatCurrency } from '../utils';
+import { calculateReferralDiscount, clampReferralDiscount, createTransferCode, formatCurrency, isReferralDiscountEligible } from '../utils';
 import type { PaidPlan, PaymentSettings } from '../types';
 
 interface PaymentDialogProps {
@@ -35,6 +35,11 @@ export function PaymentDialog({ open, onOpenChange, plan }: PaymentDialogProps) 
   const [copied, setCopied] = useState<string | null>(null);
   const [confirmedDemo, setConfirmedDemo] = useState(false);
   const transferCode = useMemo(() => createTransferCode(user?.id), [user?.id]);
+  const discountPercent = plan && isReferralDiscountEligible(plan.code)
+    ? clampReferralDiscount(user?.referralDiscountPercent)
+    : 0;
+  const discountAmount = plan ? calculateReferralDiscount(plan.price, discountPercent) : 0;
+  const amountDue = plan ? plan.price - discountAmount : 0;
 
   useEffect(() => {
     if (!open) return;
@@ -104,8 +109,17 @@ export function PaymentDialog({ open, onOpenChange, plan }: PaymentDialogProps) 
                   <p className="text-sm text-muted-foreground">Gói đăng ký</p>
                   <p className="mt-1 font-bold text-foreground">{plan.name} · {plan.billingLabel}</p>
                 </div>
-                <p className="shrink-0 text-xl font-bold tabular-nums text-primary">{formatCurrency(plan.price)}</p>
+                <div className="shrink-0 text-right">
+                  <p className="text-xl font-bold tabular-nums text-primary">{formatCurrency(amountDue)}</p>
+                  {discountPercent > 0 && <p className="mt-0.5 text-xs font-semibold text-success">Đã giảm {discountPercent}%</p>}
+                </div>
               </div>
+              {discountPercent > 0 && (
+                <div className="mt-3 flex items-center justify-between gap-3 border-t border-border pt-3 text-sm">
+                  <span className="text-muted-foreground">Ưu đãi giới thiệu ({discountPercent}%)</span>
+                  <span className="font-semibold tabular-nums text-success">−{formatCurrency(discountAmount)}</span>
+                </div>
+              )}
             </div>
 
             <PaymentRow icon={Landmark} label="Ngân hàng" value={settings.bankName} />

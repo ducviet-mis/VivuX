@@ -27,7 +27,14 @@ import {
   PREMIUM_FEATURES,
 } from '@/features/subscription/config';
 import type { PaidPlan } from '@/features/subscription/types';
-import { formatCurrency, formatExpiryDate, getEffectiveAccountTier } from '@/features/subscription/utils';
+import {
+  calculateReferralDiscount,
+  clampReferralDiscount,
+  formatCurrency,
+  formatExpiryDate,
+  getEffectiveAccountTier,
+  isReferralDiscountEligible,
+} from '@/features/subscription/utils';
 import { cn } from '@/lib/utils';
 
 type BillingCycle = (typeof FLYMAX_CYCLES)[number]['id'];
@@ -42,6 +49,12 @@ export default function PricingPage() {
   const selectedFlyMaxCycle = FLYMAX_CYCLES.find((cycle) => cycle.id === billingCycle) ?? FLYMAX_CYCLES[0];
   const flyMaxPlan = PAID_PLANS[selectedFlyMaxCycle.planCode];
   const expiryDate = currentTier === 'flymax' ? formatExpiryDate(user?.subscriptionExpiresAt) : null;
+  const referralDiscountPercent = clampReferralDiscount(user?.referralDiscountPercent);
+  const flyMaxDiscountPercent = isReferralDiscountEligible(flyMaxPlan.code) ? referralDiscountPercent : 0;
+  const flyMaxDiscount = calculateReferralDiscount(flyMaxPlan.price, flyMaxDiscountPercent);
+  const flyMaxPrice = flyMaxPlan.price - flyMaxDiscount;
+  const infinityDiscount = calculateReferralDiscount(PAID_PLANS.flyinfinity.price, referralDiscountPercent);
+  const infinityPrice = PAID_PLANS.flyinfinity.price - infinityDiscount;
 
   const openPayment = (plan: PaidPlan) => {
     if (!user) {
@@ -86,6 +99,16 @@ export default function PricingPage() {
         </section>
       )}
 
+      {user && referralDiscountPercent > 0 && (
+        <section className="mt-4 flex items-start gap-3 rounded-2xl border border-success/25 bg-success-soft/55 p-4 text-sm shadow-soft">
+          <Sparkles aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+          <p className="leading-relaxed text-foreground">
+            <span className="font-bold">Ưu đãi giới thiệu của bạn: {referralDiscountPercent}%.</span>{' '}
+            Mức giá bên dưới đã tự áp dụng cho FlyMax 6 tháng, 1 năm và FlyInfinity.
+          </p>
+        </section>
+      )}
+
       <section aria-labelledby="pricing-heading" className="mt-12">
         <div className="mx-auto max-w-2xl text-center">
           <h2 id="pricing-heading" className="text-2xl font-bold text-foreground sm:text-3xl">Gói đăng ký FlyDo</h2>
@@ -110,7 +133,7 @@ export default function PricingPage() {
             tier="flymax"
             title="FlyMax"
             description="Mở khóa trọn bộ công cụ học tập và luyện đề."
-            price={formatCurrency(flyMaxPlan.price)}
+            price={formatCurrency(flyMaxPrice)}
             priceSuffix={`Thời hạn ${flyMaxPlan.billingLabel}`}
             features={PREMIUM_FEATURES}
             icon={Crown}
@@ -133,20 +156,24 @@ export default function PricingPage() {
                 ))}
               </div>
             )}
-            priceNote={selectedFlyMaxCycle.savings > 0 ? `Tiết kiệm ${formatCurrency(selectedFlyMaxCycle.savings)} so với gói 1 tháng` : undefined}
+            priceNote={[
+              flyMaxDiscountPercent > 0 ? `Ưu đãi giới thiệu ${flyMaxDiscountPercent}%: giảm ${formatCurrency(flyMaxDiscount)}` : '',
+              selectedFlyMaxCycle.savings > 0 ? `Tiết kiệm ${formatCurrency(selectedFlyMaxCycle.savings)} so với gói 1 tháng` : '',
+            ].filter(Boolean).join(' · ') || undefined}
           />
 
           <PricingCard
             tier="flyinfinity"
             title="FlyInfinity"
             description="Một lần thanh toán, đồng hành cùng FlyDo trọn đời."
-            price={formatCurrency(PAID_PLANS.flyinfinity.price)}
+            price={formatCurrency(infinityPrice)}
             priceSuffix="thanh toán một lần"
             features={PREMIUM_FEATURES}
             icon={InfinityIcon}
             current={currentTier === 'flyinfinity'}
             action={() => openPayment(PAID_PLANS.flyinfinity)}
             actionLabel={currentTier === 'flyinfinity' ? 'Gói hiện tại' : 'Chọn FlyInfinity'}
+            priceNote={referralDiscountPercent > 0 ? `Ưu đãi giới thiệu ${referralDiscountPercent}%: giảm ${formatCurrency(infinityDiscount)}` : undefined}
           />
         </div>
       </section>

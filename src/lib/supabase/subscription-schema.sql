@@ -12,6 +12,11 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS birth_date DATE;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS account_tier TEXT NOT NULL DEFAULT 'flygo';
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS subscription_started_at TIMESTAMPTZ;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS subscription_expires_at TIMESTAMPTZ;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_code TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_reward_days INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_discount_percent INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referred_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_redeemed_at TIMESTAMPTZ;
 
 DO $$
 BEGIN
@@ -29,6 +34,82 @@ END $$;
 UPDATE public.profiles
 SET account_tier = 'flygo'
 WHERE account_tier IS NULL;
+
+-- Mỗi tài khoản có một mã giới thiệu riêng. Mã được gán tự động cho tài khoản mới
+-- và được bổ sung cho những tài khoản đã tồn tại.
+CREATE OR REPLACE FUNCTION public.generate_referral_code()
+RETURNS TEXT
+LANGUAGE plpgsql
+SET search_path = public
+AS $$
+DECLARE
+  v_code TEXT;
+BEGIN
+  LOOP
+    v_code := 'FLY' || UPPER(SUBSTRING(REPLACE(gen_random_uuid()::TEXT, '-', '') FROM 1 FOR 8));
+    EXIT WHEN NOT EXISTS (SELECT 1 FROM public.profiles WHERE referral_code = v_code);
+  END LOOP;
+  RETURN v_code;
+END;
+$$;
+
+UPDATE public.profiles
+SET referral_code = public.generate_referral_code()
+WHERE referral_code IS NULL OR BTRIM(referral_code) = '';
+
+UPDATE public.profiles
+SET
+  referral_reward_days = LEAST(30, GREATEST(0, COALESCE(referral_reward_days, 0))),
+  referral_discount_percent = LEAST(20, GREATEST(0, COALESCE(referral_discount_percent, 0)));
+
+CREATE UNIQUE INDEX IF NOT EXISTS profiles_referral_code_unique_idx
+  ON public.profiles(referral_code);
+
+CREATE INDEX IF NOT EXISTS profiles_referred_by_idx
+  ON public.profiles(referred_by);
+
+CREATE OR REPLACE FUNCTION public.assign_profile_referral_code()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SET search_path = public
+AS $$
+BEGIN
+  IF NEW.referral_code IS NULL OR BTRIM(NEW.referral_code) = '' THEN
+    NEW.referral_code := public.generate_referral_code();
+  ELSE
+    NEW.referral_code := UPPER(BTRIM(NEW.referral_code));
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS assign_profile_referral_code_trigger ON public.profiles;
+CREATE TRIGGER assign_profile_referral_code_trigger
+  BEFORE INSERT ON public.profiles
+  FOR EACH ROW EXECUTE FUNCTION public.assign_profile_referral_code();
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'profiles_referral_reward_days_check'
+      AND conrelid = 'public.profiles'::regclass
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD CONSTRAINT profiles_referral_reward_days_check
+      CHECK (referral_reward_days BETWEEN 0 AND 30);
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'profiles_referral_discount_percent_check'
+      AND conrelid = 'public.profiles'::regclass
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD CONSTRAINT profiles_referral_discount_percent_check
+      CHECK (referral_discount_percent BETWEEN 0 AND 20);
+  END IF;
+END $$;
 
 -- 2. Danh mục gói
 CREATE TABLE IF NOT EXISTS public.subscription_plans (
@@ -51,7 +132,8 @@ VALUES
   ('flymax_half_yearly', 'FlyMax 6 tháng', 'flymax', 139000, 180, TRUE),
   ('flymax_yearly', 'FlyMax 1 năm', 'flymax', 199000, 365, TRUE),
   ('flyinfinity', 'FlyInfinity trọn đời', 'flyinfinity', 299000, NULL, TRUE),
-  ('flymax_gift', 'FlyMax từ mã quà tặng', 'flymax', 0, NULL, FALSE)
+  ('flymax_gift', 'FlyMax từ mã quà tặng', 'flymax', 0, NULL, FALSE),
+  ('flymax_referral', 'FlyMax từ giới thiệu', 'flymax', 0, NULL, FALSE)
 ON CONFLICT (code) DO UPDATE SET
   name = EXCLUDED.name,
   account_tier = EXCLUDED.account_tier,
@@ -103,6 +185,24 @@ CREATE TABLE IF NOT EXISTS public.gift_code_redemptions (
 CREATE INDEX IF NOT EXISTS gift_code_redemptions_user_id_idx
   ON public.gift_code_redemptions(user_id, redeemed_at DESC);
 
+-- 5. Giới thiệu bạn bè. Mỗi người chỉ dùng một mã, nhưng có thể mời nhiều bạn.
+CREATE TABLE IF NOT EXISTS public.referral_redemptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  referral_code TEXT NOT NULL,
+  referrer_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  referee_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  referrer_flymax_days INTEGER NOT NULL DEFAULT 0 CHECK (referrer_flymax_days BETWEEN 0 AND 3),
+  referee_flymax_days INTEGER NOT NULL DEFAULT 0 CHECK (referee_flymax_days BETWEEN 0 AND 3),
+  referrer_discount_percent INTEGER NOT NULL DEFAULT 0 CHECK (referrer_discount_percent BETWEEN 0 AND 5),
+  referee_discount_percent INTEGER NOT NULL DEFAULT 0 CHECK (referee_discount_percent BETWEEN 0 AND 5),
+  redeemed_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (referee_id),
+  CHECK (referrer_id <> referee_id)
+);
+
+CREATE INDEX IF NOT EXISTS referral_redemptions_referrer_id_idx
+  ON public.referral_redemptions(referrer_id, redeemed_at DESC);
+
 -- 5. Cấu hình chuyển khoản và yêu cầu thanh toán
 CREATE TABLE IF NOT EXISTS public.payment_settings (
   id SMALLINT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
@@ -131,6 +231,14 @@ CREATE TABLE IF NOT EXISTS public.payment_orders (
   reviewed_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL
 );
 
+ALTER TABLE public.payment_orders ADD COLUMN IF NOT EXISTS list_price_vnd INTEGER;
+ALTER TABLE public.payment_orders ADD COLUMN IF NOT EXISTS discount_percent INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE public.payment_orders ADD COLUMN IF NOT EXISTS discount_amount_vnd INTEGER NOT NULL DEFAULT 0;
+
+UPDATE public.payment_orders
+SET list_price_vnd = amount_vnd
+WHERE list_price_vnd IS NULL;
+
 CREATE INDEX IF NOT EXISTS payment_orders_user_id_idx
   ON public.payment_orders(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS payment_orders_status_idx
@@ -141,6 +249,7 @@ ALTER TABLE public.subscription_plans ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.gift_codes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.gift_code_redemptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.referral_redemptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.payment_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.payment_orders ENABLE ROW LEVEL SECURITY;
 
@@ -159,6 +268,11 @@ DROP POLICY IF EXISTS "Users can view own gift redemptions" ON public.gift_code_
 CREATE POLICY "Users can view own gift redemptions"
   ON public.gift_code_redemptions FOR SELECT
   USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can view own referral redemptions" ON public.referral_redemptions;
+CREATE POLICY "Users can view own referral redemptions"
+  ON public.referral_redemptions FOR SELECT
+  USING (auth.uid() = referrer_id OR auth.uid() = referee_id);
 
 DROP POLICY IF EXISTS "Public can view payment settings" ON public.payment_settings;
 CREATE POLICY "Public can view payment settings"
@@ -181,6 +295,11 @@ BEGIN
     NEW.account_tier := OLD.account_tier;
     NEW.subscription_started_at := OLD.subscription_started_at;
     NEW.subscription_expires_at := OLD.subscription_expires_at;
+    NEW.referral_code := OLD.referral_code;
+    NEW.referral_reward_days := OLD.referral_reward_days;
+    NEW.referral_discount_percent := OLD.referral_discount_percent;
+    NEW.referred_by := OLD.referred_by;
+    NEW.referral_redeemed_at := OLD.referral_redeemed_at;
   END IF;
   RETURN NEW;
 END;
@@ -397,7 +516,147 @@ $$;
 REVOKE ALL ON FUNCTION public.redeem_gift_code(TEXT) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.redeem_gift_code(TEXT) TO authenticated;
 
--- 8. Tạo yêu cầu thanh toán với giá lấy trực tiếp từ bảng gói.
+-- 9. Đổi mã giới thiệu. Cả hai bên được cộng ngày FlyMax (tối đa 30 ngày
+-- từ giới thiệu cho mỗi tài khoản) và +5% ưu đãi (tối đa 20%). Ngày thưởng
+-- không còn được cộng vẫn không làm mất quyền nhận ưu đãi.
+ALTER TABLE public.subscriptions DROP CONSTRAINT IF EXISTS subscriptions_source_check;
+ALTER TABLE public.subscriptions
+  ADD CONSTRAINT subscriptions_source_check
+  CHECK (source IN ('payment', 'gift_code', 'referral', 'admin'));
+
+CREATE OR REPLACE FUNCTION public.redeem_referral_code(p_code TEXT)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_user_id UUID := auth.uid();
+  v_code TEXT := UPPER(BTRIM(COALESCE(p_code, '')));
+  v_referrer_id UUID;
+  v_referrer public.profiles%ROWTYPE;
+  v_referee public.profiles%ROWTYPE;
+  v_redemption_id UUID;
+  v_referrer_days INTEGER;
+  v_referee_days INTEGER;
+  v_referrer_discount INTEGER;
+  v_referee_discount INTEGER;
+  v_referrer_start TIMESTAMPTZ;
+  v_referee_start TIMESTAMPTZ;
+  v_referrer_expires TIMESTAMPTZ;
+  v_referee_expires TIMESTAMPTZ;
+BEGIN
+  IF v_user_id IS NULL THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Bạn cần đăng nhập để dùng mã giới thiệu.');
+  END IF;
+
+  IF v_code = '' THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Vui lòng nhập mã giới thiệu.');
+  END IF;
+
+  SELECT id INTO v_referrer_id
+  FROM public.profiles
+  WHERE referral_code = v_code;
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Mã giới thiệu không tồn tại.');
+  END IF;
+
+  IF v_referrer_id = v_user_id THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Bạn không thể sử dụng mã giới thiệu của chính mình.');
+  END IF;
+
+  -- Khóa hai hồ sơ theo cùng một thứ tự để tránh cộng thưởng trùng khi gửi lại yêu cầu.
+  PERFORM 1
+  FROM public.profiles
+  WHERE id IN (v_referrer_id, v_user_id)
+  ORDER BY id
+  FOR UPDATE;
+
+  IF EXISTS (SELECT 1 FROM public.referral_redemptions WHERE referee_id = v_user_id) THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Mỗi tài khoản chỉ có thể dùng một mã giới thiệu.');
+  END IF;
+
+  SELECT * INTO v_referrer FROM public.profiles WHERE id = v_referrer_id;
+  SELECT * INTO v_referee FROM public.profiles WHERE id = v_user_id;
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Không tìm thấy hồ sơ tài khoản.');
+  END IF;
+
+  -- FlyInfinity không bị thay đổi cấp gói; tài khoản này vẫn nhận ưu đãi mua hàng.
+  v_referrer_days := CASE WHEN v_referrer.account_tier = 'flyinfinity' THEN 0
+    ELSE LEAST(3, GREATEST(0, 30 - COALESCE(v_referrer.referral_reward_days, 0))) END;
+  v_referee_days := CASE WHEN v_referee.account_tier = 'flyinfinity' THEN 0
+    ELSE LEAST(3, GREATEST(0, 30 - COALESCE(v_referee.referral_reward_days, 0))) END;
+  v_referrer_discount := LEAST(5, GREATEST(0, 20 - COALESCE(v_referrer.referral_discount_percent, 0)));
+  v_referee_discount := LEAST(5, GREATEST(0, 20 - COALESCE(v_referee.referral_discount_percent, 0)));
+
+  INSERT INTO public.referral_redemptions (
+    referral_code, referrer_id, referee_id,
+    referrer_flymax_days, referee_flymax_days,
+    referrer_discount_percent, referee_discount_percent
+  ) VALUES (
+    v_code, v_referrer_id, v_user_id,
+    v_referrer_days, v_referee_days,
+    v_referrer_discount, v_referee_discount
+  ) RETURNING id INTO v_redemption_id;
+
+  IF v_referrer_days > 0 THEN
+    v_referrer_start := GREATEST(NOW(), COALESCE(v_referrer.subscription_expires_at, NOW()));
+    v_referrer_expires := v_referrer_start + make_interval(days => v_referrer_days);
+    INSERT INTO public.subscriptions (user_id, plan_code, source, status, starts_at, expires_at, metadata)
+    VALUES (v_referrer_id, 'flymax_referral', 'referral', 'active', v_referrer_start, v_referrer_expires,
+      jsonb_build_object('referral_redemption_id', v_redemption_id, 'role', 'referrer', 'days', v_referrer_days));
+    UPDATE public.profiles SET
+      account_tier = 'flymax',
+      subscription_started_at = CASE WHEN subscription_expires_at IS NULL OR subscription_expires_at <= NOW() THEN NOW() ELSE COALESCE(subscription_started_at, NOW()) END,
+      subscription_expires_at = v_referrer_expires
+    WHERE id = v_referrer_id;
+  END IF;
+
+  IF v_referee_days > 0 THEN
+    v_referee_start := GREATEST(NOW(), COALESCE(v_referee.subscription_expires_at, NOW()));
+    v_referee_expires := v_referee_start + make_interval(days => v_referee_days);
+    INSERT INTO public.subscriptions (user_id, plan_code, source, status, starts_at, expires_at, metadata)
+    VALUES (v_user_id, 'flymax_referral', 'referral', 'active', v_referee_start, v_referee_expires,
+      jsonb_build_object('referral_redemption_id', v_redemption_id, 'role', 'referee', 'days', v_referee_days));
+    UPDATE public.profiles SET
+      account_tier = 'flymax',
+      subscription_started_at = CASE WHEN subscription_expires_at IS NULL OR subscription_expires_at <= NOW() THEN NOW() ELSE COALESCE(subscription_started_at, NOW()) END,
+      subscription_expires_at = v_referee_expires
+    WHERE id = v_user_id;
+  END IF;
+
+  UPDATE public.profiles SET
+    referral_reward_days = LEAST(30, referral_reward_days + v_referrer_days),
+    referral_discount_percent = LEAST(20, referral_discount_percent + v_referrer_discount)
+  WHERE id = v_referrer_id;
+
+  UPDATE public.profiles SET
+    referral_reward_days = LEAST(30, referral_reward_days + v_referee_days),
+    referral_discount_percent = LEAST(20, referral_discount_percent + v_referee_discount),
+    referred_by = v_referrer_id,
+    referral_redeemed_at = NOW()
+  WHERE id = v_user_id;
+
+  RETURN jsonb_build_object(
+    'success', TRUE,
+    'message', 'Đã áp dụng mã. Bạn nhận ' || v_referee_days || ' ngày FlyMax và thêm ' || v_referee_discount || '% ưu đãi.',
+    'flymax_days', v_referee_days,
+    'discount_percent', v_referee_discount
+  );
+EXCEPTION
+  WHEN unique_violation THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Mỗi tài khoản chỉ có thể dùng một mã giới thiệu.');
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.redeem_referral_code(TEXT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.redeem_referral_code(TEXT) TO authenticated;
+
+-- 10. Tạo yêu cầu thanh toán với giá lấy trực tiếp từ bảng gói.
+-- Ưu đãi giới thiệu chỉ có hiệu lực với FlyMax 6 tháng, 1 năm và FlyInfinity.
 CREATE OR REPLACE FUNCTION public.create_payment_order(p_plan_code TEXT)
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -409,6 +668,9 @@ DECLARE
   v_plan public.subscription_plans%ROWTYPE;
   v_order_id UUID;
   v_transfer_code TEXT;
+  v_discount_percent INTEGER := 0;
+  v_discount_amount INTEGER := 0;
+  v_amount_due INTEGER;
 BEGIN
   IF v_user_id IS NULL THEN
     RETURN jsonb_build_object('success', FALSE, 'message', 'Bạn cần đăng nhập để tạo yêu cầu thanh toán.');
@@ -422,16 +684,32 @@ BEGIN
     RETURN jsonb_build_object('success', FALSE, 'message', 'Gói đăng ký không hợp lệ.');
   END IF;
 
+  IF v_plan.code IN ('flymax_half_yearly', 'flymax_yearly', 'flyinfinity') THEN
+    SELECT LEAST(20, GREATEST(0, COALESCE(referral_discount_percent, 0)))
+    INTO v_discount_percent
+    FROM public.profiles
+    WHERE id = v_user_id;
+  END IF;
+
+  v_discount_amount := FLOOR(v_plan.price_vnd * v_discount_percent / 100.0)::INTEGER;
+  v_amount_due := v_plan.price_vnd - v_discount_amount;
+
   v_transfer_code := 'FLYDO ' || UPPER(SUBSTRING(REPLACE(v_user_id::TEXT, '-', '') FROM 1 FOR 8));
 
-  INSERT INTO public.payment_orders (user_id, plan_code, amount_vnd, transfer_code)
-  VALUES (v_user_id, v_plan.code, v_plan.price_vnd, v_transfer_code)
+  INSERT INTO public.payment_orders (
+    user_id, plan_code, amount_vnd, list_price_vnd, discount_percent, discount_amount_vnd, transfer_code
+  ) VALUES (
+    v_user_id, v_plan.code, v_amount_due, v_plan.price_vnd, v_discount_percent, v_discount_amount, v_transfer_code
+  )
   RETURNING id INTO v_order_id;
 
   RETURN jsonb_build_object(
     'success', TRUE,
     'order_id', v_order_id,
-    'amount_vnd', v_plan.price_vnd,
+    'amount_vnd', v_amount_due,
+    'list_price_vnd', v_plan.price_vnd,
+    'discount_percent', v_discount_percent,
+    'discount_amount_vnd', v_discount_amount,
     'transfer_code', v_transfer_code,
     'message', 'Đã tạo yêu cầu thanh toán.'
   );

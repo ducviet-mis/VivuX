@@ -1,5 +1,11 @@
 import type { User } from '@/features/auth/types';
-import type { AccountTier } from './types';
+import type { AccountTier, PaidPlanCode } from './types';
+
+const REFERRAL_DISCOUNT_PLANS: PaidPlanCode[] = [
+  'flymax_half_yearly',
+  'flymax_yearly',
+  'flyinfinity',
+];
 
 export function getEffectiveAccountTier(user: User | null | undefined): AccountTier {
   if (!user) return 'flygo';
@@ -31,4 +37,16 @@ export function formatExpiryDate(value?: string): string | null {
 export function createTransferCode(userId?: string): string {
   const suffix = userId ? userId.replace(/-/g, '').slice(0, 8).toUpperCase() : 'DANGNHAP';
   return `FLYDO ${suffix}`;
+}
+
+export function isReferralDiscountEligible(planCode: PaidPlanCode): boolean {
+  return REFERRAL_DISCOUNT_PLANS.includes(planCode);
+}
+
+export function clampReferralDiscount(value?: number): number {
+  return Math.min(20, Math.max(0, Number(value) || 0));
+}
+
+export function calculateReferralDiscount(price: number, discountPercent?: number): number {
+  return Math.floor(price * clampReferralDiscount(discountPercent) / 100);
 }

@@ -12,5 +12,9 @@ export interface User {
   accountTier: AccountTier;
   subscriptionStartedAt?: string;
   subscriptionExpiresAt?: string;
+  referralCode?: string;
+  referralRewardDays: number;
+  referralDiscountPercent: number;
+  referralRedeemedAt?: string;
   createdAt: string;
 }

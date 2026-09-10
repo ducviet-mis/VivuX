@@ -101,6 +101,10 @@ export const FAQ_ITEMS = [
     answer: 'Mỗi mã quà tặng có số ngày FlyMax và điều kiện sử dụng riêng. Sau khi nhập mã hợp lệ, thời hạn mới sẽ được cộng nối tiếp vào thời hạn FlyMax còn lại của bạn.',
   },
   {
+    question: 'Mã giới thiệu mang lại ưu đãi gì?',
+    answer: 'Khi một bạn mới nhập mã của bạn, cả hai tài khoản cùng nhận tối đa 3 ngày FlyMax và thêm 5% ưu đãi. Ưu đãi áp dụng cho FlyMax 6 tháng, 1 năm và FlyInfinity; được cộng dồn tối đa 20%. Ngày FlyMax thưởng từ giới thiệu được giới hạn 30 ngày cho mỗi tài khoản.',
+  },
+  {
     question: 'Sau khi chuyển khoản bao lâu tài khoản được nâng cấp?',
     answer: 'Ở giai đoạn thanh toán thủ công, FlyDo sẽ kiểm tra nội dung chuyển khoản và kích hoạt tài khoản sau khi xác nhận. Thời gian xử lý cụ thể sẽ được cập nhật khi hệ thống chính thức mở bán.',
   },

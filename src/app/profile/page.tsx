@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { AccountTierBadge } from '@/features/subscription/components/account-tier-badge';
 import { GiftCodeForm } from '@/features/subscription/components/gift-code-form';
+import { ReferralProgram } from '@/features/subscription/components/referral-program';
 import { ACCOUNT_TIER_META } from '@/features/subscription/config';
 import { formatExpiryDate, getEffectiveAccountTier } from '@/features/subscription/utils';
 
@@ -259,6 +260,8 @@ function MembershipTab({ user }: { user: any }) {
             <p className="mt-1 text-sm text-muted-foreground">Mã hợp lệ sẽ cộng thêm số ngày trải nghiệm FlyMax vào tài khoản này.</p>
             <div className="mt-4"><GiftCodeForm compact /></div>
           </div>
+
+          <ReferralProgram />
         </CardContent>
       </Card>
     </div>

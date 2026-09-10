@@ -15,6 +15,7 @@ export interface User {
   referralCode?: string;
   referralRewardDays: number;
   referralDiscountPercent: number;
+  referralEligibleUntil?: string;
   referralRedeemedAt?: string;
   createdAt: string;
 }

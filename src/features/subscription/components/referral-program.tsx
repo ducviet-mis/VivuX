@@ -1,26 +1,20 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { AlertCircle, CheckCircle2, Copy, Gift, Loader2, Percent, UsersRound } from 'lucide-react';
+import { useState } from 'react';
+import { Copy, Gift, Percent, UsersRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { clampReferralDiscount } from '../utils';
 
 export function ReferralProgram() {
-  const { user, refreshUser } = useAuthStore();
-  const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
+  const user = useAuthStore((state) => state.user);
   const [copied, setCopied] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   if (!user) return null;
 
   const rewardDays = Math.min(30, Math.max(0, user.referralRewardDays || 0));
   const discountPercent = clampReferralDiscount(user.referralDiscountPercent);
-  const hasRedeemed = Boolean(user.referralRedeemedAt);
 
   const copyReferralCode = async () => {
     if (!user.referralCode) return;
@@ -33,42 +27,6 @@ export function ReferralProgram() {
     }
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const normalizedCode = code.trim().toUpperCase();
-    setMessage(null);
-
-    if (!normalizedCode) {
-      setMessage({ type: 'error', text: 'Vui lòng nhập mã giới thiệu.' });
-      return;
-    }
-
-    setLoading(true);
-    const { data, error } = await getSupabaseClient().rpc('redeem_referral_code', { p_code: normalizedCode });
-
-    if (error) {
-      const isMissingFunction = error.message.toLowerCase().includes('function') || error.code === 'PGRST202';
-      setMessage({
-        type: 'error',
-        text: isMissingFunction ? 'Tính năng mã giới thiệu chưa được cấu hình trên Supabase.' : error.message,
-      });
-      setLoading(false);
-      return;
-    }
-
-    const result = Array.isArray(data) ? data[0] : data;
-    if (!result?.success) {
-      setMessage({ type: 'error', text: result?.message || 'Mã giới thiệu không hợp lệ.' });
-      setLoading(false);
-      return;
-    }
-
-    await refreshUser();
-    setCode('');
-    setMessage({ type: 'success', text: result.message || 'Đã áp dụng mã giới thiệu.' });
-    setLoading(false);
-  };
-
   return (
     <section className="rounded-2xl border border-primary/20 bg-primary-soft/35 p-4 sm:p-5" aria-labelledby="referral-heading">
       <div className="flex items-start gap-3">
@@ -78,7 +36,7 @@ export function ReferralProgram() {
         <div>
           <h3 id="referral-heading" className="font-bold text-foreground">Mời bạn bè cùng học</h3>
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-            Mỗi lượt giới thiệu hợp lệ cộng tối đa 3 ngày FlyMax và 5% ưu đãi cho cả hai bạn. Ưu đãi dùng cho FlyMax 6 tháng, 1 năm hoặc FlyInfinity.
+            Chia sẻ mã của bạn để cả hai cùng nhận tối đa 3 ngày FlyMax và thêm 5% ưu đãi cho mỗi lượt giới thiệu hợp lệ.
           </p>
         </div>
       </div>
@@ -104,43 +62,6 @@ export function ReferralProgram() {
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
         Ngày FlyMax thưởng từ giới thiệu được cộng tối đa 30 ngày cho mỗi tài khoản. Ưu đãi vẫn tiếp tục cộng 5% mỗi lượt, đến mức tối đa 20%.
       </p>
-
-      {hasRedeemed ? (
-        <p role="status" className="mt-4 flex items-center gap-2 rounded-xl bg-success-soft px-3 py-3 text-sm font-medium text-success">
-          <CheckCircle2 aria-hidden="true" className="h-4 w-4 shrink-0" />
-          Bạn đã dùng mã giới thiệu. Hãy chia sẻ mã của mình để mời thêm bạn bè.
-        </p>
-      ) : (
-        <form onSubmit={handleSubmit} className="mt-5 border-t border-primary/15 pt-5">
-          <Label htmlFor="referral-code" className="font-semibold text-foreground">Bạn có mã từ bạn bè?</Label>
-          <p className="mt-1 text-sm text-muted-foreground">Mỗi tài khoản chỉ nhập một mã giới thiệu, vì vậy hãy kiểm tra kỹ trước khi xác nhận.</p>
-          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-            <Input
-              id="referral-code"
-              value={code}
-              onChange={(event) => setCode(event.target.value.toUpperCase())}
-              placeholder="Ví dụ: FLYA1B2C3D4"
-              autoCapitalize="characters"
-              autoComplete="off"
-              spellCheck={false}
-              disabled={loading}
-              aria-describedby={message ? 'referral-message' : undefined}
-              className="h-12 min-w-0 bg-surface font-semibold uppercase tracking-wide"
-            />
-            <Button type="submit" size="lg" disabled={loading || !code.trim()} className="sm:min-w-40">
-              {loading ? <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" /> : <Gift aria-hidden="true" className="h-4 w-4" />}
-              {loading ? 'Đang áp dụng' : 'Nhận ưu đãi'}
-            </Button>
-          </div>
-        </form>
-      )}
-
-      {message && (
-        <p id="referral-message" role={message.type === 'error' ? 'alert' : 'status'} className={message.type === 'success' ? 'mt-3 flex items-center gap-2 text-sm font-medium text-success' : 'mt-3 flex items-center gap-2 text-sm font-medium text-destructive'}>
-          {message.type === 'success' ? <CheckCircle2 aria-hidden="true" className="h-4 w-4 shrink-0" /> : <AlertCircle aria-hidden="true" className="h-4 w-4 shrink-0" />}
-          {message.text}
-        </p>
-      )}
     </section>
   );
 }

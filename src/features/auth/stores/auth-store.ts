@@ -38,6 +38,7 @@ function mapProfile(profile: any): User {
     referralCode: profile.referral_code || undefined,
     referralRewardDays: Number(profile.referral_reward_days || 0),
     referralDiscountPercent: Number(profile.referral_discount_percent || 0),
+    referralEligibleUntil: profile.referral_eligible_until || undefined,
     referralRedeemedAt: profile.referral_redeemed_at || undefined,
     createdAt: profile.created_at,
   };
@@ -155,13 +156,20 @@ export const useAuthStore = create<AuthState>()(
           }
 
           if (data.user) {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", data.user.id)
+              .maybeSingle();
+
             set({
-              user: {
+              user: profile ? mapProfile(profile) : {
                 id: data.user.id,
                 name, email, role,
                 accountTier: 'flygo',
                 referralRewardDays: 0,
                 referralDiscountPercent: 0,
+                referralEligibleUntil: new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString(),
                 createdAt: new Date().toISOString(),
               },
               isLoading: false,

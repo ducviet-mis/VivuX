@@ -50,3 +50,9 @@ export function clampReferralDiscount(value?: number): number {
 export function calculateReferralDiscount(price: number, discountPercent?: number): number {
   return Math.floor(price * clampReferralDiscount(discountPercent) / 100);
 }
+
+export function canRedeemReferralCode(user: User | null | undefined, now = Date.now()): boolean {
+  if (!user || user.referralRedeemedAt || !user.referralEligibleUntil) return false;
+  const deadline = new Date(user.referralEligibleUntil).getTime();
+  return Number.isFinite(deadline) && deadline > now;
+}

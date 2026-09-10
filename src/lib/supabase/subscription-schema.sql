@@ -17,6 +17,7 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_reward_days INTEGE
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_discount_percent INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referred_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_redeemed_at TIMESTAMPTZ;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS referral_eligible_until TIMESTAMPTZ;
 
 DO $$
 BEGIN
@@ -78,6 +79,10 @@ BEGIN
     NEW.referral_code := public.generate_referral_code();
   ELSE
     NEW.referral_code := UPPER(BTRIM(NEW.referral_code));
+  END IF;
+  -- Chỉ tài khoản tạo sau khi chương trình mở mới có 72 giờ để nhập mã.
+  IF NEW.referral_eligible_until IS NULL THEN
+    NEW.referral_eligible_until := COALESCE(NEW.created_at, NOW()) + INTERVAL '72 hours';
   END IF;
   RETURN NEW;
 END;
@@ -300,6 +305,7 @@ BEGIN
     NEW.referral_discount_percent := OLD.referral_discount_percent;
     NEW.referred_by := OLD.referred_by;
     NEW.referral_redeemed_at := OLD.referral_redeemed_at;
+    NEW.referral_eligible_until := OLD.referral_eligible_until;
   END IF;
   RETURN NEW;
 END;
@@ -582,6 +588,10 @@ BEGIN
 
   IF NOT FOUND THEN
     RETURN jsonb_build_object('success', FALSE, 'message', 'Không tìm thấy hồ sơ tài khoản.');
+  END IF;
+
+  IF v_referee.referral_eligible_until IS NULL OR v_referee.referral_eligible_until <= NOW() THEN
+    RETURN jsonb_build_object('success', FALSE, 'message', 'Thời gian nhập mã giới thiệu của bạn đã kết thúc.');
   END IF;
 
   -- FlyInfinity không bị thay đổi cấp gói; tài khoản này vẫn nhận ưu đãi mua hàng.

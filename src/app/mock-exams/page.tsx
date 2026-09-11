@@ -40,6 +40,12 @@ function MockExamsContent() {
   const [selectedExamForHistory, setSelectedExamForHistory] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const startExamInFullscreen = (examId: string) => {
+    window.sessionStorage.setItem('flydo-open-exam-fullscreen', 'true');
+    void document.documentElement.requestFullscreen?.().catch(() => undefined);
+    router.push(`/mock-exams/${examId}`);
+  };
+
   useEffect(() => {
     async function loadExams() {
       setLoading(true);
@@ -183,12 +189,10 @@ function MockExamsContent() {
                       {hasAttempt ? (
                         <>
                           {/* Nút Thi lại */}
-                          <Link href={`/mock-exams/${exam.id}`}>
-                            <Button className="rounded-md bg-primary text-primary-foreground font-bold shadow-soft gap-1.5 h-11 px-4">
-                              <RotateCcw className="w-4 h-4" />
-                              <span>Thi lại</span>
-                            </Button>
-                          </Link>
+                          <Button type="button" onClick={() => startExamInFullscreen(exam.id)} className="rounded-md bg-primary text-primary-foreground font-bold shadow-soft gap-1.5 h-11 px-4">
+                            <RotateCcw className="w-4 h-4" />
+                            <span>Thi lại</span>
+                          </Button>
 
                           {/* Menu 3 gạch gom các tùy chọn xem lại & lịch sử */}
                           <DropdownMenu>
@@ -223,12 +227,10 @@ function MockExamsContent() {
                         </>
                       ) : (
                         /* Nút Bắt đầu làm bài khi chưa thi lần nào */
-                        <Link href={`/mock-exams/${exam.id}`}>
-                          <Button className="rounded-md bg-primary text-primary-foreground font-bold shadow-soft gap-1.5 h-11 px-4">
-                            <Play className="w-4 h-4 fill-current" />
-                            <span>Bắt đầu làm bài</span>
-                          </Button>
-                        </Link>
+                        <Button type="button" onClick={() => startExamInFullscreen(exam.id)} className="rounded-md bg-primary text-primary-foreground font-bold shadow-soft gap-1.5 h-11 px-4">
+                          <Play className="w-4 h-4 fill-current" />
+                          <span>Bắt đầu làm bài</span>
+                        </Button>
                       )}
                     </div>
                   </div>

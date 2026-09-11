@@ -6,7 +6,7 @@ import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Button } from '@/components/ui/button';
 import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
-import { ArrowLeft, ArrowRight, Clock, Send } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, Maximize2, Minimize2, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from '@/components/ui/sheet';
@@ -23,8 +23,34 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch {
+      // Trình duyệt hoặc thiết bị không hỗ trợ toàn màn hình: người dùng vẫn làm bài bình thường.
+    }
+  };
+
+  useEffect(() => {
+    const syncFullscreenState = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener('fullscreenchange', syncFullscreenState);
+    syncFullscreenState();
+    return () => document.removeEventListener('fullscreenchange', syncFullscreenState);
+  }, []);
+
+  useEffect(() => {
+    if (!exam || window.sessionStorage.getItem('flydo-open-exam-fullscreen') !== 'true') return;
+    window.sessionStorage.removeItem('flydo-open-exam-fullscreen');
+    void document.documentElement.requestFullscreen?.().catch(() => undefined);
+  }, [exam]);
 
   useEffect(() => {
     async function loadExam() {
@@ -105,6 +131,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
     }).select().single();
 
     if (!error && data) {
+      if (document.fullscreenElement) void document.exitFullscreen();
       router.push(`/mock-exams/${exam.id}/result?attemptId=${data.id}`);
     } else {
       console.error(error);
@@ -186,6 +213,17 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         </div>
 
         <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={toggleFullscreen}
+            className="h-11 w-11 rounded-md border-border"
+            aria-label={isFullscreen ? 'Thoát chế độ toàn màn hình' : 'Bật chế độ toàn màn hình'}
+            title={isFullscreen ? 'Thoát toàn màn hình' : 'Bật toàn màn hình'}
+          >
+            {isFullscreen ? <Minimize2 aria-hidden="true" className="h-4 w-4" /> : <Maximize2 aria-hidden="true" className="h-4 w-4" />}
+          </Button>
           <div className={cn(
             "flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold font-mono text-sm sm:text-lg transition-colors",
             timeLeft < 300 ? "bg-destructive-soft text-destructive animate-pulse" : "bg-muted text-foreground"

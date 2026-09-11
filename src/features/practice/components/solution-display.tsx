@@ -37,8 +37,8 @@ export function SolutionDisplay({ isCorrect, correctAnswer, solution, onNext, is
 
       <div className="p-6 bg-muted text-foreground">
         <h4 className="font-bold text-xs text-muted-foreground mb-4 uppercase tracking-wider">Lời giải chi tiết</h4>
-        <div className="text-base leading-relaxed">
-          <MathRenderer content={solution} />
+        <div className="text-[15px] text-foreground sm:text-base">
+          <MathRenderer content={solution} variant="solution" />
         </div>
 
         <div className="mt-8 flex justify-end">

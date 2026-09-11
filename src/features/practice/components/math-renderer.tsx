@@ -7,6 +7,48 @@ import 'katex/dist/katex.min.css';
 interface MathRendererProps {
   content: string;
   display?: boolean;
+  /** Use the reading-friendly layout intended for a detailed solution. */
+  variant?: 'inline' | 'solution';
+}
+
+type MathPart = {
+  type: 'text' | 'inline-math' | 'display-math';
+  value: string;
+};
+
+function splitMathParts(content: string): MathPart[] {
+  const parts: MathPart[] = [];
+  const pattern = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: 'text', value: content.slice(lastIndex, match.index) });
+    }
+
+    const value = match[0];
+    parts.push({
+      type: value.startsWith('$$') ? 'display-math' : 'inline-math',
+      value: value.startsWith('$$') ? value.slice(2, -2) : value.slice(1, -1),
+    });
+    lastIndex = pattern.lastIndex;
+  }
+
+  if (lastIndex < content.length) {
+    parts.push({ type: 'text', value: content.slice(lastIndex) });
+  }
+
+  return parts;
+}
+
+function shouldDisplayFormula(math: string) {
+  const equalSigns = (math.match(/=/g) || []).length;
+  return (
+    math.length >= 72 ||
+    equalSigns >= 2 ||
+    /\\begin\{|\\\\/.test(math)
+  );
 }
 
 /**
@@ -65,7 +107,7 @@ export function formatOptionMath(opt: string): string {
   return s;
 }
 
-export function MathRenderer({ content, display = false }: MathRendererProps) {
+export function MathRenderer({ content, display = false, variant = 'inline' }: MathRendererProps) {
   // Fix common LaTeX escaping issues (e.g., missing backslashes due to JSON parse, or double backslashes)
   const fixMath = (math: string) => {
     let fixed = math;
@@ -104,29 +146,101 @@ export function MathRenderer({ content, display = false }: MathRendererProps) {
     return fixed;
   };
 
+  const renderMath = (math: string, displayMode: boolean, key: React.Key) => {
+    const html = katex.renderToString(fixMath(math), { displayMode, throwOnError: false });
+    return <span key={key} dangerouslySetInnerHTML={{ __html: html }} />;
+  };
+
   const renderedContent = useMemo(() => {
     try {
-      const normalized = formatOptionMath(content);
-      const regex = /(\$\$?.*?\$\$?)/g;
-      const parts = normalized.split(regex);
-      
-      return parts.map((part, index) => {
-        if (part.startsWith('$$') && part.endsWith('$$')) {
-          const math = fixMath(part.slice(2, -2));
-          const html = katex.renderToString(math, { displayMode: true, throwOnError: false });
-          return <span key={index} dangerouslySetInnerHTML={{ __html: html }} />;
-        } else if (part.startsWith('$') && part.endsWith('$')) {
-          const math = fixMath(part.slice(1, -1));
-          const html = katex.renderToString(math, { displayMode: false, throwOnError: false });
-          return <span key={index} dangerouslySetInnerHTML={{ __html: html }} />;
+      if (variant === 'inline') {
+        const normalized = formatOptionMath(content);
+        const parts = splitMathParts(normalized);
+
+        return parts.map((part, index) => {
+          if (part.type === 'display-math') {
+            return renderMath(part.value, true, index);
+          }
+          if (part.type === 'inline-math') {
+            return renderMath(part.value, false, index);
+          }
+          return <span key={index}>{part.value}</span>;
+        });
+      }
+
+      const parts = splitMathParts(content.replace(/\r\n?/g, '\n'));
+      const blocks: React.ReactNode[] = [];
+      let paragraph: React.ReactNode[] = [];
+      let key = 0;
+
+      const flushParagraph = () => {
+        if (!paragraph.some(node => typeof node !== 'string' || node.trim().length > 0)) return;
+        blocks.push(
+          <p key={`paragraph-${key++}`} className="max-w-[72ch] break-words leading-7 text-pretty">
+            {paragraph}
+          </p>
+        );
+        paragraph = [];
+      };
+
+      const appendText = (value: string) => {
+        const segments = value.split(/(\n\s*\n+)/);
+        segments.forEach((segment) => {
+          if (/^\n\s*\n+$/.test(segment)) {
+            flushParagraph();
+            return;
+          }
+
+          const lines = segment.split('\n');
+          lines.forEach((line, lineIndex) => {
+            if (lineIndex > 0) paragraph.push(<br key={`break-${key++}`} />);
+            if (line) paragraph.push(line);
+          });
+        });
+      };
+
+      parts.forEach((part, index) => {
+        if (part.type === 'text') {
+          appendText(part.value);
+          return;
         }
-        return <span key={index}>{part}</span>;
+
+        const isDisplay = part.type === 'display-math' || shouldDisplayFormula(part.value);
+        if (!isDisplay) {
+          paragraph.push(renderMath(part.value, false, `inline-${key++}`));
+          return;
+        }
+
+        flushParagraph();
+
+        let punctuation = '';
+        const followingPart = parts[index + 1];
+        if (followingPart?.type === 'text') {
+          const punctuationMatch = followingPart.value.match(/^\s*([.,;:])\s*/);
+          if (punctuationMatch) {
+            punctuation = punctuationMatch[1];
+            followingPart.value = followingPart.value.slice(punctuationMatch[0].length);
+          }
+        }
+
+        blocks.push(
+          <div key={`formula-${key++}`} className="-mx-1 overflow-x-auto px-1 py-2 text-center [&_.katex-display]:my-0">
+            {renderMath(part.value, true, `display-${key++}`)}{punctuation}
+          </div>
+        );
       });
+
+      flushParagraph();
+      return blocks;
     } catch (e) {
       console.error("Math rendering error:", e);
       return <>{content}</>;
     }
-  }, [content]);
+  }, [content, variant]);
 
-  return <div className={`math-renderer ${display ? 'text-center my-4' : 'inline'}`}>{renderedContent}</div>;
+  return (
+    <div className={`math-renderer ${variant === 'solution' ? 'space-y-3 sm:space-y-4' : display ? 'my-4 text-center' : 'inline'}`}>
+      {renderedContent}
+    </div>
+  );
 }

@@ -8,215 +8,111 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Clock, Hash, FileText } from 'lucide-react';
+import { Plus, Trash2, Clock, Hash, FileText, FolderTree, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { getMockExamCategoryLabel, MOCK_EXAM_CATEGORIES, type MockExamCategory } from '@/features/mock-exams/exam-categories';
+
+interface MockExamTopic { id: string; name: string; grade: number; }
+const isAdminEmail = (email?: string | null) => email === 'vietdang293.vn@gmail.com' || email === 'vietdang293@gmail.com';
 
 export default function MockExamsAdminPage() {
   const { user, isLoading, initialized } = useAuthStore();
   const [exams, setExams] = useState<any[]>([]);
+  const [topics, setTopics] = useState<MockExamTopic[]>([]);
   const [fetching, setFetching] = useState(true);
-
-  // Form states
+  const [databaseReady, setDatabaseReady] = useState(true);
   const [code, setCode] = useState('');
   const [grade, setGrade] = useState('8');
+  const [category, setCategory] = useState<MockExamCategory>('midterm_1');
+  const [topicId, setTopicId] = useState('');
+  const [newTopicName, setNewTopicName] = useState('');
   const [title, setTitle] = useState('');
   const [duration, setDuration] = useState('45');
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    async function fetchExams() {
-      const supabase = getSupabaseClient();
-      const { data, error } = await supabase.from('mock_exams').select('*').order('created_at', { ascending: false });
+  const topicsForGrade = useMemo(() => topics.filter((topic) => topic.grade === parseInt(grade)), [topics, grade]);
+  const topicNameById = useMemo(() => Object.fromEntries(topics.map((topic) => [topic.id, topic.name])), [topics]);
 
-      if (error) {
-        if (error.code !== '42P01') {
-          console.error('Error fetching mock exams:', error);
-        }
-      } else if (data) {
-        setExams(data);
-      }
-      setFetching(false);
+  const fetchData = async () => {
+    const supabase = getSupabaseClient();
+    const [examResult, topicResult] = await Promise.all([
+      supabase.from('mock_exams').select('*').order('created_at', { ascending: false }),
+      supabase.from('mock_exam_topics').select('id, name, grade').order('grade').order('sort_order').order('name'),
+    ]);
+    if (examResult.error?.code === '42P01' || topicResult.error?.code === '42P01') {
+      setDatabaseReady(false);
+    } else {
+      if (examResult.error) console.error('Không thể tải danh sách đề:', examResult.error);
+      if (topicResult.error) console.error('Không thể tải chuyên đề:', topicResult.error);
+      setExams(examResult.data || []);
+      setTopics((topicResult.data || []) as MockExamTopic[]);
+      setDatabaseReady(true);
     }
+    setFetching(false);
+  };
 
-    if (user && (user.email === 'vietdang293.vn@gmail.com' || user.email === 'vietdang293@gmail.com')) {
-      fetchExams();
-    }
-  }, [user]);
+  useEffect(() => { if (user && isAdminEmail(user.email)) void fetchData(); }, [user]);
+  useEffect(() => { setTopicId(''); setNewTopicName(''); }, [grade, category]);
 
   const handleAddExam = async () => {
-    if (!code || !grade || !title || !duration) {
-      alert('Vui lòng điền đầy đủ thông tin');
-      return;
-    }
-
+    if (!code.trim() || !title.trim() || !duration) return alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
+    if (category === 'topic' && !topicId && !newTopicName.trim()) return alert('Hãy chọn hoặc tạo chuyên đề cho đề này.');
     setSaving(true);
     const supabase = getSupabaseClient();
-    const { error } = await supabase.from('mock_exams').insert([
-      {
-        code: code.trim(),
-        grade: parseInt(grade),
-        title: title.trim(),
-        duration: parseInt(duration)
+    let resolvedTopicId: string | null = null;
+
+    if (category === 'topic') {
+      resolvedTopicId = topicId || null;
+      if (!resolvedTopicId && newTopicName.trim()) {
+        const { data: newTopic, error: topicError } = await supabase.from('mock_exam_topics').insert({ name: newTopicName.trim(), grade: parseInt(grade) }).select('id').single();
+        if (topicError || !newTopic) {
+          alert('Không thể tạo chuyên đề: ' + (topicError?.message || 'Lỗi không xác định'));
+          setSaving(false);
+          return;
+        }
+        resolvedTopicId = newTopic.id;
       }
-    ]);
+    }
 
-    if (error) {
-      alert('Lỗi: ' + error.message);
-    } else {
-      alert('Thêm đề thi thử thành công!');
-      // Refresh list
-      const { data } = await supabase.from('mock_exams').select('*').order('created_at', { ascending: false });
-      if (data) setExams(data);
-
-      // Reset form
-      setCode('');
-      setTitle('');
+    const { error } = await supabase.from('mock_exams').insert({ code: code.trim(), grade: parseInt(grade), title: title.trim(), duration: parseInt(duration), category, topic_id: resolvedTopicId });
+    if (error) alert('Không thể tạo đề: ' + error.message);
+    else {
+      alert('Đã tạo đề. Bạn có thể tiếp tục nhập câu hỏi theo mã đề trong Supabase.');
+      setCode(''); setTitle(''); setTopicId(''); setNewTopicName('');
+      await fetchData();
     }
     setSaving(false);
   };
 
   const handleDelete = async (examId: string) => {
-    if (!confirm('Bạn có chắc chắn muốn xóa đề thi này VÀ TẤT CẢ câu hỏi, lịch sử thi liên quan?')) return;
-
-    const supabase = getSupabaseClient();
-    const { error } = await supabase.from('mock_exams').delete().eq('id', examId);
-
-    if (error) {
-      alert('Lỗi: ' + error.message);
-    } else {
-      setExams(prev => prev.filter(e => e.id !== examId));
-    }
+    if (!confirm('Bạn có chắc muốn xóa đề này cùng toàn bộ câu hỏi và lịch sử thi liên quan?')) return;
+    const { error } = await getSupabaseClient().from('mock_exams').delete().eq('id', examId);
+    if (error) alert('Không thể xóa đề: ' + error.message);
+    else setExams((current) => current.filter((exam) => exam.id !== examId));
   };
 
   if (!initialized || isLoading || fetching) return <div className="py-20 text-center animate-pulse">Đang tải dữ liệu...</div>;
-  if (!user || (user.email !== 'vietdang293.vn@gmail.com' && user.email !== 'vietdang293@gmail.com')) return null;
+  if (!user || !isAdminEmail(user.email)) return null;
 
   return (
     <div className="space-y-8">
-      <Card className="border-primary shadow-float dark:shadow-none">
-        <CardHeader className="bg-primary border-b border-primary">
-          <CardTitle className="flex items-center gap-2 text-primary">
-            <Plus className="w-5 h-5" />
-            Tạo đề thi thử mới
-          </CardTitle>
-          <CardDescription>
-            Điền các thông tin cơ bản để tạo đề thi. Sau khi tạo, hãy dùng mã đề (Code) để up câu hỏi qua Supabase SQL.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="space-y-2">
-              <Label className="text-muted-foreground font-bold flex items-center gap-2">
-                Mã đề (VD: THI-L9-01)
-              </Label>
-              <Input
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                placeholder="Nhập mã đề..."
-                className="bg-surface border-control"
-              />
-            </div>
+      {!databaseReady && <Card className="border-warning bg-warning-soft"><CardContent className="flex gap-4 p-6"><AlertCircle className="mt-0.5 h-6 w-6 shrink-0 text-warning" /><div><h2 className="font-bold text-warning">Chưa khởi tạo cấu trúc Thi thử</h2><p className="mt-1 text-sm text-warning">Hãy chạy tệp SQL đi kèm bản cập nhật này trong Supabase SQL Editor, sau đó tải lại trang.</p></div></CardContent></Card>}
 
-            <div className="space-y-2">
-              <Label className="text-muted-foreground font-bold">Lớp</Label>
-              <Select value={grade} onValueChange={setGrade}>
-                <SelectTrigger className="bg-surface border-control">
-                  <SelectValue placeholder="Chọn lớp" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="6">Lớp 6</SelectItem>
-                  <SelectItem value="7">Lớp 7</SelectItem>
-                  <SelectItem value="8">Lớp 8</SelectItem>
-                  <SelectItem value="9">Lớp 9</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+      {databaseReady && <>
+        <Card className="rounded-2xl border-primary shadow-float dark:shadow-none">
+          <CardHeader className="border-b border-border bg-muted/50"><CardTitle className="flex items-center gap-2"><Plus className="h-5 w-5 text-primary" />Tạo đề thi thử</CardTitle><CardDescription>Chọn đúng loại đề trước; nếu là Chuyên đề, hãy gắn đề vào chương tương ứng.</CardDescription></CardHeader>
+          <CardContent className="p-5 sm:p-6"><div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-12">
+            <div className="space-y-2 xl:col-span-3"><Label>Mã đề</Label><Input value={code} onChange={(event) => setCode(event.target.value)} placeholder="VD: GK1-L8-01" className="h-11 bg-surface" /></div>
+            <div className="space-y-2 xl:col-span-2"><Label>Lớp</Label><Select value={grade} onValueChange={setGrade}><SelectTrigger className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[6, 7, 8, 9].map((value) => <SelectItem key={value} value={String(value)}>Lớp {value}</SelectItem>)}</SelectContent></Select></div>
+            <div className="space-y-2 xl:col-span-3"><Label>Danh mục</Label><Select value={category} onValueChange={(value) => setCategory(value as MockExamCategory)}><SelectTrigger className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{MOCK_EXAM_CATEGORIES.map((item) => <SelectItem key={item.id} value={item.id}>{item.label}</SelectItem>)}</SelectContent></Select></div>
+            <div className="space-y-2 xl:col-span-4"><Label>Tên đề thi</Label><Input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="VD: Đề giữa học kì I - Toán 8" className="h-11 bg-surface" /></div>
+            {category === 'topic' && <div className="space-y-2 md:col-span-2 xl:col-span-8"><Label className="flex items-center gap-2"><FolderTree className="h-4 w-4 text-primary" />Chuyên đề / chương</Label><div className="grid gap-3 sm:grid-cols-2"><Select value={topicId || '__new__'} onValueChange={(value) => { setTopicId(value === '__new__' ? '' : value); if (value !== '__new__') setNewTopicName(''); }}><SelectTrigger className="h-11 bg-surface"><SelectValue placeholder="Chọn chuyên đề đã có" /></SelectTrigger><SelectContent>{topicsForGrade.map((topic) => <SelectItem key={topic.id} value={topic.id}>{topic.name}</SelectItem>)}<SelectItem value="__new__">＋ Tạo chuyên đề mới</SelectItem></SelectContent></Select>{!topicId && <Input value={newTopicName} onChange={(event) => setNewTopicName(event.target.value)} placeholder="VD: Đa thức và các phép toán" className="h-11 bg-surface" />}</div></div>}
+            <div className="space-y-2 xl:col-span-2"><Label>Thời gian (phút)</Label><Input type="number" min="1" value={duration} onChange={(event) => setDuration(event.target.value)} className="h-11 bg-surface" /></div>
+          </div><Button onClick={handleAddExam} disabled={saving} className="mt-6 h-11 w-full rounded-md bg-primary px-8 font-bold text-primary-foreground md:w-auto">{saving ? 'Đang tạo...' : 'Tạo đề thi'}</Button></CardContent>
+        </Card>
 
-            <div className="space-y-2 lg:col-span-2">
-              <Label className="text-muted-foreground font-bold">Tên đề thi</Label>
-              <Input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="VD: Đề thi thử giữa kì I Môn Toán..."
-                className="bg-surface border-control"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-muted-foreground font-bold flex items-center gap-2">
-                Thời gian (Phút)
-              </Label>
-              <Input
-                type="number"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="45"
-                className="bg-surface border-control"
-              />
-            </div>
-          </div>
-
-          <Button
-            onClick={handleAddExam}
-            disabled={saving || !code || !title || !duration}
-            className="mt-6 bg-primary hover:bg-primary-hover text-primary-foreground rounded-md shadow-card w-full md:w-auto px-8"
-          >
-            {saving ? 'Đang tạo...' : 'Tạo Đề Thi'}
-          </Button>
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          <FileText className="w-5 h-5 text-primary" />
-          Danh sách đề thi thử
-        </h3>
-
-        {exams.length === 0 ? (
-          <div className="text-center py-12 bg-card rounded-2xl border border-dashed border-border text-muted-foreground">
-            Chưa có đề thi thử nào.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {exams.map(exam => (
-              <Card key={exam.id} className="overflow-hidden border-border shadow-soft hover:shadow-card transition-shadow">
-                <CardContent className="p-0">
-                  <div className="p-4 flex items-start justify-between gap-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="bg-primary-soft text-primary border-primary">
-                          Lớp {exam.grade}
-                        </Badge>
-                        <Badge variant="outline" className="bg-muted text-muted-foreground border-border">
-                          <Hash className="w-3 h-3 mr-1" />
-                          {exam.code}
-                        </Badge>
-                        <Badge variant="outline" className="bg-primary-soft text-primary border-primary">
-                          <Clock className="w-3 h-3 mr-1" />
-                          {exam.duration} phút
-                        </Badge>
-                      </div>
-                      <h4 className="font-bold text-lg text-foreground">{exam.title}</h4>
-                      <div className="text-xs text-muted-foreground">
-                        ID: {exam.id}
-                      </div>
-                    </div>
-
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => handleDelete(exam.id)}
-                      className="shrink-0 rounded-md h-11 w-11 bg-destructive-soft hover:bg-destructive-soft text-destructive"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
+        <section className="space-y-4"><div className="flex items-center gap-2"><FileText className="h-5 w-5 text-primary" /><h2 className="text-lg font-bold text-foreground">Danh sách đề thi thử</h2></div>{exams.length === 0 ? <div className="rounded-2xl border border-dashed border-border bg-card py-12 text-center text-muted-foreground">Chưa có đề thi thử nào.</div> : <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{exams.map((exam) => <Card key={exam.id} className="overflow-hidden rounded-2xl border-border shadow-soft"><CardContent className="flex items-start justify-between gap-4 p-4 sm:p-5"><div className="min-w-0 space-y-3"><div className="flex flex-wrap gap-2"><Badge variant="outline" className="border-primary bg-primary-soft text-primary">Lớp {exam.grade}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground">{getMockExamCategoryLabel(exam.category)}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground"><Hash className="mr-1 h-3 w-3" />{exam.code}</Badge><Badge variant="outline" className="border-primary bg-primary-soft text-primary"><Clock className="mr-1 h-3 w-3" />{exam.duration} phút</Badge></div><h3 className="text-lg font-bold text-foreground">{exam.title}</h3>{exam.topic_id && <p className="flex items-center gap-1.5 text-sm text-muted-foreground"><FolderTree className="h-4 w-4" />{topicNameById[exam.topic_id] || 'Chuyên đề đã xóa'}</p>}<p className="break-all text-xs text-muted-foreground">ID: {exam.id}</p></div><Button variant="destructive" size="icon" onClick={() => handleDelete(exam.id)} className="h-11 w-11 shrink-0 rounded-md bg-destructive-soft text-destructive hover:bg-destructive-soft" aria-label={`Xóa đề ${exam.title}`}><Trash2 className="h-4 w-4" /></Button></CardContent></Card>)}</div>}</section>
+      </>}
     </div>
   );
 }

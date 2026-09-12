@@ -10,8 +10,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen } from 'lucide-react';
+import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -28,6 +29,14 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [isNewChapter, setIsNewChapter] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [editingLesson, setEditingLesson] = useState<any | null>(null);
+  const [editLessonId, setEditLessonId] = useState('');
+  const [editLessonChapter, setEditLessonChapter] = useState('');
+  const [editLessonTitle, setEditLessonTitle] = useState('');
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [editingChapter, setEditingChapter] = useState<{ grade: number; name: string } | null>(null);
+  const [editChapterName, setEditChapterName] = useState('');
+  const [savingChapter, setSavingChapter] = useState(false);
 
   const existingChaptersForGrade = Array.from(new Set(
     lessons.filter(l => l.grade.toString() === grade.toString()).map(l => (l.chapter || '').trim())
@@ -109,6 +118,88 @@ export default function AdminPage() {
     } else {
       setLessons(prev => prev.filter(l => l.id !== lessonId));
     }
+  };
+
+  const openEditLesson = (lesson: any) => {
+    setEditingLesson(lesson);
+    setEditLessonId(lesson.id || '');
+    setEditLessonChapter(lesson.chapter || '');
+    setEditLessonTitle(lesson.title || '');
+  };
+
+  const handleSaveLesson = async () => {
+    if (!editingLesson || !editLessonId.trim() || !editLessonChapter.trim() || !editLessonTitle.trim()) {
+      alert('Vui lòng điền đầy đủ ID, tên chương và tên bài.');
+      return;
+    }
+
+    setSavingEdit(true);
+    const supabase = getSupabaseClient();
+    const nextId = editLessonId.trim();
+    const nextChapter = editLessonChapter.trim();
+    const nextTitle = editLessonTitle.trim();
+    let error: { message: string } | null = null;
+
+    if (nextId === editingLesson.id) {
+      const result = await supabase
+        .from('practice_lessons')
+        .update({ chapter: nextChapter, title: nextTitle })
+        .eq('id', editingLesson.id);
+      error = result.error;
+    } else {
+      const result = await supabase.rpc('rename_practice_lesson', {
+        p_old_lesson_id: editingLesson.id,
+        p_new_lesson_id: nextId,
+        p_chapter: nextChapter,
+        p_title: nextTitle,
+      });
+      error = result.error;
+    }
+
+    if (error) {
+      const hint = nextId !== editingLesson.id
+        ? ' Hãy chạy SQL quản lý Tự luyện đi kèm bản cập nhật này trước khi đổi ID.'
+        : '';
+      alert('Không thể lưu thay đổi: ' + error.message + hint);
+    } else {
+      setLessons((current) => current.map((lesson) => lesson.id === editingLesson.id
+        ? { ...lesson, id: nextId, chapter: nextChapter, title: nextTitle }
+        : lesson
+      ));
+      setEditingLesson(null);
+    }
+    setSavingEdit(false);
+  };
+
+  const openEditChapter = (gradeNum: number, chapterName: string) => {
+    setEditingChapter({ grade: gradeNum, name: chapterName });
+    setEditChapterName(chapterName);
+  };
+
+  const handleSaveChapter = async () => {
+    if (!editingChapter || !editChapterName.trim()) {
+      alert('Vui lòng nhập tên chương.');
+      return;
+    }
+
+    const nextChapter = editChapterName.trim();
+    setSavingChapter(true);
+    const { error } = await getSupabaseClient()
+      .from('practice_lessons')
+      .update({ chapter: nextChapter })
+      .eq('grade', editingChapter.grade)
+      .eq('chapter', editingChapter.name);
+
+    if (error) {
+      alert('Không thể đổi tên chương: ' + error.message);
+    } else {
+      setLessons((current) => current.map((lesson) => lesson.grade === editingChapter.grade && lesson.chapter === editingChapter.name
+        ? { ...lesson, chapter: nextChapter }
+        : lesson
+      ));
+      setEditingChapter(null);
+    }
+    setSavingChapter(false);
   };
 
   const groupedLessons = useMemo(() => {
@@ -281,18 +372,31 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
 
                           return (
                             <div key={chapterId} className="border border-border rounded-xl bg-card overflow-hidden shadow-soft">
-                              <button
-                                className="w-full flex items-center justify-between p-4 hover:bg-muted transition-colors"
-                                onClick={() => setExpandedId(isExpanded ? null : chapterId)}
-                              >
-                                <div className="flex items-center gap-3">
-                                  {isExpanded ? <ChevronDown className="w-5 h-5 text-primary" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
-                                  <span className="font-semibold text-foreground text-left uppercase tracking-wide text-sm">{ch.title}</span>
-                                </div>
-                                <Badge variant="secondary" className="bg-primary-soft text-primary">
-                                  {ch.items.length} bài học
-                                </Badge>
-                              </button>
+                              <div className="flex items-center gap-2 p-2">
+                                <button
+                                  className="min-h-11 flex-1 flex items-center justify-between rounded-lg p-2 hover:bg-muted transition-colors"
+                                  onClick={() => setExpandedId(isExpanded ? null : chapterId)}
+                                  aria-expanded={isExpanded}
+                                >
+                                  <div className="flex items-center gap-3">
+                                    {isExpanded ? <ChevronDown className="w-5 h-5 text-primary" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
+                                    <span className="font-semibold text-foreground text-left uppercase tracking-wide text-sm">{ch.title}</span>
+                                  </div>
+                                  <Badge variant="secondary" className="bg-primary-soft text-primary">
+                                    {ch.items.length} bài học
+                                  </Badge>
+                                </button>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={() => openEditChapter(gradeGroup.gradeNum, ch.title)}
+                                  className="h-11 w-11 shrink-0 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary"
+                                  title="Sửa tên chương"
+                                  aria-label={`Sửa tên chương ${ch.title}`}
+                                >
+                                  <Pencil className="w-4 h-4" />
+                                </Button>
+                              </div>
 
                               {isExpanded && (
                                 <div className="p-4 pt-0 border-t border-border bg-muted/50">
@@ -331,6 +435,16 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                         <Button
                                           variant="outline"
                                           size="icon"
+                                          onClick={() => openEditLesson(lesson)}
+                                          className="rounded-md shrink-0 border-border hover:bg-primary-soft hover:border-primary hover:text-primary text-muted-foreground transition-all h-12 w-12"
+                                          title="Sửa bài học"
+                                          aria-label={`Sửa ${lesson.title}`}
+                                        >
+                                          <Pencil className="w-5 h-5" />
+                                        </Button>
+                                        <Button
+                                          variant="outline"
+                                          size="icon"
                                           onClick={() => handleDelete(lesson.id)}
                                           className="rounded-md shrink-0 border-border hover:bg-destructive-soft hover:border-destructive hover:text-destructive text-muted-foreground transition-all h-12 w-12"
                                           title="Xóa chuyên đề"
@@ -354,6 +468,41 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
           </Card>
         </div>
       )}
+
+      <Dialog open={!!editingLesson} onOpenChange={(open) => !open && setEditingLesson(null)}>
+        <DialogContent className="rounded-2xl sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Sửa bài tự luyện</DialogTitle>
+            <DialogDescription>Đổi ID sẽ giữ nguyên câu hỏi, tiến độ học và các câu đã lưu của bài này.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2"><Label htmlFor="edit-lesson-id">ID bài học</Label><Input id="edit-lesson-id" value={editLessonId} onChange={(event) => setEditLessonId(event.target.value)} className="h-11" /></div>
+            <div className="space-y-2"><Label htmlFor="edit-lesson-chapter">Tên chương</Label><Input id="edit-lesson-chapter" value={editLessonChapter} onChange={(event) => setEditLessonChapter(event.target.value)} className="h-11" /></div>
+            <div className="space-y-2"><Label htmlFor="edit-lesson-title">Tên bài</Label><Input id="edit-lesson-title" value={editLessonTitle} onChange={(event) => setEditLessonTitle(event.target.value)} className="h-11" /></div>
+          </div>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button type="button" variant="outline" onClick={() => setEditingLesson(null)} disabled={savingEdit}>Hủy</Button>
+            <Button type="button" onClick={handleSaveLesson} disabled={savingEdit} className="bg-primary text-primary-foreground">{savingEdit ? 'Đang lưu...' : 'Lưu thay đổi'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!editingChapter} onOpenChange={(open) => !open && setEditingChapter(null)}>
+        <DialogContent className="rounded-2xl sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Sửa tên chương</DialogTitle>
+            <DialogDescription>Tên mới sẽ áp dụng cho tất cả bài thuộc chương này của cùng một lớp.</DialogDescription>
+          </DialogHeader>
+          <div className="py-2 space-y-2">
+            <Label htmlFor="edit-chapter-name">Tên chương</Label>
+            <Input id="edit-chapter-name" value={editChapterName} onChange={(event) => setEditChapterName(event.target.value)} className="h-11" />
+          </div>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button type="button" variant="outline" onClick={() => setEditingChapter(null)} disabled={savingChapter}>Hủy</Button>
+            <Button type="button" onClick={handleSaveChapter} disabled={savingChapter} className="bg-primary text-primary-foreground">{savingChapter ? 'Đang lưu...' : 'Lưu thay đổi'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

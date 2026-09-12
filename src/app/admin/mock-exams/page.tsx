@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Clock, Hash, FileText, FolderTree, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Clock, Hash, FileText, FolderTree, AlertCircle, Pencil } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { getMockExamCategoryLabel, MOCK_EXAM_CATEGORIES, type MockExamCategory } from '@/features/mock-exams/exam-categories';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface MockExamTopic { id: string; name: string; grade: number; }
 const isAdminEmail = (email?: string | null) => email === 'vietdang293.vn@gmail.com' || email === 'vietdang293@gmail.com';
@@ -29,6 +30,11 @@ export default function MockExamsAdminPage() {
   const [title, setTitle] = useState('');
   const [duration, setDuration] = useState('45');
   const [saving, setSaving] = useState(false);
+  const [editingExam, setEditingExam] = useState<any | null>(null);
+  const [editCode, setEditCode] = useState('');
+  const [editTitle, setEditTitle] = useState('');
+  const [editDuration, setEditDuration] = useState('45');
+  const [savingEdit, setSavingEdit] = useState(false);
 
   const topicsForGrade = useMemo(() => topics.filter((topic) => topic.grade === parseInt(grade)), [topics, grade]);
   const topicNameById = useMemo(() => Object.fromEntries(topics.map((topic) => [topic.id, topic.name])), [topics]);
@@ -91,6 +97,36 @@ export default function MockExamsAdminPage() {
     else setExams((current) => current.filter((exam) => exam.id !== examId));
   };
 
+  const openEditExam = (exam: any) => {
+    setEditingExam(exam);
+    setEditCode(exam.code || '');
+    setEditTitle(exam.title || '');
+    setEditDuration(String(exam.duration || 45));
+  };
+
+  const handleSaveExam = async () => {
+    if (!editingExam || !editCode.trim() || !editTitle.trim() || !editDuration || Number(editDuration) < 1) {
+      alert('Vui lòng nhập mã đề, tên đề và thời gian hợp lệ.');
+      return;
+    }
+
+    setSavingEdit(true);
+    const { data, error } = await getSupabaseClient()
+      .from('mock_exams')
+      .update({ code: editCode.trim(), title: editTitle.trim(), duration: Number(editDuration) })
+      .eq('id', editingExam.id)
+      .select()
+      .single();
+
+    if (error || !data) {
+      alert('Không thể lưu thay đổi: ' + (error?.message || 'Lỗi không xác định'));
+    } else {
+      setExams((current) => current.map((exam) => exam.id === data.id ? data : exam));
+      setEditingExam(null);
+    }
+    setSavingEdit(false);
+  };
+
   if (!initialized || isLoading || fetching) return <div className="py-20 text-center animate-pulse">Đang tải dữ liệu...</div>;
   if (!user || !isAdminEmail(user.email)) return null;
 
@@ -111,8 +147,26 @@ export default function MockExamsAdminPage() {
           </div><Button onClick={handleAddExam} disabled={saving} className="mt-6 h-11 w-full rounded-md bg-primary px-8 font-bold text-primary-foreground md:w-auto">{saving ? 'Đang tạo...' : 'Tạo đề thi'}</Button></CardContent>
         </Card>
 
-        <section className="space-y-4"><div className="flex items-center gap-2"><FileText className="h-5 w-5 text-primary" /><h2 className="text-lg font-bold text-foreground">Danh sách đề thi thử</h2></div>{exams.length === 0 ? <div className="rounded-2xl border border-dashed border-border bg-card py-12 text-center text-muted-foreground">Chưa có đề thi thử nào.</div> : <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{exams.map((exam) => <Card key={exam.id} className="overflow-hidden rounded-2xl border-border shadow-soft"><CardContent className="flex items-start justify-between gap-4 p-4 sm:p-5"><div className="min-w-0 space-y-3"><div className="flex flex-wrap gap-2"><Badge variant="outline" className="border-primary bg-primary-soft text-primary">Lớp {exam.grade}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground">{getMockExamCategoryLabel(exam.category)}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground"><Hash className="mr-1 h-3 w-3" />{exam.code}</Badge><Badge variant="outline" className="border-primary bg-primary-soft text-primary"><Clock className="mr-1 h-3 w-3" />{exam.duration} phút</Badge></div><h3 className="text-lg font-bold text-foreground">{exam.title}</h3>{exam.topic_id && <p className="flex items-center gap-1.5 text-sm text-muted-foreground"><FolderTree className="h-4 w-4" />{topicNameById[exam.topic_id] || 'Chuyên đề đã xóa'}</p>}<p className="break-all text-xs text-muted-foreground">ID: {exam.id}</p></div><Button variant="destructive" size="icon" onClick={() => handleDelete(exam.id)} className="h-11 w-11 shrink-0 rounded-md bg-destructive-soft text-destructive hover:bg-destructive-soft" aria-label={`Xóa đề ${exam.title}`}><Trash2 className="h-4 w-4" /></Button></CardContent></Card>)}</div>}</section>
+        <section className="space-y-4"><div className="flex items-center gap-2"><FileText className="h-5 w-5 text-primary" /><h2 className="text-lg font-bold text-foreground">Danh sách đề thi thử</h2></div>{exams.length === 0 ? <div className="rounded-2xl border border-dashed border-border bg-card py-12 text-center text-muted-foreground">Chưa có đề thi thử nào.</div> : <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{exams.map((exam) => <Card key={exam.id} className="overflow-hidden rounded-2xl border-border shadow-soft"><CardContent className="flex items-start justify-between gap-4 p-4 sm:p-5"><div className="min-w-0 space-y-3"><div className="flex flex-wrap gap-2"><Badge variant="outline" className="border-primary bg-primary-soft text-primary">Lớp {exam.grade}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground">{getMockExamCategoryLabel(exam.category)}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground"><Hash className="mr-1 h-3 w-3" />{exam.code}</Badge><Badge variant="outline" className="border-primary bg-primary-soft text-primary"><Clock className="mr-1 h-3 w-3" />{exam.duration} phút</Badge></div><h3 className="text-lg font-bold text-foreground">{exam.title}</h3>{exam.topic_id && <p className="flex items-center gap-1.5 text-sm text-muted-foreground"><FolderTree className="h-4 w-4" />{topicNameById[exam.topic_id] || 'Chuyên đề đã xóa'}</p>}<p className="break-all text-xs text-muted-foreground">ID: {exam.id}</p></div><div className="flex shrink-0 gap-2"><Button variant="outline" size="icon" onClick={() => openEditExam(exam)} className="h-11 w-11 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary" aria-label={`Sửa đề ${exam.title}`}><Pencil className="h-4 w-4" /></Button><Button variant="destructive" size="icon" onClick={() => handleDelete(exam.id)} className="h-11 w-11 rounded-md bg-destructive-soft text-destructive hover:bg-destructive-soft" aria-label={`Xóa đề ${exam.title}`}><Trash2 className="h-4 w-4" /></Button></div></CardContent></Card>)}</div>}</section>
       </>}
+
+      <Dialog open={!!editingExam} onOpenChange={(open) => !open && setEditingExam(null)}>
+        <DialogContent className="rounded-2xl sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Sửa thông tin đề thi</DialogTitle>
+            <DialogDescription>Việc sửa ở đây không làm mất câu hỏi hoặc lịch sử thi của học sinh.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2"><Label htmlFor="edit-exam-code">Mã đề</Label><Input id="edit-exam-code" value={editCode} onChange={(event) => setEditCode(event.target.value)} className="h-11" /></div>
+            <div className="space-y-2"><Label htmlFor="edit-exam-title">Tên đề thi</Label><Input id="edit-exam-title" value={editTitle} onChange={(event) => setEditTitle(event.target.value)} className="h-11" /></div>
+            <div className="space-y-2"><Label htmlFor="edit-exam-duration">Thời gian làm bài (phút)</Label><Input id="edit-exam-duration" type="number" min="1" value={editDuration} onChange={(event) => setEditDuration(event.target.value)} className="h-11" /></div>
+          </div>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button type="button" variant="outline" onClick={() => setEditingExam(null)} disabled={savingEdit}>Hủy</Button>
+            <Button type="button" onClick={handleSaveExam} disabled={savingEdit} className="bg-primary text-primary-foreground">{savingEdit ? 'Đang lưu...' : 'Lưu thay đổi'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

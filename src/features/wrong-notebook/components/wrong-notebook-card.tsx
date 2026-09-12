@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useWrongNotebook } from '../hooks/use-wrong-notebook';
 import { useRouter } from 'next/navigation';
+import { MathRenderer } from '@/features/practice/components/math-renderer';
 
 export function WrongNotebookCard() {
   const { wrongQuestions, totalCount, loading } = useWrongNotebook();
@@ -44,10 +45,10 @@ export function WrongNotebookCard() {
         )}
         
         {!loading && totalCount > 0 && (
-          <div className="px-4 py-3 bg-muted rounded-md border border-border">
-            <p className="text-sm font-medium text-muted-foreground line-clamp-2">
-              {wrongQuestions[0]?.content}
-            </p>
+          <div className="px-4 py-3 bg-muted rounded-md border border-border overflow-hidden">
+            <div className="text-sm font-medium text-muted-foreground line-clamp-2">
+              <MathRenderer content={wrongQuestions[0]?.content || ''} />
+            </div>
           </div>
         )}
         

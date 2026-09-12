@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { MathRenderer } from '@/features/practice/components/math-renderer';
 
 export function WrongQuestionList() {
   const { wrongQuestions, loading } = useWrongNotebook();
@@ -35,7 +36,9 @@ export function WrongQuestionList() {
         <Card key={q.id} className="overflow-hidden transition-all">
           <div className="p-4 sm:p-6 border-l-4 border-destructive flex flex-col gap-4">
             <div className="flex items-start justify-between gap-4">
-              <p className="font-medium text-foreground line-clamp-2">{q.content}</p>
+              <div className="min-w-0 font-medium text-foreground line-clamp-2">
+                <MathRenderer content={q.content} />
+              </div>
               <Link href={`/practice/${q.lessonId}`}>
                 <Badge variant="outline" className="shrink-0 cursor-pointer hover:bg-primary/10">
                   Làm lại

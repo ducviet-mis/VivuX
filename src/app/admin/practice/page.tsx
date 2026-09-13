@@ -408,9 +408,9 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                             <Database className="w-4 h-4 text-primary" />
                                           </div>
                                           <div>
-                                            <h3 className="font-semibold text-primary">Quản lý câu hỏi (Supabase)</h3>
+                                            <h3 className="font-semibold text-primary">Nhập câu hỏi bằng JSON</h3>
                                             <p className="text-sm text-primary mt-1">
-                                              Để thêm câu hỏi cho chuyên đề, hãy truy cập Supabase và thêm vào bảng <code>practice_questions</code>. Hãy nhớ điền <code>lesson_id</code> tương ứng với ID chuyên đề.
+                                              Vào mục <strong>Nhập đề JSON</strong> trong ADMIN để chọn bài này, chọn Level, dán JSON từ AI và xem trước trước khi lưu hàng loạt.
                                             </p>
                                             <p className="text-sm text-primary mt-1 font-medium">
                                               Lưu ý tính năng Level: Cột <code>difficulty_level</code> (1: Nhận biết, 2: Thông hiểu, 3: Vận dụng, 4: Vận dụng cao) sẽ tự động phân loại câu hỏi vào từng Level tương ứng trên giao diện tự luyện.

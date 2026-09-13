@@ -4,7 +4,7 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { BookOpen, FileText } from 'lucide-react';
+import { BookOpen, FileText, UploadCloud } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PageHeader } from '@/components/shared/page-header';
 
@@ -56,6 +56,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}>
                 <FileText className="w-5 h-5" />
                 Quản lý Thi thử
+              </div>
+            </Link>
+
+            <Link href="/admin/import">
+              <div className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-colors whitespace-nowrap",
+                pathname?.includes('/admin/import')
+                  ? "bg-primary-soft text-primary"
+                  : "text-muted-foreground hover:bg-muted"
+              )}>
+                <UploadCloud className="w-5 h-5" />
+                Nhập đề JSON
               </div>
             </Link>
           </nav>

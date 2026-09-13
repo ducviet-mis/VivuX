@@ -83,7 +83,7 @@ export default function MockExamsAdminPage() {
     const { error } = await supabase.from('mock_exams').insert({ code: code.trim(), grade: parseInt(grade), title: title.trim(), duration: parseInt(duration), category, topic_id: resolvedTopicId });
     if (error) alert('Không thể tạo đề: ' + error.message);
     else {
-      alert('Đã tạo đề. Bạn có thể tiếp tục nhập câu hỏi theo mã đề trong Supabase.');
+      alert('Đã tạo đề. Vào mục "Nhập đề JSON" trong ADMIN để dán JSON và thêm câu hỏi cho đề này.');
       setCode(''); setTitle(''); setTopicId(''); setNewTopicName('');
       await fetchData();
     }

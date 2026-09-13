@@ -15,7 +15,7 @@ import { MathRenderer, formatOptionMath } from '@/features/practice/components/m
 import { buildAiPrompt, parseQuestionJson, type ImportedQuestion, type ImportTarget } from '@/features/question-import/json-import';
 
 type LessonOption = { id: string; grade: number; chapter: string; title: string };
-type ExamOption = { id: string; code: string; grade: number; title: string };
+type ExamOption = { id: string; grade: number; title: string };
 
 const isAdminEmail = (email?: string | null) => email === 'vietdang293.vn@gmail.com' || email === 'vietdang293@gmail.com';
 
@@ -71,7 +71,7 @@ export default function JsonQuestionImportPage() {
       const supabase = getSupabaseClient();
       const [lessonsResult, examsResult] = await Promise.all([
         supabase.from('practice_lessons').select('id, grade, chapter, title').order('grade').order('chapter').order('id'),
-        supabase.from('mock_exams').select('id, code, grade, title').order('created_at', { ascending: false }),
+        supabase.from('mock_exams').select('id, grade, title').order('created_at', { ascending: false }),
       ]);
       if (lessonsResult.error) setErrors(['Không tải được danh sách bài tự luyện. Hãy kiểm tra Supabase.']);
       if (examsResult.error) setErrors((current) => [...current, 'Không tải được danh sách đề thi thử. Hãy kiểm tra Supabase.']);
@@ -88,7 +88,7 @@ export default function JsonQuestionImportPage() {
       return lesson ? `Lớp ${lesson.grade} · ${lesson.title}` : 'bài tự luyện đã chọn';
     }
     const exam = exams.find((item) => item.id === examId);
-    return exam ? `${exam.code} · ${exam.title}` : 'đề thi thử đã chọn';
+    return exam ? `Lớp ${exam.grade} · ${exam.title}` : 'đề thi thử đã chọn';
   }, [examId, exams, lessonId, lessons, target]);
 
   const handlePreview = () => {
@@ -163,7 +163,7 @@ export default function JsonQuestionImportPage() {
         <CardContent className="space-y-6 p-5 sm:p-6">
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="space-y-2"><Label htmlFor="content-target">1. Loại nội dung</Label><Select value={target} onValueChange={(value) => { setTarget(value as ImportTarget); setQuestions([]); setErrors([]); setMessage(''); }}><SelectTrigger id="content-target" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="practice">Tự luyện</SelectItem><SelectItem value="mock_exam">Thi thử</SelectItem></SelectContent></Select></div>
-            {target === 'practice' ? <><div className="space-y-2"><Label htmlFor="lesson-target">2. Bài tự luyện</Label><Select value={lessonId} onValueChange={setLessonId}><SelectTrigger id="lesson-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn bài để thêm câu hỏi" /></SelectTrigger><SelectContent>{lessons.map((lesson) => <SelectItem key={lesson.id} value={lesson.id}>Lớp {lesson.grade} · {lesson.chapter} · {lesson.title}</SelectItem>)}</SelectContent></Select></div><div className="space-y-2"><Label htmlFor="practice-level">3. Level câu hỏi</Label><Select value={level} onValueChange={setLevel}><SelectTrigger id="practice-level" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[['1', 'Level 1 · Nhận biết'], ['2', 'Level 2 · Thông hiểu'], ['3', 'Level 3 · Vận dụng'], ['4', 'Level 4 · Vận dụng cao']].map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select></div></> : <div className="space-y-2"><Label htmlFor="exam-target">2. Đề thi thử</Label><Select value={examId} onValueChange={setExamId}><SelectTrigger id="exam-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn đề để thêm câu hỏi" /></SelectTrigger><SelectContent>{exams.map((exam) => <SelectItem key={exam.id} value={exam.id}>Lớp {exam.grade} · {exam.code} · {exam.title}</SelectItem>)}</SelectContent></Select></div>}
+            {target === 'practice' ? <><div className="space-y-2"><Label htmlFor="lesson-target">2. Bài tự luyện</Label><Select value={lessonId} onValueChange={setLessonId}><SelectTrigger id="lesson-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn bài để thêm câu hỏi" /></SelectTrigger><SelectContent>{lessons.map((lesson) => <SelectItem key={lesson.id} value={lesson.id}>Lớp {lesson.grade} · {lesson.chapter} · {lesson.title}</SelectItem>)}</SelectContent></Select></div><div className="space-y-2"><Label htmlFor="practice-level">3. Level câu hỏi</Label><Select value={level} onValueChange={setLevel}><SelectTrigger id="practice-level" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[['1', 'Level 1 · Nhận biết'], ['2', 'Level 2 · Thông hiểu'], ['3', 'Level 3 · Vận dụng'], ['4', 'Level 4 · Vận dụng cao']].map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select></div></> : <div className="space-y-2"><Label htmlFor="exam-target">2. Đề thi thử</Label><Select value={examId} onValueChange={setExamId}><SelectTrigger id="exam-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn đề để thêm câu hỏi" /></SelectTrigger><SelectContent>{exams.map((exam) => <SelectItem key={exam.id} value={exam.id}>Lớp {exam.grade} · {exam.title}</SelectItem>)}</SelectContent></Select></div>}
           </div>
 
           <div className="rounded-xl border border-primary/30 bg-primary-soft/40 p-4"><div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div className="flex gap-3"><Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><div><p className="font-bold text-foreground">Tạo JSON với AI theo mẫu FlyDo</p><p className="mt-1 text-sm leading-6 text-muted-foreground">Hệ thống tự gắn bài/đề và Level bạn đã chọn; AI không cần tạo ID hay mã đề.</p></div></div><Button type="button" variant="outline" onClick={handleCopyPrompt} disabled={!canPreview} className="h-11 shrink-0 border-primary text-primary hover:bg-primary-soft"><Clipboard className="mr-2 h-4 w-4" />Sao chép prompt</Button></div></div>

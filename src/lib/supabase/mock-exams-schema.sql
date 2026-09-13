@@ -3,6 +3,15 @@
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+-- Mã đề là dữ liệu kỹ thuật do hệ thống tự tạo; Admin không cần ghi nhớ.
+CREATE OR REPLACE FUNCTION public.generate_mock_exam_code()
+RETURNS TEXT
+LANGUAGE SQL
+VOLATILE
+AS $$
+  SELECT 'FLY-' || UPPER(SUBSTRING(REPLACE(gen_random_uuid()::TEXT, '-', '') FROM 1 FOR 12));
+$$;
+
 CREATE TABLE IF NOT EXISTS public.mock_exam_topics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   grade SMALLINT NOT NULL CHECK (grade IN (6, 7, 8, 9)),
@@ -14,7 +23,7 @@ CREATE TABLE IF NOT EXISTS public.mock_exam_topics (
 
 CREATE TABLE IF NOT EXISTS public.mock_exams (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  code TEXT NOT NULL UNIQUE,
+  code TEXT NOT NULL UNIQUE DEFAULT public.generate_mock_exam_code(),
   grade SMALLINT NOT NULL CHECK (grade IN (6, 7, 8, 9)),
   title TEXT NOT NULL,
   duration INTEGER NOT NULL CHECK (duration > 0),
@@ -26,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.mock_exams (
 -- Bổ sung cấu trúc mới cho bảng mock_exams đã tạo từ trước.
 ALTER TABLE public.mock_exams ADD COLUMN IF NOT EXISTS category TEXT NOT NULL DEFAULT 'midterm_1';
 ALTER TABLE public.mock_exams ADD COLUMN IF NOT EXISTS topic_id UUID REFERENCES public.mock_exam_topics(id) ON DELETE SET NULL;
+ALTER TABLE public.mock_exams ALTER COLUMN code SET DEFAULT public.generate_mock_exam_code();
 
 DO $$
 BEGIN

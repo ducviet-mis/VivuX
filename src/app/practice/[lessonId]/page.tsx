@@ -12,6 +12,7 @@ import { Question } from '@/features/practice/types';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { LESSON_META, GRADE_LABELS } from '@/features/practice/data/practice-data';
 import { useSavedQuestions } from '@/features/practice/hooks/use-saved-questions';
+import { PracticeCompletionDialog } from '@/features/practice/components/practice-completion-dialog';
 
 export default function LessonPracticePage() {
   const params = useParams();
@@ -27,6 +28,7 @@ export default function LessonPracticePage() {
   const [answeredIds, setAnsweredIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dbLessonMeta, setDbLessonMeta] = useState<{grade: number, chapter: string, title: string} | null>(null);
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const supabase = getSupabaseClient();
   const { user } = useAuthStore();
@@ -169,7 +171,7 @@ export default function LessonPracticePage() {
 
   const handleNext = () => {
     if (currentQuestionIndex === questions.length - 1) {
-      router.push('/practice');
+      setShowCompletion(true);
     } else {
       nextQuestion();
     }
@@ -233,6 +235,14 @@ export default function LessonPracticePage() {
           onToggleSave={mode === 'mix' ? undefined : () => toggleSave(currentQuestion.id, lessonId, currentQuestion.difficultyLevel || 1)}
         />
       )}
+
+      <PracticeCompletionDialog
+        open={showCompletion}
+        onOpenChange={setShowCompletion}
+        lessonTitle={lesson.title}
+        totalQuestions={questions.length}
+        onChooseAnother={() => router.push(`/practice?grade=${grade.id}`)}
+      />
     </div>
   );
 }

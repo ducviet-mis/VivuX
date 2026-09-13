@@ -12,6 +12,7 @@ import { Question } from '@/features/practice/types';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { LESSON_META, GRADE_LABELS } from '@/features/practice/data/practice-data';
 import { useSavedQuestions } from '@/features/practice/hooks/use-saved-questions';
+import { PracticeCompletionDialog } from '@/features/practice/components/practice-completion-dialog';
 
 export default function WrongLessonPracticePage() {
   const params = useParams();
@@ -24,6 +25,7 @@ export default function WrongLessonPracticePage() {
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const supabase = getSupabaseClient();
   const { user } = useAuthStore();
@@ -117,7 +119,7 @@ export default function WrongLessonPracticePage() {
 
   const handleNext = () => {
     if (currentQuestionIndex === questions.length - 1) {
-      router.push('/practice');
+      setShowCompletion(true);
     } else {
       nextQuestion();
     }
@@ -177,6 +179,13 @@ export default function WrongLessonPracticePage() {
             />
           </div>
         )}
+        <PracticeCompletionDialog
+          open={showCompletion}
+          onOpenChange={setShowCompletion}
+          lessonTitle={lesson.title}
+          totalQuestions={questions.length}
+          onChooseAnother={() => router.push(`/practice?grade=${grade.id}`)}
+        />
       </div>
     </div>
   );

@@ -22,7 +22,6 @@ export default function AdminPage() {
   const [fetching, setFetching] = useState(true);
 
   // Form states
-  const [id, setId] = useState('');
   const [grade, setGrade] = useState('8');
   const [chapter, setChapter] = useState('');
   const [title, setTitle] = useState('');
@@ -30,13 +29,19 @@ export default function AdminPage() {
   const [isNewChapter, setIsNewChapter] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [editingLesson, setEditingLesson] = useState<any | null>(null);
-  const [editLessonId, setEditLessonId] = useState('');
   const [editLessonChapter, setEditLessonChapter] = useState('');
   const [editLessonTitle, setEditLessonTitle] = useState('');
   const [savingEdit, setSavingEdit] = useState(false);
   const [editingChapter, setEditingChapter] = useState<{ grade: number; name: string } | null>(null);
   const [editChapterName, setEditChapterName] = useState('');
   const [savingChapter, setSavingChapter] = useState(false);
+
+  const createInternalLessonId = (gradeNumber: string) => {
+    const randomPart = typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID().replace(/-/g, '').slice(0, 12).toLowerCase()
+      : `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`.toLowerCase();
+    return `lesson-${gradeNumber}-${randomPart}`;
+  };
 
   const existingChaptersForGrade = Array.from(new Set(
     lessons.filter(l => l.grade.toString() === grade.toString()).map(l => (l.chapter || '').trim())
@@ -73,7 +78,7 @@ export default function AdminPage() {
   }, [user]);
 
   const handleAddLesson = async () => {
-    if (!id || !grade || !chapter || !title) {
+    if (!grade || !chapter || !title) {
       alert('Vui lòng điền đầy đủ thông tin');
       return;
     }
@@ -81,7 +86,7 @@ export default function AdminPage() {
     setSaving(true);
     const supabase = getSupabaseClient();
     const { error } = await supabase.from('practice_lessons').insert([
-      { id, grade: parseInt(grade), chapter: chapter.trim(), title: title.trim() }
+      { id: createInternalLessonId(grade), grade: parseInt(grade), chapter: chapter.trim(), title: title.trim() }
     ]);
 
     if (error) {
@@ -93,7 +98,6 @@ export default function AdminPage() {
       if (data) setLessons(data);
 
       // Reset form
-      setId('');
       setChapter('');
       setTitle('');
     }
@@ -122,48 +126,30 @@ export default function AdminPage() {
 
   const openEditLesson = (lesson: any) => {
     setEditingLesson(lesson);
-    setEditLessonId(lesson.id || '');
     setEditLessonChapter(lesson.chapter || '');
     setEditLessonTitle(lesson.title || '');
   };
 
   const handleSaveLesson = async () => {
-    if (!editingLesson || !editLessonId.trim() || !editLessonChapter.trim() || !editLessonTitle.trim()) {
-      alert('Vui lòng điền đầy đủ ID, tên chương và tên bài.');
+    if (!editingLesson || !editLessonChapter.trim() || !editLessonTitle.trim()) {
+      alert('Vui lòng điền đầy đủ tên chương và tên bài.');
       return;
     }
 
     setSavingEdit(true);
     const supabase = getSupabaseClient();
-    const nextId = editLessonId.trim();
     const nextChapter = editLessonChapter.trim();
     const nextTitle = editLessonTitle.trim();
-    let error: { message: string } | null = null;
-
-    if (nextId === editingLesson.id) {
-      const result = await supabase
-        .from('practice_lessons')
-        .update({ chapter: nextChapter, title: nextTitle })
-        .eq('id', editingLesson.id);
-      error = result.error;
-    } else {
-      const result = await supabase.rpc('rename_practice_lesson', {
-        p_old_lesson_id: editingLesson.id,
-        p_new_lesson_id: nextId,
-        p_chapter: nextChapter,
-        p_title: nextTitle,
-      });
-      error = result.error;
-    }
+    const { error } = await supabase
+      .from('practice_lessons')
+      .update({ chapter: nextChapter, title: nextTitle })
+      .eq('id', editingLesson.id);
 
     if (error) {
-      const hint = nextId !== editingLesson.id
-        ? ' Hãy chạy SQL quản lý Tự luyện đi kèm bản cập nhật này trước khi đổi ID.'
-        : '';
-      alert('Không thể lưu thay đổi: ' + error.message + hint);
+      alert('Không thể lưu thay đổi: ' + error.message);
     } else {
       setLessons((current) => current.map((lesson) => lesson.id === editingLesson.id
-        ? { ...lesson, id: nextId, chapter: nextChapter, title: nextTitle }
+        ? { ...lesson, chapter: nextChapter, title: nextTitle }
         : lesson
       ));
       setEditingLesson(null);
@@ -283,11 +269,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                   <Label>Lớp</Label>
                   <Input type="number" value={grade} onChange={e => setGrade(e.target.value)} placeholder="VD: 8" />
                 </div>
-                <div className="space-y-2 lg:col-span-2">
-                  <Label>Mã bài học (ID)</Label>
-                  <Input value={id} onChange={e => setId(e.target.value)} placeholder="VD: l8-3" />
-                </div>
-                <div className="space-y-2 lg:col-span-3">
+                <div className="space-y-2 lg:col-span-4">
                   <Label>Tên Chương / Nhóm</Label>
                   {!isNewChapter ? (
                     <Select
@@ -334,7 +316,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                     </div>
                   )}
                 </div>
-                <div className="space-y-2 lg:col-span-3">
+                <div className="space-y-2 lg:col-span-4">
                   <Label>Tên Bài Học</Label>
                   <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="VD: Phép cộng phân thức" />
                 </div>
@@ -410,7 +392,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                           <div>
                                             <h3 className="font-semibold text-primary">Nhập câu hỏi bằng JSON</h3>
                                             <p className="text-sm text-primary mt-1">
-                                              Vào mục <strong>Nhập đề JSON</strong> trong ADMIN để chọn bài này, chọn Level, dán JSON từ AI và xem trước trước khi lưu hàng loạt.
+                                              FlyDo tự tạo ID nội bộ cho bài học. Vào mục <strong>Nhập đề JSON</strong> để chọn bài này theo tên, chọn Level, dán JSON từ AI và xem trước trước khi lưu hàng loạt.
                                             </p>
                                             <p className="text-sm text-primary mt-1 font-medium">
                                               Lưu ý tính năng Level: Cột <code>difficulty_level</code> (1: Nhận biết, 2: Thông hiểu, 3: Vận dụng, 4: Vận dụng cao) sẽ tự động phân loại câu hỏi vào từng Level tương ứng trên giao diện tự luyện.
@@ -428,7 +410,6 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                             </div>
                                             <div>
                                               <div className="font-semibold text-foreground">{lesson.title}</div>
-                                              <div className="text-xs font-medium text-muted-foreground mt-0.5">ID: {lesson.id}</div>
                                             </div>
                                           </div>
                                         </div>
@@ -473,10 +454,9 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
         <DialogContent className="rounded-2xl sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Sửa bài tự luyện</DialogTitle>
-            <DialogDescription>Đổi ID sẽ giữ nguyên câu hỏi, tiến độ học và các câu đã lưu của bài này.</DialogDescription>
+            <DialogDescription>ID bài học được FlyDo quản lý nội bộ; bạn chỉ cần cập nhật nội dung hiển thị.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
-            <div className="space-y-2"><Label htmlFor="edit-lesson-id">ID bài học</Label><Input id="edit-lesson-id" value={editLessonId} onChange={(event) => setEditLessonId(event.target.value)} className="h-11" /></div>
             <div className="space-y-2"><Label htmlFor="edit-lesson-chapter">Tên chương</Label><Input id="edit-lesson-chapter" value={editLessonChapter} onChange={(event) => setEditLessonChapter(event.target.value)} className="h-11" /></div>
             <div className="space-y-2"><Label htmlFor="edit-lesson-title">Tên bài</Label><Input id="edit-lesson-title" value={editLessonTitle} onChange={(event) => setEditLessonTitle(event.target.value)} className="h-11" /></div>
           </div>

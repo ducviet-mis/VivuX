@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AlertCircle, CheckCircle2, Clipboard, Code2, FileText, GraduationCap, Loader2, Sparkles, UploadCloud } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Clipboard, Code2, FileText, GraduationCap, Loader2, Shapes, Sparkles, UploadCloud } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,42 @@ import { buildAiPrompt, parseQuestionJson, type ImportedQuestion, type ImportTar
 
 type LessonOption = { id: string; grade: number; chapter: string; title: string };
 type ExamOption = { id: string; grade: number; title: string };
+
+const GEOMETRY_JSON_EXAMPLE = JSON.stringify({
+  questions: [
+    {
+      content: 'Cho tam giác $ABC$ vuông tại $A$, biết $AB = 6\\,cm$, $AC = 8\\,cm$. Độ dài $BC$ bằng:',
+      options: ['$10\\,cm$', '$12\\,cm$', '$14\\,cm$', '$48\\,cm$'],
+      correct_answer: 0,
+      solution: 'Áp dụng định lý Pythagore: $$BC = \\sqrt{AB^2 + AC^2} = \\sqrt{6^2 + 8^2} = 10\\,cm.$$',
+      diagram: {
+        type: 'geometry',
+        width: 360,
+        height: 260,
+        alt: 'Tam giác ABC vuông tại A, cạnh AB dài 6 cm và AC dài 8 cm.',
+        points: [
+          { id: 'A', x: 70, y: 205, label: 'A', label_dx: -10, label_dy: 16 },
+          { id: 'B', x: 290, y: 205, label: 'B', label_dx: 10, label_dy: 16 },
+          { id: 'C', x: 70, y: 55, label: 'C', label_dx: -10, label_dy: -12 },
+        ],
+        segments: [
+          { from: 'A', to: 'B', label: '6 cm', label_dy: 18 },
+          { from: 'A', to: 'C', label: '8 cm', label_dx: -20 },
+          { from: 'B', to: 'C' },
+        ],
+        polygons: [{ points: ['A', 'B', 'C'], fill: 'primary', opacity: 0.08 }],
+        circles: [],
+        arcs: [],
+        ellipses: [],
+        paths: [],
+        angles: [],
+        right_angles: [{ at: 'A', from: 'B', to: 'C' }],
+        labels: [],
+        plots: [],
+      },
+    },
+  ],
+}, null, 2);
 
 const isAdminEmail = (email?: string | null) => email === 'vietdang293.vn@gmail.com' || email === 'vietdang293@gmail.com';
 
@@ -62,6 +98,7 @@ export default function JsonQuestionImportPage() {
   const [loadingDestinations, setLoadingDestinations] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [showGeometryExample, setShowGeometryExample] = useState(false);
 
   useEffect(() => {
     if (initialized && !isLoading && (!user || !isAdminEmail(user.email))) router.replace('/home');
@@ -108,6 +145,15 @@ export default function JsonQuestionImportPage() {
       setMessage('Đã sao chép prompt. Hãy gửi prompt cho AI rồi dán JSON nhận được vào đây.');
     } catch {
       setMessage('Không thể tự sao chép. Bạn có thể xem prompt trong bảng hướng dẫn bên dưới.');
+    }
+  };
+
+  const handleCopyGeometryExample = async () => {
+    try {
+      await navigator.clipboard.writeText(GEOMETRY_JSON_EXAMPLE);
+      setMessage('Đã sao chép mẫu JSON hình học. Bạn có thể gửi nguyên mẫu này cho AI để AI làm theo.');
+    } catch {
+      setMessage('Không thể tự sao chép. Bạn có thể bôi đen và sao chép mẫu JSON bên dưới.');
     }
   };
 
@@ -168,7 +214,22 @@ export default function JsonQuestionImportPage() {
             {target === 'practice' ? <><div className="space-y-2"><Label htmlFor="lesson-target">2. Bài tự luyện</Label><Select value={lessonId} onValueChange={setLessonId}><SelectTrigger id="lesson-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn bài để thêm câu hỏi" /></SelectTrigger><SelectContent>{lessons.map((lesson) => <SelectItem key={lesson.id} value={lesson.id}>Lớp {lesson.grade} · {lesson.chapter} · {lesson.title}</SelectItem>)}</SelectContent></Select></div><div className="space-y-2"><Label htmlFor="practice-level">3. Level câu hỏi</Label><Select value={level} onValueChange={setLevel}><SelectTrigger id="practice-level" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[['1', 'Level 1 · Nhận biết'], ['2', 'Level 2 · Thông hiểu'], ['3', 'Level 3 · Vận dụng'], ['4', 'Level 4 · Vận dụng cao']].map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select></div></> : <div className="space-y-2"><Label htmlFor="exam-target">2. Đề thi thử</Label><Select value={examId} onValueChange={setExamId}><SelectTrigger id="exam-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn đề để thêm câu hỏi" /></SelectTrigger><SelectContent>{exams.map((exam) => <SelectItem key={exam.id} value={exam.id}>Lớp {exam.grade} · {exam.title}</SelectItem>)}</SelectContent></Select></div>}
           </div>
 
-          <div className="rounded-xl border border-primary/30 bg-primary-soft/40 p-4"><div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div className="flex gap-3"><Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><div><p className="font-bold text-foreground">Tạo JSON với AI theo mẫu FlyDo</p><p className="mt-1 text-sm leading-6 text-muted-foreground">Hệ thống tự gắn bài/đề và Level bạn đã chọn; AI không cần tạo ID hay mã đề.</p></div></div><Button type="button" variant="outline" onClick={handleCopyPrompt} disabled={!canPreview} className="h-11 shrink-0 border-primary text-primary hover:bg-primary-soft"><Clipboard className="mr-2 h-4 w-4" />Sao chép prompt</Button></div></div>
+          <div className="rounded-xl border border-primary/30 bg-primary-soft/40 p-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex gap-3"><Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><div><p className="font-bold text-foreground">Tạo JSON với AI theo mẫu FlyDo</p><p className="mt-1 text-sm leading-6 text-muted-foreground">Hệ thống tự gắn bài/đề và Level bạn đã chọn; AI không cần tạo ID hay mã đề.</p></div></div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button type="button" variant="outline" onClick={() => setShowGeometryExample((visible) => !visible)} className="h-11 shrink-0 border-primary text-primary hover:bg-primary-soft" aria-expanded={showGeometryExample} aria-controls="geometry-json-example"><Shapes className="mr-2 h-4 w-4" />Mẫu JSON hình học{showGeometryExample ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</Button>
+                <Button type="button" variant="outline" onClick={handleCopyPrompt} disabled={!canPreview} className="h-11 shrink-0 border-primary text-primary hover:bg-primary-soft"><Clipboard className="mr-2 h-4 w-4" />Sao chép prompt</Button>
+              </div>
+            </div>
+            {showGeometryExample && <section id="geometry-json-example" className="mt-4 border-t border-primary/20 pt-4" aria-labelledby="geometry-example-heading">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div><h3 id="geometry-example-heading" className="font-bold text-foreground">Mẫu câu hỏi có hình học</h3><p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Sao chép mẫu này cùng prompt rồi yêu cầu AI giữ nguyên cấu trúc <code>diagram</code>, chỉ thay nội dung và dữ kiện hình. Mẫu có thể dán trực tiếp để kiểm tra.</p></div>
+                <Button type="button" variant="outline" onClick={handleCopyGeometryExample} className="h-11 shrink-0 border-primary text-primary hover:bg-primary-soft"><Clipboard className="mr-2 h-4 w-4" />Sao chép mẫu</Button>
+              </div>
+              <pre className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-3 text-left text-xs leading-5 text-foreground whitespace-pre-wrap break-words sm:p-4"><code>{GEOMETRY_JSON_EXAMPLE}</code></pre>
+            </section>}
+          </div>
 
           <div className="space-y-2"><Label htmlFor="question-json">4. Dán JSON câu hỏi</Label><Textarea id="question-json" value={jsonText} onChange={(event) => { setJsonText(event.target.value); setMessage(''); }} placeholder={'{\n  "questions": [\n    {\n      "content": "...",\n      "options": ["A", "B", "C", "D"],\n      "correct_answer": 0,\n      "solution": "..."\n    }\n  ]\n}'} className="min-h-72 resize-y bg-surface font-mono text-sm leading-6" spellCheck={false} /></div>
           <div className="flex flex-col gap-3 sm:flex-row"><Button type="button" onClick={handlePreview} disabled={!canPreview} className="h-11 bg-primary text-primary-foreground"><Code2 className="mr-2 h-4 w-4" />Kiểm tra và xem trước</Button><Button type="button" variant="outline" onClick={() => { setJsonText(''); setQuestions([]); setErrors([]); setMessage(''); }} disabled={!jsonText && !questions.length} className="h-11">Xóa bản nháp</Button></div>

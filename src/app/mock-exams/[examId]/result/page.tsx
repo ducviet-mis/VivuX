@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
+import { GeometryDiagram } from '@/features/geometry/components/geometry-diagram';
 import { ArrowLeft, CheckCircle2, XCircle, Clock, RotateCcw, Target, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -162,6 +163,8 @@ export default function MockExamResultPage({ params }: { params: { examId: strin
                   <div className="prose vivux-prose max-w-none mb-6 text-foreground">
                     <MathRenderer content={q.content} />
                   </div>
+
+                  <GeometryDiagram data={q.diagram} />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                     {(q.options as string[]).map((opt, optIdx) => {

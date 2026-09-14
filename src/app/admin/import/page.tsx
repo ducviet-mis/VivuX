@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
+import { GeometryDiagram } from '@/features/geometry/components/geometry-diagram';
 import { buildAiPrompt, parseQuestionJson, type ImportedQuestion, type ImportTarget } from '@/features/question-import/json-import';
 
 type LessonOption = { id: string; grade: number; chapter: string; title: string };
@@ -24,9 +25,10 @@ function PreviewQuestion({ question, index }: { question: ImportedQuestion; inde
     <article className="rounded-xl border border-border bg-card p-4 shadow-soft sm:p-6">
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Badge className="bg-primary-soft text-primary hover:bg-primary-soft">Câu {index + 1}</Badge>
-        {question.diagram && <Badge variant="outline" className="border-border text-muted-foreground">Có dữ liệu hình học</Badge>}
+        {question.diagram && <Badge variant="outline" className="border-primary/40 bg-primary-soft text-primary">Hình vẽ tự động</Badge>}
       </div>
       <div className="text-base font-semibold leading-7 text-foreground sm:text-lg"><MathRenderer content={question.content} /></div>
+      <GeometryDiagram data={question.diagram} showValidationError />
       <div className="mt-5 grid gap-2 sm:grid-cols-2">
         {question.options.map((option, optionIndex) => {
           const isCorrect = optionIndex === question.correct_answer;

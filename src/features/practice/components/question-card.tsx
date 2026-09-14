@@ -8,6 +8,7 @@ import { SolutionDisplay } from './solution-display';
 import { Progress } from '@/components/ui/progress';
 import { ShoppingBasket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { GeometryDiagram } from '@/features/geometry/components/geometry-diagram';
 
 interface QuestionCardProps {
   question: Question;
@@ -64,6 +65,8 @@ export function QuestionCard({
         <div className="text-lg md:text-2xl font-bold text-foreground leading-relaxed mb-6 md:mb-10">
           <MathRenderer content={question.content} />
         </div>
+
+        <GeometryDiagram data={question.diagram} />
 
         <AnswerOptions
           options={question.options}

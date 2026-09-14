@@ -124,7 +124,8 @@ export default function LessonPracticePage() {
           correctAnswer: q.correct_answer,
           solution: q.solution || '',
           hasMath: q.has_math,
-          difficultyLevel: q.difficulty_level || 1
+          difficultyLevel: q.difficulty_level || 1,
+          diagram: q.diagram
         }));
         setQuestions(mappedQuestions);
       }

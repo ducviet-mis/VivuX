@@ -6,6 +6,7 @@ import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Button } from '@/components/ui/button';
 import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
+import { GeometryDiagram } from '@/features/geometry/components/geometry-diagram';
 import { ArrowLeft, ArrowRight, Clock, Maximize2, Minimize2, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -256,6 +257,8 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                 <div className="prose vivux-prose max-w-none mb-8 text-lg text-foreground">
                   <MathRenderer content={currentQuestion.content} />
                 </div>
+
+                <GeometryDiagram data={currentQuestion.diagram} />
 
                 <div className="space-y-4">
                   {(currentQuestion.options as string[]).map((opt, idx) => {

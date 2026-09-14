@@ -56,10 +56,14 @@ CREATE TABLE IF NOT EXISTS public.mock_exam_questions (
   options JSONB NOT NULL DEFAULT '[]'::jsonb,
   correct_answer INTEGER NOT NULL CHECK (correct_answer BETWEEN 0 AND 3),
   solution TEXT,
+  diagram JSONB,
   order_index INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE (exam_id, order_index)
 );
+
+ALTER TABLE public.mock_exam_questions
+  ADD COLUMN IF NOT EXISTS diagram JSONB;
 
 CREATE TABLE IF NOT EXISTS public.mock_exam_attempts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

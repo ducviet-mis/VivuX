@@ -147,6 +147,30 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
+  const goToPreviousQuestion = () => setCurrentIndex((index) => Math.max(0, index - 1));
+  const goToNextQuestion = () => setCurrentIndex((index) => Math.min(questions.length - 1, index + 1));
+
+  useEffect(() => {
+    if (!questions.length || showConfirm || isSubmitting) return;
+
+    const handleQuestionNavigation = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
+
+      if (event.key === 'ArrowLeft' && currentIndex > 0) {
+        event.preventDefault();
+        goToPreviousQuestion();
+      }
+      if (event.key === 'ArrowRight' && currentIndex < questions.length - 1) {
+        event.preventDefault();
+        goToNextQuestion();
+      }
+    };
+
+    window.addEventListener('keydown', handleQuestionNavigation);
+    return () => window.removeEventListener('keydown', handleQuestionNavigation);
+  }, [currentIndex, isSubmitting, questions.length, showConfirm]);
+
   if (!initialized || !exam) {
     return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-muted-foreground font-medium">Đang tải đề thi...</div>;
   }
@@ -293,21 +317,25 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                   })}
                 </div>
 
-                <div className="flex items-center justify-between mt-8 pt-8 border-t border-border">
+                <div className="mt-8 flex items-center gap-3 border-t border-border pt-8">
                   <Button
                     variant="outline"
-                    onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
+                    onClick={goToPreviousQuestion}
                     disabled={currentIndex === 0}
-                    className="rounded-md px-6 border-border text-muted-foreground"
+                    className="h-12 flex-1 rounded-md border-border px-4 text-muted-foreground sm:flex-none sm:px-6"
+                    aria-keyshortcuts="ArrowLeft"
+                    title="Câu trước (phím mũi tên trái)"
                   >
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Quay lại
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Câu trước
                   </Button>
                   <Button
-                    onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))}
+                    onClick={goToNextQuestion}
                     disabled={currentIndex === questions.length - 1}
-                    className="rounded-md px-6 bg-muted hover:bg-muted text-foreground"
+                    className="h-12 flex-1 rounded-md bg-muted px-4 text-foreground hover:bg-muted sm:ml-auto sm:flex-none sm:px-6"
+                    aria-keyshortcuts="ArrowRight"
+                    title="Câu sau (phím mũi tên phải)"
                   >
-                    Câu tiếp theo <ArrowRight className="w-4 h-4 ml-2" />
+                    Câu sau <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>

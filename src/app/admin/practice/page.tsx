@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil } from 'lucide-react';
+import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil, ArrowDown, ArrowUp, ListOrdered } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
@@ -35,6 +35,15 @@ export default function AdminPage() {
   const [editingChapter, setEditingChapter] = useState<{ grade: number; name: string } | null>(null);
   const [editChapterName, setEditChapterName] = useState('');
   const [savingChapter, setSavingChapter] = useState(false);
+  const [reorderingLessonId, setReorderingLessonId] = useState<string | null>(null);
+
+  const sortLessons = (items: any[]) => [...items].sort((a, b) => {
+    const orderA = typeof a.sort_order === 'number' ? a.sort_order : Number.MAX_SAFE_INTEGER;
+    const orderB = typeof b.sort_order === 'number' ? b.sort_order : Number.MAX_SAFE_INTEGER;
+
+    if (orderA !== orderB) return orderA - orderB;
+    return (a.title || '').localeCompare(b.title || '', 'vi', { numeric: true, sensitivity: 'base' });
+  });
 
   const createInternalLessonId = (gradeNumber: string) => {
     const randomPart = typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -58,7 +67,7 @@ export default function AdminPage() {
   useEffect(() => {
     async function fetchLessons() {
       const supabase = getSupabaseClient();
-      const { data, error } = await supabase.from('practice_lessons').select('*').order('grade').order('id');
+      const { data, error } = await supabase.from('practice_lessons').select('*').order('grade').order('chapter').order('id');
 
       if (error) {
         if (error.code === '42P01' || error.message.includes('does not exist')) {
@@ -85,16 +94,27 @@ export default function AdminPage() {
 
     setSaving(true);
     const supabase = getSupabaseClient();
+    const nextSortOrder = lessons
+      .filter((lesson) => lesson.grade === parseInt(grade) && (lesson.chapter || '').trim() === chapter.trim())
+      .reduce((max, lesson) => Math.max(max, typeof lesson.sort_order === 'number' ? lesson.sort_order : 0), 0) + 1;
     const { error } = await supabase.from('practice_lessons').insert([
-      { id: createInternalLessonId(grade), grade: parseInt(grade), chapter: chapter.trim(), title: title.trim() }
+      {
+        id: createInternalLessonId(grade),
+        grade: parseInt(grade),
+        chapter: chapter.trim(),
+        title: title.trim(),
+        sort_order: nextSortOrder,
+      }
     ]);
 
     if (error) {
-      alert('Lỗi: ' + error.message);
+      alert(error.message.includes('sort_order')
+        ? 'Bạn cần chạy SQL “Sắp xếp bài tự luyện” trước khi thêm bài mới.'
+        : 'Lỗi: ' + error.message);
     } else {
       alert('Thêm chuyên đề thành công!');
       // Refresh list
-      const { data } = await supabase.from('practice_lessons').select('*').order('grade').order('id');
+      const { data } = await supabase.from('practice_lessons').select('*').order('grade').order('chapter').order('id');
       if (data) setLessons(data);
 
       // Reset form
@@ -188,6 +208,32 @@ export default function AdminPage() {
     setSavingChapter(false);
   };
 
+  const handleMoveLesson = async (lesson: any, targetLesson: any) => {
+    if (!('sort_order' in lesson) || !('sort_order' in targetLesson)) {
+      alert('Bạn cần chạy SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.');
+      return;
+    }
+
+    setReorderingLessonId(lesson.id);
+    const { error } = await getSupabaseClient().rpc('reorder_practice_lesson', {
+      p_lesson_id: lesson.id,
+      p_target_lesson_id: targetLesson.id,
+    });
+
+    if (error) {
+      alert(error.message.includes('reorder_practice_lesson')
+        ? 'Bạn cần chạy SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.'
+        : 'Không thể đổi vị trí bài học: ' + error.message);
+    } else {
+      setLessons((current) => current.map((item) => {
+        if (item.id === lesson.id) return { ...item, sort_order: targetLesson.sort_order };
+        if (item.id === targetLesson.id) return { ...item, sort_order: lesson.sort_order };
+        return item;
+      }));
+    }
+    setReorderingLessonId(null);
+  };
+
   const groupedLessons = useMemo(() => {
     const grades = new Map<number, Map<string, any[]>>();
     lessons.forEach(l => {
@@ -205,7 +251,7 @@ export default function AdminPage() {
         gradeNum,
         chapters: Array.from(chapters.entries()).map(([title, items]) => ({
           title,
-          items
+          items: sortLessons(items)
         }))
       }));
   }, [lessons]);
@@ -231,6 +277,7 @@ export default function AdminPage() {
   grade INTEGER NOT NULL,
   chapter TEXT NOT NULL,
   title TEXT NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
@@ -401,9 +448,13 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                         </div>
                                       </CardContent>
                                     </Card>
-                                    {ch.items.map(lesson => (
-                                      <div key={lesson.id} className="flex items-center gap-2 group">
-                                        <div className="flex-1 flex items-center justify-between p-3 rounded-xl border border-transparent bg-card shadow-soft group-hover:border-primary transition-all">
+                                    <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm text-muted-foreground">
+                                      <ListOrdered className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                                      <span>Sắp xếp thứ tự hiển thị bằng các nút mũi tên.</span>
+                                    </div>
+                                    {ch.items.map((lesson, lessonIndex) => (
+                                      <div key={lesson.id} className="flex flex-wrap items-center gap-2 group">
+                                        <div className="min-w-0 flex-1 flex items-center justify-between p-3 rounded-xl border border-transparent bg-card shadow-soft group-hover:border-primary transition-all">
                                           <div className="flex items-center gap-4">
                                             <div className="bg-primary-soft p-2.5 rounded-lg text-primary">
                                               <BookOpen className="w-4 h-4" />
@@ -412,6 +463,30 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                               <div className="font-semibold text-foreground">{lesson.title}</div>
                                             </div>
                                           </div>
+                                        </div>
+                                        <div className="flex shrink-0 gap-2">
+                                          <Button
+                                            variant="outline"
+                                            size="icon"
+                                            onClick={() => handleMoveLesson(lesson, ch.items[lessonIndex - 1])}
+                                            disabled={lessonIndex === 0 || reorderingLessonId !== null}
+                                            className="h-12 w-12 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary"
+                                            title="Đưa bài lên trên"
+                                            aria-label={`Đưa ${lesson.title} lên trên`}
+                                          >
+                                            <ArrowUp className="h-5 w-5" />
+                                          </Button>
+                                          <Button
+                                            variant="outline"
+                                            size="icon"
+                                            onClick={() => handleMoveLesson(lesson, ch.items[lessonIndex + 1])}
+                                            disabled={lessonIndex === ch.items.length - 1 || reorderingLessonId !== null}
+                                            className="h-12 w-12 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary"
+                                            title="Đưa bài xuống dưới"
+                                            aria-label={`Đưa ${lesson.title} xuống dưới`}
+                                          >
+                                            <ArrowDown className="h-5 w-5" />
+                                          </Button>
                                         </div>
                                         <Button
                                           variant="outline"

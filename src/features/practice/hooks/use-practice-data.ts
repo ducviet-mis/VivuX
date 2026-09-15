@@ -107,14 +107,19 @@ export function usePracticeData() {
         });
       }
 
-      let dbLessons: Record<string, { grade: number; chapter: string; title: string }> = {};
+      let dbLessons: Record<string, { grade: number; chapter: string; title: string; sortOrder?: number }> = {};
       try {
         const { data: lessonsData, error: lessonsError } = await supabase
           .from('practice_lessons')
           .select('*');
         if (lessonsData && !lessonsError) {
           lessonsData.forEach((l: any) => {
-            dbLessons[l.id] = { grade: l.grade, chapter: l.chapter, title: l.title };
+            dbLessons[l.id] = {
+              grade: l.grade,
+              chapter: l.chapter,
+              title: l.title,
+              sortOrder: typeof l.sort_order === 'number' ? l.sort_order : undefined,
+            };
           });
         }
       } catch (err) {
@@ -146,7 +151,7 @@ export function usePracticeData() {
         const chapters = gradeMap.get(gradeNum)!;
         if (!chapters.has(chapterTitle)) chapters.set(chapterTitle, []);
         
-        chapters.get(chapterTitle)!.push({ id: lessonId, title: meta.title });
+        chapters.get(chapterTitle)!.push({ id: lessonId, title: meta.title, sortOrder: meta.sortOrder });
       });
 
       const gradeArray: Grade[] = Array.from(gradeMap.entries())
@@ -158,7 +163,13 @@ export function usePracticeData() {
           chapters: Array.from(chapterMap.entries()).map(([chTitle, lessons]) => ({
             id: `c${gradeNum}-${chTitle}`,
             title: chTitle,
-            lessons,
+            lessons: lessons.sort((a, b) => {
+              const orderA = a.sortOrder ?? Number.MAX_SAFE_INTEGER;
+              const orderB = b.sortOrder ?? Number.MAX_SAFE_INTEGER;
+
+              if (orderA !== orderB) return orderA - orderB;
+              return a.title.localeCompare(b.title, 'vi', { numeric: true, sensitivity: 'base' });
+            }),
           })),
         }));
 

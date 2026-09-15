@@ -107,7 +107,7 @@ export function usePracticeData() {
         });
       }
 
-      let dbLessons: Record<string, { grade: number; chapter: string; title: string; sortOrder?: number }> = {};
+      let dbLessons: Record<string, { grade: number; chapter: string; title: string; sortOrder?: number; chapterSortOrder?: number }> = {};
       try {
         const { data: lessonsData, error: lessonsError } = await supabase
           .from('practice_lessons')
@@ -119,6 +119,7 @@ export function usePracticeData() {
               chapter: l.chapter,
               title: l.title,
               sortOrder: typeof l.sort_order === 'number' ? l.sort_order : undefined,
+              chapterSortOrder: typeof l.chapter_sort_order === 'number' ? l.chapter_sort_order : undefined,
             };
           });
         }
@@ -136,7 +137,7 @@ export function usePracticeData() {
         }
       });
 
-      const gradeMap = new Map<number, Map<string, Lesson[]>>();
+      const gradeMap = new Map<number, Map<string, { sortOrder?: number; lessons: Lesson[] }>>();
       
       Array.from(lessonMap.entries()).forEach(([lessonId]) => {
         const meta = dbLessons[lessonId] || LESSON_META[lessonId];
@@ -147,11 +148,13 @@ export function usePracticeData() {
         const gradeNum = meta.grade;
         const chapterTitle = (meta.chapter || 'Chuyên đề khác').trim();
         
-        if (!gradeMap.has(gradeNum)) gradeMap.set(gradeNum, new Map<string, Lesson[]>());
+        if (!gradeMap.has(gradeNum)) gradeMap.set(gradeNum, new Map<string, { sortOrder?: number; lessons: Lesson[] }>());
         const chapters = gradeMap.get(gradeNum)!;
-        if (!chapters.has(chapterTitle)) chapters.set(chapterTitle, []);
+        if (!chapters.has(chapterTitle)) {
+          chapters.set(chapterTitle, { sortOrder: meta.chapterSortOrder, lessons: [] });
+        }
         
-        chapters.get(chapterTitle)!.push({ id: lessonId, title: meta.title, sortOrder: meta.sortOrder });
+        chapters.get(chapterTitle)!.lessons.push({ id: lessonId, title: meta.title, sortOrder: meta.sortOrder });
       });
 
       const gradeArray: Grade[] = Array.from(gradeMap.entries())
@@ -160,10 +163,17 @@ export function usePracticeData() {
         .map(([gradeNum, chapterMap]) => ({
           id: gradeNum,
           label: GRADE_LABELS[gradeNum] || `Lớp ${gradeNum}`,
-          chapters: Array.from(chapterMap.entries()).map(([chTitle, lessons]) => ({
+          chapters: Array.from(chapterMap.entries())
+            .sort(([titleA, chapterA], [titleB, chapterB]) => {
+              const orderA = chapterA.sortOrder ?? Number.MAX_SAFE_INTEGER;
+              const orderB = chapterB.sortOrder ?? Number.MAX_SAFE_INTEGER;
+              if (orderA !== orderB) return orderA - orderB;
+              return titleA.localeCompare(titleB, 'vi', { numeric: true, sensitivity: 'base' });
+            })
+            .map(([chTitle, chapter]) => ({
             id: `c${gradeNum}-${chTitle}`,
             title: chTitle,
-            lessons: lessons.sort((a, b) => {
+            lessons: chapter.lessons.sort((a, b) => {
               const orderA = a.sortOrder ?? Number.MAX_SAFE_INTEGER;
               const orderB = b.sortOrder ?? Number.MAX_SAFE_INTEGER;
 

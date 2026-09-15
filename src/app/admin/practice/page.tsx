@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, type KeyboardEvent, type PointerEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { PageHeader } from '@/components/shared/page-header';
@@ -10,9 +10,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil, ArrowDown, ArrowUp, ListOrdered } from 'lucide-react';
+import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil, GripVertical } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
+type SortDragItem = {
+  kind: 'lesson' | 'chapter';
+  id: string;
+  grade: number;
+  chapter?: string;
+};
 
 export default function AdminPage() {
   const router = useRouter();
@@ -36,6 +43,10 @@ export default function AdminPage() {
   const [editChapterName, setEditChapterName] = useState('');
   const [savingChapter, setSavingChapter] = useState(false);
   const [reorderingLessonId, setReorderingLessonId] = useState<string | null>(null);
+  const [draggingItem, setDraggingItem] = useState<SortDragItem | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [sortStatus, setSortStatus] = useState('');
+  const pointerDragRef = useRef<SortDragItem | null>(null);
 
   const sortLessons = (items: any[]) => [...items].sort((a, b) => {
     const orderA = typeof a.sort_order === 'number' ? a.sort_order : Number.MAX_SAFE_INTEGER;
@@ -43,6 +54,18 @@ export default function AdminPage() {
 
     if (orderA !== orderB) return orderA - orderB;
     return (a.title || '').localeCompare(b.title || '', 'vi', { numeric: true, sensitivity: 'base' });
+  });
+
+  const sortChapters = (items: [string, any[]][]) => [...items].sort(([titleA, lessonsA], [titleB, lessonsB]) => {
+    const orderA = typeof lessonsA[0]?.chapter_sort_order === 'number'
+      ? lessonsA[0].chapter_sort_order
+      : Number.MAX_SAFE_INTEGER;
+    const orderB = typeof lessonsB[0]?.chapter_sort_order === 'number'
+      ? lessonsB[0].chapter_sort_order
+      : Number.MAX_SAFE_INTEGER;
+
+    if (orderA !== orderB) return orderA - orderB;
+    return titleA.localeCompare(titleB, 'vi', { numeric: true, sensitivity: 'base' });
   });
 
   const createInternalLessonId = (gradeNumber: string) => {
@@ -97,6 +120,11 @@ export default function AdminPage() {
     const nextSortOrder = lessons
       .filter((lesson) => lesson.grade === parseInt(grade) && (lesson.chapter || '').trim() === chapter.trim())
       .reduce((max, lesson) => Math.max(max, typeof lesson.sort_order === 'number' ? lesson.sort_order : 0), 0) + 1;
+    const lessonsInChapter = lessons.filter((lesson) => lesson.grade === parseInt(grade) && (lesson.chapter || '').trim() === chapter.trim());
+    const existingChapterSortOrder = lessonsInChapter.find((lesson) => typeof lesson.chapter_sort_order === 'number')?.chapter_sort_order;
+    const nextChapterSortOrder = existingChapterSortOrder ?? (lessons
+      .filter((lesson) => lesson.grade === parseInt(grade))
+      .reduce((max, lesson) => Math.max(max, typeof lesson.chapter_sort_order === 'number' ? lesson.chapter_sort_order : 0), 0) + 1);
     const { error } = await supabase.from('practice_lessons').insert([
       {
         id: createInternalLessonId(grade),
@@ -104,11 +132,12 @@ export default function AdminPage() {
         chapter: chapter.trim(),
         title: title.trim(),
         sort_order: nextSortOrder,
+        chapter_sort_order: nextChapterSortOrder,
       }
     ]);
 
     if (error) {
-      alert(error.message.includes('sort_order')
+      alert(error.message.includes('sort_order') || error.message.includes('chapter_sort_order')
         ? 'Bạn cần chạy SQL “Sắp xếp bài tự luyện” trước khi thêm bài mới.'
         : 'Lỗi: ' + error.message);
     } else {
@@ -160,16 +189,40 @@ export default function AdminPage() {
     const supabase = getSupabaseClient();
     const nextChapter = editLessonChapter.trim();
     const nextTitle = editLessonTitle.trim();
+    const isChangingChapter = nextChapter !== (editingLesson.chapter || '').trim();
+    const chapterPeers = lessons.filter((lesson) => lesson.grade === editingLesson.grade
+      && lesson.id !== editingLesson.id
+      && (lesson.chapter || '').trim() === nextChapter);
+    const existingChapterSortOrder = chapterPeers.find((lesson) => typeof lesson.chapter_sort_order === 'number')?.chapter_sort_order;
+    const nextChapterSortOrder = isChangingChapter
+      ? existingChapterSortOrder ?? (lessons
+        .filter((lesson) => lesson.grade === editingLesson.grade)
+        .reduce((max, lesson) => Math.max(max, typeof lesson.chapter_sort_order === 'number' ? lesson.chapter_sort_order : 0), 0) + 1)
+      : editingLesson.chapter_sort_order;
+    const nextLessonSortOrder = isChangingChapter
+      ? chapterPeers.reduce((max, lesson) => Math.max(max, typeof lesson.sort_order === 'number' ? lesson.sort_order : 0), 0) + 1
+      : editingLesson.sort_order;
     const { error } = await supabase
       .from('practice_lessons')
-      .update({ chapter: nextChapter, title: nextTitle })
+      .update({
+        chapter: nextChapter,
+        title: nextTitle,
+        sort_order: nextLessonSortOrder,
+        chapter_sort_order: nextChapterSortOrder,
+      })
       .eq('id', editingLesson.id);
 
     if (error) {
       alert('Không thể lưu thay đổi: ' + error.message);
     } else {
       setLessons((current) => current.map((lesson) => lesson.id === editingLesson.id
-        ? { ...lesson, chapter: nextChapter, title: nextTitle }
+        ? {
+          ...lesson,
+          chapter: nextChapter,
+          title: nextTitle,
+          sort_order: nextLessonSortOrder,
+          chapter_sort_order: nextChapterSortOrder,
+        }
         : lesson
       ));
       setEditingLesson(null);
@@ -210,7 +263,7 @@ export default function AdminPage() {
 
   const handleMoveLesson = async (lesson: any, targetLesson: any) => {
     if (!('sort_order' in lesson) || !('sort_order' in targetLesson)) {
-      alert('Bạn cần chạy SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.');
+      alert('Bạn cần chạy lại SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.');
       return;
     }
 
@@ -222,16 +275,130 @@ export default function AdminPage() {
 
     if (error) {
       alert(error.message.includes('reorder_practice_lesson')
-        ? 'Bạn cần chạy SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.'
+        ? 'Bạn cần chạy lại SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.'
         : 'Không thể đổi vị trí bài học: ' + error.message);
     } else {
       setLessons((current) => current.map((item) => {
         if (item.id === lesson.id) return { ...item, sort_order: targetLesson.sort_order };
-        if (item.id === targetLesson.id) return { ...item, sort_order: lesson.sort_order };
+        if (item.grade !== lesson.grade || (item.chapter || '').trim() !== (lesson.chapter || '').trim()) return item;
+        if (lesson.sort_order < targetLesson.sort_order
+          && item.sort_order > lesson.sort_order
+          && item.sort_order <= targetLesson.sort_order) {
+          return { ...item, sort_order: item.sort_order - 1 };
+        }
+        if (lesson.sort_order > targetLesson.sort_order
+          && item.sort_order >= targetLesson.sort_order
+          && item.sort_order < lesson.sort_order) {
+          return { ...item, sort_order: item.sort_order + 1 };
+        }
         return item;
       }));
+      setSortStatus('Đã đổi vị trí bài ' + lesson.title + '.');
     }
     setReorderingLessonId(null);
+  };
+
+  const handleMoveChapter = async (gradeNum: number, chapterName: string, targetChapterName: string) => {
+    const sourceLesson = lessons.find((lesson) => lesson.grade === gradeNum && (lesson.chapter || '').trim() === chapterName);
+    const targetLesson = lessons.find((lesson) => lesson.grade === gradeNum && (lesson.chapter || '').trim() === targetChapterName);
+    if (!sourceLesson || !targetLesson || !('chapter_sort_order' in sourceLesson) || !('chapter_sort_order' in targetLesson)) {
+      alert('Bạn cần chạy lại SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.');
+      return;
+    }
+
+    setReorderingLessonId('chapter-' + gradeNum + '-' + chapterName);
+    const { error } = await getSupabaseClient().rpc('reorder_practice_chapter', {
+      p_grade: gradeNum,
+      p_chapter: chapterName,
+      p_target_chapter: targetChapterName,
+    });
+
+    if (error) {
+      alert(error.message.includes('reorder_practice_chapter')
+        ? 'Bạn cần chạy lại SQL “Sắp xếp bài tự luyện” trong Supabase trước khi dùng tính năng này.'
+        : 'Không thể đổi vị trí chương: ' + error.message);
+    } else {
+      setLessons((current) => current.map((lesson) => {
+        if (lesson.grade !== gradeNum) return lesson;
+        if ((lesson.chapter || '').trim() === chapterName) {
+          return { ...lesson, chapter_sort_order: targetLesson.chapter_sort_order };
+        }
+        if (sourceLesson.chapter_sort_order < targetLesson.chapter_sort_order
+          && lesson.chapter_sort_order > sourceLesson.chapter_sort_order
+          && lesson.chapter_sort_order <= targetLesson.chapter_sort_order) {
+          return { ...lesson, chapter_sort_order: lesson.chapter_sort_order - 1 };
+        }
+        if (sourceLesson.chapter_sort_order > targetLesson.chapter_sort_order
+          && lesson.chapter_sort_order >= targetLesson.chapter_sort_order
+          && lesson.chapter_sort_order < sourceLesson.chapter_sort_order) {
+          return { ...lesson, chapter_sort_order: lesson.chapter_sort_order + 1 };
+        }
+        return lesson;
+      }));
+      setSortStatus('Đã đổi vị trí chương ' + chapterName + '.');
+    }
+    setReorderingLessonId(null);
+  };
+
+  const findDropTarget = (event: PointerEvent<HTMLButtonElement>, item: SortDragItem) => {
+    const element = document.elementFromPoint(event.clientX, event.clientY);
+    const selector = '[data-sort-kind="' + item.kind + '"][data-sort-grade="' + item.grade + '"]';
+    const target = element?.closest<HTMLElement>(selector);
+    const id = target?.dataset.sortId;
+    if (item.kind === 'lesson' && target?.dataset.sortChapter !== item.chapter) return null;
+    return id && id !== item.id ? id : null;
+  };
+
+  const handleSortPointerDown = (event: PointerEvent<HTMLButtonElement>, item: SortDragItem) => {
+    if (reorderingLessonId !== null || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointerDragRef.current = item;
+    setDraggingItem(item);
+    setDragOverId(null);
+  };
+
+  const handleSortPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    const item = pointerDragRef.current;
+    if (!item) return;
+    setDragOverId(findDropTarget(event, item));
+  };
+
+  const handleSortPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
+    const item = pointerDragRef.current;
+    const targetId = item ? findDropTarget(event, item) : null;
+    pointerDragRef.current = null;
+    setDraggingItem(null);
+    setDragOverId(null);
+
+    if (!item || !targetId) return;
+    if (item.kind === 'lesson') {
+      const targetLesson = lessons.find((lesson) => lesson.id === targetId);
+      const lesson = lessons.find((currentLesson) => currentLesson.id === item.id);
+      if (lesson && targetLesson) void handleMoveLesson(lesson, targetLesson);
+      return;
+    }
+
+    void handleMoveChapter(item.grade, item.id, targetId);
+  };
+
+  const handleSortKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    item: SortDragItem,
+    siblingIds: string[],
+  ) => {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    const currentIndex = siblingIds.indexOf(item.id);
+    const targetIndex = event.key === 'ArrowUp' ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= siblingIds.length) return;
+
+    event.preventDefault();
+    if (item.kind === 'lesson') {
+      const lesson = lessons.find((currentLesson) => currentLesson.id === item.id);
+      const targetLesson = lessons.find((currentLesson) => currentLesson.id === siblingIds[targetIndex]);
+      if (lesson && targetLesson) void handleMoveLesson(lesson, targetLesson);
+      return;
+    }
+    void handleMoveChapter(item.grade, item.id, siblingIds[targetIndex]);
   };
 
   const groupedLessons = useMemo(() => {
@@ -249,7 +416,7 @@ export default function AdminPage() {
       .sort((a, b) => a[0] - b[0])
       .map(([gradeNum, chapters]) => ({
         gradeNum,
-        chapters: Array.from(chapters.entries()).map(([title, items]) => ({
+        chapters: sortChapters(Array.from(chapters.entries())).map(([title, items]) => ({
           title,
           items: sortLessons(items)
         }))
@@ -278,6 +445,7 @@ export default function AdminPage() {
   chapter TEXT NOT NULL,
   title TEXT NOT NULL,
   sort_order INTEGER NOT NULL DEFAULT 0,
+  chapter_sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
@@ -385,6 +553,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
               </CardTitle>
             </CardHeader>
             <CardContent>
+              <p className="sr-only" aria-live="polite" aria-atomic="true">{sortStatus}</p>
               {groupedLessons.length === 0 ? (
                 <div className="text-center py-10 text-muted-foreground bg-muted rounded-2xl">
                   Chưa có chuyên đề nào trong CSDL.
@@ -395,15 +564,38 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                     <div key={gradeGroup.gradeNum}>
                       <h3 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Chuyên đề Toán Lớp {gradeGroup.gradeNum}</h3>
                       <div className="space-y-4">
-                        {gradeGroup.chapters.map(ch => {
+                        {gradeGroup.chapters.map((ch) => {
                           const chapterId = `g${gradeGroup.gradeNum}-c${ch.title}`;
                           const isExpanded = expandedId === chapterId;
+                          const chapterDragItem: SortDragItem = { kind: 'chapter', id: ch.title, grade: gradeGroup.gradeNum };
+                          const isChapterDragTarget = draggingItem?.kind === 'chapter' && dragOverId === ch.title;
 
                           return (
-                            <div key={chapterId} className="border border-border rounded-xl bg-card overflow-hidden shadow-soft">
+                            <div
+                              key={chapterId}
+                              data-sort-kind="chapter"
+                              data-sort-grade={gradeGroup.gradeNum}
+                              data-sort-id={ch.title}
+                              className={'border rounded-xl bg-card overflow-hidden shadow-soft transition-colors ' + (isChapterDragTarget ? 'border-primary ring-2 ring-primary/30 bg-primary-soft' : 'border-border')}
+                            >
                               <div className="flex items-center gap-2 p-2">
                                 <button
-                                  className="min-h-11 flex-1 flex items-center justify-between rounded-lg p-2 hover:bg-muted transition-colors"
+                                  type="button"
+                                  onPointerDown={(event) => handleSortPointerDown(event, chapterDragItem)}
+                                  onPointerMove={handleSortPointerMove}
+                                  onPointerUp={handleSortPointerEnd}
+                                  onPointerCancel={handleSortPointerEnd}
+                                  onKeyDown={(event) => handleSortKeyDown(event, chapterDragItem, gradeGroup.chapters.map((chapter) => chapter.title))}
+                                  disabled={reorderingLessonId !== null}
+                                  className="flex h-11 w-11 shrink-0 touch-none cursor-grab items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-primary-soft hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 active:cursor-grabbing"
+                                  style={{ touchAction: 'none' }}
+                                  title="Nhấn giữ và kéo để sắp xếp chương"
+                                  aria-label={'Kéo để sắp xếp chương ' + ch.title + '. Dùng phím mũi tên lên hoặc xuống để đổi vị trí.'}
+                                >
+                                  <GripVertical className="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <button
+                                  className="min-h-11 min-w-0 flex-1 flex items-center justify-between rounded-lg p-2 hover:bg-muted transition-colors"
                                   onClick={() => setExpandedId(isExpanded ? null : chapterId)}
                                   aria-expanded={isExpanded}
                                 >
@@ -449,11 +641,33 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                       </CardContent>
                                     </Card>
                                     <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm text-muted-foreground">
-                                      <ListOrdered className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                                      <span>Sắp xếp thứ tự hiển thị bằng các nút mũi tên.</span>
+                                      <GripVertical className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                                      <span>Nhấn giữ biểu tượng rồi kéo thả bài học đến vị trí mong muốn.</span>
                                     </div>
-                                    {ch.items.map((lesson, lessonIndex) => (
-                                      <div key={lesson.id} className="flex flex-wrap items-center gap-2 group">
+                                    {ch.items.map((lesson) => (
+                                      <div
+                                        key={lesson.id}
+                                        data-sort-kind="lesson"
+                                        data-sort-grade={gradeGroup.gradeNum}
+                                        data-sort-id={lesson.id}
+                                        data-sort-chapter={ch.title}
+                                        className={'flex flex-wrap items-center gap-2 rounded-xl transition-colors ' + (draggingItem?.kind === 'lesson' && dragOverId === lesson.id ? 'bg-primary-soft ring-2 ring-primary/30' : '')}
+                                      >
+                                        <button
+                                          type="button"
+                                          onPointerDown={(event) => handleSortPointerDown(event, { kind: 'lesson', id: lesson.id, grade: gradeGroup.gradeNum, chapter: ch.title })}
+                                          onPointerMove={handleSortPointerMove}
+                                          onPointerUp={handleSortPointerEnd}
+                                          onPointerCancel={handleSortPointerEnd}
+                                          onKeyDown={(event) => handleSortKeyDown(event, { kind: 'lesson', id: lesson.id, grade: gradeGroup.gradeNum, chapter: ch.title }, ch.items.map((item) => item.id))}
+                                          disabled={reorderingLessonId !== null}
+                                          className="flex h-12 w-11 shrink-0 touch-none cursor-grab items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary-soft hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 active:cursor-grabbing"
+                                          style={{ touchAction: 'none' }}
+                                          title="Nhấn giữ và kéo để sắp xếp bài học"
+                                          aria-label={'Kéo để sắp xếp bài ' + lesson.title + '. Dùng phím mũi tên lên hoặc xuống để đổi vị trí.'}
+                                        >
+                                          <GripVertical className="h-5 w-5" aria-hidden="true" />
+                                        </button>
                                         <div className="min-w-0 flex-1 flex items-center justify-between p-3 rounded-xl border border-transparent bg-card shadow-soft group-hover:border-primary transition-all">
                                           <div className="flex items-center gap-4">
                                             <div className="bg-primary-soft p-2.5 rounded-lg text-primary">
@@ -463,30 +677,6 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                               <div className="font-semibold text-foreground">{lesson.title}</div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div className="flex shrink-0 gap-2">
-                                          <Button
-                                            variant="outline"
-                                            size="icon"
-                                            onClick={() => handleMoveLesson(lesson, ch.items[lessonIndex - 1])}
-                                            disabled={lessonIndex === 0 || reorderingLessonId !== null}
-                                            className="h-12 w-12 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary"
-                                            title="Đưa bài lên trên"
-                                            aria-label={`Đưa ${lesson.title} lên trên`}
-                                          >
-                                            <ArrowUp className="h-5 w-5" />
-                                          </Button>
-                                          <Button
-                                            variant="outline"
-                                            size="icon"
-                                            onClick={() => handleMoveLesson(lesson, ch.items[lessonIndex + 1])}
-                                            disabled={lessonIndex === ch.items.length - 1 || reorderingLessonId !== null}
-                                            className="h-12 w-12 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary"
-                                            title="Đưa bài xuống dưới"
-                                            aria-label={`Đưa ${lesson.title} xuống dưới`}
-                                          >
-                                            <ArrowDown className="h-5 w-5" />
-                                          </Button>
                                         </div>
                                         <Button
                                           variant="outline"

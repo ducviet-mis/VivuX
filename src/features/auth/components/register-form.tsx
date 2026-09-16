@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "../stores/auth-store";
-import { RoleSelector } from "./role-selector";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +28,6 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const { register: registerUser, resendConfirmationEmail, isLoading, error, clearError } = useAuthStore();
-  const [role, setRole] = useState<"teacher" | "student">("student");
   const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null);
   const [resending, setResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -46,7 +44,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     clearError();
-    const result = await registerUser(data.name, data.email, data.password, role);
+    const result = await registerUser(data.name, data.email, data.password);
     if (result.success && result.requiresEmailConfirmation) {
       setConfirmationEmail(result.email || data.email);
       return;
@@ -104,8 +102,6 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <RoleSelector selectedRole={role} onSelect={setRole} />
-
       <div className="space-y-2">
         <Label htmlFor="name" className="text-foreground font-bold ml-1">Họ và tên</Label>
         <Input id="name" placeholder="Nguyễn Văn A" className="rounded-md bg-card border-control px-5 h-12" {...register("name")} />

@@ -20,7 +20,5 @@ export function useAuth() {
     logout,
     clearError,
     isLoggedIn: !!user,
-    isTeacher: user?.role === "teacher",
-    isStudent: user?.role === "student",
   };
 }

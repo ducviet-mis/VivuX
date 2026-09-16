@@ -36,7 +36,7 @@ interface AuthState {
   error: string | null;
   initialized: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string, role: "teacher" | "student") => Promise<RegisterResult>;
+  register: (name: string, email: string, password: string) => Promise<RegisterResult>;
   resendConfirmationEmail: (email: string) => Promise<{ success: boolean; message: string }>;
   logout: () => Promise<void>;
   logoutAllDevices: () => Promise<void>;
@@ -57,7 +57,6 @@ function mapProfile(profile: any): User {
     phone: profile.phone || '',
     birthDate: profile.birth_date || '',
     avatarUrl: profile.avatar_url || '',
-    role: profile.role as "teacher" | "student",
     accountTier,
     subscriptionStartedAt: profile.subscription_started_at || undefined,
     subscriptionExpiresAt: profile.subscription_expires_at || undefined,
@@ -161,7 +160,7 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      register: async (name: string, email: string, password: string, role: "teacher" | "student") => {
+      register: async (name: string, email: string, password: string) => {
         set({ isLoading: true, error: null });
         try {
           const supabase = getSupabaseClient();
@@ -169,7 +168,7 @@ export const useAuthStore = create<AuthState>()(
             email,
             password,
             options: {
-              data: { name, role },
+              data: { name },
               emailRedirectTo: getEmailRedirectUrl(),
             },
           });
@@ -194,7 +193,7 @@ export const useAuthStore = create<AuthState>()(
             set({
               user: profile ? mapProfile(profile) : {
                 id: data.user.id,
-                name, email, role,
+                name, email,
                 accountTier: 'flygo',
                 referralRewardDays: 0,
                 referralDiscountPercent: 0,

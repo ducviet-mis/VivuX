@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, GraduationCap, LayoutDashboard, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown, LibraryBig } from "lucide-react";
+import { Home, BookOpen, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown, LibraryBig } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -25,14 +25,11 @@ export function Navbar() {
     { label: "Tự luyện", href: "/practice", icon: BookOpen },
     { label: "Lý thuyết", href: "/theory", icon: LibraryBig },
     { label: "Thi thử", href: "/mock-exams", icon: FileText },
-    { label: "Lớp học", href: "/classroom", icon: GraduationCap },
     { label: "Cẩm nang", href: "/handbook", icon: BookText },
     { label: "Gói FlyDo", href: "/pricing", icon: Crown },
   ];
-  const teacherItems = user?.role === "teacher" ? [{ label: "Quản lý", href: "/teacher", icon: LayoutDashboard }] : [];
   const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
   const accountTier = getEffectiveAccountTier(user);
-  const allItems = [...navItems, ...teacherItems];
   const handleLogout = () => {
     setDropdownOpen(false);
     logout();
@@ -46,7 +43,7 @@ export function Navbar() {
           <span className="text-2xl font-bold tracking-tight text-foreground">Fly<span className="text-primary">Do</span></span>
         </Link>
         <div className="hidden items-center gap-1 xl:flex">
-          {allItems.map((item) => {
+          {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
             const hasGrades = item.href === "/practice" || item.href === "/theory" || item.href === "/mock-exams";
@@ -100,7 +97,7 @@ export function Navbar() {
                   <p className="mt-1 truncate text-xs font-normal text-muted-foreground">{user.email}</p>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
                     <AccountTierBadge tier={accountTier} />
-                    <span className="text-xs text-muted-foreground">{user.role === 'teacher' ? 'Giáo viên' : 'Học sinh'}</span>
+                    {isAdmin && <span className="text-xs font-semibold text-primary">ADMIN</span>}
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -122,7 +119,7 @@ export function Navbar() {
       {mobileOpen && (
         <div id="mobile-navigation" className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-border bg-surface px-4 py-4 xl:hidden">
           <div className="mx-auto grid max-w-3xl grid-cols-2 gap-2 sm:grid-cols-3">
-            {allItems.map(item => {
+            {navItems.map(item => {
               const Icon = item.icon;
               const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
               const hasGrades = item.href === "/practice" || item.href === "/theory" || item.href === "/mock-exams";

@@ -1,4 +1,3 @@
-export type UserRole = 'teacher' | 'student';
 export type AccountTier = 'flygo' | 'flymax' | 'flyinfinity';
 
 export interface User {
@@ -7,7 +6,6 @@ export interface User {
   email: string;
   phone?: string;
   birthDate?: string;
-  role: UserRole;
   avatarUrl?: string;
   accountTier: AccountTier;
   subscriptionStartedAt?: string;

@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
 import {
   User as UserIcon, Shield, Camera, Save, Eye, EyeOff,
   LogOut, Loader2, CheckCircle, AlertCircle, CalendarDays, Phone, Mail,
@@ -156,9 +155,6 @@ function PersonalInfoTab({ user, refreshUser }: { user: any; refreshUser: () => 
           <div>
             <h3 className="font-bold text-xl md:text-2xl text-foreground mb-2">{name}</h3>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge className="border-0 bg-muted px-3 py-1 text-foreground hover:bg-muted">
-                {user.role === 'teacher' ? 'Giáo viên' : 'Học sinh'}
-              </Badge>
               <AccountTierBadge tier={accountTier} />
             </div>
           </div>

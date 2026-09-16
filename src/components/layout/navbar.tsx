@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, GraduationCap, LayoutDashboard, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown } from "lucide-react";
+import { Home, BookOpen, GraduationCap, LayoutDashboard, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown, LibraryBig } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -23,6 +23,7 @@ export function Navbar() {
   const navItems = [
     { label: "Trang chủ", href: "/home", icon: Home },
     { label: "Tự luyện", href: "/practice", icon: BookOpen },
+    { label: "Lý thuyết", href: "/theory", icon: LibraryBig },
     { label: "Thi thử", href: "/mock-exams", icon: FileText },
     { label: "Lớp học", href: "/classroom", icon: GraduationCap },
     { label: "Cẩm nang", href: "/handbook", icon: BookText },
@@ -48,7 +49,7 @@ export function Navbar() {
           {allItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
-            const hasGrades = item.href === "/practice" || item.href === "/mock-exams";
+            const hasGrades = item.href === "/practice" || item.href === "/theory" || item.href === "/mock-exams";
             if (hasGrades) {
               return (
                 <DropdownMenu key={item.href}>
@@ -124,7 +125,7 @@ export function Navbar() {
             {allItems.map(item => {
               const Icon = item.icon;
               const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
-              const hasGrades = item.href === "/practice" || item.href === "/mock-exams";
+              const hasGrades = item.href === "/practice" || item.href === "/theory" || item.href === "/mock-exams";
               if (hasGrades) {
                 return (
                   <DropdownMenu key={item.href}>

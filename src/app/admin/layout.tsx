@@ -4,7 +4,7 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { BookOpen, FileText, UploadCloud } from 'lucide-react';
+import { BookOpen, FileText, LibraryBig, UploadCloud } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PageHeader } from '@/components/shared/page-header';
 
@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="container max-w-6xl py-8">
       <PageHeader
         title="Quản trị viên (ADMIN)"
-        description="Quản lý dữ liệu hệ thống, chuyên đề tự luyện và các đề thi thử."
+        description="Quản lý dữ liệu hệ thống, lý thuyết, chuyên đề tự luyện và các đề thi thử."
       />
 
       <div className="flex flex-col md:flex-row gap-8 mt-8">
@@ -56,6 +56,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}>
                 <FileText className="w-5 h-5" />
                 Quản lý Thi thử
+              </div>
+            </Link>
+
+            <Link href="/admin/theory">
+              <div className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-colors whitespace-nowrap",
+                pathname?.includes('/admin/theory')
+                  ? "bg-primary-soft text-primary"
+                  : "text-muted-foreground hover:bg-muted"
+              )}>
+                <LibraryBig className="w-5 h-5" />
+                Quản lý Lý thuyết
               </div>
             </Link>
 

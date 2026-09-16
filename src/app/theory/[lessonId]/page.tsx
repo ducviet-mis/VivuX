@@ -52,7 +52,7 @@ export default function TheoryLessonPage() {
         <CardContent className="px-5 py-7 sm:px-9 sm:py-10"><TheoryContent html={lesson.content} /></CardContent>
       </Card>
 
-      <div className="sticky bottom-3 z-20 mt-6 rounded-2xl border border-border bg-surface/95 p-3 shadow-float backdrop-blur sm:flex sm:items-center sm:justify-between sm:gap-5 sm:p-4">
+      <div className="mt-8 rounded-2xl border border-border bg-card p-4 sm:flex sm:items-center sm:justify-between sm:gap-5 sm:p-5">
         <div className="mb-3 flex items-center gap-3 sm:mb-0"><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary"><BookOpen className="h-5 w-5" /></div><div><p className="font-bold text-foreground">Đã đọc xong bài?</p><p className="text-sm text-muted-foreground">Làm {questionCount} câu để tự kiểm tra mức độ ghi nhớ.</p></div></div>
         {questionCount > 0 ? <Button asChild className="min-h-11 w-full sm:w-auto"><Link href={'/theory/' + lesson.id + '/quiz'}><BookCheck className="h-4 w-4" />Kiểm tra lý thuyết</Link></Button> : <Button disabled className="min-h-11 w-full sm:w-auto">Chưa có câu hỏi</Button>}
       </div>

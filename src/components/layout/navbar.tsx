@@ -36,7 +36,7 @@ export function Navbar() {
     router.push('/login');
   };
   return (
-    <nav aria-label="Điều hướng chính" className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur-xl">
+    <nav aria-label="Điều hướng chính" className="fixed inset-x-0 top-0 z-50 border-b border-border bg-surface/95 shadow-soft backdrop-blur-xl">
       <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/home" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label="FlyDo — Trang chủ">
           <img src="/logo.png" alt="" width={36} height={36} className="h-9 w-9 rounded-md object-cover" />

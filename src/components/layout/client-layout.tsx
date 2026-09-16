@@ -20,7 +20,10 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     <AuthGuard>
       <div className="flex min-h-dvh flex-col bg-background">
         <a href="#main-content" className="vivux-skip-link">Đến nội dung chính</a>
-        <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}><Navbar /></div>
+        <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}>
+          <Navbar />
+          <div aria-hidden="true" className="h-[72px]" />
+        </div>
         <main id="main-content" tabIndex={-1} className={cn(
           "min-w-0 flex-1 focus-visible:outline-none",
           isImmersiveMode ? "w-full md:vivux-page" : "vivux-page"

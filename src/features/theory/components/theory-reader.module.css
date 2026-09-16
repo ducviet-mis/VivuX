@@ -57,7 +57,8 @@
 .body :global(.theory-prose) table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin-block: 1em; }
 .body :global(.theory-prose) td, .body :global(.theory-prose) th { border: 1px solid var(--line); padding: 8px 12px; }
 .body :global(.theory-prose) pre { overflow-x: auto; max-width: 100%; }
-.body :global(.theory-math-display) { display: block; overflow-x: auto; max-width: 100%; padding-block: .35em; margin-block: .8em; text-align: center; color: var(--heading); }
-.body :global(.theory-math-inline) { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: middle; color: var(--heading); }
+.body :global(.theory-math-display) { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; padding-block: .35em; margin-block: .8em; text-align: center; color: var(--heading); scrollbar-width: none; }
+.body :global(.theory-math-display::-webkit-scrollbar) { display: none; }
+.body :global(.theory-math-inline) { display: inline; max-width: none; overflow: visible; vertical-align: baseline; color: var(--heading); }
 .body :global(.katex-display) { margin: 0; }
 @media (min-width: 640px) { .reader { padding: 36px 40px 48px; } }

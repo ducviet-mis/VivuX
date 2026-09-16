@@ -27,10 +27,12 @@ type LessonForm = {
 };
 
 const EMPTY_FORM: LessonForm = { grade: '8', chapter: '', title: '', summary: '', content: '', isPublished: true };
+const NEW_CHAPTER_VALUE = '__new_chapter__';
 
 export default function AdminTheoryPage() {
   const [lessons, setLessons] = useState<TheoryLesson[]>([]);
   const [form, setForm] = useState<LessonForm>(EMPTY_FORM);
+  const [chapterChoice, setChapterChoice] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -64,6 +66,16 @@ export default function AdminTheoryPage() {
   useEffect(() => { loadLessons(); }, [loadLessons]);
 
   const selectedLesson = useMemo(() => lessons.find((lesson) => lesson.id === selectedLessonId), [lessons, selectedLessonId]);
+  const availableChapters = useMemo(() => {
+    const byName = new Map<string, { name: string; order: number }>();
+    lessons
+      .filter((lesson) => lesson.grade === Number(form.grade))
+      .forEach((lesson) => {
+        const key = lesson.chapter.trim().toLocaleLowerCase('vi');
+        if (!byName.has(key)) byName.set(key, { name: lesson.chapter, order: lesson.chapter_sort_order });
+      });
+    return Array.from(byName.values()).sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, 'vi'));
+  }, [lessons, form.grade]);
   const groupedLessons = useMemo(() => lessons.reduce<Record<string, TheoryLesson[]>>((groups, lesson) => {
     const key = 'Lớp ' + lesson.grade + ' · ' + lesson.chapter;
     if (!groups[key]) groups[key] = [];
@@ -73,7 +85,18 @@ export default function AdminTheoryPage() {
 
   function resetForm() {
     setForm(EMPTY_FORM);
+    setChapterChoice('');
     setEditingId(null);
+  }
+
+  function changeGrade(value: string) {
+    setForm((current) => ({ ...current, grade: value, chapter: '' }));
+    setChapterChoice('');
+  }
+
+  function changeChapter(value: string) {
+    setChapterChoice(value);
+    setForm((current) => ({ ...current, chapter: value === NEW_CHAPTER_VALUE ? '' : value }));
   }
 
   async function saveLesson() {
@@ -130,6 +153,7 @@ export default function AdminTheoryPage() {
 
   function editLesson(lesson: TheoryLesson) {
     setEditingId(lesson.id);
+    setChapterChoice(lesson.chapter);
     setForm({ grade: String(lesson.grade), chapter: lesson.chapter, title: lesson.title, summary: lesson.summary, content: lesson.content, isPublished: lesson.is_published });
     setNotice('');
     setError('');
@@ -198,9 +222,20 @@ export default function AdminTheoryPage() {
           <Card className="rounded-2xl border-border">
             <CardHeader><CardTitle className="flex items-center gap-2 text-xl">{editingId ? <Edit3 className="h-5 w-5 text-primary" /> : <Plus className="h-5 w-5 text-primary" />}{editingId ? 'Sửa bài lý thuyết' : 'Tạo bài lý thuyết mới'}</CardTitle></CardHeader>
             <CardContent className="space-y-5">
-              <div className="grid gap-4 sm:grid-cols-[140px_1fr]">
-                <div className="space-y-2"><Label htmlFor="theory-grade">Lớp</Label><Select value={form.grade} onValueChange={(value) => setForm((current) => ({ ...current, grade: value }))}><SelectTrigger id="theory-grade"><SelectValue /></SelectTrigger><SelectContent>{[6, 7, 8, 9].map((grade) => <SelectItem key={grade} value={String(grade)}>Lớp {grade}</SelectItem>)}</SelectContent></Select></div>
-                <div className="space-y-2"><Label htmlFor="theory-chapter">Tên chương</Label><Input id="theory-chapter" value={form.chapter} onChange={(event) => setForm((current) => ({ ...current, chapter: event.target.value }))} placeholder="VD: CHƯƠNG 3 - TAM GIÁC" /></div>
+              <div className="grid items-start gap-4 sm:grid-cols-[140px_1fr]">
+                <div className="space-y-2"><Label htmlFor="theory-grade">Lớp</Label><Select value={form.grade} onValueChange={changeGrade}><SelectTrigger id="theory-grade"><SelectValue /></SelectTrigger><SelectContent>{[6, 7, 8, 9].map((grade) => <SelectItem key={grade} value={String(grade)}>Lớp {grade}</SelectItem>)}</SelectContent></Select></div>
+                <div className="space-y-2">
+                  <Label htmlFor="theory-chapter-select">Chương</Label>
+                  <Select value={chapterChoice} onValueChange={changeChapter}>
+                    <SelectTrigger id="theory-chapter-select"><SelectValue placeholder="Chọn chương hoặc tạo chương mới" /></SelectTrigger>
+                    <SelectContent>
+                      {availableChapters.map((chapter) => <SelectItem key={chapter.name} value={chapter.name}>{chapter.name}</SelectItem>)}
+                      <SelectItem value={NEW_CHAPTER_VALUE}>＋ Tạo chương mới</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {chapterChoice === NEW_CHAPTER_VALUE && <div className="space-y-2 rounded-xl border border-primary/25 bg-primary-soft/40 p-3"><Label htmlFor="theory-new-chapter" className="text-sm text-primary">Tên chương mới</Label><Input id="theory-new-chapter" value={form.chapter} onChange={(event) => setForm((current) => ({ ...current, chapter: event.target.value }))} placeholder="VD: CHƯƠNG 3 - TAM GIÁC" autoFocus /><p className="text-xs text-muted-foreground">Chương mới sẽ được thêm sau các chương hiện có của lớp {form.grade}.</p></div>}
+                  {chapterChoice !== NEW_CHAPTER_VALUE && availableChapters.length === 0 && <p className="text-xs text-muted-foreground">Lớp {form.grade} chưa có chương. Chọn “Tạo chương mới” để bắt đầu.</p>}
+                </div>
               </div>
               <div className="space-y-2"><Label htmlFor="theory-title">Tên bài lý thuyết</Label><Input id="theory-title" value={form.title} onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))} placeholder="VD: Định lý Pythagore" /></div>
               <div className="space-y-2"><Label htmlFor="theory-summary">Mô tả ngắn</Label><Textarea id="theory-summary" value={form.summary} onChange={(event) => setForm((current) => ({ ...current, summary: event.target.value }))} placeholder="Nội dung trọng tâm học sinh sẽ nắm được..." className="min-h-24" /></div>

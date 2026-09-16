@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 function renderMathInHtml(source: string) {
   const container = document.createElement('div');
@@ -36,7 +37,7 @@ function renderMathInHtml(source: string) {
       if (match.index > lastIndex) fragment.append(document.createTextNode(text.slice(lastIndex, match.index)));
       const display = Boolean(match[1]);
       const span = document.createElement('span');
-      span.className = display ? 'my-4 block overflow-x-auto text-center' : 'inline-block max-w-full align-middle';
+      span.className = display ? 'theory-math-display my-4 block overflow-x-auto text-center' : 'theory-math-inline inline-block max-w-full align-middle';
       try {
         span.innerHTML = katex.renderToString((match[1] ?? match[2]).trim(), {
           displayMode: display,
@@ -58,7 +59,7 @@ function renderMathInHtml(source: string) {
   return container.innerHTML;
 }
 
-export function TheoryContent({ html }: { html: string }) {
+export function TheoryContent({ html, className }: { html: string; className?: string }) {
   const [renderedHtml, setRenderedHtml] = useState('');
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export function TheoryContent({ html }: { html: string }) {
 
   return (
     <div
-      className="prose prose-base vivux-prose max-w-none break-words leading-7 prose-headings:font-bold prose-img:mx-auto prose-img:max-w-full prose-img:rounded-2xl sm:prose-lg sm:leading-8"
+      className={className ?? 'prose prose-base vivux-prose max-w-none break-words leading-7 prose-headings:font-bold prose-img:mx-auto prose-img:max-w-full prose-img:rounded-2xl sm:prose-lg sm:leading-8'}
       dangerouslySetInnerHTML={{ __html: renderedHtml }}
     />
   );

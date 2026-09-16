@@ -4,10 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, BookCheck, BookOpen, Loader2 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { TheoryContent } from '@/features/theory/components/theory-content';
+import { TheoryReader } from '@/features/theory/components/theory-reader';
 import type { TheoryLesson } from '@/features/theory/types';
 import { getSupabaseClient } from '@/lib/supabase/client';
 
@@ -43,14 +41,7 @@ export default function TheoryLessonPage() {
   return (
     <div className="container max-w-5xl px-3 py-6 sm:px-6 md:py-10">
       <Button asChild variant="ghost" className="mb-5 -ml-3 min-h-11"><Link href={'/theory?grade=' + lesson.grade}><ArrowLeft className="h-4 w-4" />Lý thuyết lớp {lesson.grade}</Link></Button>
-      <Card className="overflow-hidden rounded-3xl border-border bg-card shadow-card">
-        <div className="border-b border-border bg-gradient-to-br from-primary-soft via-card to-card px-5 py-7 sm:px-9 sm:py-10">
-          <div className="mb-4 flex flex-wrap gap-2"><Badge className="bg-primary text-primary-foreground">Lớp {lesson.grade}</Badge><Badge variant="outline" className="border-border bg-card/80">{lesson.chapter}</Badge></div>
-          <h1 className="text-2xl font-bold leading-tight text-foreground sm:text-3xl md:text-4xl">{lesson.title}</h1>
-          {lesson.summary && <p className="mt-4 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">{lesson.summary}</p>}
-        </div>
-        <CardContent className="px-5 py-7 sm:px-9 sm:py-10"><TheoryContent html={lesson.content} /></CardContent>
-      </Card>
+      <TheoryReader title={lesson.title} summary={lesson.summary} grade={lesson.grade} chapter={lesson.chapter} content={lesson.content} />
 
       <div className="mt-8 rounded-2xl border border-border bg-card p-4 sm:flex sm:items-center sm:justify-between sm:gap-5 sm:p-5">
         <div className="mb-3 flex items-center gap-3 sm:mb-0"><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary"><BookOpen className="h-5 w-5" /></div><div><p className="font-bold text-foreground">Đã đọc xong bài?</p><p className="text-sm text-muted-foreground">Làm {questionCount} câu để tự kiểm tra mức độ ghi nhớ.</p></div></div>

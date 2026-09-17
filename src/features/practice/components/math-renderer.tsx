@@ -100,12 +100,21 @@ export function formatOptionMath(opt: string): string {
     return `$\\{${inner}\\}$`;
   }
 
-  // 5. Check if it has LaTeX symbols or math notation: \, ^, _, \pm, etc.
-  if (s.includes('\\') || s.includes('^') || s.includes('_')) {
+  // 5. Only wrap a value when the *entire* value is mathematical notation.
+  // A theory statement often contains both prose and a formula, for example:
+  // "Với A, B là hai biểu thức tùy ý, A^2 - B^2 = ...". Wrapping the
+  // whole sentence makes KaTeX discard normal word spacing.
+  const withoutLatexCommands = s.replace(/\\[a-zA-Z]+/g, '');
+  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/=<>.,;:|·÷√∞π]+$/u.test(s)
+    && !(/\s/.test(withoutLatexCommands) && /[A-Za-z]{3,}/.test(withoutLatexCommands));
+
+  if (isMathOnly && (s.includes('\\') || s.includes('^') || s.includes('_'))) {
     return `$${s}$`;
   }
 
-  return s;
+  // Preserve prose while rendering raw exponent terms from older question JSON.
+  // New content should still use explicit $...$ delimiters for complete formulas.
+  return s.replace(/(?:\([^()]+\)|[A-Za-z]+)(?:\^(?:\{[^{}]+\}|[+-]?\d+)|_(?:\{[^{}]+\}|[A-Za-z0-9+-]+))[A-Za-z]*/g, '$$$&$$');
 }
 
 export function MathRenderer({ content, display = false, variant = 'inline' }: MathRendererProps) {

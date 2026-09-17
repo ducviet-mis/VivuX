@@ -10,9 +10,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil, GripVertical } from 'lucide-react';
+import { Plus, Trash2, Database, AlertCircle, ChevronDown, ChevronRight, BookOpen, Pencil, GripVertical, ListX, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 
 type SortDragItem = {
   kind: 'lesson' | 'chapter';
@@ -21,10 +22,18 @@ type SortDragItem = {
   chapter?: string;
 };
 
+const PRACTICE_LEVELS = [
+  { value: 1, label: 'Level 1 - Nhận biết' },
+  { value: 2, label: 'Level 2 - Thông hiểu' },
+  { value: 3, label: 'Level 3 - Vận dụng' },
+  { value: 4, label: 'Level 4 - Vận dụng cao' },
+] as const;
+
 export default function AdminPage() {
   const router = useRouter();
   const { user, isLoading, initialized } = useAuthStore();
   const [lessons, setLessons] = useState<any[]>([]);
+  const [questionCounts, setQuestionCounts] = useState<Record<string, Record<number, number>>>({});
   const [dbError, setDbError] = useState(false);
   const [fetching, setFetching] = useState(true);
 
@@ -46,6 +55,10 @@ export default function AdminPage() {
   const [draggingItem, setDraggingItem] = useState<SortDragItem | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [sortStatus, setSortStatus] = useState('');
+  const [managingLesson, setManagingLesson] = useState<any | null>(null);
+  const [pendingLevelDelete, setPendingLevelDelete] = useState<number | null>(null);
+  const [deletingLevel, setDeletingLevel] = useState<number | null>(null);
+  const [levelDeleteStatus, setLevelDeleteStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const pointerDragRef = useRef<SortDragItem | null>(null);
 
   const sortLessons = (items: any[]) => [...items].sort((a, b) => {
@@ -101,6 +114,38 @@ export default function AdminPage() {
       } else if (data) {
         setLessons(data);
       }
+
+      const nextCounts: Record<string, Record<number, number>> = {};
+      const pageSize = 1000;
+      let offset = 0;
+      let questionFetchFailed = false;
+
+      while (!questionFetchFailed) {
+        const { data: questionRows, error: questionError } = await supabase
+          .from('practice_questions')
+          .select('id, lesson_id, difficulty_level')
+          .order('lesson_id')
+          .order('difficulty_level')
+          .order('id')
+          .range(offset, offset + pageSize - 1);
+
+        if (questionError) {
+          console.error('Error fetching practice question counts:', questionError);
+          questionFetchFailed = true;
+          break;
+        }
+
+        (questionRows || []).forEach((question: { lesson_id: string; difficulty_level?: number }) => {
+          const level = question.difficulty_level || 1;
+          if (!nextCounts[question.lesson_id]) nextCounts[question.lesson_id] = {};
+          nextCounts[question.lesson_id][level] = (nextCounts[question.lesson_id][level] || 0) + 1;
+        });
+
+        if (!questionRows || questionRows.length < pageSize) break;
+        offset += pageSize;
+      }
+
+      if (!questionFetchFailed) setQuestionCounts(nextCounts);
       setFetching(false);
     }
 
@@ -170,7 +215,55 @@ export default function AdminPage() {
       alert('Lỗi: ' + error.message);
     } else {
       setLessons(prev => prev.filter(l => l.id !== lessonId));
+      setQuestionCounts((current) => {
+        const next = { ...current };
+        delete next[lessonId];
+        return next;
+      });
+      if (managingLesson?.id === lessonId) setManagingLesson(null);
     }
+  };
+
+  const openLevelManager = (lesson: any) => {
+    setManagingLesson(lesson);
+    setPendingLevelDelete(null);
+    setLevelDeleteStatus(null);
+  };
+
+  const handleDeleteLevel = async () => {
+    if (!managingLesson || pendingLevelDelete === null) return;
+
+    const lessonId = managingLesson.id as string;
+    const level = pendingLevelDelete;
+    setDeletingLevel(level);
+    setLevelDeleteStatus(null);
+
+    const { data, error } = await getSupabaseClient().rpc('delete_practice_level', {
+      p_lesson_id: lessonId,
+      p_level: level,
+    });
+
+    if (error) {
+      setLevelDeleteStatus({
+        type: 'error',
+        text: error.message.includes('delete_practice_level')
+          ? 'Chưa có hàm xóa theo Level. Hãy chạy tệp SQL “practice-level-management.sql” trong Supabase.'
+          : 'Không thể xóa câu hỏi: ' + error.message,
+      });
+    } else {
+      const deletedCount = Number(data ?? questionCounts[lessonId]?.[level] ?? 0);
+      setQuestionCounts((current) => ({
+        ...current,
+        [lessonId]: { ...current[lessonId], [level]: 0 },
+      }));
+      setLevelDeleteStatus({
+        type: 'success',
+        text: `Đã xóa ${deletedCount} câu hỏi của Level ${level}. Các Level khác được giữ nguyên.`,
+      });
+    }
+
+    setDeletingLevel(null);
+    setPendingLevelDelete(null);
   };
 
   const openEditLesson = (lesson: any) => {
@@ -680,6 +773,15 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                                         </div>
                                         <Button
                                           variant="outline"
+                                          onClick={() => openLevelManager(lesson)}
+                                          className="h-12 shrink-0 rounded-md border-border px-3 text-muted-foreground transition-colors hover:border-primary hover:bg-primary-soft hover:text-primary"
+                                          aria-label={`Quản lý câu hỏi theo Level của ${lesson.title}`}
+                                        >
+                                          <ListX className="h-5 w-5" aria-hidden="true" />
+                                          <span>Câu hỏi ({PRACTICE_LEVELS.reduce((total, level) => total + (questionCounts[lesson.id]?.[level.value] || 0), 0)})</span>
+                                        </Button>
+                                        <Button
+                                          variant="outline"
                                           size="icon"
                                           onClick={() => openEditLesson(lesson)}
                                           className="rounded-md shrink-0 border-border hover:bg-primary-soft hover:border-primary hover:text-primary text-muted-foreground transition-all h-12 w-12"
@@ -714,6 +816,87 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
           </Card>
         </div>
       )}
+
+      <Dialog open={!!managingLesson} onOpenChange={(open) => {
+        if (!open && deletingLevel === null) {
+          setManagingLesson(null);
+          setPendingLevelDelete(null);
+          setLevelDeleteStatus(null);
+        }
+      }}>
+        <DialogContent className="rounded-2xl sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Quản lý câu hỏi theo Level</DialogTitle>
+            <DialogDescription>
+              {managingLesson?.title}. Chọn đúng Level cần dọn; bài học và các Level còn lại sẽ không bị ảnh hưởng.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 py-2">
+            {PRACTICE_LEVELS.map((level) => {
+              const count = managingLesson ? questionCounts[managingLesson.id]?.[level.value] || 0 : 0;
+              const isDeleting = deletingLevel === level.value;
+
+              return (
+                <div key={level.value} className="flex flex-col gap-3 rounded-xl border border-border bg-muted/35 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-foreground">{level.label}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{count} câu hỏi</p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={count === 0 || deletingLevel !== null}
+                    onClick={() => setPendingLevelDelete(level.value)}
+                    className="h-11 w-full shrink-0 border-destructive/40 text-destructive hover:border-destructive hover:bg-destructive-soft hover:text-destructive sm:w-auto"
+                  >
+                    {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Trash2 className="h-4 w-4" aria-hidden="true" />}
+                    {isDeleting ? 'Đang xóa...' : count > 0 ? `Xóa ${count} câu` : 'Không có câu hỏi'}
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+
+          {levelDeleteStatus && (
+            <p
+              role={levelDeleteStatus.type === 'error' ? 'alert' : 'status'}
+              className={`rounded-xl border p-3 text-sm font-medium ${levelDeleteStatus.type === 'error' ? 'border-destructive/40 bg-destructive-soft text-destructive' : 'border-success/40 bg-success-soft text-success'}`}
+            >
+              {levelDeleteStatus.text}
+            </p>
+          )}
+
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setManagingLesson(null)} disabled={deletingLevel !== null}>Đóng</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={pendingLevelDelete !== null} onOpenChange={(open) => !open && deletingLevel === null && setPendingLevelDelete(null)}>
+        <AlertDialogContent className="rounded-2xl border-border bg-card">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Xóa toàn bộ câu hỏi của Level {pendingLevelDelete}?</AlertDialogTitle>
+            <AlertDialogDescription className="leading-6">
+              Thao tác này sẽ xóa {pendingLevelDelete !== null && managingLesson ? questionCounts[managingLesson.id]?.[pendingLevelDelete] || 0 : 0} câu hỏi trong <strong>{managingLesson?.title}</strong>, cùng tiến độ và câu đã lưu liên quan. Không thể hoàn tác sau khi xác nhận.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deletingLevel !== null}>Hủy</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(event) => {
+                event.preventDefault();
+                void handleDeleteLevel();
+              }}
+              disabled={deletingLevel !== null}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deletingLevel !== null ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Trash2 className="h-4 w-4" aria-hidden="true" />}
+              {deletingLevel !== null ? 'Đang xóa...' : 'Xóa Level này'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Dialog open={!!editingLesson} onOpenChange={(open) => !open && setEditingLesson(null)}>
         <DialogContent className="rounded-2xl sm:max-w-lg">

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BookOpen, CheckCircle2, Clipboard, Code2, Edit3, Eye, Loader2, Plus, Save, Sparkles, Trash2, UploadCloud, X } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { RichTextEditor } from '@/features/handbook/components/rich-text-editor';
+import { MathRenderer } from '@/features/practice/components/math-renderer';
 import { TheoryQuestionPreview } from '@/features/theory/components/theory-question-preview';
 import { buildTheoryAiPrompt, parseTheoryQuestionJson, THEORY_JSON_EXAMPLE } from '@/features/theory/theory-import';
 import type { TheoryLesson, TheoryQuestion } from '@/features/theory/types';
@@ -46,6 +48,10 @@ export default function AdminTheoryPage() {
   const [previewIndex, setPreviewIndex] = useState(0);
   const [importing, setImporting] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
+  const [existingQuestions, setExistingQuestions] = useState<TheoryQuestion[]>([]);
+  const [questionsLoading, setQuestionsLoading] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{ mode: 'one'; question: TheoryQuestion; number: number } | { mode: 'all' } | null>(null);
+  const [deletingQuestions, setDeletingQuestions] = useState(false);
 
   const loadLessons = useCallback(async () => {
     setLoading(true);
@@ -64,6 +70,27 @@ export default function AdminTheoryPage() {
   }, []);
 
   useEffect(() => { loadLessons(); }, [loadLessons]);
+
+  const loadQuestions = useCallback(async (lessonId: string) => {
+    if (!lessonId) {
+      setExistingQuestions([]);
+      return;
+    }
+
+    setQuestionsLoading(true);
+    setExistingQuestions([]);
+    const { data, error: loadError } = await getSupabaseClient()
+      .from('theory_questions')
+      .select('*')
+      .eq('lesson_id', lessonId)
+      .order('order_index', { ascending: true });
+
+    if (loadError) setError('Không tải được câu hỏi của bài đã chọn: ' + loadError.message);
+    else setExistingQuestions((data ?? []) as TheoryQuestion[]);
+    setQuestionsLoading(false);
+  }, []);
+
+  useEffect(() => { void loadQuestions(selectedLessonId); }, [loadQuestions, selectedLessonId]);
 
   const selectedLesson = useMemo(() => lessons.find((lesson) => lesson.id === selectedLessonId), [lessons, selectedLessonId]);
   const availableChapters = useMemo(() => {
@@ -204,8 +231,38 @@ export default function AdminTheoryPage() {
       setPreviewQuestions([]);
       setPreviewErrors([]);
       setPreviewIndex(0);
+      await loadQuestions(selectedLessonId);
     }
     setImporting(false);
+  }
+
+  async function confirmDeleteQuestions() {
+    if (!deleteTarget || !selectedLessonId) return;
+    if (deleteTarget.mode === 'one' && !deleteTarget.question.id) {
+      setError('Không tìm thấy ID của câu hỏi cần xóa.');
+      setDeleteTarget(null);
+      return;
+    }
+
+    setDeletingQuestions(true);
+    setNotice('');
+    setError('');
+    let query = getSupabaseClient()
+      .from('theory_questions')
+      .delete()
+      .eq('lesson_id', selectedLessonId);
+
+    if (deleteTarget.mode === 'one') query = query.eq('id', deleteTarget.question.id!);
+    const { error: deleteError } = await query;
+
+    if (deleteError) setError('Không thể xóa câu hỏi: ' + deleteError.message);
+    else {
+      setNotice(deleteTarget.mode === 'all' ? 'Đã xóa toàn bộ câu hỏi của bài.' : 'Đã xóa câu hỏi đã chọn.');
+      await loadQuestions(selectedLessonId);
+    }
+
+    setDeletingQuestions(false);
+    setDeleteTarget(null);
   }
 
   return (
@@ -261,6 +318,46 @@ export default function AdminTheoryPage() {
             <CardContent className="space-y-5">
               <div className="space-y-2"><Label>1. Chọn bài lý thuyết</Label><Select value={selectedLessonId} onValueChange={setSelectedLessonId}><SelectTrigger><SelectValue placeholder="Chọn bài để thêm câu hỏi" /></SelectTrigger><SelectContent>{lessons.map((lesson) => <SelectItem key={lesson.id} value={lesson.id}>Lớp {lesson.grade} · {lesson.title}</SelectItem>)}</SelectContent></Select></div>
 
+              {selectedLesson && (
+                <section className="rounded-2xl border border-border bg-muted/20 p-4 sm:p-5" aria-labelledby="existing-theory-questions-title">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 id="existing-theory-questions-title" className="font-bold text-foreground">Câu hỏi hiện có</h3>
+                        {!questionsLoading && <Badge variant="outline" className="border-primary/30 bg-primary-soft text-primary">{existingQuestions.length} câu</Badge>}
+                      </div>
+                      <p className="mt-1 text-sm text-muted-foreground">Bài “{selectedLesson.title}”</p>
+                    </div>
+                    {existingQuestions.length > 0 && (
+                      <Button type="button" variant="outline" onClick={() => setDeleteTarget({ mode: 'all' })} className="min-h-11 border-destructive/40 text-destructive hover:bg-destructive-soft hover:text-destructive">
+                        <Trash2 className="h-4 w-4" />Xóa tất cả
+                      </Button>
+                    )}
+                  </div>
+
+                  {questionsLoading ? (
+                    <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" />Đang tải câu hỏi...</div>
+                  ) : existingQuestions.length === 0 ? (
+                    <p className="mt-4 rounded-xl border border-dashed border-border bg-card/50 px-4 py-6 text-center text-sm text-muted-foreground">Bài này chưa có câu hỏi kiểm tra.</p>
+                  ) : (
+                    <div className="mt-4 space-y-2">
+                      {existingQuestions.map((question, index) => (
+                        <div key={question.id ?? index} className="flex items-start gap-3 rounded-xl border border-border bg-card p-3 sm:p-4">
+                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-sm font-bold text-primary">{index + 1}</span>
+                          <div className="min-w-0 flex-1">
+                            <Badge variant="outline" className="mb-2 border-border bg-muted text-muted-foreground">{question.question_type === 'true_false' ? 'Đúng / Sai' : 'Kéo thả điền khuyết'}</Badge>
+                            <div className="break-words text-sm leading-6 text-foreground"><MathRenderer content={question.prompt} /></div>
+                          </div>
+                          <Button type="button" variant="outline" size="icon" onClick={() => setDeleteTarget({ mode: 'one', question, number: index + 1 })} aria-label={'Xóa câu ' + (index + 1)} className="h-11 w-11 shrink-0 border-destructive/30 text-destructive hover:bg-destructive-soft hover:text-destructive">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              )}
+
               <div className="grid gap-3 sm:grid-cols-2">
                 <Button type="button" variant="outline" disabled={!selectedLesson} onClick={() => selectedLesson && copyText(buildTheoryAiPrompt(selectedLesson.title), 'Đã sao chép prompt tạo câu hỏi cho AI.')} className="min-h-11"><Clipboard className="h-4 w-4" />Sao chép prompt cho AI</Button>
                 <Button type="button" variant="outline" onClick={() => copyText(THEORY_JSON_EXAMPLE, 'Đã sao chép mẫu JSON.')} className="min-h-11"><Code2 className="h-4 w-4" />Sao chép mẫu JSON</Button>
@@ -288,6 +385,25 @@ export default function AdminTheoryPage() {
           )}
         </TabsContent>
       </Tabs>
+
+      <AlertDialog open={deleteTarget !== null} onOpenChange={(open) => !open && !deletingQuestions && setDeleteTarget(null)}>
+        <AlertDialogContent className="rounded-2xl border-border bg-card">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{deleteTarget?.mode === 'all' ? 'Xóa toàn bộ câu hỏi?' : 'Xóa câu hỏi này?'}</AlertDialogTitle>
+            <AlertDialogDescription className="leading-6">
+              {deleteTarget?.mode === 'all'
+                ? `Bạn sắp xóa vĩnh viễn ${existingQuestions.length} câu hỏi của bài “${selectedLesson?.title ?? ''}”. Hành động này không thể hoàn tác.`
+                : `Câu ${deleteTarget?.number ?? ''} sẽ bị xóa vĩnh viễn khỏi bài “${selectedLesson?.title ?? ''}”. Hành động này không thể hoàn tác.`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deletingQuestions}>Hủy</AlertDialogCancel>
+            <AlertDialogAction onClick={(event) => { event.preventDefault(); void confirmDeleteQuestions(); }} disabled={deletingQuestions} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              {deletingQuestions ? <><Loader2 className="h-4 w-4 animate-spin" />Đang xóa...</> : <><Trash2 className="h-4 w-4" />Xóa vĩnh viễn</>}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

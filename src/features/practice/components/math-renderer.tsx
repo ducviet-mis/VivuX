@@ -17,6 +17,37 @@ type MathPart = {
   value: string;
 };
 
+function looksLikeProse(value: string) {
+  const withoutCommands = value
+    .replace(/\\text\s*\{[^{}]*\}/g, '')
+    .replace(/\\[a-zA-Z]+/g, '');
+  const words = withoutCommands.match(/[A-Za-z]{3,}/g) ?? [];
+
+  return /[À-ỹĐđ]/.test(withoutCommands) || words.length >= 2;
+}
+
+function normalizeMathOperators(value: string) {
+  return value
+    .replace(/>=/g, ' \\ge ')
+    .replace(/<=/g, ' \\le ')
+    .replace(/!=/g, ' \\neq ')
+    .replace(/(\\in|\bin)\s*(?<!\\)\{([^}]+)(?<!\\)\}/g, '$1 \\{$2\\}')
+    .replace(/(?<![a-zA-Z\\])in(?![a-zA-Z])/g, '\\in');
+}
+
+/**
+ * Older AI-generated theory JSON sometimes wraps an entire Vietnamese sentence
+ * in $...$. KaTeX treats normal spaces as mathematical spacing, which makes the
+ * words appear stuck together. Keep prose as prose and wrap only exponent or
+ * subscript atoms that can safely be rendered as inline math.
+ */
+function wrapRawMathAtoms(value: string) {
+  return value.replace(
+    /(?:\([^()\n]+\)|[0-9]*[A-Za-z]+)(?:\^(?:\{[^{}\n]+\}|[+-]?\d+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))[A-Za-z0-9]*/g,
+    '$$$&$$'
+  );
+}
+
 function splitMathParts(content: string): MathPart[] {
   const parts: MathPart[] = [];
   const pattern = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$)/g;
@@ -62,16 +93,18 @@ export function formatOptionMath(opt: string): string {
 
   // If already contains $ ... $, normalize inside the math blocks
   if (s.includes('$')) {
-    return s.replace(/\$([^$]+)\$/g, (_, math) => {
-      let m = math;
-      m = m.replace(/>=/g, ' \\ge ');
-      m = m.replace(/<=/g, ' \\le ');
-      m = m.replace(/!=/g, ' \\neq ');
-      // Fix unescaped set braces like \in {3; 4} -> \in \{3; 4\}
-      m = m.replace(/(\\in|\bin)\s*(?<!\\)\{([^}]+)(?<!\\)\}/g, '$1 \\{$2\\}');
-      m = m.replace(/(?<![a-zA-Z\\])in(?![a-zA-Z])/g, '\\in');
-      return '$' + m + '$';
+    const repairedBlocks = s.replace(/\$\$([\s\S]*?)\$\$|\$([^$\n]+?)\$/g, (block, displayMath, inlineMath) => {
+      const math = displayMath ?? inlineMath;
+      const m = normalizeMathOperators(math);
+
+      if (looksLikeProse(m)) return wrapRawMathAtoms(m);
+      return displayMath !== undefined ? '$$' + m + '$$' : '$' + m + '$';
     });
+
+    return splitMathParts(repairedBlocks).map((part) => {
+      if (part.type === 'text') return wrapRawMathAtoms(part.value);
+      return part.type === 'display-math' ? `$$${part.value}$$` : `$${part.value}$`;
+    }).join('');
   }
 
   // 1. Check for set membership syntax, e.g. "n in {3; 4}", "x in {1; 2}", "n in \{3; 4\}"
@@ -105,7 +138,7 @@ export function formatOptionMath(opt: string): string {
   // "Với A, B là hai biểu thức tùy ý, A^2 - B^2 = ...". Wrapping the
   // whole sentence makes KaTeX discard normal word spacing.
   const withoutLatexCommands = s.replace(/\\[a-zA-Z]+/g, '');
-  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/=<>.,;:|·÷√∞π]+$/u.test(s)
+  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/=<>.,;:|·÷√∞π]+$/.test(s)
     && !(/\s/.test(withoutLatexCommands) && /[A-Za-z]{3,}/.test(withoutLatexCommands));
 
   if (isMathOnly && (s.includes('\\') || s.includes('^') || s.includes('_'))) {
@@ -114,7 +147,7 @@ export function formatOptionMath(opt: string): string {
 
   // Preserve prose while rendering raw exponent terms from older question JSON.
   // New content should still use explicit $...$ delimiters for complete formulas.
-  return s.replace(/(?:\([^()]+\)|[A-Za-z]+)(?:\^(?:\{[^{}]+\}|[+-]?\d+)|_(?:\{[^{}]+\}|[A-Za-z0-9+-]+))[A-Za-z]*/g, '$$$&$$');
+  return wrapRawMathAtoms(s);
 }
 
 export function MathRenderer({ content, display = false, variant = 'inline' }: MathRendererProps) {
@@ -140,7 +173,8 @@ export function MathRenderer({ content, display = false, variant = 'inline' }: M
         });
       }
 
-      const parts = splitMathParts(content.replace(/\r\n?/g, '\n'));
+      const normalized = formatOptionMath(content.replace(/\r\n?/g, '\n'));
+      const parts = splitMathParts(normalized);
       const blocks: React.ReactNode[] = [];
       let paragraph: React.ReactNode[] = [];
       let key = 0;
@@ -210,9 +244,9 @@ export function MathRenderer({ content, display = false, variant = 'inline' }: M
     }
   }, [content, variant]);
 
-  return (
-    <div className={`math-renderer ${variant === 'solution' ? 'space-y-3 sm:space-y-4' : display ? 'my-4 text-center' : 'inline'}`}>
-      {renderedContent}
-    </div>
-  );
+  if (variant === 'inline' && !display) {
+    return <span className="math-renderer inline">{renderedContent}</span>;
+  }
+
+  return <div className={`math-renderer ${variant === 'solution' ? 'space-y-3 sm:space-y-4' : 'my-4 text-center'}`}>{renderedContent}</div>;
 }

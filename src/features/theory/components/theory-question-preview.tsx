@@ -30,16 +30,16 @@ export function TheoryQuestionPreview({ question, index }: { question: TheoryQue
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="rounded-xl border border-border bg-muted/40 p-4 leading-8 text-foreground">
+            <div className="rounded-xl border border-border bg-muted/40 p-4 leading-8 text-foreground">
               {(question.data as DragFillData).template.split(/(\{\{\d+\}\})/g).map((part, partIndex) => {
                 const match = part.match(/^\{\{(\d+)\}\}$/);
-                if (!match) return <span key={partIndex}>{part}</span>;
+                if (!match) return <MathRenderer key={partIndex} content={part} />;
                 const answer = (question.data as DragFillData).answers[Number(match[1]) - 1];
-                return <Badge key={partIndex} className="mx-1 bg-success text-success-foreground">{answer}</Badge>;
+                return <Badge key={partIndex} className="mx-1 bg-success text-success-foreground"><MathRenderer content={answer} /></Badge>;
               })}
-            </p>
+            </div>
             <div className="flex flex-wrap gap-2">
-              {(question.data as DragFillData).options.map((option) => <Badge key={option} variant="outline" className="border-primary/40 bg-primary-soft px-3 py-1.5 text-primary">{option}</Badge>)}
+              {(question.data as DragFillData).options.map((option) => <Badge key={option} variant="outline" className="border-primary/40 bg-primary-soft px-3 py-1.5 text-primary"><MathRenderer content={option} /></Badge>)}
             </div>
           </div>
         )}

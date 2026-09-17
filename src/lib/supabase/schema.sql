@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS profiles (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+ALTER TABLE public.profiles
+  ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+
 -- Tự động tạo profile khi user đăng ký
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
@@ -28,12 +31,20 @@ BEGIN
       NULLIF(split_part(NEW.email, '@', 1), ''),
       'Người dùng'
     ),
-    NEW.email,
+    COALESCE(
+      NULLIF(NEW.email, ''),
+      NULLIF(NEW.raw_user_meta_data->>'email', '')
+    ),
     COALESCE(
       NULLIF(NEW.raw_user_meta_data->>'avatar_url', ''),
       NULLIF(NEW.raw_user_meta_data->>'picture', '')
     )
-  );
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    name = EXCLUDED.name,
+    email = EXCLUDED.email,
+    avatar_url = COALESCE(EXCLUDED.avatar_url, public.profiles.avatar_url);
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

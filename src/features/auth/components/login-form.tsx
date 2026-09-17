@@ -11,6 +11,7 @@ import { useAuthStore } from "../stores/auth-store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { GoogleAuthOption } from './google-auth-option';
 
 const loginSchema = z.object({
   email: z.string().email("Email không hợp lệ"),
@@ -19,7 +20,7 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm() {
+export function LoginForm({ oauthError = false }: { oauthError?: boolean }) {
   const { login, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
 
@@ -42,6 +43,14 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <GoogleAuthOption mode="login" />
+
+      {oauthError && (
+        <div role="alert" className="rounded-lg bg-destructive-soft p-4 text-sm font-medium text-destructive">
+          Không thể hoàn tất đăng nhập Google. Vui lòng thử lại hoặc sử dụng email.
+        </div>
+      )}
+
       <div className="space-y-2">
         <Label htmlFor="email" className="text-foreground font-bold ml-1">Email</Label>
         <Input

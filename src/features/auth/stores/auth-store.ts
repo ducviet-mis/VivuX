@@ -15,6 +15,12 @@ function getEmailRedirectUrl() {
   return typeof window === 'undefined' ? undefined : `${window.location.origin}/home`;
 }
 
+function getOAuthRedirectUrl() {
+  return typeof window === 'undefined'
+    ? undefined
+    : `${window.location.origin}/auth/callback?next=/home`;
+}
+
 export function translateAuthError(message?: string): string {
   const normalized = message?.toLowerCase() || '';
 
@@ -36,6 +42,7 @@ interface AuthState {
   error: string | null;
   initialized: boolean;
   login: (email: string, password: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
   register: (name: string, email: string, password: string) => Promise<RegisterResult>;
   resendConfirmationEmail: (email: string) => Promise<{ success: boolean; message: string }>;
   logout: () => Promise<void>;
@@ -156,6 +163,37 @@ export const useAuthStore = create<AuthState>()(
           return false;
         } catch {
           set({ error: "Đã xảy ra lỗi khi đăng nhập", isLoading: false });
+          return false;
+        }
+      },
+
+      loginWithGoogle: async () => {
+        set({ isLoading: true, error: null });
+        try {
+          const redirectTo = getOAuthRedirectUrl();
+          if (!redirectTo) {
+            set({ error: 'Không thể mở đăng nhập Google trên thiết bị này.', isLoading: false });
+            return false;
+          }
+
+          const { data, error } = await getSupabaseClient().auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+              redirectTo,
+              skipBrowserRedirect: true,
+              queryParams: { prompt: 'select_account' },
+            },
+          });
+
+          if (error || !data.url) {
+            set({ error: translateAuthError(error?.message), isLoading: false });
+            return false;
+          }
+
+          window.location.assign(data.url);
+          return true;
+        } catch {
+          set({ error: 'Không thể kết nối với Google. Vui lòng thử lại.', isLoading: false });
           return false;
         }
       },

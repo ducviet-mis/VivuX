@@ -22,8 +22,8 @@ export function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navItems = [
     { label: "Trang chủ", href: "/home", icon: Home },
-    { label: "Tự luyện", href: "/practice", icon: BookOpen },
     { label: "Lý thuyết", href: "/theory", icon: LibraryBig },
+    { label: "Tự luyện", href: "/practice", icon: BookOpen },
     { label: "Thi thử", href: "/mock-exams", icon: FileText },
     { label: "Cẩm nang", href: "/handbook", icon: BookText },
     { label: "Gói FlyDo", href: "/pricing", icon: Crown },

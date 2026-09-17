@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+import { normalizeLatexInput } from '@/lib/math/normalize-latex';
 
 interface MathRendererProps {
   content: string;
@@ -108,46 +109,8 @@ export function formatOptionMath(opt: string): string {
 }
 
 export function MathRenderer({ content, display = false, variant = 'inline' }: MathRendererProps) {
-  // Fix common LaTeX escaping issues (e.g., missing backslashes due to JSON parse, or double backslashes)
-  const fixMath = (math: string) => {
-    let fixed = math;
-    // Fix double backslashes in commands like \\widehat -> \widehat
-    fixed = fixed.replace(/\\\\([a-zA-Z]+)/g, '\\$1');
-    
-    // Special typo fixes
-    fixed = fixed.replace(/(?<![a-zA-Z\\])LeftRightarrow(?![a-zA-Z])/g, '\\Leftrightarrow');
-    fixed = fixed.replace(/(?<![a-zA-Z\\])cdot([a-zA-Z])/g, '\\cdot $1');
-    fixed = fixed.replace(/(?<![a-zA-Z\\])text([a-zA-Z]+)/g, '\\text{$1}');
-    fixed = fixed.replace(/(?<![a-zA-Z\\])Rightarrow([a-zA-Z])/g, '\\Rightarrow $1');
-    fixed = fixed.replace(/(?<![a-zA-Z\\])Leftrightarrow([a-zA-Z])/g, '\\Leftrightarrow $1');
-    fixed = fixed.replace(/(?<![a-zA-Z\\])neq([a-zA-Z0-9])/g, '\\neq $1');
-
-    // Fix unescaped set braces like \in {3; 4} -> \in \{3; 4\}
-    fixed = fixed.replace(/(\\in|\bin)\s*(?<!\\)\{([^}]+)(?<!\\)\}/g, '$1 \\{$2\\}');
-    fixed = fixed.replace(/>=/g, ' \\ge ');
-    fixed = fixed.replace(/<=/g, ' \\le ');
-    fixed = fixed.replace(/!=/g, ' \\neq ');
-    
-    // Add missing backslashes for common math commands if they don't have one
-    const commands = [
-      'cdot', 'frac', 'text', 'Rightarrow', 'Leftrightarrow', 'leftarrow', 'rightarrow', 'neq', 'circ', 'widehat', 
-      'sqrt', 'pi', 'alpha', 'beta', 'gamma', 'Delta', 'times', 'div', 'leq', 'geq', 'pm', 'infty', 'approx',
-      'sin', 'cos', 'tan', 'cot', 'log', 'ln', 'lim', 'sum', 'prod', 'int', 'in', 'subset', 'cup', 'cap', 'emptyset',
-      'triangle', 'angle', 'perp', 'parallel', 'Rightarrow', 'Leftarrow', 'Leftrightarrow'
-    ];
-    
-    commands.forEach(cmd => {
-      // Regex: match the command if it is NOT preceded by a backslash or a letter
-      // (?<![a-zA-Z\\]) is a negative lookbehind (supported in modern JS)
-      const regex = new RegExp(`(?<![a-zA-Z\\\\])${cmd}(?![a-zA-Z])`, 'g');
-      fixed = fixed.replace(regex, `\\${cmd}`);
-    });
-    
-    return fixed;
-  };
-
   const renderMath = (math: string, displayMode: boolean, key: React.Key) => {
-    const html = katex.renderToString(fixMath(math), { displayMode, throwOnError: false });
+    const html = katex.renderToString(normalizeLatexInput(math), { displayMode, throwOnError: false });
     return <span key={key} dangerouslySetInnerHTML={{ __html: html }} />;
   };
 

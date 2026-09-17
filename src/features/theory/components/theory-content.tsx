@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+import { normalizeLatexInput } from '@/lib/math/normalize-latex';
 
 function renderMathInHtml(source: string) {
   const container = document.createElement('div');
@@ -39,7 +40,7 @@ function renderMathInHtml(source: string) {
       const span = document.createElement('span');
       span.className = display ? 'theory-math-display my-4 block overflow-x-auto text-center' : 'theory-math-inline inline-block max-w-full align-middle';
       try {
-        span.innerHTML = katex.renderToString((match[1] ?? match[2]).trim(), {
+        span.innerHTML = katex.renderToString(normalizeLatexInput((match[1] ?? match[2]).trim()), {
           displayMode: display,
           throwOnError: false,
           strict: false,

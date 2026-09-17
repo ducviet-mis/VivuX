@@ -78,6 +78,11 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
   return (
     <div className="space-y-8 md:space-y-12">
       {lessons.map((lesson) => {
+        const availableLevels = LEVELS.filter((level) => {
+          const levelKey = `${lesson.id}_${level.id}`;
+          return (progress[levelKey]?.total || 0) > 0;
+        });
+
         return (
           <div key={lesson.id} className="w-full">
             {/* Tên bài học */}
@@ -85,9 +90,18 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
               {lesson.title}
             </h3>
 
-            {/* Danh sách 4 Level (List on mobile, Grid on desktop) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4">
-              {LEVELS.map(level => {
+            {/* Chỉ hiển thị những Level đã có câu hỏi. */}
+            {availableLevels.length > 0 ? (
+              <div
+                className={cn(
+                  'mb-4 grid grid-cols-1 gap-3 md:gap-4',
+                  availableLevels.length === 1 && 'max-w-sm',
+                  availableLevels.length === 2 && 'sm:grid-cols-2',
+                  availableLevels.length === 3 && 'sm:grid-cols-2 lg:grid-cols-3',
+                  availableLevels.length >= 4 && 'sm:grid-cols-2 lg:grid-cols-4',
+                )}
+              >
+                {availableLevels.map(level => {
                 const levelKey = `${lesson.id}_${level.id}`;
                 const levelProg = progress[levelKey] || { answered: 0, total: 0 };
                 const wrongCount = Math.min(wrongCounts[levelKey] || 0, levelProg.answered);
@@ -205,17 +219,24 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                     </div>
                   </div>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            ) : (
+              <div className="mb-4 rounded-xl border border-dashed border-border bg-card/60 px-4 py-5 text-sm text-muted-foreground">
+                Bài này chưa có câu hỏi để luyện tập.
+              </div>
+            )}
 
-            {/* Trộn câu */}
-            <div className="flex justify-end mt-2">
-              <MixModeDialog
-                lessonId={lesson.id}
-                lessonTitle={lesson.title}
-                totalQuestions={progress[lesson.id]?.total || 0}
-              />
-            </div>
+            {/* Chỉ trộn theo tỉ lệ khi có từ hai Level trở lên. */}
+            {availableLevels.length > 1 && (
+              <div className="mt-2 flex justify-end">
+                <MixModeDialog
+                  lessonId={lesson.id}
+                  lessonTitle={lesson.title}
+                  totalQuestions={progress[lesson.id]?.total || 0}
+                />
+              </div>
+            )}
           </div>
         );
       })}

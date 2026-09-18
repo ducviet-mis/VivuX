@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useAuthStore } from "../stores/auth-store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import { GoogleAuthOption } from './google-auth-option';
 
 const loginSchema = z.object({
@@ -20,7 +20,13 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm({ oauthError = false }: { oauthError?: boolean }) {
+export function LoginForm({
+  oauthError = false,
+  sessionReplaced = false,
+}: {
+  oauthError?: boolean;
+  sessionReplaced?: boolean;
+}) {
   const { login, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
 
@@ -48,6 +54,23 @@ export function LoginForm({ oauthError = false }: { oauthError?: boolean }) {
       {oauthError && (
         <div role="alert" className="rounded-lg bg-destructive-soft p-4 text-sm font-medium text-destructive">
           Không thể hoàn tất đăng nhập Google. Vui lòng thử lại hoặc sử dụng email.
+        </div>
+      )}
+
+      {sessionReplaced && (
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="flex items-start gap-3 rounded-lg border border-warning/35 bg-warning/10 p-4 text-sm text-foreground"
+        >
+          <ShieldAlert aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
+          <div className="space-y-1">
+            <p className="font-bold">Phiên đăng nhập đã kết thúc</p>
+            <p className="leading-relaxed text-muted-foreground">
+              Tài khoản này vừa được đăng nhập trên một thiết bị khác. Nếu đó không phải bạn,
+              hãy đăng nhập lại và đổi mật khẩu ngay.
+            </p>
+          </div>
         </div>
       )}
 

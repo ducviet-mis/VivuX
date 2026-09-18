@@ -2,7 +2,11 @@ import { LoginForm } from '@/features/auth/components/login-form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { GraduationCap } from 'lucide-react';
 
-export default function LoginPage({ searchParams }: { searchParams?: { oauth_error?: string } }) {
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams?: { oauth_error?: string; session_replaced?: string };
+}) {
   return (
     <div className="flex-1 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-float border-border bg-card/70 backdrop-blur-md rounded-xl overflow-hidden">
@@ -16,7 +20,10 @@ export default function LoginPage({ searchParams }: { searchParams?: { oauth_err
           <CardDescription className="text-muted-foreground font-medium">Đăng nhập để tiếp tục học tập</CardDescription>
         </CardHeader>
         <CardContent className="pb-8">
-          <LoginForm oauthError={searchParams?.oauth_error === '1'} />
+          <LoginForm
+            oauthError={searchParams?.oauth_error === '1'}
+            sessionReplaced={searchParams?.session_replaced === '1'}
+          />
         </CardContent>
       </Card>
     </div>

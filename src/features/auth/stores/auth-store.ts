@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { getSessionIdFromAccessToken, SESSION_REPLACED_QUERY } from "@/lib/auth/single-session";
 import type { User } from "../types";
 
 export type RegisterResult = {
@@ -48,6 +49,7 @@ interface AuthState {
   logout: () => Promise<void>;
   logoutAllDevices: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  checkActiveSession: () => Promise<boolean>;
   initAuth: () => Promise<void>;
   clearError: () => void;
 }
@@ -76,6 +78,51 @@ function mapProfile(profile: any): User {
   };
 }
 
+type SessionRegistrationStatus = "active" | "replaced" | "unavailable";
+type SetAuthState = (state: Partial<AuthState>) => void;
+
+let forcedLogoutInProgress = false;
+
+async function registerCurrentSession(
+  accessToken: string | null | undefined,
+  replace: boolean,
+): Promise<SessionRegistrationStatus> {
+  const sessionId = getSessionIdFromAccessToken(accessToken);
+  if (!sessionId) return "unavailable";
+
+  const { data, error } = await getSupabaseClient().rpc("register_current_session", {
+    p_session_id: sessionId,
+    p_replace: replace,
+  });
+
+  // Giữ đăng nhập hoạt động nếu quản trị viên chưa chạy migration SQL.
+  // Sau khi migration được chạy, RPC là nguồn xác thực phiên duy nhất.
+  if (error) {
+    console.warn("Single-session check is unavailable:", error.message);
+    return "unavailable";
+  }
+
+  return data && typeof data === "object" && "active" in data && data.active === false
+    ? "replaced"
+    : "active";
+}
+
+async function endReplacedSession(set: SetAuthState) {
+  if (forcedLogoutInProgress) return;
+  forcedLogoutInProgress = true;
+
+  set({ user: null, error: null, initialized: true, isLoading: false });
+  try {
+    await getSupabaseClient().auth.signOut({ scope: "local" });
+  } catch {
+    // Việc chuyển về trang đăng nhập vẫn phải diễn ra nếu Supabase tạm lỗi.
+  }
+
+  if (typeof window !== "undefined") {
+    window.location.replace(`/login?${SESSION_REPLACED_QUERY}=1`);
+  }
+}
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -93,6 +140,12 @@ export const useAuthStore = create<AuthState>()(
           const { data: { session } } = await supabase.auth.getSession();
 
           if (session?.user) {
+            const sessionStatus = await registerCurrentSession(session.access_token, false);
+            if (sessionStatus === "replaced") {
+              await endReplacedSession(set);
+              return;
+            }
+
             await supabase.rpc('sync_my_membership_status');
             const { data: profile } = await supabase
               .from("profiles")
@@ -146,6 +199,12 @@ export const useAuthStore = create<AuthState>()(
           }
 
           if (data.user) {
+            if (data.session) {
+              await registerCurrentSession(data.session.access_token, true);
+              // Thu hồi refresh token của các thiết bị cũ nhưng giữ phiên hiện tại.
+              await supabase.auth.signOut({ scope: "others" });
+            }
+
             await supabase.rpc('sync_my_membership_status');
             const { data: profile } = await supabase
               .from("profiles")
@@ -222,6 +281,8 @@ export const useAuthStore = create<AuthState>()(
               return { success: true, requiresEmailConfirmation: true, email: data.user.email || email };
             }
 
+            await registerCurrentSession(data.session.access_token, true);
+
             const { data: profile } = await supabase
               .from("profiles")
               .select("*")
@@ -269,6 +330,11 @@ export const useAuthStore = create<AuthState>()(
       logout: async () => {
         try {
           const supabase = getSupabaseClient();
+          const { data: { session } } = await supabase.auth.getSession();
+          const sessionId = getSessionIdFromAccessToken(session?.access_token);
+          if (sessionId) {
+            await supabase.rpc("release_current_session", { p_session_id: sessionId });
+          }
           await supabase.auth.signOut();
         } catch { /* ignore */ }
         set({ user: null, error: null });
@@ -277,9 +343,33 @@ export const useAuthStore = create<AuthState>()(
       logoutAllDevices: async () => {
         try {
           const supabase = getSupabaseClient();
+          await supabase.rpc("clear_my_active_session");
           await supabase.auth.signOut({ scope: 'global' });
         } catch { /* ignore */ }
         set({ user: null, error: null });
+      },
+
+      checkActiveSession: async () => {
+        try {
+          const supabase = getSupabaseClient();
+          const { data: { session } } = await supabase.auth.getSession();
+
+          if (!session?.user) {
+            set({ user: null });
+            return false;
+          }
+
+          const sessionStatus = await registerCurrentSession(session.access_token, false);
+          if (sessionStatus === "replaced") {
+            await endReplacedSession(set);
+            return false;
+          }
+
+          return true;
+        } catch {
+          // Không đăng xuất người học chỉ vì mạng chập chờn hoặc RPC tạm lỗi.
+          return true;
+        }
       },
 
       refreshUser: async () => {

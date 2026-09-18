@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { AuthGuard } from '@/components/layout/auth-guard';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
+import { SingleSessionMonitor } from '@/features/auth/components/single-session-monitor';
 import { cn } from '@/lib/utils';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +19,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthGuard>
+      <SingleSessionMonitor />
       <div className="flex min-h-dvh flex-col bg-background">
         <a href="#main-content" className="vivux-skip-link">Đến nội dung chính</a>
         <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}>

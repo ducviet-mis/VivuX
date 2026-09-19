@@ -14,25 +14,32 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   useEffect(() => { initAuth(); }, [initAuth]);
 
-  const isImmersiveMode = pathname?.match(/^\/mock-exams\/[a-zA-Z0-9-]+$/) ||
-    (pathname?.match(/^\/practice\/[a-zA-Z0-9-]+$/) && !pathname.match(/\/saved|\/wrong/));
+  const isMockExamRoom = Boolean(pathname?.match(/^\/mock-exams\/[a-zA-Z0-9-]+$/));
+  const isPracticeRoom = Boolean(
+    pathname?.match(/^\/practice\/[a-zA-Z0-9-]+$/) && !pathname.match(/\/saved|\/wrong/)
+  );
+  const isImmersiveMode = isMockExamRoom || isPracticeRoom;
 
   return (
     <AuthGuard>
       <SingleSessionMonitor />
       <div className="flex min-h-dvh flex-col bg-background">
         <a href="#main-content" className="vivux-skip-link">Đến nội dung chính</a>
-        <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}>
+        <div className={cn(
+          isMockExamRoom ? "hidden" : isPracticeRoom ? "hidden md:block" : "block"
+        )}>
           <Navbar />
           <div aria-hidden="true" className="h-[72px]" />
         </div>
         <main id="main-content" tabIndex={-1} className={cn(
           "min-w-0 flex-1 focus-visible:outline-none",
-          isImmersiveMode ? "w-full md:vivux-page" : "vivux-page"
+          isMockExamRoom ? "w-full" : isImmersiveMode ? "w-full md:vivux-page" : "vivux-page"
         )}>
           {children}
         </main>
-        <div className={cn(isImmersiveMode ? "hidden md:block" : "block")}><Footer /></div>
+        <div className={cn(
+          isMockExamRoom ? "hidden" : isPracticeRoom ? "hidden md:block" : "block"
+        )}><Footer /></div>
       </div>
     </AuthGuard>
   );

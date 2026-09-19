@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
@@ -13,6 +13,16 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from '@/components/ui/sheet';
 import { LayoutGrid } from 'lucide-react';
 
+type MockExamDraft = {
+  version: 1;
+  answers: Record<string, number>;
+  currentIndex: number;
+  deadlineAt: number;
+  updatedAt: number;
+};
+
+const MOCK_EXAM_DRAFT_VERSION = 1;
+
 export default function MockExamRoomPage({ params }: { params: { examId: string } }) {
   const router = useRouter();
   const { user, initialized } = useAuthStore();
@@ -22,11 +32,17 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [deadlineAt, setDeadlineAt] = useState<number | null>(null);
+  const [draftReady, setDraftReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const submitLockRef = useRef(false);
+  const autoSubmitAttemptedRef = useRef(false);
+  const draftKey = user?.id
+    ? `flydo:mock-exam-draft:v${MOCK_EXAM_DRAFT_VERSION}:${user.id}:${params.examId}`
+    : null;
 
   const toggleFullscreen = async () => {
     try {
@@ -54,7 +70,16 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   }, [exam]);
 
   useEffect(() => {
+    if (!user?.id) return;
+
+    let cancelled = false;
+
     async function loadExam() {
+      setDraftReady(false);
+      setAnswers({});
+      setCurrentIndex(0);
+      autoSubmitAttemptedRef.current = false;
+
       const supabase = getSupabaseClient();
 
       const { data: examData } = await supabase
@@ -63,53 +88,105 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         .eq('id', params.examId)
         .single();
 
-      if (examData) {
-        setExam(examData);
-        setTimeLeft(examData.duration * 60);
+      if (!examData || cancelled) return;
 
-        const { data: qData } = await supabase
-          .from('mock_exam_questions')
-          .select('*')
-          .eq('exam_id', params.examId)
-          .order('order_index');
+      const { data: qData } = await supabase
+        .from('mock_exam_questions')
+        .select('*')
+        .eq('exam_id', params.examId)
+        .order('order_index');
 
-        if (qData) {
-          const sanitized = qData.map((q: any) => ({
-            ...q,
-            options: Array.isArray(q.options) ? q.options.map(formatOptionMath) : q.options
-          }));
-          setQuestions(sanitized);
+      if (cancelled) return;
+
+      const sanitized = (qData ?? []).map((q: any) => ({
+        ...q,
+        options: Array.isArray(q.options) ? q.options.map(formatOptionMath) : q.options
+      }));
+
+      let restoredAnswers: Record<string, number> = {};
+      let restoredIndex = 0;
+      let restoredDeadline = Date.now() + examData.duration * 60 * 1000;
+
+      if (draftKey) {
+        try {
+          const rawDraft = window.localStorage.getItem(draftKey);
+          const draft = rawDraft ? JSON.parse(rawDraft) as Partial<MockExamDraft> : null;
+
+          if (
+            draft?.version === MOCK_EXAM_DRAFT_VERSION &&
+            draft.answers &&
+            typeof draft.answers === 'object' &&
+            Number.isFinite(draft.deadlineAt)
+          ) {
+            const questionById = new Map<string, any>(
+              sanitized.map((question: any) => [question.id, question] as [string, any])
+            );
+            restoredAnswers = Object.fromEntries(
+              Object.entries(draft.answers).filter(([questionId, answer]) => {
+                const question = questionById.get(questionId);
+                return Boolean(
+                  question &&
+                  Number.isInteger(answer) &&
+                  answer >= 0 &&
+                  Array.isArray(question.options) &&
+                  answer < question.options.length
+                );
+              })
+            );
+            restoredIndex = Math.min(
+              Math.max(0, Number.isInteger(draft.currentIndex) ? draft.currentIndex! : 0),
+              Math.max(0, sanitized.length - 1)
+            );
+            restoredDeadline = draft.deadlineAt!;
+          }
+        } catch {
+          // Bản nháp hỏng sẽ được thay bằng một bản mới hợp lệ ở lần lưu kế tiếp.
         }
       }
-    }
-    loadExam();
-  }, [params.examId]);
 
-  // Timer logic
+      setExam(examData);
+      setQuestions(sanitized);
+      setAnswers(restoredAnswers);
+      setCurrentIndex(restoredIndex);
+      setDeadlineAt(restoredDeadline);
+      setTimeLeft(Math.max(0, Math.ceil((restoredDeadline - Date.now()) / 1000)));
+      setDraftReady(true);
+    }
+
+    void loadExam();
+    return () => { cancelled = true; };
+  }, [draftKey, params.examId, user?.id]);
+
   useEffect(() => {
-    if (exam && !isSubmitting && timeLeft > 0) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1) {
-            clearInterval(timerRef.current!);
-            handleSubmit();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
+    if (!draftReady || !draftKey || !exam || !deadlineAt || isSubmitting) return;
 
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+    const draft: MockExamDraft = {
+      version: MOCK_EXAM_DRAFT_VERSION,
+      answers,
+      currentIndex,
+      deadlineAt,
+      updatedAt: Date.now(),
     };
-  }, [exam, isSubmitting]);
 
-  const handleSubmit = async () => {
-    if (!user || !exam) return;
+    try {
+      window.localStorage.setItem(draftKey, JSON.stringify(draft));
+    } catch {
+      // Nếu trình duyệt chặn bộ nhớ cục bộ, phòng thi vẫn tiếp tục hoạt động bình thường.
+    }
+  }, [answers, currentIndex, deadlineAt, draftKey, draftReady, exam, isSubmitting]);
+
+  const handleSubmit = useCallback(async () => {
+    if (!user || !exam || submitLockRef.current) return;
+    submitLockRef.current = true;
     setIsSubmitting(true);
 
-    const durationUsed = exam.duration * 60 - timeLeft;
+    const remainingSeconds = deadlineAt
+      ? Math.max(0, Math.ceil((deadlineAt - Date.now()) / 1000))
+      : 0;
+    const durationUsed = Math.max(
+      0,
+      Math.min(exam.duration * 60, exam.duration * 60 - remainingSeconds)
+    );
     let correctCount = 0;
 
     questions.forEach(q => {
@@ -132,14 +209,40 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
     }).select().single();
 
     if (!error && data) {
+      if (draftKey) {
+        try {
+          window.localStorage.removeItem(draftKey);
+        } catch {
+          // Không cản trở việc xem kết quả nếu trình duyệt không cho xóa bộ nhớ cục bộ.
+        }
+      }
       if (document.fullscreenElement) void document.exitFullscreen();
       router.push(`/mock-exams/${exam.id}/result?attemptId=${data.id}`);
     } else {
       console.error(error);
       alert('Có lỗi xảy ra khi nộp bài!');
+      submitLockRef.current = false;
       setIsSubmitting(false);
     }
-  };
+  }, [answers, deadlineAt, draftKey, exam, questions, router, user]);
+
+  useEffect(() => {
+    if (!exam || !draftReady || !deadlineAt || isSubmitting) return;
+
+    const updateTimer = () => {
+      const remaining = Math.max(0, Math.ceil((deadlineAt - Date.now()) / 1000));
+      setTimeLeft(remaining);
+
+      if (remaining === 0 && questions.length > 0 && !autoSubmitAttemptedRef.current) {
+        autoSubmitAttemptedRef.current = true;
+        void handleSubmit();
+      }
+    };
+
+    updateTimer();
+    const intervalId = window.setInterval(updateTimer, 1000);
+    return () => window.clearInterval(intervalId);
+  }, [deadlineAt, draftReady, exam, handleSubmit, isSubmitting, questions.length]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -171,7 +274,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
     return () => window.removeEventListener('keydown', handleQuestionNavigation);
   }, [currentIndex, isSubmitting, questions.length, showConfirm]);
 
-  if (!initialized || !exam) {
+  if (!initialized || !exam || !draftReady) {
     return <div className="py-32 flex flex-col items-center justify-center animate-pulse text-muted-foreground font-medium">Đang tải đề thi...</div>;
   }
 
@@ -181,10 +284,12 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   return (
     <div className="w-full flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-md border-b border-border px-3 py-3 flex items-center justify-between shadow-soft">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-md shrink-0">
-            <ArrowLeft className="w-5 h-5" />
+      <header className="sticky top-0 z-40 border-b border-border bg-card/95 px-3 py-3 shadow-soft backdrop-blur-md sm:px-5">
+        <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 sm:grid-cols-[minmax(0,1fr)_minmax(180px,auto)_minmax(0,1fr)]">
+          <div className="col-start-1 row-start-2 flex min-w-0 items-center gap-2 sm:row-start-1">
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-11 w-11 shrink-0 rounded-md">
+            <ArrowLeft aria-hidden="true" className="w-5 h-5" />
+            <span className="sr-only">Quay lại danh sách đề thi</span>
           </Button>
           <div className="hidden sm:block">
             <h1 className="font-bold text-foreground">{exam.title}</h1>
@@ -192,7 +297,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="sm" className="md:hidden flex items-center gap-1.5 rounded-md border-border px-3">
+              <Button variant="outline" size="sm" className="flex h-11 items-center gap-1.5 rounded-md border-border px-3 md:hidden">
                 <LayoutGrid className="w-4 h-4" />
                 <span className="font-bold">{currentIndex + 1}/{questions.length}</span>
               </Button>
@@ -216,6 +321,8 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                       <SheetTrigger asChild key={q.id}>
                         <button
                           onClick={() => setCurrentIndex(idx)}
+                          aria-current={isCurrent ? 'step' : undefined}
+                          aria-label={`Đi tới câu ${idx + 1}${isAnswered ? ', đã trả lời' : ', chưa trả lời'}`}
                           className={cn(
                             "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
                             isCurrent
@@ -235,9 +342,16 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
               </div>
             </SheetContent>
           </Sheet>
-        </div>
+          </div>
 
-        <div className="flex items-center gap-2">
+          <div className="col-span-2 col-start-1 row-start-1 min-w-0 text-center sm:col-span-1 sm:col-start-2">
+            <p className="truncate text-sm font-semibold text-foreground sm:text-base" title={`Tên thí sinh: ${user?.name || 'Thí sinh'}`}>
+              <span className="text-muted-foreground">Tên thí sinh:</span>{' '}
+              <span className="font-bold">{user?.name || 'Thí sinh'}</span>
+            </p>
+          </div>
+
+          <div className="col-start-2 row-start-2 flex items-center justify-end gap-2 sm:col-start-3 sm:row-start-1">
           <Button
             type="button"
             variant="outline"
@@ -253,23 +367,24 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
             "flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold font-mono text-sm sm:text-lg transition-colors",
             timeLeft < 300 ? "bg-destructive-soft text-destructive animate-pulse" : "bg-muted text-foreground"
           )}>
-            <Clock className="w-4 h-4 shrink-0" />
+            <Clock aria-hidden="true" className="w-4 h-4 shrink-0" />
             <span>{formatTime(timeLeft)}</span>
           </div>
 
           <Button
             onClick={() => setShowConfirm(true)}
             size="sm"
-            className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold rounded-md px-4 shadow-card"
+            className="h-11 rounded-md bg-primary px-4 font-bold text-primary-foreground shadow-card hover:bg-primary-hover"
           >
             <span className="hidden sm:inline">Nộp bài</span>
             <span className="sm:hidden">Nộp</span>
-            <Send className="w-4 h-4 ml-1 sm:ml-2 shrink-0" />
+            <Send aria-hidden="true" className="w-4 h-4 ml-1 sm:ml-2 shrink-0" />
           </Button>
+          </div>
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col md:flex-row gap-6">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-6 md:flex-row md:px-6 md:py-6">
         {/* Main Content (Question) */}
         <main className="flex-1 pb-20 md:pb-0">
           <div className="max-w-3xl mx-auto">
@@ -291,6 +406,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                       <button
                         key={idx}
                         onClick={() => setAnswers(prev => ({ ...prev, [currentQuestion.id]: idx }))}
+                        aria-pressed={isSelected}
                         className={cn(
                           "w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all duration-200 text-left group",
                           isSelected
@@ -345,7 +461,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
 
         {/* Sidebar (Grid) */}
         <aside className="hidden md:block w-80 shrink-0">
-          <div className="bg-card rounded-xl border border-border shadow-card overflow-hidden md:sticky md:top-40">
+          <div className="bg-card rounded-xl border border-border shadow-card overflow-hidden md:sticky md:top-24">
             <div className="p-4 border-b border-border font-bold text-foreground flex justify-between items-center bg-muted/50">
               <span>Danh sách câu</span>
               <span className="text-sm font-bold text-primary bg-primary-soft px-3 py-1 rounded-full">
@@ -362,6 +478,8 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                     <button
                       key={q.id}
                       onClick={() => setCurrentIndex(idx)}
+                      aria-current={isCurrent ? 'step' : undefined}
+                      aria-label={`Đi tới câu ${idx + 1}${isAnswered ? ', đã trả lời' : ', chưa trả lời'}`}
                       className={cn(
                         "aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all",
                         isCurrent

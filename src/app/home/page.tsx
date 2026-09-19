@@ -36,10 +36,15 @@ export default function HomePage() {
   return (
     <>
       <div className="space-y-7">
-        <header className="relative overflow-hidden rounded-xl border border-border bg-hero px-5 py-7 sm:px-8 sm:py-8">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[.14em] text-primary">Không gian học tập</p>
-          <h1 className="max-w-4xl text-[28px] font-bold leading-tight text-foreground sm:text-[36px]">{getGreeting()}, {user?.name || 'Bạn'}!</h1>
-          <p className="mt-3 text-sm text-muted-foreground sm:text-base">Sẵn sàng cho buổi học hôm nay chưa?</p>
+        <header className="relative overflow-hidden rounded-xl border border-border bg-hero px-5 py-4 sm:px-7 sm:py-5">
+          <div className="grid min-w-0 items-center gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="min-w-0">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[.14em] text-primary">Không gian học tập</p>
+              <h1 className="text-[28px] font-bold leading-tight text-foreground sm:text-[34px]">{getGreeting()}, {user?.name || 'Bạn'}!</h1>
+              <p className="mt-2 text-sm text-muted-foreground sm:text-base">Sẵn sàng cho buổi học hôm nay chưa?</p>
+            </div>
+            <FlytieeWidget variant="hero" />
+          </div>
         </header>
         <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="min-w-0 space-y-6">
@@ -69,7 +74,6 @@ export default function HomePage() {
             </section>
           </div>
           <aside aria-label="Thông tin học tập bổ trợ" className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-1">
-            <FlytieeWidget />
             <CountdownCard />
             <QuoteCarousel />
             <WrongNotebookCard />

@@ -54,7 +54,11 @@ function claimedToday(claimedIds: string[], missionId: string) {
   return claimedIds.includes(key);
 }
 
-export function FlytieeWidget() {
+interface FlytieeWidgetProps {
+  variant?: 'sidebar' | 'hero';
+}
+
+export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
   const user = useAuthStore((state) => state.user);
   const flytiee = useFlytiee();
   const [open, setOpen] = useState(false);
@@ -136,7 +140,15 @@ export function FlytieeWidget() {
   if (!user) return null;
 
   if (flytiee.loading) {
-    return <div className="h-[172px] animate-pulse rounded-xl border border-border bg-card" aria-label="Đang gọi FlyTiee" />;
+    return (
+      <div
+        className={cn(
+          'w-full animate-pulse rounded-xl border border-border bg-card/80',
+          variant === 'hero' ? 'h-[120px]' : 'h-[172px]',
+        )}
+        aria-label="Đang gọi FlyTiee"
+      />
+    );
   }
 
   return (
@@ -144,23 +156,31 @@ export function FlytieeWidget() {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="group grid min-h-[172px] w-full grid-cols-[132px_minmax(0,1fr)] items-center overflow-hidden rounded-xl border border-border bg-card p-4 text-left shadow-soft hover:border-primary/50 hover:shadow-card focus-visible:ring-2 focus-visible:ring-primary sm:grid-cols-[145px_minmax(0,1fr)]"
+          className={cn(
+            'group grid w-full items-center overflow-hidden rounded-xl border border-border text-left shadow-soft transition-colors hover:border-primary/50 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+            variant === 'hero'
+              ? 'min-h-[112px] grid-cols-[92px_minmax(0,1fr)] bg-card/75 p-3 sm:min-h-[120px] sm:grid-cols-[108px_minmax(0,1fr)]'
+              : 'min-h-[172px] grid-cols-[132px_minmax(0,1fr)] bg-card p-4 sm:grid-cols-[145px_minmax(0,1fr)]',
+          )}
           aria-label={`Mở cửa sổ của ${flytiee.profile.name}`}
         >
-          <div className="h-[138px] w-[138px] self-end sm:h-[150px] sm:w-[150px]">
+          <div className={cn(
+            'self-end',
+            variant === 'hero' ? 'h-[92px] w-[92px] sm:h-[108px] sm:w-[108px]' : 'h-[138px] w-[138px] sm:h-[150px] sm:w-[150px]',
+          )}>
             <FlytieeBird mood={mood} profile={flytiee.profile} />
           </div>
           <div className="relative z-10 min-w-0 pl-1">
             <div className="mb-1 flex items-center gap-2">
-              <span className="truncate text-lg font-bold text-foreground">{flytiee.profile.name}</span>
+              <span className={cn('truncate font-bold text-foreground', variant === 'hero' ? 'text-base sm:text-lg' : 'text-lg')}>{flytiee.profile.name}</span>
               {isHungry && <span className="rounded-full bg-warning-soft px-2 py-0.5 text-xs font-semibold text-warning">Đang đói</span>}
             </div>
             <p className="line-clamp-2 text-sm text-muted-foreground">{speech}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold">
+            <div className={cn('flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold', variant === 'hero' ? 'mt-2' : 'mt-3')}>
               <span className="text-primary">Cấp {flytiee.profile.level}</span>
               <span className="flex items-center gap-1 text-warning"><Coins aria-hidden="true" className="h-3.5 w-3.5" />{flytiee.profile.coins} xu</span>
             </div>
-            <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:underline">
+            <span className={cn('inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:underline', variant === 'hero' ? 'mt-2' : 'mt-3')}>
               <Sparkles aria-hidden="true" className="h-3.5 w-3.5" /> Chơi cùng FlyTiee
             </span>
           </div>

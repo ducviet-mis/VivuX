@@ -1,0 +1,67 @@
+.bird {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.body {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5.2s infinite;
+}
+
+.pupils { transform-box: fill-box; transform-origin: center; }
+.rightWing { transform-box: fill-box; transform-origin: 14% 70%; }
+.leftWing { transform-box: fill-box; transform-origin: 82% 35%; }
+.sleepyEyes, .happyEyes, .hungryFace, .sneezePuff { display: none; }
+
+.bird[data-mood='look'] .body { animation: lookAround 4.6s ease-in-out both; }
+.bird[data-mood='look'] .pupils { animation: eyeRoam 4.6s ease-in-out both; }
+.bird[data-mood='sway'] .body { animation: sway 4.2s ease-in-out both; }
+.bird[data-mood='sway'] .leftWing { animation: wave 4.2s ease-in-out both; }
+.bird[data-mood='feet'] .body { animation: lookFeet 4.4s ease-in-out both; }
+.bird[data-mood='feet'] .pupils { animation: eyesDown 4.4s ease-in-out both; }
+.bird[data-mood='fly'] .body { animation: takeOff 4.1s ease-in-out both; }
+.bird[data-mood='fly'] .rightWing { animation: flutterRight .28s ease-in-out 12 alternate; }
+.bird[data-mood='fly'] .leftWing { animation: flutterLeft .28s ease-in-out 12 alternate; }
+.bird[data-mood='sneeze'] .body { animation: sneeze 2.8s ease-in-out both; }
+.bird[data-mood='sneeze'] .eyes { animation: sneezeEyes 2.8s ease-in-out both; }
+.bird[data-mood='sneeze'] .sneezePuff { display: block; animation: puff 2.8s ease-out both; }
+.bird[data-mood='scratch'] .leftWing { animation: scratch .55s ease-in-out infinite alternate; }
+.bird[data-mood='scratch'] .body { animation: think 4s ease-in-out both; }
+.bird[data-mood='hungry'] .eyes, .bird[data-mood='hungry'] .beak { display: none; }
+.bird[data-mood='hungry'] .hungryFace { display: block; }
+.bird[data-mood='hungry'] .body { animation: hungry 2.4s ease-in-out infinite; }
+.bird[data-mood='eat'] .eyes, .bird[data-mood='eat'] .beak { display: none; }
+.bird[data-mood='eat'] .happyEyes { display: block; }
+.bird[data-mood='eat'] .body { animation: eat .55s ease-in-out infinite alternate; }
+
+@keyframes breathe { 50% { transform: translateY(-4px) scaleY(1.012); } }
+@keyframes blink { 0%, 7%, 12%, 58%, 63%, 100% { transform: scaleY(1); } 9%, 60% { transform: scaleY(.06); } }
+@keyframes lookAround { 0%, 100% { transform: rotate(0); } 20%, 38% { transform: rotate(-6deg); } 62%, 80% { transform: rotate(6deg); } }
+@keyframes eyeRoam { 0%, 100% { transform: translate(0); } 18%, 38% { transform: translateX(-10px); } 60%, 80% { transform: translate(7px, -3px); } }
+@keyframes sway { 0%, 100% { transform: rotate(0) translateY(0); } 15%, 45%, 75% { transform: rotate(-5deg) translateY(-7px); } 30%, 60%, 90% { transform: rotate(5deg) translateY(-7px); } }
+@keyframes wave { 0%, 100% { transform: rotate(0); } 20%, 50%, 80% { transform: rotate(-30deg); } 35%, 65% { transform: rotate(8deg); } }
+@keyframes lookFeet { 0%, 100% { transform: scaleY(1); } 25%, 72% { transform: translateY(8px) scaleY(.96) rotate(3deg); } }
+@keyframes eyesDown { 0%, 100% { transform: translate(0); } 25%, 72% { transform: translate(-3px, 11px); } }
+@keyframes takeOff { 0%, 100% { transform: translateY(0); } 12% { transform: translateY(4px) scaleY(.96); } 28%, 68% { transform: translateY(-35px); } 84% { transform: translateY(4px) scaleY(.96); } }
+@keyframes flutterRight { from { transform: rotate(0); } to { transform: rotate(54deg); } }
+@keyframes flutterLeft { from { transform: rotate(0); } to { transform: rotate(-45deg); } }
+@keyframes sneeze { 0%, 100% { transform: rotate(0); } 30%, 44% { transform: rotate(-6deg) scale(1.02); } 53% { transform: translate(8px, 8px) rotate(7deg) scale(1.02, .95); } 65% { transform: rotate(-3deg); } }
+@keyframes sneezeEyes { 0%, 22%, 76%, 100% { transform: scaleY(1); } 42%, 65% { transform: scaleY(.06); } }
+@keyframes puff { 0%, 47% { opacity: 0; transform: translate(0); } 54% { opacity: .9; } 78%, 100% { opacity: 0; transform: translate(32px, 10px); } }
+@keyframes scratch { from { transform: rotate(0); } to { transform: rotate(-25deg); } }
+@keyframes think { 35%, 70% { transform: rotate(-4deg); } }
+@keyframes hungry { 50% { transform: translateY(5px) rotate(-2deg); } }
+@keyframes eat { to { transform: translateY(-7px) scale(1.015); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bird *, .body, .eyes, .pupils, .rightWing, .leftWing { animation: none !important; }
+}

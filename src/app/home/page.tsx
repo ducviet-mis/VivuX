@@ -11,6 +11,7 @@ import { WrongNotebookCard } from '@/features/wrong-notebook/components/wrong-no
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Card, CardContent } from '@/components/ui/card';
 import { ReferralHomePrompt } from '@/features/subscription/components/referral-home-prompt';
+import { FlytieeWidget } from '@/features/flytiee/flytiee-widget';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -68,6 +69,7 @@ export default function HomePage() {
             </section>
           </div>
           <aside aria-label="Thông tin học tập bổ trợ" className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-1">
+            <FlytieeWidget />
             <CountdownCard />
             <QuoteCarousel />
             <WrongNotebookCard />

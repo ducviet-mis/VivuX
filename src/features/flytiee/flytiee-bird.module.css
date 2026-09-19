@@ -5,63 +5,136 @@
   overflow: visible;
 }
 
+.scene { --scene-transition-duration: 440ms; }
+.sceneTransitionLong { --scene-transition-duration: 750ms; }
+.sceneEnter { animation: scene-in var(--scene-transition-duration) cubic-bezier(.22, .61, .36, 1) both; }
+.sceneExit { animation: scene-out var(--scene-transition-duration) cubic-bezier(.22, .61, .36, 1) both; }
+
 .body {
-  transform-box: fill-box;
-  transform-origin: 50% 90%;
+  transform-box: view-box;
+  transform-origin: 450px 740px;
   animation: breathe 3s ease-in-out infinite;
 }
 
 .eyes {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: blink 5.2s infinite;
+  transform-box: view-box;
+  transform-origin: 475px 417px;
+  animation: blink 4.8s infinite;
 }
 
-.pupils { transform-box: fill-box; transform-origin: center; }
-.rightWing { transform-box: fill-box; transform-origin: 14% 70%; }
-.leftWing { transform-box: fill-box; transform-origin: 82% 35%; }
-.sleepyEyes, .happyEyes, .hungryFace, .sneezePuff { display: none; }
+.brows { transform-box: view-box; transform-origin: 480px 360px; }
+.waveWing { transform-box: view-box; transform-origin: 620px 516px; transform: rotate(52deg); }
+.restWing { transform-box: view-box; transform-origin: 270px 470px; }
+.hungryGaze { transform-box: view-box; transform-origin: 476px 425px; animation: plead 4s ease-in-out infinite; }
+.thinkingGaze { animation: think-gaze 3.4s ease-in-out infinite; }
+.scratchHand { transform-box: view-box; transform-origin: 638px 477px; animation: touch-head .65s ease-in-out infinite; }
+.chewingCheeks { transform-box: view-box; transform-origin: 487px 472px; animation: puff-cheeks .65s ease-in-out infinite alternate; }
+.chewingMouth { transform-box: view-box; transform-origin: 508px 478px; animation: munch .65s ease-in-out infinite alternate; }
+.sleepZ text { fill: #9ba8f7; font: 700 44px system-ui, sans-serif; }
 
-.bird[data-mood='look'] .body { animation: lookAround 4.6s ease-in-out both; }
-.bird[data-mood='look'] .pupils { animation: eyeRoam 4.6s ease-in-out both; }
-.bird[data-mood='sway'] .body { animation: sway 4.2s ease-in-out both; }
-.bird[data-mood='sway'] .leftWing { animation: wave 4.2s ease-in-out both; }
-.bird[data-mood='feet'] .body { animation: lookFeet 4.4s ease-in-out both; }
-.bird[data-mood='feet'] .pupils { animation: eyesDown 4.4s ease-in-out both; }
-.bird[data-mood='fly'] .body { animation: takeOff 4.1s ease-in-out both; }
-.bird[data-mood='fly'] .rightWing { animation: flutterRight .28s ease-in-out 12 alternate; }
-.bird[data-mood='fly'] .leftWing { animation: flutterLeft .28s ease-in-out 12 alternate; }
-.bird[data-mood='sneeze'] .body { animation: sneeze 2.8s ease-in-out both; }
-.bird[data-mood='sneeze'] .eyes { animation: sneezeEyes 2.8s ease-in-out both; }
-.bird[data-mood='sneeze'] .sneezePuff { display: block; animation: puff 2.8s ease-out both; }
-.bird[data-mood='scratch'] .leftWing { animation: scratch .55s ease-in-out infinite alternate; }
-.bird[data-mood='scratch'] .body { animation: think 4s ease-in-out both; }
-.bird[data-mood='hungry'] .eyes, .bird[data-mood='hungry'] .beak { display: none; }
-.bird[data-mood='hungry'] .hungryFace { display: block; }
-.bird[data-mood='hungry'] .body { animation: hungry 2.4s ease-in-out infinite; }
-.bird[data-mood='eat'] .eyes, .bird[data-mood='eat'] .beak { display: none; }
-.bird[data-mood='eat'] .happyEyes { display: block; }
-.bird[data-mood='eat'] .body { animation: eat .55s ease-in-out infinite alternate; }
+.closedEyes,
+.sleepZ,
+.expression,
+.hungryLines,
+.scratchMarks,
+.food,
+.sneezePuff,
+.flyingAir { display: none; }
 
-@keyframes breathe { 50% { transform: translateY(-4px) scaleY(1.012); } }
-@keyframes blink { 0%, 7%, 12%, 58%, 63%, 100% { transform: scaleY(1); } 9%, 60% { transform: scaleY(.06); } }
-@keyframes lookAround { 0%, 100% { transform: rotate(0); } 20%, 38% { transform: rotate(-6deg); } 62%, 80% { transform: rotate(6deg); } }
-@keyframes eyeRoam { 0%, 100% { transform: translate(0); } 18%, 38% { transform: translateX(-10px); } 60%, 80% { transform: translate(7px, -3px); } }
-@keyframes sway { 0%, 100% { transform: rotate(0) translateY(0); } 15%, 45%, 75% { transform: rotate(-5deg) translateY(-7px); } 30%, 60%, 90% { transform: rotate(5deg) translateY(-7px); } }
-@keyframes wave { 0%, 100% { transform: rotate(0); } 20%, 50%, 80% { transform: rotate(-30deg); } 35%, 65% { transform: rotate(8deg); } }
-@keyframes lookFeet { 0%, 100% { transform: scaleY(1); } 25%, 72% { transform: translateY(8px) scaleY(.96) rotate(3deg); } }
-@keyframes eyesDown { 0%, 100% { transform: translate(0); } 25%, 72% { transform: translate(-3px, 11px); } }
-@keyframes takeOff { 0%, 100% { transform: translateY(0); } 12% { transform: translateY(4px) scaleY(.96); } 28%, 68% { transform: translateY(-35px); } 84% { transform: translateY(4px) scaleY(.96); } }
-@keyframes flutterRight { from { transform: rotate(0); } to { transform: rotate(54deg); } }
-@keyframes flutterLeft { from { transform: rotate(0); } to { transform: rotate(-45deg); } }
-@keyframes sneeze { 0%, 100% { transform: rotate(0); } 30%, 44% { transform: rotate(-6deg) scale(1.02); } 53% { transform: translate(8px, 8px) rotate(7deg) scale(1.02, .95); } 65% { transform: rotate(-3deg); } }
-@keyframes sneezeEyes { 0%, 22%, 76%, 100% { transform: scaleY(1); } 42%, 65% { transform: scaleY(.06); } }
-@keyframes puff { 0%, 47% { opacity: 0; transform: translate(0); } 54% { opacity: .9; } 78%, 100% { opacity: 0; transform: translate(32px, 10px); } }
-@keyframes scratch { from { transform: rotate(0); } to { transform: rotate(-25deg); } }
-@keyframes think { 35%, 70% { transform: rotate(-4deg); } }
-@keyframes hungry { 50% { transform: translateY(5px) rotate(-2deg); } }
-@keyframes eat { to { transform: translateY(-7px) scale(1.015); } }
+.scene[data-mood='sleep'] .eyes { display: none; }
+.scene[data-mood='sleep'] .closedEyes,
+.scene[data-mood='sleep'] .sleepZ { display: block; }
+.scene[data-mood='sleep'] .body { animation: sleep 4s ease-in-out infinite; }
+.scene[data-mood='sleep'] .sleepZ { animation: sleep-z 3s ease-out infinite; }
+
+.scene[data-mood='hungry'] .eyes,
+.scene[data-mood='hungry'] .brows,
+.scene[data-mood='hungry'] .beak,
+.scene[data-mood='scratch'] .eyes,
+.scene[data-mood='scratch'] .brows,
+.scene[data-mood='scratch'] .beak,
+.scene[data-mood='happy'] .eyes,
+.scene[data-mood='happy'] .brows,
+.scene[data-mood='happy'] .beak,
+.scene[data-mood='eat'] .eyes,
+.scene[data-mood='eat'] .brows,
+.scene[data-mood='eat'] .beak,
+.scene[data-mood='sway'] .eyes,
+.scene[data-mood='sway'] .brows,
+.scene[data-mood='sway'] .beak { display: none; }
+
+.scene[data-mood='hungry'] .faceHungry,
+.scene[data-mood='scratch'] .faceScratch,
+.scene[data-mood='happy'] .faceHappy,
+.scene[data-mood='eat'] .faceEat,
+.scene[data-mood='sway'] .faceHappy { display: block; }
+
+.scene[data-mood='hungry'] .restWing { animation: rub-belly 1.2s ease-in-out infinite; }
+.scene[data-mood='hungry'] .hungryLines { display: block; animation: rumble 1.2s infinite; }
+.scene[data-mood='hungry'] .body { animation: hungry 2.4s ease-in-out infinite; }
+
+.scene[data-mood='scratch'] .waveWing { display: none; }
+.scene[data-mood='scratch'] .scratchMarks { display: block; animation: rumble .8s infinite; }
+.scene[data-mood='scratch'] .handAccessory { display: none; }
+.scene[data-mood='scratch'] .body { transform: rotate(-5deg); animation: none; }
+
+.scene[data-mood='happy'] .body { animation: hop .65s ease-in-out infinite; }
+.scene[data-mood='happy'] .waveWing { visibility: visible; animation: happy-wave .45s ease-in-out infinite alternate; }
+
+.scene[data-mood='eat'] .food { display: block; animation: food-bite 1s ease-in-out infinite; }
+
+.scene[data-mood='look'] .body { animation: look-around 4.6s ease-in-out both; }
+.scene[data-mood='look'] .eyes { animation: eye-roam 4.6s ease-in-out both; }
+.scene[data-mood='sway'] .body { animation: dance 4.2s ease-in-out both; }
+.scene[data-mood='sway'] .waveWing { visibility: visible; animation: dance-wing 4.2s ease-in-out both; }
+.scene[data-mood='fly'] .body { animation: takeoff 4.1s ease-in-out both; }
+.scene[data-mood='fly'] .waveWing { visibility: visible; animation: flutter-right .28s ease-in-out 12 alternate; }
+.scene[data-mood='fly'] .restWing { animation: flutter-left .28s ease-in-out 12 alternate; }
+.scene[data-mood='fly'] .flyingAir { display: block; animation: flying-air 4.1s ease-in-out both; }
+.scene[data-mood='feet'] .body { animation: look-feet 4.5s ease-in-out both; }
+.scene[data-mood='feet'] .eyes { animation: eyes-down 4.5s ease-in-out both; }
+.scene[data-mood='feet'] .beak,
+.scene[data-mood='feet'] .brows { animation: face-down 4.5s ease-in-out both; }
+.scene[data-mood='sneeze'] .body { animation: sneeze 2.8s ease-in-out both; }
+.scene[data-mood='sneeze'] .eyes { animation: sneeze-eyes 2.8s ease-in-out both; }
+.scene[data-mood='sneeze'] .beak { transform-box: view-box; transform-origin: 508px 473px; animation: sneeze-mouth 2.8s ease-in-out both; }
+.scene[data-mood='sneeze'] .sneezePuff { display: block; animation: sneeze-puff 2.8s ease-out both; }
+.scene[data-held='true'] .waveWing { visibility: hidden; }
+
+@keyframes scene-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scene-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes breathe { 50% { transform: translateY(-5px) scaleY(1.013); } }
+@keyframes blink { 0%, 7%, 13%, 57%, 63%, 100% { transform: scaleY(1); } 10%, 60% { transform: scaleY(.04); } }
+@keyframes sleep { 50% { transform: translateY(5px) scaleY(.965); } }
+@keyframes sleep-z { 0% { opacity: 0; transform: translateY(15px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-30px); } }
+@keyframes plead { 0%, 40%, 100% { transform: translateY(0); } 55%, 80% { transform: translateY(-5px); } }
+@keyframes think-gaze { 0%, 30%, 100% { transform: translate(0); } 45%, 75% { transform: translate(-9px, 4px); } }
+@keyframes touch-head { 0%, 100% { transform: rotate(0); } 35% { transform: rotate(-7deg); } 65% { transform: rotate(2deg); } }
+@keyframes puff-cheeks { to { transform: scale(1.09, 1.07); } }
+@keyframes munch { to { transform: scale(.92, .63); } }
+@keyframes rub-belly { 50% { transform: rotate(-24deg) translate(14px, -6px); } }
+@keyframes rumble { 50% { opacity: .15; } }
+@keyframes hungry { 50% { transform: rotate(-2deg) translateY(5px); } }
+@keyframes hop { 50% { transform: translateY(-30px) rotate(3deg); } }
+@keyframes happy-wave { from { transform: rotate(-12deg); } to { transform: rotate(10deg); } }
+@keyframes food-bite { 0% { transform: translate(-30px, 70px); opacity: 0; } 35% { opacity: 1; } 100% { transform: translate(0, -8px); opacity: 0; } }
+@keyframes look-around { 0%, 100% { transform: rotate(0); } 20%, 38% { transform: rotate(-7deg); } 62%, 80% { transform: rotate(7deg); } }
+@keyframes eye-roam { 0%, 100% { transform: translate(0); } 18%, 38% { transform: translate(-12px, 0); } 60%, 80% { transform: translate(7px, -4px); } }
+@keyframes dance { 0%, 100% { transform: rotate(0) translateY(0); } 12%, 40%, 68% { transform: rotate(-6deg) translateY(-9px); } 26%, 54%, 82% { transform: rotate(6deg) translateY(-9px); } }
+@keyframes dance-wing { 0%, 100% { transform: rotate(52deg); } 12%, 40%, 68% { transform: rotate(15deg); } 26%, 54%, 82% { transform: rotate(42deg); } }
+@keyframes takeoff { 0%, 100% { transform: translateY(0) scaleY(1); } 12% { transform: translateY(4px) scaleY(.96); } 28%, 68% { transform: translateY(-38px) scaleY(1.02); } 83% { transform: translateY(5px) scaleY(.96); } 92% { transform: translateY(-3px) scaleY(1); } }
+@keyframes flutter-right { from { transform: rotate(52deg); } to { transform: rotate(-12deg); } }
+@keyframes flutter-left { from { transform: rotate(0); } to { transform: rotate(68deg); } }
+@keyframes flying-air { 0%, 18%, 85%, 100% { opacity: 0; } 35%, 65% { opacity: .8; } }
+@keyframes look-feet { 0%, 100% { transform: scaleY(1); } 24%, 72% { transform: translateY(10px) scaleY(.965) rotate(3deg); } }
+@keyframes eyes-down { 0%, 100% { transform: translate(0); } 23%, 73% { transform: translate(-4px, 13px); } }
+@keyframes face-down { 0%, 100% { transform: translateY(0); } 23%, 73% { transform: translateY(10px); } }
+@keyframes sneeze { 0%, 100% { transform: rotate(0) scale(1); } 22% { transform: rotate(-4deg) scale(1.015, 1.025); } 42% { transform: rotate(-6deg) scale(1.025, 1.045); } 53% { transform: translate(8px, 8px) rotate(7deg) scale(1.025, .95); } 62% { transform: rotate(-3deg) scale(.99, 1.02); } 76% { transform: rotate(1deg); } }
+@keyframes sneeze-eyes { 0%, 18%, 76%, 100% { transform: scaleY(1); } 30%, 43% { transform: scaleY(.5); } 49%, 65% { transform: scaleY(.06); } }
+@keyframes sneeze-mouth { 0%, 100% { transform: scale(1); } 25%, 42% { transform: scale(.85, 1.35); } 51%, 61% { transform: scale(1.1, 1.2); } 78% { transform: scale(1); } }
+@keyframes sneeze-puff { 0%, 46% { opacity: 0; transform: translate(0); } 52% { opacity: .8; } 76%, 100% { opacity: 0; transform: translate(38px, 12px); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird *, .body, .eyes, .pupils, .rightWing, .leftWing { animation: none !important; }
+  .bird *, .scene, .body, .eyes, .brows, .waveWing, .restWing { animation: none !important; }
+  .sceneExit { display: none; }
 }

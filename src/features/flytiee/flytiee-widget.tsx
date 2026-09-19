@@ -32,6 +32,8 @@ const IDLE_ACTIONS: Array<{ mood: FlytieeMood; line: string; duration: number }>
   { mood: 'fly', line: 'Một, hai… bay được một tí rồi!', duration: 4100 },
   { mood: 'sneeze', line: 'Hắt… xì! Hihi, nhột mũi quá.', duration: 2800 },
   { mood: 'scratch', line: 'Hmm… hôm nay học gì nhỉ?', duration: 4000 },
+  { mood: 'happy', line: 'Hôm nay tớ vui ơi là vui!', duration: 3200 },
+  { mood: 'sleep', line: 'Zzz… chợp mắt một chút nhé.', duration: 6000 },
 ];
 
 const ACCESSORY_TONES: Record<string, string> = {

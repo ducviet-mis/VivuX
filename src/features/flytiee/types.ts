@@ -7,7 +7,9 @@ export type FlytieeMood =
   | 'sneeze'
   | 'scratch'
   | 'hungry'
-  | 'eat';
+  | 'eat'
+  | 'happy'
+  | 'sleep';
 
 export type FlytieeAccessorySlot = 'head' | 'eyes' | 'neck' | 'hand';
 

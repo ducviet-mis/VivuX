@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useState } from 'react';
 import { cn } from '@/lib/utils';
-import type { FlytieeMood, FlytieeProfile } from './types';
+import type { FlytieeAccessory, FlytieeMood, FlytieeProfile } from './types';
 import styles from './flytiee-bird.module.css';
 
 interface FlytieeBirdProps {
@@ -18,9 +18,14 @@ const MOOD_LABELS: Record<FlytieeMood, string> = {
   happy: 'vui vẻ', sleep: 'ngủ ngon',
 };
 
-function AccessoryLayers({ profile }: { profile: FlytieeProfile }) {
-  const { head, eyes, neck, hand } = profile.equipped;
+function AccessoryLayers({ equipped }: { equipped: FlytieeProfile['equipped'] }) {
+  const { head, eyes, neck, hand } = equipped;
   return <>
+    {head === 'moon-rabbit' && <g stroke="#c483a9" strokeWidth="6"><ellipse cx="393" cy="231" rx="34" ry="94" transform="rotate(-14 393 231)" fill="#fff4e9"/><ellipse cx="393" cy="225" rx="15" ry="64" transform="rotate(-14 393 225)" fill="#f4b4cd" stroke="none"/><ellipse cx="520" cy="223" rx="34" ry="94" transform="rotate(14 520 223)" fill="#fff4e9"/><ellipse cx="520" cy="217" rx="15" ry="64" transform="rotate(14 520 217)" fill="#f4b4cd" stroke="none"/><path d="M290 335Q455 282 619 328L617 350Q453 310 291 358Z" fill="#fff4e9"/><path d="M457 304a22 22 0 1 0 20 33 19 19 0 0 1-20-33" fill="#ffd479" stroke="#d59a4e"/></g>}
+    {eyes === 'moon-glasses' && <g fill="none" stroke="#e8b350" strokeWidth="8"><circle cx="390" cy="413" r="51"/><circle cx="558" cy="407" r="48"/><path d="M441 405Q474 384 510 401M340 406L316 396M606 401L629 389"/><path d="M331 353l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2Z" fill="#ffe49b" strokeWidth="3"/><path d="M600 348a20 20 0 1 0 17 31 18 18 0 0 1-17-31" fill="#ffe49b" strokeWidth="3"/></g>}
+    {neck === 'moon-pendant' && <g stroke="#c89445" strokeWidth="5"><path d="M362 507Q475 615 590 500" fill="none"/><path d="M481 555a43 43 0 1 0 37 65 38 38 0 0 1-37-65" fill="#ffd57a"/><path d="M519 570l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2Z" fill="#fff1bd" strokeWidth="3"/></g>}
+    {hand === 'star-lantern' && <g className={styles.handAccessory} strokeLinecap="round" strokeLinejoin="round"><path d="M614 600L663 454" stroke="#b17b49" strokeWidth="10"/><path d="M663 454V495" stroke="#e9bc65" strokeWidth="4"/><path d="M663 487L685 535L738 540L699 576L709 628L663 602L617 628L627 576L588 540L641 535Z" fill="#f47775" stroke="#ffdb83" strokeWidth="6"/><path d="M663 487V565L738 540M663 565L709 628M663 565L617 628M663 565L588 540" stroke="#ffd780" strokeWidth="3"/><circle cx="663" cy="565" r="17" fill="#ffe99f"/><path d="M655 617V663M665 619V672M675 617V663" stroke="#ed8b78" strokeWidth="5"/><path d="M599 578Q628 557 650 581Q661 605 627 614L604 604" fill="#91a5f9" stroke="#596dcb" strokeWidth="6"/></g>}
+    {hand === 'moon-cake' && <g className={styles.handAccessory}><rect x="587" y="521" width="130" height="125" rx="35" fill="#d79146" stroke="#9e6235" strokeWidth="6"/><rect x="587" y="506" width="130" height="121" rx="35" fill="#f5c16b" stroke="#b9793d" strokeWidth="6"/><rect x="603" y="522" width="98" height="88" rx="25" fill="none" stroke="#d79a48" strokeWidth="5"/><path d="M651 537a27 27 0 1 0 23 41 24 24 0 0 1-23-41" fill="#ffe3a2" stroke="#b9793d" strokeWidth="4"/><path d="M595 592Q622 574 645 591Q655 615 619 624L600 613" fill="#91a5f9" stroke="#596dcb" strokeWidth="6"/></g>}
     {head === 'focus-band' && <g aria-hidden="true"><path d="M269 328Q457 278 639 322L638 349Q451 308 267 358Z" fill="#fff6e5" stroke="#c78b68" strokeWidth="5"/><path d="M625 325L685 298L672 340L697 373L630 350" fill="#ee8d85" stroke="#b85f65" strokeWidth="5"/><path d="M446 307l9 16 18 3-13 13 2 16-17-8-16 8 3-17-13-12 18-3Z" fill="#ee8d85"/></g>}
     {head === 'graduation-cap' && <g aria-hidden="true"><path d="M335 217L339 278Q448 316 568 273L572 211" fill="#455580" stroke="#2e3d62" strokeWidth="6"/><path d="M256 206L451 146L653 201L454 265Z" fill="#586ea5" stroke="#2e3d62" strokeWidth="6" strokeLinejoin="round"/><path d="M454 206L620 233L624 293" stroke="#ffd584" strokeWidth="7"/><path d="M612 291H636L642 325H607Z" fill="#ffd584"/><ellipse cx="452" cy="206" rx="12" ry="6" fill="#ffd584"/></g>}
     {eyes === 'round-glasses' && <g aria-hidden="true"><g fill="none" stroke="#485672" strokeWidth="8"><circle cx="390" cy="413" r="51"/><circle cx="558" cy="407" r="48"/><path d="M441 405Q474 384 510 401M340 406L316 396M606 401L629 389"/></g><path d="M355 394L369 383M524 387L538 377" stroke="#fff" strokeWidth="5" strokeLinecap="round" opacity=".7"/></g>}
@@ -62,10 +67,15 @@ function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood
       <g className={styles.food} fill="#eeb66f" stroke="#c18746" strokeWidth="3"><ellipse cx="504" cy="515" rx="9" ry="14"/><ellipse cx="528" cy="536" rx="8" ry="12"/></g>
       <g className={styles.sneezePuff} stroke="#bac9f7" strokeWidth="6" strokeLinecap="round"><path d="M551 475L586 465M555 488L594 489M550 500L582 516"/></g>
       <g className={styles.flyingAir} stroke="#acb9ef" strokeWidth="5" strokeLinecap="round"><path d="M254 643Q273 651 290 644M628 649Q649 657 667 648M281 681H305M612 684H637"/></g>
-      <AccessoryLayers profile={profile}/>
+      <AccessoryLayers equipped={profile.equipped}/>
     </g>
     <g className={styles.sleepZ}><text x="650" y="340">z</text><text x="689" y="289">Z</text><text x="729" y="235">Z</text></g>
   </g>;
+}
+
+export function FlytieeAccessoryPreview({ item }: { item: FlytieeAccessory }) {
+  const frames = { head: '235 115 485 270', eyes: '295 330 355 160', neck: '330 480 280 180', hand: '550 440 220 290' };
+  return <svg viewBox={frames[item.slot]} className="h-28 w-full sm:h-32" fill="none" role="img" aria-label={item.name}><AccessoryLayers equipped={{ [item.slot]: item.id }}/></svg>;
 }
 
 export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {

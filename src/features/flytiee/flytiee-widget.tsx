@@ -7,7 +7,6 @@ import {
   Edit3,
   Gift,
   RefreshCw,
-  ShoppingBag,
   Sparkles,
   Utensils,
 } from 'lucide-react';
@@ -20,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { ACCESSORY_SLOT_LABELS, FLYTIEE_ACCESSORIES } from './config';
-import { FlytieeBird } from './flytiee-bird';
+import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
 import type { FlytieeAccessorySlot, FlytieeMood } from './types';
 import { useFlytiee } from './use-flytiee';
 
@@ -275,7 +274,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                       const equipped = flytiee.profile.equipped[item.slot] === item.id;
                       const selected = selectedAccessoryId === item.id;
                       return <button key={item.id} type="button" aria-pressed={selected} onClick={() => setSelectedAccessoryId(item.id)} className={cn('min-h-[150px] rounded-xl border p-4 text-left transition-colors', selected ? 'border-primary bg-primary-soft ring-2 ring-primary/15' : 'border-border bg-card hover:border-primary/50')}>
-                        <span className={cn('flex h-11 w-11 items-center justify-center rounded-lg', ACCESSORY_TONES[item.tone])}><ShoppingBag aria-hidden="true" className="h-5 w-5" /></span>
+                        <span className={cn('flex w-full items-center justify-center rounded-lg p-3', ACCESSORY_TONES[item.tone])}><FlytieeAccessoryPreview item={item} /></span>
                         <strong className="mt-3 block text-sm">{item.name}</strong><span className="mt-1 block text-xs text-muted-foreground">{item.description}</span><span className="mt-2 block text-xs font-bold text-primary">{equipped ? 'Đang mặc' : owned ? 'Đã sở hữu' : `${item.price} xu`}</span>
                       </button>;
                     })}

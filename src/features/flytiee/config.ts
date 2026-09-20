@@ -24,6 +24,11 @@ export const ACCESSORY_SLOT_LABELS: Record<FlytieeAccessorySlot, string> = {
 };
 
 export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
+  { id: 'moon-rabbit', name: 'Băng đô thỏ ngọc', slot: 'head', price: 50, description: 'Đôi tai mềm cùng đi chơi đêm trăng.', tone: 'coral' },
+  { id: 'moon-glasses', name: 'Kính trăng sao', slot: 'eyes', price: 45, description: 'Ngắm trăng qua chiếc kính vàng xinh.', tone: 'yellow' },
+  { id: 'moon-pendant', name: 'Vòng cổ trăng rằm', slot: 'neck', price: 40, description: 'Vầng trăng nhỏ ôm lấy ngôi sao.', tone: 'yellow' },
+  { id: 'star-lantern', name: 'Đèn ông sao', slot: 'hand', price: 55, description: 'Rước đèn cùng FlyTiee đêm Trung thu.', tone: 'red' },
+  { id: 'moon-cake', name: 'Bánh Trung thu', slot: 'hand', price: 35, description: 'Chiếc bánh vàng cho mùa đoàn viên.', tone: 'yellow' },
   { id: 'focus-band', name: 'Băng đô quyết tâm', slot: 'head', price: 25, description: 'Đeo vào là sẵn sàng chinh phục bài khó.', tone: 'coral' },
   { id: 'graduation-cap', name: 'Mũ tốt nghiệp', slot: 'head', price: 65, description: 'Một lời nhắc nhỏ về đích đến lớn.', tone: 'navy' },
   { id: 'round-glasses', name: 'Kính mọt sách', slot: 'eyes', price: 35, description: 'Nhìn công thức nào cũng thật rõ ràng.', tone: 'indigo' },

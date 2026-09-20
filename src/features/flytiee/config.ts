@@ -146,6 +146,13 @@ export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
   { id: 'ghost-candy-bag', name: 'Túi kẹo ma nhỏ', slot: 'hand', price: 55, description: 'Chiếc túi ma trắng chuyên cất kẹo đêm hội.', tone: 'cyan' },
   { id: 'pumpkin-lantern', name: 'Đèn bí ngô', slot: 'hand', price: 65, description: 'Ánh đèn cam ấm áp dẫn đường đêm Halloween.', tone: 'yellow' },
   { id: 'magic-spellbook', name: 'Sách phép tập sự', slot: 'hand', price: 75, description: 'Cuốn sách phép nhỏ phát sáng cho học viên chăm chỉ.', tone: 'green' },
+  { id: 'vietnam-conical-hat', name: 'Nón lá Việt Nam', slot: 'head', price: 65, description: 'Chiếc nón lá thanh thoát với dải lụa đỏ dịu dàng.', tone: 'yellow' },
+  { id: 'vietnam-star-headband', name: 'Băng đô sao Việt', slot: 'head', price: 50, description: 'Băng đô đỏ nổi bật cùng ngôi sao vàng năm cánh.', tone: 'red' },
+  { id: 'lotus-glasses', name: 'Kính hoa sen', slot: 'eyes', price: 55, description: 'Khung kính lấy cảm hứng từ cánh sen Việt Nam.', tone: 'coral' },
+  { id: 'southern-checkered-scarf', name: 'Khăn rằn Nam Bộ', slot: 'neck', price: 50, description: 'Chiếc khăn rằn mộc mạc, gần gũi và thân thương.', tone: 'navy' },
+  { id: 'vietnam-national-flag', name: 'Quốc kỳ Việt Nam', slot: 'hand', price: 65, description: 'Lá cờ đỏ sao vàng được thể hiện đúng tỷ lệ và màu sắc.', tone: 'red' },
+  { id: 'dong-son-drum', name: 'Trống đồng Đông Sơn', slot: 'hand', price: 75, description: 'Họa tiết mặt trời gợi nhớ di sản văn hóa Việt.', tone: 'yellow' },
+  { id: 'lotus-lantern', name: 'Đèn hoa sen', slot: 'hand', price: 60, description: 'Đóa sen hồng tỏa ánh sáng ấm áp và bình yên.', tone: 'coral' },
 ];
 
 export function xpNeededForLevel(level: number) {

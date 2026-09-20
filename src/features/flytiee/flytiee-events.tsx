@@ -15,6 +15,7 @@ import {
   X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -73,29 +74,38 @@ function RewardOverlay({ reward, openingTier, onClose }: {
   if (!reward && !openingTier) return null;
   const tier = openingTier ?? reward?.chestTier ?? 'gold';
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="flytiee-reward-title">
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        {reward && Array.from({ length: 10 }, (_, index) => <span key={index} className={styles.confetti} />)}
-      </div>
-      <div className={cn('relative w-full max-w-sm rounded-2xl border border-primary/30 bg-elevated p-6 text-center shadow-float', styles.rewardCard)}>
-        {openingTier ? (
-          <>
-            <ChestArt tier={tier} opening className="mx-auto h-44 w-44" />
-            <h3 id="flytiee-reward-title" className="text-xl font-bold">Đang mở {CHEST_LABELS[tier]}…</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Một phần quà bất ngờ đang bay tới!</p>
-          </>
-        ) : (
-          <>
-            <button type="button" onClick={onClose} className="absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Đóng thông báo phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-warning-soft text-warning shadow-card"><Sparkles aria-hidden="true" className="h-10 w-10" /></div>
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-primary">Phần thưởng đã nhận</p>
-            <h3 id="flytiee-reward-title" className="mt-2 text-2xl font-bold">{reward?.title}</h3>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">{reward?.description}</p>
-            <Button ref={actionRef} type="button" className="mt-6 w-full" onClick={onClose}>Tuyệt quá!</Button>
-          </>
-        )}
-      </div>
-    </div>
+    <Dialog open onOpenChange={(open) => {
+      if (!open && !openingTier) onClose();
+    }}>
+      <DialogContent
+        className={cn('z-[70] w-full max-w-sm overflow-hidden border-primary/30 p-0 text-center [&>button]:hidden', styles.rewardCard)}
+        onOpenAutoFocus={(event) => event.preventDefault()}
+      >
+        <div className="relative p-6">
+          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+            {reward && Array.from({ length: 10 }, (_, index) => <span key={index} className={styles.confetti} />)}
+          </div>
+          {openingTier ? (
+            <DialogHeader className="relative items-center text-center">
+              <ChestArt tier={tier} opening className="mx-auto h-44 w-44" />
+              <DialogTitle className="text-xl font-bold">Đang mở {CHEST_LABELS[tier]}…</DialogTitle>
+              <DialogDescription className="text-sm text-muted-foreground">Một phần quà bất ngờ đang bay tới!</DialogDescription>
+            </DialogHeader>
+          ) : (
+            <div className="relative">
+              <button type="button" onClick={onClose} className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Đóng thông báo phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-warning-soft text-warning shadow-card"><Sparkles aria-hidden="true" className="h-10 w-10" /></div>
+              <DialogHeader className="mt-4 items-center text-center">
+                <DialogDescription className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Phần thưởng đã nhận</DialogDescription>
+                <DialogTitle className="mt-2 text-2xl font-bold">{reward?.title}</DialogTitle>
+                <DialogDescription className="mt-2 text-sm leading-6 text-muted-foreground">{reward?.description}</DialogDescription>
+              </DialogHeader>
+              <Button ref={actionRef} type="button" className="mt-6 w-full" onClick={onClose}>Tuyệt quá!</Button>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

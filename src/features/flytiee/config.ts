@@ -139,6 +139,13 @@ export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
   { id: 'class-bow', name: 'Nơ lớp trưởng', slot: 'neck', price: 30, description: 'Gọn gàng, tự tin và đầy trách nhiệm.', tone: 'mint' },
   { id: 'study-pencil', name: 'Bút chì chăm học', slot: 'hand', price: 40, description: 'Ghi lại từng bước giải hay.', tone: 'yellow' },
   { id: 'idea-book', name: 'Sổ tay ý tưởng', slot: 'hand', price: 45, description: 'Cất giữ những cách giải thông minh.', tone: 'green' },
+  { id: 'witch-hat', name: 'Mũ phù thủy tí hon', slot: 'head', price: 70, description: 'Chiếc mũ tím chóp cong dành cho phù thủy tập sự.', tone: 'indigo' },
+  { id: 'pumpkin-headband', name: 'Băng đô bí ngô', slot: 'head', price: 55, description: 'Hai quả bí ngô tí hon cùng chào đêm hội.', tone: 'yellow' },
+  { id: 'bat-wing-glasses', name: 'Kính cánh dơi', slot: 'eyes', price: 60, description: 'Khung kính cánh dơi tinh nghịch, không hề đáng sợ.', tone: 'indigo' },
+  { id: 'vampire-bow', name: 'Nơ bá tước nhí', slot: 'neck', price: 65, description: 'Nơ đỏ cùng cổ áo tím cho một bá tước thật lịch thiệp.', tone: 'red' },
+  { id: 'ghost-candy-bag', name: 'Túi kẹo ma nhỏ', slot: 'hand', price: 55, description: 'Chiếc túi ma trắng chuyên cất kẹo đêm hội.', tone: 'cyan' },
+  { id: 'pumpkin-lantern', name: 'Đèn bí ngô', slot: 'hand', price: 65, description: 'Ánh đèn cam ấm áp dẫn đường đêm Halloween.', tone: 'yellow' },
+  { id: 'magic-spellbook', name: 'Sách phép tập sự', slot: 'hand', price: 75, description: 'Cuốn sách phép nhỏ phát sáng cho học viên chăm chỉ.', tone: 'green' },
 ];
 
 export function xpNeededForLevel(level: number) {

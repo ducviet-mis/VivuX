@@ -48,6 +48,33 @@ function wrapRawMathAtoms(value: string) {
   );
 }
 
+/**
+ * Some imported question JSON mixes Vietnamese prose and raw LaTeX, for
+ * example: "4x^3y^2 và -\\frac{1}{2}x^3y^2". Keep the prose as normal text
+ * while turning the complete fraction expression into an inline math block.
+ */
+function formatPlainTextMath(value: string) {
+  const fractionPattern = /[+-]?\s*\\(?:d?frac|tfrac)\s*\{[^{}\n]+\}\s*\{[^{}\n]+\}(?:\s*[A-Za-z](?:\^(?:\{[^{}\n]+\}|[+-]?\d+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))?)*/g;
+  const parts: string[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = fractionPattern.exec(value)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(wrapRawMathAtoms(value.slice(lastIndex, match.index)));
+    }
+
+    parts.push(`$${match[0]}$`);
+    lastIndex = fractionPattern.lastIndex;
+  }
+
+  if (lastIndex < value.length) {
+    parts.push(wrapRawMathAtoms(value.slice(lastIndex)));
+  }
+
+  return parts.join('');
+}
+
 function splitMathParts(content: string): MathPart[] {
   const parts: MathPart[] = [];
   const pattern = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$)/g;
@@ -97,12 +124,12 @@ export function formatOptionMath(opt: string): string {
       const math = displayMath ?? inlineMath;
       const m = normalizeMathOperators(math);
 
-      if (looksLikeProse(m)) return wrapRawMathAtoms(m);
+      if (looksLikeProse(m)) return formatPlainTextMath(m);
       return displayMath !== undefined ? '$$' + m + '$$' : '$' + m + '$';
     });
 
     return splitMathParts(repairedBlocks).map((part) => {
-      if (part.type === 'text') return wrapRawMathAtoms(part.value);
+      if (part.type === 'text') return formatPlainTextMath(part.value);
       return part.type === 'display-math' ? `$$${part.value}$$` : `$${part.value}$`;
     }).join('');
   }
@@ -145,9 +172,9 @@ export function formatOptionMath(opt: string): string {
     return `$${s}$`;
   }
 
-  // Preserve prose while rendering raw exponent terms from older question JSON.
+  // Preserve prose while rendering raw exponent and fraction terms from older question JSON.
   // New content should still use explicit $...$ delimiters for complete formulas.
-  return wrapRawMathAtoms(s);
+  return formatPlainTextMath(s);
 }
 
 export function MathRenderer({ content, display = false, variant = 'inline' }: MathRendererProps) {

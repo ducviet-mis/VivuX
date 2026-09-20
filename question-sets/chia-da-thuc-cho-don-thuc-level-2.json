@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Thực hiện phép chia $18x^5y^3:(-6x^2y)$.",
+      "options": [
+        "$-3x^3y^2$",
+        "$3x^3y^2$",
+        "$-12x^3y^2$",
+        "$-3x^7y^4$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\n$Q=18x^5y^3:(-6x^2y)$\nChia hệ số và trừ số mũ của từng biến:\n$Q=(18:-6)x^{5-2}y^{3-1}$\n$Q=-3x^3y^2$."
+    },
+    {
+      "content": "Thực hiện phép chia $-14a^4b^2:(-7a^2b)$.",
+      "options": [
+        "$-2a^2b$",
+        "$2a^6b^3$",
+        "$2a^2b$",
+        "$7a^2b$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi thương là $Q$.\n$Q=-14a^4b^2:(-7a^2b)$\n$Q=(-14:-7)a^{4-2}b^{2-1}$\n$Q=2a^2b$."
+    },
+    {
+      "content": "Thực hiện phép chia $(\\frac{5}{6}x^4y^3):(\\frac{10}{3}x^2y)$.",
+      "options": [
+        "$\\frac{1}{2}x^2y^2$",
+        "$\\frac{1}{4}x^2y^2$",
+        "$4x^2y^2$",
+        "$\\frac{1}{4}x^6y^4$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi thương là $Q$.\n$Q=(\\frac{5}{6}x^4y^3):(\\frac{10}{3}x^2y)$\nGọi thương của hai hệ số là $C$:\n$C=\\frac{5}{6}:\\frac{10}{3}$\n$C=\\frac{5}{6}·\\frac{3}{10}$\n$C=\\frac{1}{4}$\nChia phần biến:\n$Q=\\frac{1}{4}x^{4-2}y^{3-1}$\n$Q=\\frac{1}{4}x^2y^2$."
+    },
+    {
+      "content": "Thực hiện phép chia $0,6x^3y^2:(-0,2xy)$.",
+      "options": [
+        "$3x^2y$",
+        "$-0,4x^2y$",
+        "$-3x^3y^2$",
+        "$-3x^2y$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi thương là $Q$.\n$Q=0,6x^3y^2:(-0,2xy)$\n$Q=(0,6:-0,2)x^{3-1}y^{2-1}$\n$Q=-3x^2y$."
+    },
+    {
+      "content": "Vì sao $4x^2y$ không chia hết cho $6x^3$?",
+      "options": [
+        "Vì $4$ không chia hết cho $6$ trong tập số nguyên",
+        "Số mũ của $x$ trong số chia là 3, lớn hơn 2",
+        "Vì số bị chia có biến $y$",
+        "Vì hai đơn thức khác bậc"
+      ],
+      "correct_answer": 1,
+      "solution": "Hệ số không phải trở ngại vì thương có thể là phân số. Tuy nhiên, số chia có $x^3$ còn số bị chia chỉ có $x^2$. Do $3>2$, phép chia không chia hết."
+    },
+    {
+      "content": "Vì sao $7x^3y^2$ không chia hết cho $2xy^3$?",
+      "options": [
+        "Số mũ của $y$ trong số chia lớn hơn trong số bị chia",
+        "Vì $7$ không chia hết cho $2$",
+        "Vì số mũ của $x$ trong số bị chia lớn hơn",
+        "Vì thương có hệ số phân số"
+      ],
+      "correct_answer": 0,
+      "solution": "Số mũ của $y$ trong số bị chia là 2, còn trong số chia là 3. Vì $3>2$ nên không thể chia hết."
+    },
+    {
+      "content": "Vì sao $-9a^2b$ không chia hết cho $3ac$?",
+      "options": [
+        "Vì thương sẽ mang dấu âm",
+        "Vì số bị chia có biến $b$",
+        "Vì $-9:3=-3$",
+        "Biến $c$ có trong số chia nhưng không có trong số bị chia"
+      ],
+      "correct_answer": 3,
+      "solution": "Điều kiện chia hết phải thỏa mãn với mọi biến của số chia. Biến $c$ không xuất hiện trong $-9a^2b$, nên phép chia không chia hết."
+    },
+    {
+      "content": "Thực hiện phép chia $x^3y^2:(-5)$.",
+      "options": [
+        "$-5x^3y^2$",
+        "$\\frac{1}{5}x^3y^2$",
+        "$-\\frac{1}{5}x^3y^2$",
+        "$-\\frac{1}{5}xy$"
+      ],
+      "correct_answer": 2,
+      "solution": "Số chia là hằng số khác 0 nên phép chia thực hiện được:\n$Q=x^3y^2:(-5)$\n$Q=(1:-5)x^3y^2$\n$Q=-\\frac{1}{5}x^3y^2$."
+    },
+    {
+      "content": "Thực hiện phép chia $(15x^4y^2-10x^3y^3+5x^2y):5x^2y$.",
+      "options": [
+        "$3x^2y+2xy^2+1$",
+        "$3x^2-2xy+1$",
+        "$3x^2y-2xy^2+1$",
+        "$10x^2y-5xy^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $5x^2y$:\n$Q=(15x^4y^2:5x^2y)+(-10x^3y^3:5x^2y)+(5x^2y:5x^2y)$\nTính từng thương:\n$Q=3x^2y-2xy^2+1$."
+    },
+    {
+      "content": "Thực hiện phép chia $(12x^3y-18x^2y^2+6xy):(-6xy)$.",
+      "options": [
+        "$2x^2-3xy+1$",
+        "$-2x^2-3xy-1$",
+        "$-2x+3y-1$",
+        "$-2x^2+3xy-1$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $-6xy$:\n$Q=(12x^3y:-6xy)+(-18x^2y^2:-6xy)+(6xy:-6xy)$\nTính từng thương:\n$Q=-2x^2+3xy-1$."
+    },
+    {
+      "content": "Thực hiện phép chia $(8a^3b^2+12a^2b^3-4ab):4ab$.",
+      "options": [
+        "$2a^2b+3ab^2-1$",
+        "$2a^2b+3ab^2+1$",
+        "$2a^2+3b^2-1$",
+        "$4a^2b+8ab^2-1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\n$Q=(8a^3b^2:4ab)+(12a^2b^3:4ab)+(-4ab:4ab)$\nTính từng thương:\n$Q=2a^2b+3ab^2-1$."
+    },
+    {
+      "content": "Thực hiện phép chia $(2,4x^3y^2-1,2x^2y+0,6xy):0,6xy$.",
+      "options": [
+        "$4x^2y+2x+1$",
+        "$4x^2y-2x+1$",
+        "$2x^2y-2x+1$",
+        "$4x^2-2x+1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $0,6xy$:\n$Q=(2,4x^3y^2:0,6xy)+(-1,2x^2y:0,6xy)+(0,6xy:0,6xy)$\nTính từng thương:\n$Q=4x^2y-2x+1$."
+    },
+    {
+      "content": "Đa thức nào không chia hết cho $3x^2y$?",
+      "options": [
+        "$6x^3y+9x^2y^2$",
+        "$3x^2y-12x^4y^2$",
+        "$15x^3y^2+6x^2y$",
+        "$6x^3y+9xy^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Xét đa thức $6x^3y+9xy^2$. Hạng tử $9xy^2$ chỉ chứa $x^1$, trong khi số chia chứa $x^2$. Vì $1<2$, hạng tử này không chia hết cho $3x^2y$, nên cả đa thức không chia hết."
+    },
+    {
+      "content": "Vì sao $9x^4y-6x^3y^2+3x^2y$ chia hết cho $3x^2y$?",
+      "options": [
+        "Vì chỉ hạng tử đầu chia hết",
+        "Vì cả ba hạng tử đều chia hết cho $3x^2y$",
+        "Vì đa thức có ba hạng tử",
+        "Vì tổng các hệ số bằng 6"
+      ],
+      "correct_answer": 1,
+      "solution": "Kiểm tra từng hạng tử:\n$9x^4y:3x^2y=3x^2$\n$-6x^3y^2:3x^2y=-2xy$\n$3x^2y:3x^2y=1$\nMọi hạng tử đều chia hết nên cả đa thức chia hết."
+    },
+    {
+      "content": "Thương của $(9x^4y-6x^3y^2+3x^2y):3x^2y$ là:",
+      "options": [
+        "$3x^2+2xy+1$",
+        "$3x^2-2y+1$",
+        "$3x^2-2xy+1$",
+        "$6x^2-3xy$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi thương là $Q$.\n$Q=(9x^4y:3x^2y)+(-6x^3y^2:3x^2y)+(3x^2y:3x^2y)$\nTính từng thương:\n$Q=3x^2-2xy+1$."
+    },
+    {
+      "content": "Vì sao $(x^2+2x):x$ và $x+2$ là hai biểu thức bằng nhau với $x≠0$?",
+      "options": [
+        "Vì chia từng hạng tử cho $x$ được $x+2$",
+        "Vì có thể bỏ $x$ ở mọi vị trí",
+        "Vì $x^2+2x=x+2$",
+        "Vì thương luôn bằng số bị chia"
+      ],
+      "correct_answer": 0,
+      "solution": "Với $x≠0$:\n$Q=(x^2+2x):x$\n$Q=(x^2:x)+(2x:x)$\n$Q=x+2$."
+    },
+    {
+      "content": "Biết $A:3xy=2x-y+4$. Đa thức $A$ là:",
+      "options": [
+        "$2x-y+12xy$",
+        "$6x^2y-3xy^2+12xy$",
+        "$6x^2y+3xy^2+12xy$",
+        "$6x^2-3y^2+12$"
+      ],
+      "correct_answer": 1,
+      "solution": "Từ $A:3xy=2x-y+4$, ta có:\n$A=3xy(2x-y+4)$\nPhân phối $3xy$:\n$A=3xy·2x+3xy·(-y)+3xy·4$\n$A=6x^2y-3xy^2+12xy$."
+    },
+    {
+      "content": "Biết $A:B=Q$. Muốn tìm $B$ khi đã biết $A$ và $Q$, ta dựa vào:",
+      "options": [
+        "$A=B+Q$",
+        "$B=A·Q$",
+        "$Q=A·B$",
+        "$A=B·Q$"
+      ],
+      "correct_answer": 3,
+      "solution": "Quan hệ cơ bản là:\n$A=B·Q$\nTừ đó chọn đơn thức $B$ sao cho khi nhân với $Q$ nhận lại đúng đa thức $A$."
+    },
+    {
+      "content": "Thực hiện phép chia $(9x^3y+3xy^3-6x^2y^2):(-3xy)$.",
+      "options": [
+        "$-3x^2-y^2+2xy$",
+        "$3x^2+y^2-2xy$",
+        "$-3x^2+y^2+2xy$",
+        "$-3x-y+2xy$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $-3xy$:\n$Q=(9x^3y:-3xy)+(3xy^3:-3xy)+(-6x^2y^2:-3xy)$\nTính từng thương:\n$Q=-3x^2-y^2+2xy$."
+    },
+    {
+      "content": "Khối hộp có thể tích $6x^2y$ và diện tích đáy $2xy$. Chiều cao của khối hộp là:",
+      "options": [
+        "$3xy$",
+        "$4x$",
+        "$3x$",
+        "$12x^3y^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Chiều cao bằng thể tích chia cho diện tích đáy. Gọi chiều cao là $h$:\n$h=6x^2y:2xy$\n$h=(6:2)x^{2-1}y^{1-1}$\n$h=3x$."
+    },
+    {
+      "content": "Một bạn tính $12x^4y^3:3x^2y=4x^2y^3$. Bạn sai ở đâu?",
+      "options": [
+        "Chia sai hệ số",
+        "Phải cộng số mũ của $x$",
+        "Chưa trừ số mũ của $y$",
+        "Kết quả đúng là $4x^6y^4$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta phải trừ số mũ của cả $x$ và $y$:\n$Q=12x^4y^3:3x^2y$\n$Q=(12:3)x^{4-2}y^{3-1}$\n$Q=4x^2y^2$\nBạn đã giữ nguyên $y^3$ nên sai."
+    },
+    {
+      "content": "Dòng biến đổi nào đúng với $(A+B-C):M$ khi từng hạng tử đều chia hết cho $M$?",
+      "options": [
+        "$A:M+B:M-C:M$",
+        "$(A+B):(C:M)$",
+        "$A:(M+B)-C:M$",
+        "$A:M+B-C$"
+      ],
+      "correct_answer": 0,
+      "solution": "Phép chia đa thức cho đơn thức được phân phối đến từng hạng tử:\n$(A+B-C):M=A:M+B:M-C:M$."
+    },
+    {
+      "content": "Thực hiện phép chia $(7x^3y^2-14x^2y^3+21xy):7xy$.",
+      "options": [
+        "$x^2y+2xy^2+3$",
+        "$x^2-2y^2+3$",
+        "$7x^2y-14xy^2+21$",
+        "$x^2y-2xy^2+3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi thương là $Q$.\n$Q=(7x^3y^2:7xy)+(-14x^2y^3:7xy)+(21xy:7xy)$\nTính từng thương:\n$Q=x^2y-2xy^2+3$."
+    },
+    {
+      "content": "Thực hiện phép chia $(5x^2y-15xy^2+10xy):(-5xy)$.",
+      "options": [
+        "$x-3y+2$",
+        "$-x+3y-2$",
+        "$-x-3y-2$",
+        "$-x+3y+2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi thương là $Q$.\n$Q=(5x^2y:-5xy)+(-15xy^2:-5xy)+(10xy:-5xy)$\nTính từng thương:\n$Q=-x+3y-2$."
+    },
+    {
+      "content": "Thực hiện phép chia $(3x^2y+12xy^2-3xy):3xy$.",
+      "options": [
+        "$x+4y-1$",
+        "$x+4y+1$",
+        "$3x+4y-1$",
+        "$x+4y-3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\n$Q=(3x^2y:3xy)+(12xy^2:3xy)+(-3xy:3xy)$\nTính từng thương:\n$Q=x+4y-1$."
+    },
+    {
+      "content": "Khi chia một đa thức cho một hằng số khác 0, điều nào đúng?",
+      "options": [
+        "Trừ hằng số khỏi từng hệ số",
+        "Chỉ chia hạng tử đầu",
+        "Chia hệ số của từng hạng tử cho hằng số đó",
+        "Số mũ của mọi biến giảm 1"
+      ],
+      "correct_answer": 2,
+      "solution": "Hằng số không chứa biến nên phần biến của từng hạng tử được giữ nguyên. Ta chỉ chia từng hệ số cho hằng số khác 0."
+    },
+    {
+      "content": "Thực hiện phép chia $(9x^2y-3xy+12xy^2):3xy$.",
+      "options": [
+        "$3x+1+4y$",
+        "$3x-1+4y$",
+        "$3x^2-1+4y^2$",
+        "$3x-1+12y$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi thương là $Q$.\n$Q=(9x^2y:3xy)+(-3xy:3xy)+(12xy^2:3xy)$\nTính từng thương:\n$Q=3x-1+4y$."
+    },
+    {
+      "content": "Thực hiện liên tiếp $(24x^4y^3:6x^2y):2xy$.",
+      "options": [
+        "$4x^2y^2$",
+        "$2x^2y$",
+        "$8xy$",
+        "$2xy$"
+      ],
+      "correct_answer": 3,
+      "solution": "Thực hiện phép chia thứ nhất, gọi kết quả là $A$:\n$A=24x^4y^3:6x^2y$\n$A=4x^2y^2$\nTiếp tục chia cho $2xy$, gọi kết quả là $Q$:\n$Q=A:2xy$\n$Q=4x^2y^2:2xy$\n$Q=2xy$."
+    },
+    {
+      "content": "Nếu $A=B·Q$ với $B≠0$ thì kết luận nào đúng?",
+      "options": [
+        "$A$ chia hết cho $B$ và thương là $Q$",
+        "$B$ chia hết cho $A$",
+        "$A$ không thể chia cho $B$",
+        "$A:B=B$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đẳng thức $A=B·Q$ đúng theo định nghĩa phép chia hết. Vì vậy:\n$A:B=Q$."
+    },
+    {
+      "content": "Một bạn tính $(6x^3y-9x^2y^2+3xy):3xy=2x^2-3xy$. Bạn đã bỏ sót:",
+      "options": [
+        "Thương của hạng tử đầu",
+        "Thương của hạng tử $3xy$, bằng 1",
+        "Dấu âm của hạng tử thứ hai",
+        "Biến $y$ ở hạng tử đầu"
+      ],
+      "correct_answer": 1,
+      "solution": "Chia đủ ba hạng tử:\n$Q=(6x^3y:3xy)+(-9x^2y^2:3xy)+(3xy:3xy)$\n$Q=2x^2-3xy+1$\nBạn đã bỏ sót hạng tử cuối $1$."
+    }
+  ]
+}

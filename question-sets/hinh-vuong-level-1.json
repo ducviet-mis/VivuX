@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hình vuông $ABCD$ có $AC=8$ cm. Độ dài $BD$ là",
+      "options": [
+        "$8$ cm",
+        "$4$ cm",
+        "$10$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=8$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=10$ cm. Độ dài $BD$ là",
+      "options": [
+        "$5$ cm",
+        "$12$ cm",
+        "Không xác định được",
+        "$10$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=10$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=12$ cm. Độ dài $BD$ là",
+      "options": [
+        "$12$ cm",
+        "$6$ cm",
+        "$14$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=12$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=14$ cm. Độ dài $BD$ là",
+      "options": [
+        "$7$ cm",
+        "$14$ cm",
+        "$16$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=14$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ bằng nhau.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau.",
+        "Bốn góc vuông và bốn cạnh bằng nhau."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=16$ cm. Độ dài $BD$ là",
+      "options": [
+        "$8$ cm",
+        "$16$ cm",
+        "$18$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=16$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Chỉ vuông góc.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau.",
+        "Bốn góc vuông và bốn cạnh bằng nhau."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=18$ cm. Độ dài $BD$ là",
+      "options": [
+        "$18$ cm",
+        "$9$ cm",
+        "$20$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=18$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Chỉ vuông góc.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=20$ cm. Độ dài $BD$ là",
+      "options": [
+        "$10$ cm",
+        "$22$ cm",
+        "Không xác định được",
+        "$20$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=20$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ bằng nhau.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=22$ cm. Độ dài $BD$ là",
+      "options": [
+        "$11$ cm",
+        "$24$ cm",
+        "$22$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=22$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ bằng nhau.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau.",
+        "Bốn góc vuông và bốn cạnh bằng nhau."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=24$ cm. Độ dài $BD$ là",
+      "options": [
+        "$12$ cm",
+        "$26$ cm",
+        "$24$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=24$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $AC=26$ cm. Độ dài $BD$ là",
+      "options": [
+        "$13$ cm",
+        "$28$ cm",
+        "Không xác định được",
+        "$26$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Hình vuông là hình chữ nhật nên hai đường chéo bằng nhau.\n\n$BD=AC=26$ cm."
+    },
+    {
+      "content": "Trong hình vuông, hai đường chéo có tính chất nào?",
+      "options": [
+        "Chỉ bằng nhau.",
+        "Bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường.",
+        "Chỉ vuông góc.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất hình vuông, hai đường chéo bằng nhau, vuông góc và cắt nhau tại trung điểm mỗi đường."
+    },
+    {
+      "content": "Hình vuông là tứ giác có",
+      "options": [
+        "Bốn góc vuông và bốn cạnh bằng nhau.",
+        "Bốn góc vuông bất kì.",
+        "Bốn cạnh bằng nhau bất kì.",
+        "Hai đường chéo bằng nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo định nghĩa, hình vuông có bốn góc vuông và bốn cạnh bằng nhau."
+    }
+  ]
+}

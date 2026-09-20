@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình vuông.",
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=4$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$4$ cm",
+        "$8$ cm",
+        "$10$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=8$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$90^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình vuông."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=5$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$5$ cm",
+        "$10$ cm",
+        "$12$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=10$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$90^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình vuông.",
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=6$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$6$ cm",
+        "$14$ cm",
+        "Không xác định được",
+        "$12$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=12$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$90^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ là hình vuông.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=7$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$14$ cm",
+        "$7$ cm",
+        "$16$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=14$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$",
+        "$90^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ là hình vuông.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=8$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$8$ cm",
+        "$18$ cm",
+        "$16$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=16$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$",
+        "$90^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình vuông.",
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=9$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$9$ cm",
+        "$20$ cm",
+        "$18$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=18$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$90^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình vuông."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=10$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$20$ cm",
+        "$10$ cm",
+        "$22$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=20$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$90^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "$ABCD$ là hình vuông.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=11$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$22$ cm",
+        "$11$ cm",
+        "$24$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=22$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$",
+        "$90^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "$ABCD$ là hình vuông.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=12$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$12$ cm",
+        "$24$ cm",
+        "$26$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=24$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$90^\\circ$",
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm mỗi đường, bằng nhau và vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thoi.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình vuông."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật; lại có hai đường chéo vuông góc nên là hình vuông."
+    },
+    {
+      "content": "Hình vuông $ABCD$ có $OA=13$ cm, với $O$ là giao điểm hai đường chéo. Độ dài $BD$ là",
+      "options": [
+        "$13$ cm",
+        "$26$ cm",
+        "$28$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình vuông, $OA=OB$ và $O$ là trung điểm của $BD$.\n\n$BD=2\\cdot OB=2\\cdot OA=26$ cm."
+    },
+    {
+      "content": "Trong hình vuông $ABCD$, $AC$ là phân giác của $\\widehat{DAB}$. Nếu $\\widehat{BAC}=45^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$90^\\circ$",
+        "$45^\\circ$",
+        "$60^\\circ$",
+        "$135^\\circ$"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $AC$ là phân giác nên $\\widehat{DAC}=\\widehat{BAC}=45^\\circ$.\n\n$\\widehat{DAB}=45^\\circ+45^\\circ=90^\\circ$."
+    }
+  ]
+}

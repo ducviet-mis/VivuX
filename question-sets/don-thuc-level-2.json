@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Trong các biểu thức sau, biểu thức nào là đơn thức?",
+      "options": ["$x+3y$", "$-2x^2y$", "$x-y+1$", "$x+2$"],
+      "correct_answer": 1,
+      "solution": "$-2x^2y$ là một tích của số và các biến; các biểu thức còn lại có phép cộng hoặc trừ giữa các hạng."
+    },
+    {
+      "content": "Vì sao biểu thức $x^2-2x$ không phải là đơn thức?",
+      "options": ["Vì có biến $x$", "Vì có lũy thừa", "Vì có hệ số âm", "Vì có phép trừ giữa hai hạng"],
+      "correct_answer": 3,
+      "solution": "$x^2-2x$ gồm hai hạng được nối bởi phép trừ nên không có dạng một tích duy nhất."
+    },
+    {
+      "content": "Nhận xét đúng về biểu thức $xy·4x^2$ là:",
+      "options": ["Là đơn thức nhưng chưa thu gọn", "Không phải là đơn thức", "Là đơn thức thu gọn", "Là tổng của hai đơn thức"],
+      "correct_answer": 0,
+      "solution": "Biểu thức là một tích nên là đơn thức, nhưng biến $x$ còn xuất hiện ở hai thừa số nên chưa thu gọn."
+    },
+    {
+      "content": "Đơn thức nào sau đây đã được thu gọn?",
+      "options": ["$2x·3x^2y$", "$-x^2·4xy$", "$5x^3y^2$", "$3y·x·y^2$"],
+      "correct_answer": 2,
+      "solution": "Trong $5x^3y^2$, hệ số đã được viết thành một số và mỗi biến chỉ xuất hiện một lần."
+    },
+    {
+      "content": "Vì sao $2x^2·3xy$ chưa phải là đơn thức thu gọn?",
+      "options": ["Vì biến $x$ xuất hiện ở hai thừa số và các hệ số chưa được nhân", "Vì có biến $y$", "Vì số mũ của $x$ lớn hơn 1", "Vì đơn thức có hai biến"],
+      "correct_answer": 0,
+      "solution": "Cần nhân các hệ số và gộp hai lũy thừa cùng biến $x$ để thu gọn."
+    },
+    {
+      "content": "Khi thu gọn một đơn thức, thao tác nào phù hợp?",
+      "options": ["Cộng tất cả các số mũ của mọi biến với nhau thành một số mũ", "Bỏ các biến lặp lại", "Đổi mọi hệ số thành 1", "Nhân các phần số và gộp các lũy thừa cùng biến"],
+      "correct_answer": 3,
+      "solution": "Ta dùng tính chất phép nhân để nhân phần số và quy tắc lũy thừa để gộp các thừa số cùng biến."
+    },
+    {
+      "content": "Mô tả nào đúng về đơn thức $-3x^2y^4$?",
+      "options": ["Hệ số $3$, phần biến $x^2y^4$, bậc 6", "Hệ số $-3$, phần biến $x^2y^4$, bậc 4", "Hệ số $-3$, phần biến $x^2y^4$, bậc 6", "Hệ số $-3x^2$, phần biến $y^4$, bậc 4"],
+      "correct_answer": 2,
+      "solution": "Hệ số là $-3$, phần biến là $x^2y^4$ và bậc là $2+4=6$."
+    },
+    {
+      "content": "Bậc của đơn thức $4a^2b^3c^2$ là:",
+      "options": ["$4$", "$7$", "$3$", "$2$"],
+      "correct_answer": 1,
+      "solution": "Bậc bằng tổng các số mũ: $2+3+2=7$."
+    },
+    {
+      "content": "Hai đơn thức $5x^2y$ và $-7yx^2$ có quan hệ gì?",
+      "options": ["Không đồng dạng vì thứ tự biến khác nhau", "Không đồng dạng vì hệ số khác dấu", "Đồng dạng vì đều có bậc 3", "Đồng dạng vì cùng phần biến $x^2y$"],
+      "correct_answer": 3,
+      "solution": "$yx^2$ có thể viết là $x^2y$; do đó hai đơn thức có cùng phần biến và đồng dạng."
+    },
+    {
+      "content": "Hai đơn thức $2x^3y$ và $-5xy^3$ có đặc điểm nào?",
+      "options": ["Cùng bậc nhưng không đồng dạng", "Đồng dạng vì cùng có hai biến", "Đồng dạng vì cùng bậc", "Khác bậc và không đồng dạng"],
+      "correct_answer": 0,
+      "solution": "Cả hai đều có bậc 4 nhưng phần biến $x^3y$ và $xy^3$ khác nhau nên không đồng dạng."
+    },
+    {
+      "content": "Cho $A=2x^2y$ và $B=-5x^2y$. Kết luận nào đúng?",
+      "options": ["$A$ và $B$ khác bậc", "$A$ và $B$ đồng dạng", "$A$ và $B$ có cùng hệ số", "$A$ và $B$ có phần biến khác nhau"],
+      "correct_answer": 1,
+      "solution": "$A$ và $B$ đều có phần biến $x^2y$, nên chúng là hai đơn thức đồng dạng."
+    },
+    {
+      "content": "Đơn thức nào cần được thu gọn trước khi xác định hệ số và bậc?",
+      "options": ["$-6x^3y$", "$5a^2b$", "$7mn^4$", "$2x·(-3)x^2y$"],
+      "correct_answer": 3,
+      "solution": "$2x·(-3)x^2y$ còn hai phần số và biến $x$ xuất hiện ở hai thừa số nên cần thu gọn."
+    },
+    {
+      "content": "Hệ số và phần biến của đơn thức $-x^2y^3$ lần lượt là:",
+      "options": ["$-1$ và $x^2y^3$", "$1$ và $-x^2y^3$", "$-1$ và $x^2$", "$-x^2$ và $y^3$"],
+      "correct_answer": 0,
+      "solution": "Dấu trừ trước phần biến biểu thị hệ số $-1$; phần biến là $x^2y^3$."
+    },
+    {
+      "content": "Nhận xét nào đúng về số $5$ khi xem là một đơn thức?",
+      "options": ["Có bậc 5", "Không có bậc", "Có bậc 0", "Có phần biến là 5"],
+      "correct_answer": 2,
+      "solution": "Mọi số khác 0 đều được coi là đơn thức thu gọn bậc 0."
+    },
+    {
+      "content": "Nhận xét nào đúng về số $0$?",
+      "options": ["Không phải là đơn thức", "Là đơn thức có bậc 0", "Là đơn thức có bậc 1", "Là đơn thức nhưng không có bậc"],
+      "correct_answer": 3,
+      "solution": "Số 0 là đơn thức không và không có bậc."
+    },
+    {
+      "content": "Một bạn nói: “Bậc của $-6x^3y$ là 6 vì hệ số là $-6$.” Nhận xét đúng là:",
+      "options": ["Bạn đúng vì lấy giá trị tuyệt đối của hệ số", "Bạn sai vì bậc là $3+1=4$", "Bạn sai vì bậc bằng 3", "Bạn đúng vì hệ số quyết định bậc"],
+      "correct_answer": 1,
+      "solution": "Bậc được tính từ số mũ của các biến, không tính từ hệ số; vì vậy bậc là 4."
+    },
+    {
+      "content": "Với hai đơn thức đồng dạng $ax^2y$ và $bx^2y$, tổng của chúng có dạng:",
+      "options": ["$(a+b)x^2y$", "$abx^2y$", "$(a+b)x^4y^2$", "$abx^4y^2$"],
+      "correct_answer": 0,
+      "solution": "Ta cộng hai hệ số $a$, $b$ và giữ nguyên phần biến $x^2y$."
+    },
+    {
+      "content": "Vì sao không thể gộp $3x^2y+4xy^2$ thành một đơn thức bằng quy tắc cộng đơn thức đồng dạng?",
+      "options": ["Vì hai hệ số đều dương", "Vì hai đơn thức cùng bậc", "Vì hai đơn thức có phần biến khác nhau", "Vì mỗi đơn thức có hai biến"],
+      "correct_answer": 2,
+      "solution": "$x^2y$ và $xy^2$ khác nhau nên hai đơn thức không đồng dạng."
+    },
+    {
+      "content": "Kết quả đúng của $5x^2y-2x^2y$ là:",
+      "options": ["$3x^2y$", "$3xy$", "$3x^4y^2$", "$7x^2y$"],
+      "correct_answer": 0,
+      "solution": "Hai đơn thức đồng dạng nên ta tính $5-2=3$ và giữ nguyên phần biến $x^2y$."
+    },
+    {
+      "content": "Một bạn tính $2x^3+4x^3=6x^6$. Bạn đã sai ở đâu?",
+      "options": ["Đã cộng sai hệ số", "Đã giữ nguyên phần biến", "Đã đổi dấu hệ số", "Đã cộng các số mũ thay vì giữ nguyên phần biến"],
+      "correct_answer": 3,
+      "solution": "Khi cộng đơn thức đồng dạng, phải giữ nguyên $x^3$; kết quả đúng là $6x^3$."
+    },
+    {
+      "content": "Tổng $2x^2y+(-2x^2y)$ bằng:",
+      "options": ["$4x^2y$", "$0$", "$-4x^2y$", "$x^2y$"],
+      "correct_answer": 1,
+      "solution": "Hai hệ số đối nhau nên tổng hệ số bằng 0, do đó tổng hai đơn thức bằng 0."
+    },
+    {
+      "content": "Kết quả của $x^2y+3x^2y-2x^2y$ là:",
+      "options": ["$2x^2y$", "$2x^6y^3$", "$6x^2y$", "$x^2y$"],
+      "correct_answer": 0,
+      "solution": "Hệ số của $x^2y$ là 1, nên $1+3-2=2$ và kết quả là $2x^2y$."
+    },
+    {
+      "content": "Việc đổi thứ tự các biến từ $yx^2$ thành $x^2y$ dựa trên tính chất nào?",
+      "options": ["Tính chất của phép cộng", "Tính chất của phép trừ", "Tính chất giao hoán của phép nhân", "Quy tắc đổi dấu"],
+      "correct_answer": 2,
+      "solution": "Các thừa số trong một tích có thể đổi chỗ nhờ tính chất giao hoán của phép nhân."
+    },
+    {
+      "content": "Hai đơn thức $3x^2y$ và $-4xy^2$ không đồng dạng vì:",
+      "options": ["Hệ số khác nhau", "Số mũ tương ứng của các biến không giống nhau", "Cả hai có bậc 3", "Một hệ số dương, một hệ số âm"],
+      "correct_answer": 1,
+      "solution": "Phần biến $x^2y$ khác $xy^2$, dù tổng số mũ của cả hai đều bằng 3."
+    },
+    {
+      "content": "Nếu hai đơn thức đồng dạng và một đơn thức có bậc 5 thì đơn thức còn lại:",
+      "options": ["Có bậc nhỏ hơn 5", "Có bậc lớn hơn 5", "Không xác định được bậc", "Cũng có bậc 5"],
+      "correct_answer": 3,
+      "solution": "Hai đơn thức đồng dạng có cùng phần biến nên luôn có cùng bậc."
+    },
+    {
+      "content": "Nếu hai đơn thức đều có bậc 4 thì có thể kết luận chắc chắn điều gì?",
+      "options": ["Chúng có cùng hệ số", "Chúng đồng dạng", "Chúng có tổng số mũ của phần biến bằng 4", "Chúng có cùng phần biến"],
+      "correct_answer": 2,
+      "solution": "Bậc 4 chỉ cho biết tổng các số mũ bằng 4, chưa cho biết phần biến có giống nhau hay không."
+    },
+    {
+      "content": "Trong các đơn thức $2xy$, $-3x^2y$, $5xy$, $xy^2$, đơn thức đồng dạng với $2xy$ là:",
+      "options": ["$5xy$", "$-3x^2y$", "$xy^2$", "Cả ba đơn thức còn lại"],
+      "correct_answer": 0,
+      "solution": "$5xy$ có cùng phần biến $xy$ với $2xy$."
+    },
+    {
+      "content": "Mục đích của việc thu gọn đơn thức là gì?",
+      "options": ["Làm cho đơn thức có nhiều biến hơn", "Viết đơn thức thành tổng", "Đổi bậc của đơn thức", "Đưa đơn thức về dạng một hệ số nhân với mỗi biến xuất hiện một lần"],
+      "correct_answer": 3,
+      "solution": "Thu gọn giúp biểu diễn đơn thức rõ ràng bằng một hệ số và các lũy thừa của các biến, mỗi biến xuất hiện một lần."
+    },
+    {
+      "content": "Trình tự hợp lí khi xử lí một đơn thức chưa thu gọn là:",
+      "options": ["Tìm bậc rồi mới nhân các hệ số", "Nhân các phần số, gộp biến cùng loại rồi xác định hệ số, phần biến và bậc", "Cộng tất cả các biến rồi tìm hệ số", "Bỏ số mũ rồi sắp xếp biến"],
+      "correct_answer": 1,
+      "solution": "Cần thu gọn trước, sau đó mới đọc chính xác hệ số, phần biến và bậc của đơn thức."
+    },
+    {
+      "content": "Phát biểu nào thể hiện đúng mối quan hệ giữa đồng dạng và cùng bậc?",
+      "options": ["Cùng bậc thì chắc chắn đồng dạng", "Đồng dạng thì có thể khác bậc", "Đồng dạng thì cùng bậc, nhưng cùng bậc chưa chắc đồng dạng", "Hai khái niệm hoàn toàn không liên quan"],
+      "correct_answer": 2,
+      "solution": "Cùng phần biến dẫn đến cùng bậc; ngược lại, cùng tổng số mũ chưa đảm bảo phần biến giống nhau."
+    }
+  ]
+}

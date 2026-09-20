@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=8$ cm. Độ dài $BD$ là",
+      "options": [
+        "$8$ cm",
+        "$4$ cm",
+        "$10$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=8$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=8$ cm. Độ dài $OA$ là",
+      "options": [
+        "$8$ cm",
+        "$4$ cm",
+        "$6$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{8}{2}=4\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "$90^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=10$ cm. Độ dài $BD$ là",
+      "options": [
+        "$5$ cm",
+        "$12$ cm",
+        "Không xác định được",
+        "$10$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=10$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=10$ cm. Độ dài $OA$ là",
+      "options": [
+        "$10$ cm",
+        "$5$ cm",
+        "$7$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{10}{2}=5\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "$90^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=12$ cm. Độ dài $BD$ là",
+      "options": [
+        "$12$ cm",
+        "$6$ cm",
+        "$14$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=12$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=12$ cm. Độ dài $OA$ là",
+      "options": [
+        "$12$ cm",
+        "$8$ cm",
+        "Không xác định được",
+        "$6$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{12}{2}=6\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "$90^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=14$ cm. Độ dài $BD$ là",
+      "options": [
+        "$7$ cm",
+        "$14$ cm",
+        "$16$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=14$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=14$ cm. Độ dài $OA$ là",
+      "options": [
+        "$7$ cm",
+        "$14$ cm",
+        "$9$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{14}{2}=7\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được",
+        "$90^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=16$ cm. Độ dài $BD$ là",
+      "options": [
+        "$8$ cm",
+        "$16$ cm",
+        "$18$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=16$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=16$ cm. Độ dài $OA$ là",
+      "options": [
+        "$16$ cm",
+        "$10$ cm",
+        "$8$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{16}{2}=8\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được",
+        "$90^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=18$ cm. Độ dài $BD$ là",
+      "options": [
+        "$18$ cm",
+        "$9$ cm",
+        "$20$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=18$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=18$ cm. Độ dài $OA$ là",
+      "options": [
+        "$18$ cm",
+        "$11$ cm",
+        "$9$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{18}{2}=9\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$90^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=20$ cm. Độ dài $BD$ là",
+      "options": [
+        "$10$ cm",
+        "$22$ cm",
+        "Không xác định được",
+        "$20$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=20$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=20$ cm. Độ dài $OA$ là",
+      "options": [
+        "$10$ cm",
+        "$20$ cm",
+        "$12$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{20}{2}=10\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$90^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=22$ cm. Độ dài $BD$ là",
+      "options": [
+        "$11$ cm",
+        "$24$ cm",
+        "$22$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=22$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=22$ cm. Độ dài $OA$ là",
+      "options": [
+        "$11$ cm",
+        "$22$ cm",
+        "$13$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{22}{2}=11\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được",
+        "$90^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=24$ cm. Độ dài $BD$ là",
+      "options": [
+        "$12$ cm",
+        "$26$ cm",
+        "$24$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=24$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=24$ cm. Độ dài $OA$ là",
+      "options": [
+        "$24$ cm",
+        "$12$ cm",
+        "$14$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{24}{2}=12\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$90^\\circ$",
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có đường chéo $AC=26$ cm. Độ dài $BD$ là",
+      "options": [
+        "$13$ cm",
+        "$28$ cm",
+        "Không xác định được",
+        "$26$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau.\n\n$BD=AC=26$\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$ và $AC=26$ cm. Độ dài $OA$ là",
+      "options": [
+        "$26$ cm",
+        "$13$ cm",
+        "$15$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo cắt nhau tại trung điểm của mỗi đường.\n\n$OA=\\frac{AC}{2}=\\frac{26}{2}=13\\text{ cm}$."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $\\widehat{A}=90^\\circ$. Số đo $\\widehat{C}$ là",
+      "options": [
+        "$90^\\circ$",
+        "$45^\\circ$",
+        "$180^\\circ$",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hình chữ nhật là tứ giác có bốn góc vuông.\n\nVì vậy $\\widehat{C}=90^\\circ$."
+    }
+  ]
+}

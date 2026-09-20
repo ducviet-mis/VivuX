@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Với $n$ là số nguyên, rút gọn $P=(n+1)^3+(n-1)^3-2n^3$. Kết luận nào đúng?",
+      "options": [
+        "$P=6n$, nên $P$ chia hết cho $6$.",
+        "$P=2n$, nên $P$ chia hết cho $2$.",
+        "$P=6n^2$, nên $P$ chia hết cho $6$.",
+        "$P=0$."
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển hai lập phương:\n\n$P=(n^3+3n^2+3n+1)+(n^3-3n^2+3n-1)-2n^3$.\n\nThu gọn các hạng tử đồng dạng:\n\n$P=6n$.\n\nVì $n$ là số nguyên nên $6n$ chia hết cho $6$. Vậy $P$ chia hết cho $6$."
+    },
+    {
+      "content": "Tính nhanh $202^3-198^3$.",
+      "options": [
+        "$480000$",
+        "$480016$",
+        "$240008$",
+        "$480032$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $202=200+2$ và $198=200-2$.\n\n$202^3-198^3=(200+2)^3-(200-2)^3$.\n\nKhai triển và trừ hai đa thức:\n\n$202^3-198^3=(200^3+3\\cdot200^2\\cdot2+3\\cdot200\\cdot2^2+2^3)-(200^3-3\\cdot200^2\\cdot2+3\\cdot200\\cdot2^2-2^3)$.\n\n$202^3-198^3=6\\cdot200^2\\cdot2+2\\cdot2^3$.\n\n$202^3-198^3=480016$."
+    },
+    {
+      "content": "Rút gọn $P=(x+3)^3+(x-3)^3-2x^3$.",
+      "options": [
+        "$18x^2+54x$",
+        "$54x^2$",
+        "$54x$",
+        "$0$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển từng lập phương:\n\n$P=(x^3+9x^2+27x+27)+(x^3-9x^2+27x-27)-2x^3$.\n\nThu gọn các hạng tử đồng dạng:\n\n$P=54x$."
+    },
+    {
+      "content": "Biết $m>0$ và $(x+m)^3-(x-m)^3=48x^2+1024$ đúng với mọi $x$. Giá trị của $m$ là",
+      "options": [
+        "$4$",
+        "$16$",
+        "$32$",
+        "$8$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển hiệu:\n\n$(x+m)^3-(x-m)^3=(x^3+3x^2m+3xm^2+m^3)-(x^3-3x^2m+3xm^2-m^3)$.\n\nPhá ngoặc và thu gọn vế trái:\n\n$(x+m)^3-(x-m)^3=6mx^2+2m^3$.\n\nSo sánh hệ số của $x^2$ với $48x^2+1024$:\n\n$6m=48$.\n\nSuy ra $m=8$. Kiểm tra: $2\\cdot8^3=1024$."
+    },
+    {
+      "content": "Rút gọn $P=(x+2)^3+(x-2)^3-2x(x^2+12)$.",
+      "options": [
+        "$24x$",
+        "$0$",
+        "$16$",
+        "$4x^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Khai triển hai lập phương:\n\n$P=(x^3+6x^2+12x+8)+(x^3-6x^2+12x-8)-2x(x^2+12)$.\n\nPhá ngoặc tích ở hạng tử cuối:\n\n$P=2x^3+24x-2x^3-24x$.\n\nThu gọn:\n\n$P=0$."
+    },
+    {
+      "content": "Rút gọn $P=(x+2)^3-(x-2)^3-12x^2$.",
+      "options": [
+        "$0$",
+        "$12x^2+16$",
+        "$16$",
+        "$8$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển hiệu hai lập phương:\n\n$P=(x^3+6x^2+12x+8)-(x^3-6x^2+12x-8)-12x^2$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=x^3+6x^2+12x+8-x^3+6x^2-12x+8-12x^2$.\n\nThu gọn:\n\n$P=16$."
+    },
+    {
+      "content": "Rút gọn $P=(2x+1)^3+(2x-1)^3-16x^3$.",
+      "options": [
+        "$12x$",
+        "$24x$",
+        "$12x^2$",
+        "$2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển:\n\n$P=(8x^3+12x^2+6x+1)+(8x^3-12x^2+6x-1)-16x^3$.\n\nThu gọn các hạng tử đồng dạng:\n\n$P=12x$."
+    },
+    {
+      "content": "Với $x,y$ là các số nguyên, biểu thức $P=(x+y)^3+(x-y)^3-2x^3$ luôn chia hết cho số nào?",
+      "options": [
+        "$8$",
+        "$9$",
+        "$12$",
+        "$6$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển hai lập phương:\n\n$P=(x^3+3x^2y+3xy^2+y^3)+(x^3-3x^2y+3xy^2-y^3)-2x^3$.\n\nThu gọn:\n\n$P=6xy^2$.\n\nVì $x,y$ là các số nguyên nên $6xy^2$ chia hết cho $6$."
+    },
+    {
+      "content": "Tính nhanh $1005^3-995^3$.",
+      "options": [
+        "$30000000$",
+        "$30000500$",
+        "$30000250$",
+        "$15000125$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $1005=1000+5$ và $995=1000-5$.\n\n$1005^3-995^3=(1000+5)^3-(1000-5)^3$.\n\nSau khi khai triển và triệt tiêu các hạng tử đối nhau:\n\n$1005^3-995^3=6\\cdot1000^2\\cdot5+2\\cdot5^3$.\n\n$1005^3-995^3=30000000+250$.\n\n$1005^3-995^3=30000250$."
+    },
+    {
+      "content": "Tính nhanh $501^3+499^3-2\\cdot500^3$.",
+      "options": [
+        "$1500$",
+        "$3000$",
+        "$3000000$",
+        "$0$"
+      ],
+      "correct_answer": 1,
+      "solution": "Viết $501=500+1$ và $499=500-1$.\n\n$501^3+499^3-2\\cdot500^3=(500+1)^3+(500-1)^3-2\\cdot500^3$.\n\nKhai triển hai lập phương rồi thu gọn:\n\n$501^3+499^3-2\\cdot500^3=6\\cdot500\\cdot1^2$.\n\n$501^3+499^3-2\\cdot500^3=3000$."
+    },
+    {
+      "content": "Giải phương trình $(x+1)^3-(x-1)^3=26$.",
+      "options": [
+        "$x=2$ hoặc $x=-2$",
+        "$x=2$",
+        "$x=-2$",
+        "$x=\\pm13$"
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển vế trái:\n\n$(x+1)^3-(x-1)^3=(x^3+3x^2+3x+1)-(x^3-3x^2+3x-1)$.\n\nPhá ngoặc và thu gọn:\n\n$(x+1)^3-(x-1)^3=6x^2+2$.\n\nPhương trình trở thành $6x^2+2=26$.\n\n$6x^2=24$.\n\n$x^2=4$.\n\nVậy $x=2$ hoặc $x=-2$."
+    },
+    {
+      "content": "Giải phương trình $(x+2)^3-(x-2)^3=64$.",
+      "options": [
+        "$x=4$ hoặc $x=-4$",
+        "$x=2$",
+        "$x=0$",
+        "$x=2$ hoặc $x=-2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển vế trái:\n\n$(x+2)^3-(x-2)^3=(x^3+6x^2+12x+8)-(x^3-6x^2+12x-8)$.\n\nPhá ngoặc và thu gọn:\n\n$(x+2)^3-(x-2)^3=12x^2+16$.\n\nPhương trình trở thành $12x^2+16=64$.\n\n$12x^2=48$.\n\n$x^2=4$.\n\nVậy $x=2$ hoặc $x=-2$."
+    },
+    {
+      "content": "Biết $m>0$ và $(x+m)^3+(x-m)^3-2x^3=96x$ đúng với mọi $x$. Giá trị của $m$ là",
+      "options": [
+        "$2$",
+        "$4$",
+        "$8$",
+        "$16$"
+      ],
+      "correct_answer": 1,
+      "solution": "Khai triển tổng:\n\n$(x+m)^3+(x-m)^3=(x^3+3x^2m+3xm^2+m^3)+(x^3-3x^2m+3xm^2-m^3)$.\n\nThu gọn:\n\n$(x+m)^3+(x-m)^3-2x^3=6m^2x$.\n\nVì đẳng thức đúng với mọi $x$, ta có $6m^2=96$.\n\n$m^2=16$.\n\nDo $m>0$, suy ra $m=4$."
+    },
+    {
+      "content": "Biết $m>0$ và $(x+m)^3-(x-m)^3-6mx^2=250$ đúng với mọi $x$. Giá trị của $m$ là",
+      "options": [
+        "$3$",
+        "$10$",
+        "$5$",
+        "$125$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển hiệu:\n\n$(x+m)^3-(x-m)^3=(x^3+3x^2m+3xm^2+m^3)-(x^3-3x^2m+3xm^2-m^3)$.\n\nThu gọn hiệu:\n\n$(x+m)^3-(x-m)^3=6mx^2+2m^3$.\n\nThay vào biểu thức đã cho:\n\n$(x+m)^3-(x-m)^3-6mx^2=2m^3$.\n\nSuy ra $2m^3=250$.\n\n$m^3=125$.\n\nVậy $m=5$."
+    },
+    {
+      "content": "Tính nhanh $1002^3+998^3-2\\cdot1000^3$.",
+      "options": [
+        "$12000$",
+        "$24000000$",
+        "$16$",
+        "$24000$"
+      ],
+      "correct_answer": 3,
+      "solution": "Viết $1002=1000+2$ và $998=1000-2$.\n\n$1002^3+998^3-2\\cdot1000^3=(1000+2)^3+(1000-2)^3-2\\cdot1000^3$.\n\nKhai triển và thu gọn:\n\n$1002^3+998^3-2\\cdot1000^3=6\\cdot1000\\cdot2^2$.\n\n$1002^3+998^3-2\\cdot1000^3=24000$."
+    },
+    {
+      "content": "Rút gọn $(3x+1)^3-(3x-1)^3$.",
+      "options": [
+        "$54x^2+2$",
+        "$54x^2$",
+        "$18x^2+2$",
+        "$54x^2+6x+2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển:\n\n$(3x+1)^3=27x^3+27x^2+9x+1$.\n\n$(3x-1)^3=27x^3-27x^2+9x-1$.\n\nPhá ngoặc sau dấu trừ:\n\n$(3x+1)^3-(3x-1)^3=27x^3+27x^2+9x+1-27x^3+27x^2-9x+1$.\n\nThu gọn:\n\n$(3x+1)^3-(3x-1)^3=54x^2+2$."
+    },
+    {
+      "content": "Rút gọn $P=(x+3y)^3+(x-3y)^3-2x^3$.",
+      "options": [
+        "$18x^2y+54xy^2$",
+        "$54x^2y$",
+        "$54xy^2$",
+        "$0$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển:\n\n$(x+3y)^3=x^3+9x^2y+27xy^2+27y^3$.\n\n$(x-3y)^3=x^3-9x^2y+27xy^2-27y^3$.\n\nThay vào $P$ rồi thu gọn:\n\n$P=x^3+9x^2y+27xy^2+27y^3+x^3-9x^2y+27xy^2-27y^3-2x^3$.\n\n$P=54xy^2$."
+    },
+    {
+      "content": "Với $x,y$ là các số nguyên, nhận xét nào đúng về $P=(x+2y)^3-(x-2y)^3$?",
+      "options": [
+        "$P$ luôn chia hết cho $8$.",
+        "$P$ luôn chia hết cho $4$.",
+        "$P$ luôn chia hết cho $9$.",
+        "$P$ luôn bằng $0$."
+      ],
+      "correct_answer": 1,
+      "solution": "Khai triển hiệu:\n\n$P=(x^3+6x^2y+12xy^2+8y^3)-(x^3-6x^2y+12xy^2-8y^3)$.\n\nPhá ngoặc và thu gọn:\n\n$P=12x^2y+16y^3$.\n\nĐặt nhân tử chung $4y$:\n\n$P=4y(3x^2+4y^2)$.\n\nVì $x,y$ là các số nguyên nên $P$ luôn chia hết cho $4$."
+    },
+    {
+      "content": "Biết $(x+2)^3-(x-2)^3=px^2+16$. Giá trị của $p$ là",
+      "options": [
+        "$6$",
+        "$16$",
+        "$24$",
+        "$12$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển:\n\n$(x+2)^3=x^3+6x^2+12x+8$.\n\n$(x-2)^3=x^3-6x^2+12x-8$.\n\nPhá ngoặc sau dấu trừ và thu gọn:\n\n$(x+2)^3-(x-2)^3=x^3+6x^2+12x+8-x^3+6x^2-12x+8$.\n\n$(x+2)^3-(x-2)^3=12x^2+16$.\n\nSo sánh với $px^2+16$, suy ra $p=12$."
+    },
+    {
+      "content": "Viết đa thức $x^3-15x^2+75x-125$ dưới dạng lập phương của một hiệu.",
+      "options": [
+        "$(x-5)^3$",
+        "$(x+5)^3$",
+        "$(x-3)^3$",
+        "$(5-x)^3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Áp dụng công thức $(A-B)^3=A^3-3A^2B+3AB^2-B^3$ với $A=x$, $B=5$:\n\n$(x-5)^3=x^3-3\\cdot x^2\\cdot5+3\\cdot x\\cdot5^2-5^3$.\n\nThu gọn vế phải:\n\n$(x-5)^3=x^3-15x^2+75x-125$.\n\nVậy đa thức đã cho bằng $(x-5)^3$."
+    },
+    {
+      "content": "Giá trị của $p$ để $27x^3-27x^2y+pxy^2-y^3=(3x-y)^3$ là",
+      "options": [
+        "$3$",
+        "$9$",
+        "$27$",
+        "$-9$"
+      ],
+      "correct_answer": 1,
+      "solution": "Khai triển $(3x-y)^3$ theo công thức lập phương của một hiệu:\n\n$(3x-y)^3=(3x)^3-3(3x)^2y+3(3x)y^2-y^3$.\n\nThu gọn:\n\n$(3x-y)^3=27x^3-27x^2y+9xy^2-y^3$.\n\nSo sánh với đa thức đã cho, suy ra $p=9$."
+    },
+    {
+      "content": "Rút gọn $P=(x+y)^3-(x-y)^3-6x^2y$.",
+      "options": [
+        "$6xy^2$",
+        "$0$",
+        "$2y^3$",
+        "$2x^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển hai lập phương:\n\n$P=(x^3+3x^2y+3xy^2+y^3)-(x^3-3x^2y+3xy^2-y^3)-6x^2y$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=x^3+3x^2y+3xy^2+y^3-x^3+3x^2y-3xy^2+y^3-6x^2y$.\n\nThu gọn:\n\n$P=2y^3$."
+    },
+    {
+      "content": "Tính nhanh $51^3+49^3-2\\cdot50^3$.",
+      "options": [
+        "$300$",
+        "$150$",
+        "$3000$",
+        "$0$"
+      ],
+      "correct_answer": 0,
+      "solution": "Viết $51=50+1$ và $49=50-1$.\n\n$51^3+49^3-2\\cdot50^3=(50+1)^3+(50-1)^3-2\\cdot50^3$.\n\nKhai triển và thu gọn:\n\n$51^3+49^3-2\\cdot50^3=6\\cdot50\\cdot1^2$.\n\n$51^3+49^3-2\\cdot50^3=300$."
+    },
+    {
+      "content": "Rút gọn $P=(x+3)^3-(x-3)^3-18x^2$.",
+      "options": [
+        "$0$",
+        "$18x^2+54$",
+        "$27$",
+        "$54$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển:\n\n$P=(x^3+9x^2+27x+27)-(x^3-9x^2+27x-27)-18x^2$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=x^3+9x^2+27x+27-x^3+9x^2-27x+27-18x^2$.\n\nThu gọn:\n\n$P=54$."
+    },
+    {
+      "content": "Biết $a>0$ và $(x+a)^3+(x-a)^3-2x^3=150x$ đúng với mọi $x$. Giá trị của $a$ là",
+      "options": [
+        "$25$",
+        "$3$",
+        "$5$",
+        "$10$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển tổng:\n\n$(x+a)^3+(x-a)^3=(x^3+3x^2a+3xa^2+a^3)+(x^3-3x^2a+3xa^2-a^3)$.\n\nThu gọn:\n\n$(x+a)^3+(x-a)^3-2x^3=6a^2x$.\n\nVì đẳng thức đúng với mọi $x$, ta có $6a^2=150$.\n\n$a^2=25$.\n\nDo $a>0$, suy ra $a=5$."
+    },
+    {
+      "content": "Viết $64x^3+144x^2y+108xy^2+27y^3$ dưới dạng lập phương của một tổng.",
+      "options": [
+        "$(4x-3y)^3$",
+        "$(4x+3y)^3$",
+        "$(3x+4y)^3$",
+        "$(4x+3y)^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Nhận thấy $64x^3=(4x)^3$ và $27y^3=(3y)^3$.\n\nKiểm tra hai hạng tử giữa theo công thức $(A+B)^3=A^3+3A^2B+3AB^2+B^3$:\n\n$3(4x)^2(3y)=144x^2y$.\n\n$3(4x)(3y)^2=108xy^2$.\n\nVậy $64x^3+144x^2y+108xy^2+27y^3=(4x+3y)^3$."
+    },
+    {
+      "content": "Đa thức $8x^3-36x^2+54x-27$ bằng",
+      "options": [
+        "$(2x-3)^3$",
+        "$(2x+3)^3$",
+        "$(3x-2)^3$",
+        "$(2x-3)^2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Áp dụng công thức $(A-B)^3=A^3-3A^2B+3AB^2-B^3$ với $A=2x$, $B=3$:\n\n$(2x-3)^3=(2x)^3-3(2x)^2\\cdot3+3(2x)\\cdot3^2-3^3$.\n\nThu gọn vế phải:\n\n$(2x-3)^3=8x^3-36x^2+54x-27$.\n\nVậy đa thức đã cho bằng $(2x-3)^3$."
+    },
+    {
+      "content": "Với $n$ là số nguyên, $P=(n+2)^3+(n-2)^3-2n^3$ luôn chia hết cho số nào?",
+      "options": [
+        "$12$",
+        "$36$",
+        "$48$",
+        "$24$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển hai lập phương:\n\n$P=(n^3+6n^2+12n+8)+(n^3-6n^2+12n-8)-2n^3$.\n\nThu gọn:\n\n$P=24n$.\n\nVì $n$ là số nguyên nên $24n$ chia hết cho $24$."
+    },
+    {
+      "content": "Tính nhanh $2001^3-1999^3$.",
+      "options": [
+        "$24000000$",
+        "$24000002$",
+        "$12000001$",
+        "$24000004$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $2001=2000+1$ và $1999=2000-1$.\n\n$2001^3-1999^3=(2000+1)^3-(2000-1)^3$.\n\nKhai triển và triệt tiêu các hạng tử đối nhau:\n\n$2001^3-1999^3=6\\cdot2000^2\\cdot1+2\\cdot1^3$.\n\n$2001^3-1999^3=24000000+2$.\n\n$2001^3-1999^3=24000002$."
+    },
+    {
+      "content": "Đa thức $x^3+6x^2+12x+8$ bằng",
+      "options": [
+        "$(x+2)^3$",
+        "$(x-2)^3$",
+        "$(x+3)^3$",
+        "$(x+2)^2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Áp dụng công thức $(A+B)^3=A^3+3A^2B+3AB^2+B^3$ với $A=x$, $B=2$:\n\n$(x+2)^3=x^3+3x^2\\cdot2+3x\\cdot2^2+2^3$.\n\nThu gọn vế phải:\n\n$(x+2)^3=x^3+6x^2+12x+8$.\n\nVậy đa thức đã cho bằng $(x+2)^3$."
+    }
+  ]
+}

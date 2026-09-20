@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $AB=BC$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có hai cạnh kề bằng nhau là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có hai đường chéo vuông góc. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có đường chéo $AC$ là phân giác của $\\widehat{A}$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có một đường chéo là phân giác của một góc là hình thoi."
+    }
+  ]
+}

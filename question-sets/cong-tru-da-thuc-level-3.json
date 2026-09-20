@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Cho $C=5x^2y+5x-3z+2$ và $D=xyz-4x^2y+5x-1$. Tổng $C+D$ là:",
+      "options": ["$9x^2y-xyz-3z+3$", "$x^2y+xyz-3z+1$", "$x^2y+10x-3z+xyz+1$", "$9x^2y+10x+xyz-3z+1$"],
+      "correct_answer": 2,
+      "solution": "Lập tổng:\n$C+D=(5x^2y+5x-3z+2)+(xyz-4x^2y+5x-1)$\nPhá ngoặc có dấu cộng:\n$C+D=5x^2y+5x-3z+2+xyz-4x^2y+5x-1$\nNhóm các hạng tử đồng dạng:\n$C+D=(5-4)x^2y+(5+5)x+xyz-3z+(2-1)$\nThu gọn:\n$C+D=x^2y+10x+xyz-3z+1$."
+    },
+    {
+      "content": "Với $C=5x^2y+5x-3z+2$, $D=xyz-4x^2y+5x-1$, hiệu $C-D$ là:",
+      "options": ["$9x^2y-xyz-3z+3$", "$x^2y+xyz-3z+1$", "$9x^2y+xyz-3z+1$", "$x^2y-xyz+10x-3z+3$"],
+      "correct_answer": 0,
+      "solution": "Lập hiệu:\n$C-D=(5x^2y+5x-3z+2)-(xyz-4x^2y+5x-1)$\nPhá ngoặc thứ hai và đổi dấu từng hạng tử:\n$C-D=5x^2y+5x-3z+2-xyz+4x^2y-5x+1$\nNhóm các hạng tử đồng dạng:\n$C-D=(5+4)x^2y+(5-5)x-xyz-3z+(2+1)$\nThu gọn:\n$C-D=9x^2y-xyz-3z+3$."
+    },
+    {
+      "content": "Cho $G=x^2y-3xy-3$ và $H=3x^2y+xy-0,5x+5$. Tổng $G+H$ là:",
+      "options": ["$-2x^2y-4xy+0,5x-8$", "$4x^2y-4xy-0,5x+2$", "$2x^2y-2xy-0,5x+8$", "$4x^2y-2xy-0,5x+2$"],
+      "correct_answer": 3,
+      "solution": "Lập tổng:\n$G+H=(x^2y-3xy-3)+(3x^2y+xy-0,5x+5)$\nPhá ngoặc có dấu cộng:\n$G+H=x^2y-3xy-3+3x^2y+xy-0,5x+5$\nNhóm các hạng tử đồng dạng:\n$G+H=(1+3)x^2y+(-3+1)xy-0,5x+(-3+5)$\nThu gọn:\n$G+H=4x^2y-2xy-0,5x+2$."
+    },
+    {
+      "content": "Với $G=x^2y-3xy-3$, $H=3x^2y+xy-0,5x+5$, hiệu $G-H$ là:",
+      "options": ["$4x^2y-2xy-0,5x+2$", "$-2x^2y-4xy+0,5x-8$", "$-2x^2y-2xy-0,5x+2$", "$2x^2y-4xy+0,5x-8$"],
+      "correct_answer": 1,
+      "solution": "Lập hiệu:\n$G-H=(x^2y-3xy-3)-(3x^2y+xy-0,5x+5)$\nPhá ngoặc thứ hai và đổi dấu từng hạng tử:\n$G-H=x^2y-3xy-3-3x^2y-xy+0,5x-5$\nNhóm các hạng tử đồng dạng:\n$G-H=(1-3)x^2y+(-3-1)xy+0,5x+(-3-5)$\nThu gọn:\n$G-H=-2x^2y-4xy+0,5x-8$."
+    },
+    {
+      "content": "Tìm đa thức $M$ biết $M-5x^2+xyz=xy+2x^2-3xyz+5$.",
+      "options": ["$M=xy-3x^2-2xyz+5$", "$M=7x^2+xy-4xyz+5$", "$M=7x^2+xy-2xyz+5$", "$M=-3x^2+xy-4xyz+5$"],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$M-5x^2+xyz=xy+2x^2-3xyz+5$\nCộng $5x^2$ vào hai vế và trừ $xyz$ ở hai vế:\n$M=xy+2x^2-3xyz+5+5x^2-xyz$\nNhóm các hạng tử đồng dạng:\n$M=(2+5)x^2+xy+(-3-1)xyz+5$\nThu gọn:\n$M=7x^2+xy-4xyz+5$."
+    },
+    {
+      "content": "Cho $P=2x^2-x+1$ và $P+Q=5x^2+3x-2$. Đa thức $Q$ là:",
+      "options": ["$7x^2+2x-1$", "$3x^2+2x-1$", "$-3x^2-4x+3$", "$3x^2+4x-3$"],
+      "correct_answer": 3,
+      "solution": "Vì $P+Q=R$ nên:\n$Q=R-P$\nThay các đa thức đã cho:\n$Q=(5x^2+3x-2)-(2x^2-x+1)$\nPhá ngoặc thứ hai:\n$Q=5x^2+3x-2-2x^2+x-1$\nNhóm và thu gọn:\n$Q=(5-2)x^2+(3+1)x+(-2-1)$\n$Q=3x^2+4x-3$."
+    },
+    {
+      "content": "Cho $P=4x^2+x-3$ và $P-Q=x^2-2x+1$. Đa thức $Q$ là:",
+      "options": ["$3x^2+3x-4$", "$5x^2-x-2$", "$-3x^2-3x+4$", "$3x^2-x-2$"],
+      "correct_answer": 0,
+      "solution": "Đặt $R=x^2-2x+1$. Từ $P-Q=R$, suy ra:\n$Q=P-R$\nThay các đa thức:\n$Q=(4x^2+x-3)-(x^2-2x+1)$\nPhá ngoặc thứ hai:\n$Q=4x^2+x-3-x^2+2x-1$\nNhóm và thu gọn:\n$Q=(4-1)x^2+(1+2)x+(-3-1)$\n$Q=3x^2+3x-4$."
+    },
+    {
+      "content": "Thu gọn $(x^2+2xy-y^2)+(-2x^2+xy+3y^2)+(x^2-3xy-2y^2)$ được:",
+      "options": ["$2x^2+6xy$", "$x^2-y^2$", "$-2xy+2y^2$", "$0$"],
+      "correct_answer": 3,
+      "solution": "Gọi tổng là $S$.\n$S=(x^2+2xy-y^2)+(-2x^2+xy+3y^2)+(x^2-3xy-2y^2)$\nPhá các ngoặc có dấu cộng:\n$S=x^2+2xy-y^2-2x^2+xy+3y^2+x^2-3xy-2y^2$\nNhóm các hạng tử đồng dạng:\n$S=(1-2+1)x^2+(2+1-3)xy+(-1+3-2)y^2$\nThu gọn:\n$S=0$."
+    },
+    {
+      "content": "Với mọi đa thức $P$, $Q$, biểu thức $(P-Q)+Q$ bằng:",
+      "options": ["$P$", "$Q$", "$P-2Q$", "$2P$"],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $E$.\n$E=(P-Q)+Q$\nPhá ngoặc có dấu cộng:\n$E=P-Q+Q$\nHai đa thức $-Q$ và $+Q$ triệt tiêu:\n$E=P$."
+    },
+    {
+      "content": "Bỏ ngoặc đúng trong $P-(Q+R)$ được:",
+      "options": ["$P-Q+R$", "$P+Q-R$", "$P-Q-R$", "$P+Q+R$"],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $E$.\n$E=P-(Q+R)$\nToàn bộ $Q+R$ đứng sau dấu trừ nên cả hai dấu đều đổi:\n$E=P-Q-R$."
+    },
+    {
+      "content": "Bỏ ngoặc đúng trong $P-(Q-R)$ được:",
+      "options": ["$P-Q-R$", "$P-Q+R$", "$P+Q-R$", "$P+Q+R$"],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $E$.\n$E=P-(Q-R)$\nDấu trừ trước ngoặc đổi $+Q$ thành $-Q$ và $-R$ thành $+R$:\n$E=P-Q+R$."
+    },
+    {
+      "content": "Thu gọn $K=(x^2y+2xy^3)-(7,5x^3y^2-x^3)+(3xy^3-x^2y+7,5x^3y^2)$ được:",
+      "options": ["$2x^2y+5xy^3-15x^3y^2+x^3$", "$5xy^3-x^3$", "$x^2y+5xy^3+x^3$", "$5xy^3+x^3$"],
+      "correct_answer": 3,
+      "solution": "Ta có:\n$K=(x^2y+2xy^3)-(7,5x^3y^2-x^3)+(3xy^3-x^2y+7,5x^3y^2)$\nPhá ngoặc, chú ý ngoặc thứ hai đứng sau dấu trừ:\n$K=x^2y+2xy^3-7,5x^3y^2+x^3+3xy^3-x^2y+7,5x^3y^2$\nNhóm các hạng tử đồng dạng:\n$K=(x^2y-x^2y)+(2xy^3+3xy^3)+(-7,5x^3y^2+7,5x^3y^2)+x^3$\nThu gọn:\n$K=5xy^3+x^3$."
+    },
+    {
+      "content": "Với $K=5xy^3+x^3$, giá trị của $K$ tại $x=2$, $y=-1$ là:",
+      "options": ["$18$", "$-18$", "$2$", "$-2$"],
+      "correct_answer": 3,
+      "solution": "Dùng dạng đã thu gọn:\n$K=5xy^3+x^3$\nThay $x=2$, $y=-1$:\n$K=5·2·(-1)^3+2^3$\nTính lũy thừa:\n$K=10·(-1)+8$\nThu gọn:\n$K=-2$."
+    },
+    {
+      "content": "Cho $P=2x^2y-xy^2+22$, $Q=xy^2-2x^2y+23$. Vì sao không cần thay từng giá trị của $x$, $y$ để kiểm tra tổng $P+Q$?",
+      "options": ["Vì $P+Q$ thu gọn thành hằng số 45", "Vì mọi đa thức đều bằng 0", "Vì $P=Q$", "Vì chỉ cần tính bậc của $P$"],
+      "correct_answer": 0,
+      "solution": "Lập tổng:\n$P+Q=(2x^2y-xy^2+22)+(xy^2-2x^2y+23)$\nPhá ngoặc:\n$P+Q=2x^2y-xy^2+22+xy^2-2x^2y+23$\nNhóm các hạng tử đồng dạng:\n$P+Q=(2x^2y-2x^2y)+(-xy^2+xy^2)+(22+23)$\nThu gọn:\n$P+Q=45$\nKết quả không còn biến nên không cần thay từng giá trị của $x$, $y$."
+    },
+    {
+      "content": "Cho $P=x^4+2x^2$ và $Q=-x^4+x^3$. Bậc của $P+Q$ là:",
+      "options": ["4", "2", "7", "3"],
+      "correct_answer": 3,
+      "solution": "Lập tổng:\n$P+Q=(x^4+2x^2)+(-x^4+x^3)$\nPhá ngoặc:\n$P+Q=x^4+2x^2-x^4+x^3$\nNhóm và thu gọn:\n$P+Q=(x^4-x^4)+x^3+2x^2$\n$P+Q=x^3+2x^2$\nHạng tử $x^3$ có bậc cao nhất là 3. Vậy $P+Q$ có bậc 3."
+    },
+    {
+      "content": "Cho $P=x^4+x^2$ và $Q=x^4-x^3$. Bậc của $P-Q$ là:",
+      "options": ["4", "3", "2", "1"],
+      "correct_answer": 1,
+      "solution": "Lập hiệu:\n$P-Q=(x^4+x^2)-(x^4-x^3)$\nPhá ngoặc thứ hai:\n$P-Q=x^4+x^2-x^4+x^3$\nNhóm và thu gọn:\n$P-Q=(x^4-x^4)+x^3+x^2$\n$P-Q=x^3+x^2$\nHạng tử $x^3$ có bậc cao nhất là 3. Vậy $P-Q$ có bậc 3."
+    },
+    {
+      "content": "Cho $P=3x^3+x$ và $Q=kx^3+2$. Để $P+Q$ có bậc nhỏ hơn 3, $k$ phải bằng:",
+      "options": ["$3$", "$-3$", "$0$", "$1$"],
+      "correct_answer": 1,
+      "solution": "Lập tổng:\n$P+Q=(3x^3+x)+(kx^3+2)$\nPhá ngoặc và nhóm đồng dạng:\n$P+Q=(3+k)x^3+x+2$\nMuốn $P+Q$ có bậc nhỏ hơn 3 thì hệ số của $x^3$ phải bằng 0:\n$3+k=0$\nSuy ra:\n$k=-3$."
+    },
+    {
+      "content": "Nếu $Q=-P$ thì cặp kết quả nào đúng?",
+      "options": ["$P+Q=2P$, $P-Q=0$", "$P+Q=P$, $P-Q=-P$", "$P+Q=0$, $P-Q=2P$", "$P+Q=0$, $P-Q=0$"],
+      "correct_answer": 2,
+      "solution": "Thay $Q=-P$.\nTính tổng:\n$P+Q=P+(-P)=0$\nTính hiệu:\n$P-Q=P-(-P)$\nPhá ngoặc:\n$P-Q=P+P=2P$."
+    },
+    {
+      "content": "Biết $A-B=C$. Đẳng thức nào giúp kiểm tra lại kết quả phép trừ?",
+      "options": ["$A+B=C$", "$B-C=A$", "$A-C=-B$", "$B+C=A$"],
+      "correct_answer": 3,
+      "solution": "Từ:\n$A-B=C$\nCộng $B$ vào hai vế:\n$A-B+B=C+B$\nThu gọn:\n$A=B+C$\nVì vậy có thể kiểm tra bằng cách tính $B+C$; nếu kết quả bằng $A$ thì phép trừ đúng."
+    },
+    {
+      "content": "Một bạn tính $(x^2-2x+3)-(-2x^2+x-4)=x^2-2x+3-2x^2-x+4$. Lỗi của bạn là:",
+      "options": ["Đổi sai dấu của hạng tử $-2x^2$; phải thành $+2x^2$", "Đổi sai dấu của hằng số; phải giữ $-4$", "Không được bỏ dấu ngoặc", "Phải cộng hai số mũ của $x$"],
+      "correct_answer": 0,
+      "solution": "Gọi hiệu là $E$.\n$E=(x^2-2x+3)-(-2x^2+x-4)$\nKhi phá ngoặc thứ hai:\n$-(-2x^2)=+2x^2$, $-(+x)=-x$, $-(-4)=+4$\nVì vậy:\n$E=x^2-2x+3+2x^2-x+4$\nBạn đã đổi sai dấu của hạng tử $-2x^2$."
+    },
+    {
+      "content": "Cho $P=x^2+3x-2$, $Q=2x^2-x+1$. Kết quả đúng của $P-Q$ là:",
+      "options": ["$3x^2+2x-1$", "$-x^2+4x-3$", "$-x^2+2x-1$", "$x^2+4x-3$"],
+      "correct_answer": 1,
+      "solution": "Lập hiệu:\n$P-Q=(x^2+3x-2)-(2x^2-x+1)$\nPhá ngoặc thứ hai:\n$P-Q=x^2+3x-2-2x^2+x-1$\nNhóm các hạng tử đồng dạng:\n$P-Q=(1-2)x^2+(3+1)x+(-2-1)$\nThu gọn:\n$P-Q=-x^2+4x-3$."
+    },
+    {
+      "content": "Hai bạn tính $Q-P$ với cùng $P$, $Q$. Bạn thứ nhất lấy kết quả của $P-Q$ rồi đổi dấu toàn bộ; bạn thứ hai làm lại phép trừ. Nhận xét đúng là:",
+      "options": ["Chỉ cách thứ hai đúng", "Chỉ cách thứ nhất đúng", "Cả hai cách đều đúng nếu thực hiện chính xác", "Cả hai cách đều sai"],
+      "correct_answer": 2,
+      "solution": "Ta có quan hệ:\n$Q-P=-(P-Q)$\nCách 1: tính $P-Q$, rồi đổi dấu từng hạng tử của kết quả.\nCách 2: lập trực tiếp $Q-P$, phá ngoặc và thu gọn.\nCả hai cách đều đúng nếu thực hiện chính xác."
+    },
+    {
+      "content": "Cho ba đa thức $A$, $B$, $C$. Cách tính nào luôn cho cùng kết quả?",
+      "options": ["$(A-B)+C$ và $A-(B+C)$", "$A+B+C$ và $C+A+B$", "$A-B$ và $B-A$", "$A-(B-C)$ và $A-B-C$"],
+      "correct_answer": 1,
+      "solution": "Phép cộng đa thức có tính giao hoán và kết hợp:\n$A+B+C=C+A+B$\nVì vậy đổi thứ tự các đa thức trong một tổng không làm thay đổi kết quả. Với phép trừ, không được đổi thứ tự tùy ý."
+    },
+    {
+      "content": "Nếu thu gọn $P+Q$ trước rồi thay số, kết quả so với việc tính riêng $P$, $Q$ rồi cộng là:",
+      "options": ["Luôn lớn hơn", "Luôn nhỏ hơn", "Bằng nhau", "Chỉ bằng nhau khi các biến bằng 1"],
+      "correct_answer": 2,
+      "solution": "Cách 1:\nThu gọn $P+Q$, rồi thay giá trị của các biến.\nCách 2:\nTính riêng $P$, $Q$ tại cùng bộ giá trị, rồi cộng hai kết quả.\nCả hai cách đều tính giá trị của cùng đa thức $P+Q$, nên cho kết quả bằng nhau."
+    },
+    {
+      "content": "Thu gọn $2x^2y-3xy^2+4yx^2+5y^2x-x^2y$ được:",
+      "options": ["$5x^2y+2xy^2$", "$6x^2y+2xy^2$", "$5x^2y-8xy^2$", "$x^2y+2xy^2$"],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $E$.\nĐưa phần biến về cùng thứ tự:\n$yx^2=x^2y$, $y^2x=xy^2$\nKhi đó:\n$E=2x^2y-3xy^2+4x^2y+5xy^2-x^2y$\nNhóm các hạng tử đồng dạng:\n$E=(2+4-1)x^2y+(-3+5)xy^2$\nThu gọn:\n$E=5x^2y+2xy^2$."
+    },
+    {
+      "content": "Tìm $M$ biết $M-(2x^3-x+1)=x^3+4x-5$. Bậc của $M$ là:",
+      "options": ["1", "2", "3", "4"],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$M-(2x^3-x+1)=x^3+4x-5$\nCộng $2x^3-x+1$ vào hai vế:\n$M=(x^3+4x-5)+(2x^3-x+1)$\nPhá ngoặc và nhóm đồng dạng:\n$M=(1+2)x^3+(4-1)x+(-5+1)$\nThu gọn:\n$M=3x^3+3x-4$\nHạng tử $3x^3$ có bậc cao nhất là 3. Vậy $M$ có bậc 3."
+    },
+    {
+      "content": "Với hai đa thức khác 0 $P$, $Q$, phát biểu nào đúng về bậc của $P+Q$?",
+      "options": ["Không vượt quá bậc lớn hơn của $P$ và $Q$", "Luôn bằng tổng bậc của $P$ và $Q$", "Luôn lớn hơn bậc của cả hai", "Luôn bằng 0"],
+      "correct_answer": 0,
+      "solution": "Khi tính $P+Q$, ta chỉ gộp các hạng tử đồng dạng; phép cộng không tạo ra hạng tử có bậc cao hơn.\nCác hạng tử bậc cao nhất có thể còn lại hoặc triệt tiêu.\nVì vậy bậc của $P+Q$ không vượt quá bậc lớn hơn của $P$ và $Q$."
+    },
+    {
+      "content": "Với hai đa thức $P$, $Q$, bậc của $P-Q$ có thể thấp hơn bậc của cả hai khi nào?",
+      "options": ["Khi mọi hệ số đều dương", "Khi $P$ và $Q$ có số hạng tử bằng nhau", "Khi các hạng tử bậc cao nhất triệt tiêu trong hiệu", "Khi hai đa thức có biến khác nhau"],
+      "correct_answer": 2,
+      "solution": "Khi lập $P-Q$, mọi hạng tử của $Q$ đều đổi dấu.\nNếu các hạng tử bậc cao nhất của $P$ và $Q$ có cùng phần biến, sau khi đổi dấu chúng có thể trở thành hai hạng tử đối nhau và triệt tiêu.\nKhi đó hiệu chỉ còn các hạng tử bậc thấp hơn."
+    },
+    {
+      "content": "Nếu $P+Q=0$ thì:",
+      "options": ["$P=Q$ trong mọi trường hợp", "$Q=-P$", "$P-Q=0$", "$P$ và $Q$ đều phải bằng 0"],
+      "correct_answer": 1,
+      "solution": "Từ:\n$P+Q=0$\nTrừ $P$ ở hai vế:\n$Q=0-P$\nDo đó:\n$Q=-P$\nVì vậy $Q$ là đa thức đối của $P$."
+    },
+    {
+      "content": "Cho $A=5x^2-2x^3y+7x^3y^2-118$ và $B=-7x^3y^2+x^3y-5xy^2-4x^2+y$. Tổng $A+B$ và bậc của nó là:",
+      "options": ["$9x^2-3x^3y+14x^3y^2+5xy^2-y-118$, bậc 5", "$x^2+x^3y-5xy^2+y-118$, bậc 4", "$x^2-x^3y-5xy^2+y-118$, bậc 4", "$x^2-x^3y+5xy^2-y-118$, bậc 3"],
+      "correct_answer": 2,
+      "solution": "Lập tổng:\n$A+B=(5x^2-2x^3y+7x^3y^2-118)+(-7x^3y^2+x^3y-5xy^2-4x^2+y)$\nPhá ngoặc có dấu cộng:\n$A+B=5x^2-2x^3y+7x^3y^2-118-7x^3y^2+x^3y-5xy^2-4x^2+y$\nNhóm các hạng tử đồng dạng:\n$A+B=(5x^2-4x^2)+(-2x^3y+x^3y)+(7x^3y^2-7x^3y^2)-5xy^2+y-118$\nThu gọn:\n$A+B=x^2-x^3y-5xy^2+y-118$\nHạng tử $-x^3y$ có bậc $3+1=4$, cao nhất. Vậy $A+B$ có bậc 4."
+    }
+  ]
+}

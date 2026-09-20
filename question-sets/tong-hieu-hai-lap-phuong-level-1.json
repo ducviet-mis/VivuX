@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hằng đẳng thức tổng hai lập phương nào đúng?",
+      "options": [
+        "$A^3+B^3=(A+B)(A^2-AB+B^2)$",
+        "$A^3+B^3=(A+B)(A^2+AB+B^2)$",
+        "$A^3+B^3=(A-B)(A^2-AB+B^2)$",
+        "$A^3+B^3=(A-B)(A^2+AB+B^2)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo hằng đẳng thức tổng hai lập phương:\n\n$A^3+B^3=(A+B)(A^2-AB+B^2)$."
+    },
+    {
+      "content": "Hằng đẳng thức hiệu hai lập phương nào đúng?",
+      "options": [
+        "$A^3-B^3=(A-B)(A^2-AB+B^2)$",
+        "$A^3-B^3=(A-B)(A^2+AB+B^2)$",
+        "$A^3-B^3=(A+B)(A^2+AB+B^2)$",
+        "$A^3-B^3=(A+B)(A^2-AB+B^2)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Theo hằng đẳng thức hiệu hai lập phương:\n\n$A^3-B^3=(A-B)(A^2+AB+B^2)$."
+    },
+    {
+      "content": "Viết $x^3+8$ dưới dạng tích.",
+      "options": [
+        "$(x-2)(x^2+2x+4)$",
+        "$(x+2)(x^2+2x+4)$",
+        "$(x+2)(x^2-2x+4)$",
+        "$(x-2)(x^2-2x+4)$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có $8=2^3$.\n\n$x^3+8=x^3+2^3$.\n\nÁp dụng $A^3+B^3=(A+B)(A^2-AB+B^2)$ với $A=x$, $B=2$:\n\n$x^3+8=(x+2)(x^2-2x+4)$."
+    },
+    {
+      "content": "Viết $x^3-8$ dưới dạng tích.",
+      "options": [
+        "$(x+2)(x^2-2x+4)$",
+        "$(x-2)(x^2-2x+4)$",
+        "$(x+2)(x^2+2x+4)$",
+        "$(x-2)(x^2+2x+4)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có $8=2^3$.\n\n$x^3-8=x^3-2^3$.\n\nÁp dụng $A^3-B^3=(A-B)(A^2+AB+B^2)$ với $A=x$, $B=2$:\n\n$x^3-8=(x-2)(x^2+2x+4)$."
+    },
+    {
+      "content": "Viết $8x^3+y^3$ dưới dạng tích.",
+      "options": [
+        "$(2x-y)(4x^2+2xy+y^2)$",
+        "$(2x+y)(4x^2-2xy+y^2)$",
+        "$(2x+y)(4x^2+2xy+y^2)$",
+        "$(2x-y)(4x^2-2xy+y^2)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $8x^3=(2x)^3$.\n\n$8x^3+y^3=(2x)^3+y^3$.\n\nÁp dụng hằng đẳng thức tổng hai lập phương:\n\n$8x^3+y^3=(2x+y)(4x^2-2xy+y^2)$."
+    },
+    {
+      "content": "Viết $27a^3-b^3$ dưới dạng tích.",
+      "options": [
+        "$(3a+b)(9a^2-3ab+b^2)$",
+        "$(3a-b)(9a^2-3ab+b^2)$",
+        "$(3a-b)(9a^2+3ab+b^2)$",
+        "$(3a+b)(9a^2+3ab+b^2)$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có $27a^3=(3a)^3$.\n\n$27a^3-b^3=(3a)^3-b^3$.\n\nÁp dụng hằng đẳng thức hiệu hai lập phương:\n\n$27a^3-b^3=(3a-b)(9a^2+3ab+b^2)$."
+    },
+    {
+      "content": "Điền vào chỗ trống: $x^3+27=(x+3)(\\,\\ldots\\,)$.",
+      "options": [
+        "$x^2-3x+9$",
+        "$x^2+3x+9$",
+        "$x^2-3x-9$",
+        "$x^2+9$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $27=3^3$.\n\n$x^3+27=x^3+3^3$.\n\nPhần thứ hai của tổng hai lập phương là:\n\n$x^2-3x+3^2=x^2-3x+9$."
+    },
+    {
+      "content": "Điền vào chỗ trống: $x^3-8=(x-2)(\\,\\ldots\\,)$.",
+      "options": [
+        "$x^2-2x+4$",
+        "$x^2+2x-4$",
+        "$x^2+4$",
+        "$x^2+2x+4$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có $8=2^3$.\n\n$x^3-8=x^3-2^3$.\n\nPhần thứ hai của hiệu hai lập phương là:\n\n$x^2+2x+2^2=x^2+2x+4$."
+    },
+    {
+      "content": "Tích $(x+2)(x^2-2x+4)$ bằng",
+      "options": [
+        "$x^3-8$",
+        "$x^3+4$",
+        "$x^3+8$",
+        "$x^3+2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Áp dụng công thức tổng hai lập phương với $A=x$, $B=2$:\n\n$(x+2)(x^2-2x+4)=x^3+2^3$.\n\nVậy $(x+2)(x^2-2x+4)=x^3+8$."
+    },
+    {
+      "content": "Tích $(x-3)(x^2+3x+9)$ bằng",
+      "options": [
+        "$x^3+27$",
+        "$x^3-27$",
+        "$x^3-9$",
+        "$x^3-3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Áp dụng công thức hiệu hai lập phương với $A=x$, $B=3$:\n\n$(x-3)(x^2+3x+9)=x^3-3^3$.\n\nVậy $(x-3)(x^2+3x+9)=x^3-27$."
+    },
+    {
+      "content": "Viết $125m^3+1$ dưới dạng tích.",
+      "options": [
+        "$(5m+1)(25m^2-5m+1)$",
+        "$(5m-1)(25m^2+5m+1)$",
+        "$(5m+1)(25m^2+5m+1)$",
+        "$(5m-1)(25m^2-5m+1)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $125m^3=(5m)^3$ và $1=1^3$.\n\n$125m^3+1=(5m)^3+1^3$.\n\nÁp dụng tổng hai lập phương:\n\n$125m^3+1=(5m+1)(25m^2-5m+1)$."
+    },
+    {
+      "content": "Viết $8a^3-27b^3$ dưới dạng tích.",
+      "options": [
+        "$(2a+3b)(4a^2-6ab+9b^2)$",
+        "$(2a-3b)(4a^2-6ab+9b^2)$",
+        "$(2a+3b)(4a^2+6ab+9b^2)$",
+        "$(2a-3b)(4a^2+6ab+9b^2)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có $8a^3=(2a)^3$ và $27b^3=(3b)^3$.\n\n$8a^3-27b^3=(2a)^3-(3b)^3$.\n\nÁp dụng hiệu hai lập phương:\n\n$8a^3-27b^3=(2a-3b)(4a^2+6ab+9b^2)$."
+    },
+    {
+      "content": "$64x^3-y^3$ là hiệu hai lập phương với hai biểu thức nào?",
+      "options": [
+        "$A=8x$, $B=y$",
+        "$A=4x$, $B=y$",
+        "$A=4x$, $B=y^3$",
+        "$A=64x$, $B=y$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $64x^3=(4x)^3$.\n\nVì $y^3=y^3$, nên:\n\n$64x^3-y^3=(4x)^3-y^3$.\n\nDo đó $A=4x$, $B=y$."
+    },
+    {
+      "content": "Viết $p^3+q^3$ dưới dạng tích.",
+      "options": [
+        "$(p-q)(p^2+pq+q^2)$",
+        "$(p+q)(p^2+pq+q^2)$",
+        "$(p+q)(p^2-pq+q^2)$",
+        "$(p-q)(p^2-pq+q^2)$"
+      ],
+      "correct_answer": 2,
+      "solution": "Áp dụng hằng đẳng thức tổng hai lập phương với $A=p$, $B=q$:\n\n$p^3+q^3=(p+q)(p^2-pq+q^2)$."
+    },
+    {
+      "content": "Viết $A^3-B^3$ dưới dạng tích.",
+      "options": [
+        "$(A+B)(A^2-AB+B^2)$",
+        "$(A-B)(A^2-AB+B^2)$",
+        "$(A+B)(A^2+AB+B^2)$",
+        "$(A-B)(A^2+AB+B^2)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đây là hằng đẳng thức hiệu hai lập phương:\n\n$A^3-B^3=(A-B)(A^2+AB+B^2)$."
+    },
+    {
+      "content": "Biểu thức nào là tổng hai lập phương?",
+      "options": [
+        "$x^3+27$",
+        "$x^3+9$",
+        "$x^3+18$",
+        "$x^3+81$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $27=3^3$.\n\nDo đó $x^3+27=x^3+3^3$ là tổng hai lập phương."
+    },
+    {
+      "content": "Viết $x^6+1$ dưới dạng tích.",
+      "options": [
+        "$(x^2-1)(x^4+x^2+1)$",
+        "$(x+1)(x^5-x^4+x^3-x^2+x-1)$",
+        "$(x^2+1)(x^4-x^2+1)$",
+        "$(x^2+1)(x^4+x^2+1)$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có $x^6=(x^2)^3$ và $1=1^3$.\n\n$x^6+1=(x^2)^3+1^3$.\n\nÁp dụng tổng hai lập phương:\n\n$x^6+1=(x^2+1)(x^4-x^2+1)$."
+    },
+    {
+      "content": "Viết $8x^6-y^3$ dưới dạng tích.",
+      "options": [
+        "$(2x^2+y)(4x^4-2x^2y+y^2)$",
+        "$(2x^2-y)(4x^4+2x^2y+y^2)$",
+        "$(2x^2-y)(4x^4-2x^2y+y^2)$",
+        "$(2x^2+y)(4x^4+2x^2y+y^2)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $8x^6=(2x^2)^3$.\n\n$8x^6-y^3=(2x^2)^3-y^3$.\n\nÁp dụng hiệu hai lập phương:\n\n$8x^6-y^3=(2x^2-y)(4x^4+2x^2y+y^2)$."
+    },
+    {
+      "content": "Viết $64x^3+27$ dưới dạng tích.",
+      "options": [
+        "$(4x-3)(16x^2+12x+9)$",
+        "$(4x+3)(16x^2+12x+9)$",
+        "$(4x-3)(16x^2-12x+9)$",
+        "$(4x+3)(16x^2-12x+9)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có $64x^3=(4x)^3$ và $27=3^3$.\n\n$64x^3+27=(4x)^3+3^3$.\n\nÁp dụng tổng hai lập phương:\n\n$64x^3+27=(4x+3)(16x^2-12x+9)$."
+    },
+    {
+      "content": "Viết $1-x^3$ dưới dạng tích.",
+      "options": [
+        "$(1-x)(x^2+x+1)$",
+        "$(1+x)(x^2-x+1)$",
+        "$(1-x)(x^2-x+1)$",
+        "$(x-1)(x^2+x+1)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $1=1^3$.\n\n$1-x^3=1^3-x^3$.\n\nÁp dụng hiệu hai lập phương:\n\n$1-x^3=(1-x)(1+x+x^2)=(1-x)(x^2+x+1)$."
+    },
+    {
+      "content": "Viết $27x^3+8y^3$ dưới dạng tích.",
+      "options": [
+        "$(3x-2y)(9x^2+6xy+4y^2)$",
+        "$(3x+2y)(9x^2-6xy+4y^2)$",
+        "$(3x+2y)(9x^2+6xy+4y^2)$",
+        "$(3x-2y)(9x^2-6xy+4y^2)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $27x^3=(3x)^3$ và $8y^3=(2y)^3$.\n\n$27x^3+8y^3=(3x)^3+(2y)^3$.\n\nÁp dụng tổng hai lập phương:\n\n$27x^3+8y^3=(3x+2y)(9x^2-6xy+4y^2)$."
+    },
+    {
+      "content": "Viết $a^6-64$ dưới dạng tích.",
+      "options": [
+        "$(a^2+4)(a^4-4a^2+16)$",
+        "$(a^2-4)(a^4-4a^2+16)$",
+        "$(a^2-4)(a^4+4a^2+16)$",
+        "$(a-4)(a^5+4a^4+16a^3)$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có $a^6=(a^2)^3$ và $64=4^3$.\n\n$a^6-64=(a^2)^3-4^3$.\n\nÁp dụng hiệu hai lập phương:\n\n$a^6-64=(a^2-4)(a^4+4a^2+16)$."
+    },
+    {
+      "content": "Viết $x^9+y^9$ dưới dạng tích.",
+      "options": [
+        "$(x^3+y^3)(x^6-x^3y^3+y^6)$",
+        "$(x^3-y^3)(x^6+x^3y^3+y^6)$",
+        "$(x^3+y^3)(x^6+x^3y^3+y^6)$",
+        "$(x+y)(x^8-x^7y+x^6y^2)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $x^9=(x^3)^3$ và $y^9=(y^3)^3$.\n\n$x^9+y^9=(x^3)^3+(y^3)^3$.\n\nÁp dụng tổng hai lập phương:\n\n$x^9+y^9=(x^3+y^3)(x^6-x^3y^3+y^6)$."
+    },
+    {
+      "content": "Tích $(2x-y)(4x^2+2xy+y^2)$ bằng",
+      "options": [
+        "$8x^3+y^3$",
+        "$4x^3-y^3$",
+        "$8x^3-2y^3$",
+        "$8x^3-y^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $A=2x$, $B=y$.\n\nTích đã cho có dạng $(A-B)(A^2+AB+B^2)$.\n\nDo đó:\n\n$(2x-y)(4x^2+2xy+y^2)=(2x)^3-y^3=8x^3-y^3$."
+    },
+    {
+      "content": "Tích $(a+b)(a^2-ab+b^2)$ bằng",
+      "options": [
+        "$a^3-b^3$",
+        "$a^2+b^2$",
+        "$a^3+b^3$",
+        "$(a+b)^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Tích đã cho có dạng $(A+B)(A^2-AB+B^2)$ với $A=a$, $B=b$.\n\nVì vậy:\n\n$(a+b)(a^2-ab+b^2)=a^3+b^3$."
+    },
+    {
+      "content": "Điền vào chỗ trống: $8x^3+1=(2x+1)(\\,\\ldots\\,)$.",
+      "options": [
+        "$4x^2+2x+1$",
+        "$4x^2-2x+1$",
+        "$4x^2-2x-1$",
+        "$2x^2-2x+1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $8x^3=(2x)^3$ và $1=1^3$.\n\n$8x^3+1=(2x)^3+1^3$.\n\nPhần thứ hai là:\n\n$(2x)^2-(2x)\\cdot1+1^2=4x^2-2x+1$."
+    },
+    {
+      "content": "Tích nào bằng $A^3-B^3$?",
+      "options": [
+        "$(A-B)(A^2+AB+B^2)$",
+        "$(A+B)(A^2-AB+B^2)$",
+        "$(A-B)(A^2-AB+B^2)$",
+        "$(A+B)(A^2+AB+B^2)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo hằng đẳng thức hiệu hai lập phương:\n\n$A^3-B^3=(A-B)(A^2+AB+B^2)$."
+    },
+    {
+      "content": "Viết $27x^3-1$ dưới dạng tích.",
+      "options": [
+        "$(3x+1)(9x^2-3x+1)$",
+        "$(3x-1)(9x^2-3x+1)$",
+        "$(x-1)(27x^2+9x+1)$",
+        "$(3x-1)(9x^2+3x+1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có $27x^3=(3x)^3$ và $1=1^3$.\n\n$27x^3-1=(3x)^3-1^3$.\n\nÁp dụng hiệu hai lập phương:\n\n$27x^3-1=(3x-1)(9x^2+3x+1)$."
+    },
+    {
+      "content": "Viết $8u^3+v^3$ dưới dạng tích.",
+      "options": [
+        "$(2u-v)(4u^2+2uv+v^2)$",
+        "$(2u+v)(4u^2-2uv+v^2)$",
+        "$(2u+v)(4u^2+2uv+v^2)$",
+        "$(2u-v)(4u^2-2uv+v^2)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $8u^3=(2u)^3$.\n\n$8u^3+v^3=(2u)^3+v^3$.\n\nÁp dụng tổng hai lập phương:\n\n$8u^3+v^3=(2u+v)(4u^2-2uv+v^2)$."
+    },
+    {
+      "content": "Viết $125x^3-8y^3$ dưới dạng tích.",
+      "options": [
+        "$(5x-2y)(25x^2+10xy+4y^2)$",
+        "$(5x+2y)(25x^2-10xy+4y^2)$",
+        "$(5x-2y)(25x^2-10xy+4y^2)$",
+        "$(5x+2y)(25x^2+10xy+4y^2)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $125x^3=(5x)^3$ và $8y^3=(2y)^3$.\n\n$125x^3-8y^3=(5x)^3-(2y)^3$.\n\nÁp dụng hiệu hai lập phương:\n\n$125x^3-8y^3=(5x-2y)(25x^2+10xy+4y^2)$."
+    }
+  ]
+}

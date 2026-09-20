@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Vì sao $P=2x^2-3xy+y^2-1$ là một đa thức?",
+      "options": ["Vì có đúng hai biến", "Vì có hạng tử tự do", "Vì $P$ là tổng của các đơn thức", "Vì mọi hệ số đều là số nguyên"],
+      "correct_answer": 2,
+      "solution": "$P$ là tổng của các đơn thức $2x^2$, $-3xy$, $y^2$ và $-1$."
+    },
+    {
+      "content": "Các hạng tử của đa thức $A=-x^3+2x^2y-5$ là:",
+      "options": ["$-x^3$, $2x^2y$, $-5$", "$x^3$, $2x^2y$, $5$", "$-x^3+2x^2y$ và $-5$", "$x$, $y$, $5$"],
+      "correct_answer": 0,
+      "solution": "Mỗi dấu đứng trước một hạng tử thuộc về hạng tử đó."
+    },
+    {
+      "content": "Đa thức $B=3x^2-2xy+y^2+x-4$ có bao nhiêu hạng tử?",
+      "options": ["3", "4", "6", "5"],
+      "correct_answer": 3,
+      "solution": "Các hạng tử là $3x^2$, $-2xy$, $y^2$, $x$ và $-4$, nên có 5 hạng tử."
+    },
+    {
+      "content": "Biểu thức nào sau đây không phải là đa thức?",
+      "options": ["$2x^2-3xy+1$", "$x+1/y$", "$-5$", "$3x^2y$"],
+      "correct_answer": 1,
+      "solution": "$1/y$ không phải là đơn thức theo định nghĩa đang học, nên $x+1/y$ không phải là đa thức."
+    },
+    {
+      "content": "Đơn thức $-4x^2y^3$ khi được xem là một đa thức có đặc điểm nào?",
+      "options": ["Có bốn hạng tử", "Có một hạng tử và bậc 5", "Có bậc 3", "Không có bậc"],
+      "correct_answer": 1,
+      "solution": "Đơn thức là đa thức một hạng tử; bậc của $-4x^2y^3$ là $2+3=5$."
+    },
+    {
+      "content": "Trong đa thức $2x^2y-3xy^2+5x^2y-y$, hai hạng tử đồng dạng là:",
+      "options": ["$2x^2y$ và $-3xy^2$", "$-3xy^2$ và $-y$", "$5x^2y$ và $-y$", "$2x^2y$ và $5x^2y$"],
+      "correct_answer": 3,
+      "solution": "$2x^2y$ và $5x^2y$ có cùng phần biến $x^2y$."
+    },
+    {
+      "content": "Đa thức nào sau đây ở dạng thu gọn?",
+      "options": ["$x^3+2x^2y-xy^2+4$", "$2x^2+3x^2-y$", "$ab-2ab+1$", "$m^2n+3nm^2$"],
+      "correct_answer": 0,
+      "solution": "Trong $x^3+2x^2y-xy^2+4$, không có hai hạng tử nào đồng dạng."
+    },
+    {
+      "content": "Vì sao $P=2x^2-3xy+x^2+5xy$ chưa thu gọn?",
+      "options": ["Vì có hai biến", "Vì có hệ số âm", "Vì còn các cặp hạng tử đồng dạng", "Vì không có hạng tử tự do"],
+      "correct_answer": 2,
+      "solution": "$2x^2$ đồng dạng với $x^2$ và $-3xy$ đồng dạng với $5xy$."
+    },
+    {
+      "content": "Dạng thu gọn của $3x^2+2x^2-y$ là:",
+      "options": ["$5x^2-y$", "$5x^4-y$", "$x^2-y$", "$5x^2y$"],
+      "correct_answer": 0,
+      "solution": "$3x^2+2x^2=(3+2)x^2=5x^2$; hạng tử $-y$ được giữ nguyên."
+    },
+    {
+      "content": "Dạng thu gọn của $2x^2-3xy+x^2+5xy$ là:",
+      "options": ["$3x^2-8xy$", "$3x^4+2x^2y^2$", "$3x^2+2xy$", "$8x^2y$"],
+      "correct_answer": 2,
+      "solution": "Gộp theo từng nhóm: $2x^2+x^2=3x^2$ và $-3xy+5xy=2xy$."
+    },
+    {
+      "content": "Dạng thu gọn của $x^2+3-2x^2+5$ là:",
+      "options": ["$3x^2+8$", "$-x^2+8$", "$-x^2+2$", "$x^2+8$"],
+      "correct_answer": 1,
+      "solution": "$x^2-2x^2=-x^2$ và $3+5=8$."
+    },
+    {
+      "content": "Việc đổi chỗ và nhóm các hạng tử đồng dạng khi thu gọn dựa chủ yếu vào:",
+      "options": ["Quy tắc chia lũy thừa", "Quy tắc đổi dấu", "Tính chất phân phối", "Tính giao hoán và kết hợp của phép cộng"],
+      "correct_answer": 3,
+      "solution": "Tính giao hoán và kết hợp cho phép đổi chỗ, nhóm các hạng tử mà không làm đổi giá trị đa thức."
+    },
+    {
+      "content": "Bậc của đa thức thu gọn $P=2x^3y+x^2y^2-5x+1$ là:",
+      "options": ["3", "2", "1", "4"],
+      "correct_answer": 3,
+      "solution": "Hai hạng tử đầu đều có bậc 4; các hạng còn lại có bậc thấp hơn."
+    },
+    {
+      "content": "Thu gọn $Q=5x^4-5x^4+2x^2y-3$. Bậc của $Q$ là:",
+      "options": ["3", "4", "2", "Không xác định"],
+      "correct_answer": 0,
+      "solution": "Hai hạng tử bậc 4 triệt tiêu, còn $Q=2x^2y-3$ có bậc 3."
+    },
+    {
+      "content": "Thu gọn $R=3x^2-3x^2+2-2$. Kết luận đúng là:",
+      "options": ["$R$ có bậc 2", "$R$ có bậc 0", "$R$ là đa thức không và không có bậc xác định", "$R$ không phải là đa thức"],
+      "correct_answer": 2,
+      "solution": "Mọi hạng tử triệt tiêu nên $R=0$, là đa thức không và không có bậc xác định."
+    },
+    {
+      "content": "Thu gọn $S=x^2-x^2+7$. Bậc của $S$ là:",
+      "options": ["2", "0", "1", "Không xác định"],
+      "correct_answer": 1,
+      "solution": "$S=7$ là một đa thức khác 0 có bậc 0."
+    },
+    {
+      "content": "Các bậc của những hạng tử trong $P=3x^2y^2-5xy+4$ lần lượt là:",
+      "options": ["2, 1, 0", "4, 2, 0", "4, 1, 4", "2, 2, 0"],
+      "correct_answer": 1,
+      "solution": "$3x^2y^2$ có bậc 4, $-5xy$ có bậc 2 và $4$ có bậc 0."
+    },
+    {
+      "content": "Bậc của đa thức $A=-x^2y^3+4x^4-y^2$ là:",
+      "options": ["3", "4", "5", "2"],
+      "correct_answer": 2,
+      "solution": "Hạng tử $-x^2y^3$ có bậc $2+3=5$, cao nhất trong đa thức."
+    },
+    {
+      "content": "Một bạn nói bậc của $x^2y^3$ là 3 vì 3 là số mũ lớn nhất. Cách sửa đúng là:",
+      "options": ["Bậc là 2 vì xét biến đầu tiên", "Bậc là 6 vì nhân hai số mũ", "Hạng tử không có bậc", "Bậc là 5 vì phải cộng các số mũ $2+3$"],
+      "correct_answer": 3,
+      "solution": "Bậc của đơn thức nhiều biến là tổng số mũ của tất cả các biến."
+    },
+    {
+      "content": "Một bạn cho rằng bậc của $100x^2+y$ là 100. Bạn đã nhầm vì:",
+      "options": ["100 là hệ số, không phải số mũ của biến", "Đa thức có hai hạng tử nên bậc là 2", "Hệ số phải nhỏ hơn 10", "Bậc phải bằng 1"],
+      "correct_answer": 0,
+      "solution": "Bậc không phụ thuộc độ lớn của hệ số; đa thức này có bậc 2."
+    },
+    {
+      "content": "Hai hạng tử $x^3y$ và $xy^3$ có quan hệ gì?",
+      "options": ["Cùng bậc nhưng không đồng dạng", "Đồng dạng vì cùng bậc", "Có cùng phần biến", "Khác bậc"],
+      "correct_answer": 0,
+      "solution": "Cả hai có bậc 4 nhưng phần biến khác nhau nên không đồng dạng."
+    },
+    {
+      "content": "Một đa thức thu gọn có thể chứa $x^3$ và $xy^2$ cùng lúc không?",
+      "options": ["Không, vì chúng cùng bậc", "Không, vì đều chứa $x$", "Chỉ khi hệ số bằng nhau", "Có, vì chúng không đồng dạng dù cùng bậc 3"],
+      "correct_answer": 3,
+      "solution": "$x^3$ và $xy^2$ có phần biến khác nhau nên không cần gộp."
+    },
+    {
+      "content": "Muốn tính giá trị của đa thức tại các giá trị đã cho của biến, ta cần:",
+      "options": ["Chỉ tìm bậc của đa thức", "Thay giá trị của biến vào đa thức rồi thực hiện phép tính", "Bỏ các hạng tử tự do", "Đổi mọi hệ số thành 1"],
+      "correct_answer": 1,
+      "solution": "Ta thay các giá trị đã cho vào đúng vị trí của biến rồi tính theo thứ tự phép toán."
+    },
+    {
+      "content": "Nếu đa thức $P$ thu gọn được thành đa thức $Q$, khi thay cùng các giá trị của biến thì:",
+      "options": ["$P$ luôn lớn hơn $Q$", "$Q$ luôn lớn hơn $P$", "$P$ và $Q$ cho cùng một giá trị", "Chỉ bằng nhau khi các biến bằng 0"],
+      "correct_answer": 2,
+      "solution": "Thu gọn không làm thay đổi đa thức, nên hai dạng cho cùng giá trị tại mọi bộ giá trị của biến."
+    },
+    {
+      "content": "Hai cách viết $x^2+2x+1$ và $1+2x+x^2$ cho giá trị như thế nào tại cùng một giá trị của $x$?",
+      "options": ["Luôn khác nhau", "Chỉ bằng nhau khi $x=0$", "Luôn bằng nhau", "Không thể so sánh"],
+      "correct_answer": 2,
+      "solution": "Đổi thứ tự các hạng tử không làm đổi đa thức, nên hai cách viết luôn cho cùng giá trị."
+    },
+    {
+      "content": "Nếu thu gọn đa thức $P$ được đa thức $Q$ thì:",
+      "options": ["$P$ và $Q$ luôn khác bậc", "$P$ và $Q$ biểu thị cùng một đa thức", "$Q$ chỉ đúng khi các biến bằng 1", "$P$ không còn là đa thức"],
+      "correct_answer": 1,
+      "solution": "Thu gọn chỉ gộp các hạng tử đồng dạng nên không làm thay đổi giá trị của đa thức."
+    },
+    {
+      "content": "Trong đa thức $-2x^2+3x-1$, hệ số của hạng tử bậc cao nhất là:",
+      "options": ["$-2$", "$2$", "$3$", "$-1$"],
+      "correct_answer": 0,
+      "solution": "Hạng tử bậc cao nhất là $-2x^2$, nên hệ số của nó là $-2$."
+    },
+    {
+      "content": "Nếu trong một đa thức không có hai hạng tử nào đồng dạng thì:",
+      "options": ["Đa thức không có bậc", "Đa thức phải có một hạng tử", "Đa thức bằng 0", "Đa thức đó đã ở dạng thu gọn"],
+      "correct_answer": 3,
+      "solution": "Không còn cặp hạng tử đồng dạng nghĩa là không còn gì để gộp; đa thức đã thu gọn."
+    },
+    {
+      "content": "Trình tự hợp lí để tìm bậc của một đa thức chưa thu gọn là:",
+      "options": ["Chọn ngay số mũ lớn nhất đang nhìn thấy", "Nhóm và cộng các hạng tử đồng dạng, rồi tìm bậc lớn nhất", "Cộng tất cả hệ số rồi lấy kết quả làm bậc", "Đếm số hạng tử"],
+      "correct_answer": 1,
+      "solution": "Phải thu gọn trước, sau đó xét bậc của các hạng tử trong dạng thu gọn."
+    },
+    {
+      "content": "Phát biểu nào đúng về đa thức thu gọn và bậc của đa thức?",
+      "options": ["Đa thức thu gọn chỉ có một hạng tử", "Mọi hạng tử trong đa thức thu gọn phải cùng bậc", "Bậc của đa thức khác 0 là bậc cao nhất của các hạng tử sau khi thu gọn", "Bậc của đa thức bằng số hạng tử"],
+      "correct_answer": 2,
+      "solution": "Đa thức thu gọn có thể có nhiều hạng tử khác bậc; bậc của đa thức là bậc cao nhất trong số đó."
+    }
+  ]
+}

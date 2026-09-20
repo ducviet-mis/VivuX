@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=5$ cm. Độ dài $BD$ là",
+      "options": [
+        "$5$ cm",
+        "$12$ cm",
+        "$10$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=10$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=10$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận.",
+        "$ABCD$ là hình chữ nhật."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=6$ cm. Độ dài $BD$ là",
+      "options": [
+        "$6$ cm",
+        "$14$ cm",
+        "$12$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=12$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=12$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận.",
+        "$ABCD$ là hình chữ nhật."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=7$ cm. Độ dài $BD$ là",
+      "options": [
+        "$7$ cm",
+        "$16$ cm",
+        "$14$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=14$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=14$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=8$ cm. Độ dài $BD$ là",
+      "options": [
+        "$8$ cm",
+        "$18$ cm",
+        "Không xác định được",
+        "$16$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=16$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=16$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 1,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "$ABCD$ là hình chữ nhật.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=9$ cm. Độ dài $BD$ là",
+      "options": [
+        "$9$ cm",
+        "$20$ cm",
+        "Không xác định được",
+        "$18$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=18$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=18$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 0,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "$ABCD$ là hình chữ nhật.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=10$ cm. Độ dài $BD$ là",
+      "options": [
+        "$10$ cm",
+        "$20$ cm",
+        "$22$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=20$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=20$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận.",
+        "$ABCD$ là hình chữ nhật."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=11$ cm. Độ dài $BD$ là",
+      "options": [
+        "$11$ cm",
+        "$22$ cm",
+        "$24$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=22$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=22$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình chữ nhật.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=12$ cm. Độ dài $BD$ là",
+      "options": [
+        "$12$ cm",
+        "$26$ cm",
+        "Không xác định được",
+        "$24$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=24$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=24$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "$ABCD$ là hình chữ nhật.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 2,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=13$ cm. Độ dài $BD$ là",
+      "options": [
+        "$26$ cm",
+        "$13$ cm",
+        "$28$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=26$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=26$ cm."
+    },
+    {
+      "content": "Hình bình hành $ABCD$ có $\\widehat{A}=90^\\circ$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang cân.",
+        "Chưa đủ điều kiện kết luận.",
+        "$ABCD$ là hình chữ nhật."
+      ],
+      "correct_answer": 3,
+      "solution": "Hình bình hành có một góc vuông thì có bốn góc vuông.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện kết luận."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật.\n\nVì vậy $ABCD$ là hình chữ nhật."
+    },
+    {
+      "content": "Trong hình chữ nhật $ABCD$, hai đường chéo cắt nhau tại $O$. Biết $OA=14$ cm. Độ dài $BD$ là",
+      "options": [
+        "$28$ cm",
+        "$14$ cm",
+        "$30$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA=28$ cm.\n\nTrong hình chữ nhật, $BD=AC$.\n\nDo đó $BD=28$ cm."
+    }
+  ]
+}

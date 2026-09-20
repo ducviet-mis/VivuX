@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Phân tích đa thức $2x^2-2x$ thành nhân tử.",
+      "options": [
+        "$2x(x-1)$",
+        "$2x^2-2x$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=2x^2-2x$.\n\nNhân tử chung của hai hạng tử là $2x$.\n\n$P=2x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+2x+1$ thành nhân tử.",
+      "options": [
+        "$x^2+2x+1$",
+        "$(x+1)(x+1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2+2x+1.\n\nNhóm các hạng tử:\n\n$P=(x^2+1x)+(x+1)$.\n\n$P=x(x+1)+(x+1)$.\n\n$P=(x+1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+1)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+1)^2-y^2$",
+        "$0$",
+        "$(x+1-y)(x+1+y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=(x+1)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+1, B=y$.\n\n$P=(x+1-y)(x+1+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $3x^2-3x$ thành nhân tử.",
+      "options": [
+        "$3x^2-3x$",
+        "$0$",
+        "$1$",
+        "$3x(x-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=3x^2-3x$.\n\nNhân tử chung của hai hạng tử là $3x$.\n\n$P=3x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+3x+2$ thành nhân tử.",
+      "options": [
+        "$x^2+3x+2$",
+        "$(x+2)(x+1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2+3x+2.\n\nNhóm các hạng tử:\n\n$P=(x^2+2x)+(x+2)$.\n\n$P=x(x+2)+(x+2)$.\n\n$P=(x+2)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+2)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+2)^2-y^2$",
+        "$0$",
+        "$(x+2-y)(x+2+y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=(x+2)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+2, B=y$.\n\n$P=(x+2-y)(x+2+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $4x^2-4x$ thành nhân tử.",
+      "options": [
+        "$4x(x-1)$",
+        "$4x^2-4x$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=4x^2-4x$.\n\nNhân tử chung của hai hạng tử là $4x$.\n\n$P=4x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+4x+3$ thành nhân tử.",
+      "options": [
+        "$x^2+4x+3$",
+        "$0$",
+        "$1$",
+        "$(x+3)(x+1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=x^2+4x+3.\n\nNhóm các hạng tử:\n\n$P=(x^2+3x)+(x+3)$.\n\n$P=x(x+3)+(x+3)$.\n\n$P=(x+3)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+3)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+3)^2-y^2$",
+        "$0$",
+        "$(x+3-y)(x+3+y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=(x+3)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+3, B=y$.\n\n$P=(x+3-y)(x+3+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $5x^2-5x$ thành nhân tử.",
+      "options": [
+        "$5x^2-5x$",
+        "$5x(x-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=5x^2-5x$.\n\nNhân tử chung của hai hạng tử là $5x$.\n\n$P=5x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+5x+4$ thành nhân tử.",
+      "options": [
+        "$(x+4)(x+1)$",
+        "$x^2+5x+4$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2+5x+4.\n\nNhóm các hạng tử:\n\n$P=(x^2+4x)+(x+4)$.\n\n$P=x(x+4)+(x+4)$.\n\n$P=(x+4)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+4)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+4)^2-y^2$",
+        "$0$",
+        "$1$",
+        "$(x+4-y)(x+4+y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=(x+4)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+4, B=y$.\n\n$P=(x+4-y)(x+4+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $6x^2-6x$ thành nhân tử.",
+      "options": [
+        "$6x^2-6x$",
+        "$6x(x-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=6x^2-6x$.\n\nNhân tử chung của hai hạng tử là $6x$.\n\n$P=6x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+6x+5$ thành nhân tử.",
+      "options": [
+        "$x^2+6x+5$",
+        "$0$",
+        "$(x+5)(x+1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^2+6x+5.\n\nNhóm các hạng tử:\n\n$P=(x^2+5x)+(x+5)$.\n\n$P=x(x+5)+(x+5)$.\n\n$P=(x+5)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+5)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+5)^2-y^2$",
+        "$0$",
+        "$1$",
+        "$(x+5-y)(x+5+y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=(x+5)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+5, B=y$.\n\n$P=(x+5-y)(x+5+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $7x^2-7x$ thành nhân tử.",
+      "options": [
+        "$7x(x-1)$",
+        "$7x^2-7x$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=7x^2-7x$.\n\nNhân tử chung của hai hạng tử là $7x$.\n\n$P=7x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+7x+6$ thành nhân tử.",
+      "options": [
+        "$x^2+7x+6$",
+        "$0$",
+        "$(x+6)(x+1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^2+7x+6.\n\nNhóm các hạng tử:\n\n$P=(x^2+6x)+(x+6)$.\n\n$P=x(x+6)+(x+6)$.\n\n$P=(x+6)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+6)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+6)^2-y^2$",
+        "$(x+6-y)(x+6+y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=(x+6)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+6, B=y$.\n\n$P=(x+6-y)(x+6+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $8x^2-8x$ thành nhân tử.",
+      "options": [
+        "$8x^2-8x$",
+        "$0$",
+        "$1$",
+        "$8x(x-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=8x^2-8x$.\n\nNhân tử chung của hai hạng tử là $8x$.\n\n$P=8x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+8x+7$ thành nhân tử.",
+      "options": [
+        "$(x+7)(x+1)$",
+        "$x^2+8x+7$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2+8x+7.\n\nNhóm các hạng tử:\n\n$P=(x^2+7x)+(x+7)$.\n\n$P=x(x+7)+(x+7)$.\n\n$P=(x+7)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+7)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+7)^2-y^2$",
+        "$(x+7-y)(x+7+y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=(x+7)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+7, B=y$.\n\n$P=(x+7-y)(x+7+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $9x^2-9x$ thành nhân tử.",
+      "options": [
+        "$9x^2-9x$",
+        "$0$",
+        "$9x(x-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=9x^2-9x$.\n\nNhân tử chung của hai hạng tử là $9x$.\n\n$P=9x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+9x+8$ thành nhân tử.",
+      "options": [
+        "$(x+8)(x+1)$",
+        "$x^2+9x+8$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2+9x+8.\n\nNhóm các hạng tử:\n\n$P=(x^2+8x)+(x+8)$.\n\n$P=x(x+8)+(x+8)$.\n\n$P=(x+8)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+8)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+8)^2-y^2$",
+        "$0$",
+        "$1$",
+        "$(x+8-y)(x+8+y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=(x+8)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+8, B=y$.\n\n$P=(x+8-y)(x+8+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $10x^2-10x$ thành nhân tử.",
+      "options": [
+        "$10x^2-10x$",
+        "$0$",
+        "$10x(x-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=10x^2-10x$.\n\nNhân tử chung của hai hạng tử là $10x$.\n\n$P=10x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+10x+9$ thành nhân tử.",
+      "options": [
+        "$x^2+10x+9$",
+        "$(x+9)(x+1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2+10x+9.\n\nNhóm các hạng tử:\n\n$P=(x^2+9x)+(x+9)$.\n\n$P=x(x+9)+(x+9)$.\n\n$P=(x+9)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+9)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+9-y)(x+9+y)$",
+        "$(x+9)^2-y^2$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=(x+9)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+9, B=y$.\n\n$P=(x+9-y)(x+9+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $11x^2-11x$ thành nhân tử.",
+      "options": [
+        "$11x^2-11x$",
+        "$0$",
+        "$1$",
+        "$11x(x-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=11x^2-11x$.\n\nNhân tử chung của hai hạng tử là $11x$.\n\n$P=11x(x-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2+11x+10$ thành nhân tử.",
+      "options": [
+        "$x^2+11x+10$",
+        "$(x+10)(x+1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2+11x+10.\n\nNhóm các hạng tử:\n\n$P=(x^2+10x)+(x+10)$.\n\n$P=x(x+10)+(x+10)$.\n\n$P=(x+10)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $(x+10)^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(x+10-y)(x+10+y)$",
+        "$(x+10)^2-y^2$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=(x+10)^2-y^2$.\n\nÁp dụng $A^2-B^2=(A-B)(A+B)$ với $A=x+10, B=y$.\n\n$P=(x+10-y)(x+10+y)$."
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Muốn nhân hai đơn thức, ta thực hiện thế nào?",
+      "options": [
+        "Nhân hai hệ số và nhân hai phần biến",
+        "Cộng hai hệ số và giữ nguyên phần biến",
+        "Nhân hệ số nhưng cộng các phần biến",
+        "Chỉ nhân các phần biến"
+      ],
+      "correct_answer": 0,
+      "solution": "Quy tắc:\nNhân hệ số với hệ số.\nNhân phần biến với phần biến, trong đó các lũy thừa cùng biến được nhân bằng cách cộng số mũ."
+    },
+    {
+      "content": "Khi nhân $x^m$ với $x^n$, kết quả là:",
+      "options": [
+        "$x^{mn}$",
+        "$2x^{m+n}$",
+        "$x^{m+n}$",
+        "$x^{m-n}$"
+      ],
+      "correct_answer": 2,
+      "solution": "Hai lũy thừa có cùng cơ số được nhân bằng cách cộng số mũ:\n$x^m·x^n=x^{m+n}$."
+    },
+    {
+      "content": "Dấu của tích giữa một đơn thức dương và một đơn thức âm là:",
+      "options": [
+        "Dương",
+        "Âm",
+        "Bằng 0",
+        "Không xác định"
+      ],
+      "correct_answer": 1,
+      "solution": "Hệ số dương nhân hệ số âm cho hệ số âm. Vì vậy tích là một đơn thức âm."
+    },
+    {
+      "content": "Tích của hai đơn thức sau khi thu gọn:",
+      "options": [
+        "Luôn là một đa thức có ít nhất hai hạng tử",
+        "Không phải là đa thức",
+        "Là một phân thức",
+        "Là một đơn thức và cũng là một đa thức"
+      ],
+      "correct_answer": 3,
+      "solution": "Tích hai đơn thức sau khi thu gọn vẫn là một đơn thức. Mỗi đơn thức cũng được coi là một đa thức."
+    },
+    {
+      "content": "Muốn nhân một đơn thức với một đa thức, ta:",
+      "options": [
+        "Chỉ nhân với hạng tử đầu",
+        "Nhân đơn thức với từng hạng tử rồi cộng các tích",
+        "Cộng đơn thức vào từng hạng tử",
+        "Nhân các hệ số rồi bỏ phần biến"
+      ],
+      "correct_answer": 1,
+      "solution": "Quy tắc phân phối:\n$A(B+C)=AB+AC$\nVì vậy phải nhân đơn thức với từng hạng tử của đa thức rồi cộng các kết quả."
+    },
+    {
+      "content": "Muốn nhân hai đa thức, ta:",
+      "options": [
+        "Nhân mỗi hạng tử của đa thức này với từng hạng tử của đa thức kia rồi cộng các tích",
+        "Chỉ nhân hai hạng tử đầu",
+        "Nhân các hạng tử cùng vị trí",
+        "Cộng hai đa thức trước"
+      ],
+      "correct_answer": 0,
+      "solution": "Mỗi hạng tử của đa thức thứ nhất phải được nhân với tất cả các hạng tử của đa thức thứ hai. Sau đó cộng và thu gọn các tích."
+    },
+    {
+      "content": "Tích của hai đa thức là:",
+      "options": [
+        "Luôn là một đơn thức",
+        "Luôn là số 0",
+        "Một phân thức",
+        "Một đa thức"
+      ],
+      "correct_answer": 3,
+      "solution": "Sau khi thực hiện phép phân phối và thu gọn, các tích đều là đơn thức và tổng của chúng là một đa thức."
+    },
+    {
+      "content": "Đẳng thức nào thể hiện tính giao hoán của phép nhân đa thức?",
+      "options": [
+        "$A+B=B+A$",
+        "$(A+B)C=A+BC$",
+        "$A·B=B·A$",
+        "$A-B=B-A$"
+      ],
+      "correct_answer": 2,
+      "solution": "Phép nhân đa thức có tính giao hoán:\n$A·B=B·A$."
+    },
+    {
+      "content": "Đẳng thức nào thể hiện tính kết hợp của phép nhân đa thức?",
+      "options": [
+        "$A(B+C)=AB+AC$",
+        "$A·B=A+B$",
+        "$(A·B)·C=A·(B·C)$",
+        "$A-B=B-A$"
+      ],
+      "correct_answer": 2,
+      "solution": "Tính kết hợp của phép nhân:\n$(A·B)·C=A·(B·C)$."
+    },
+    {
+      "content": "Đẳng thức nào thể hiện tính phân phối của phép nhân đối với phép cộng?",
+      "options": [
+        "$A(B+C)=AB+C$",
+        "$A(B+C)=A+B+C$",
+        "$A(B+C)=AB·AC$",
+        "$A(B+C)=AB+AC$"
+      ],
+      "correct_answer": 3,
+      "solution": "Nhân $A$ với từng số hạng trong ngoặc:\n$A(B+C)=AB+AC$."
+    },
+    {
+      "content": "Với các đa thức $A$, $B$, $C$, biểu thức $A·B·C$ có thể viết là:",
+      "options": [
+        "$(A·B)·C$ hoặc $A·(B·C)$",
+        "$A(B+C)$",
+        "$(A+B)C$",
+        "$A+B+C$"
+      ],
+      "correct_answer": 0,
+      "solution": "Nhờ tính kết hợp:\n$A·B·C=(A·B)·C=A·(B·C)$."
+    },
+    {
+      "content": "Tích $3x^2·2x^3$ bằng:",
+      "options": [
+        "$5x^5$",
+        "$6x^5$",
+        "$6x^6$",
+        "$6x$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi tích là $T$.\n$T=3x^2·2x^3$\nNhân hệ số và cộng số mũ của $x$:\n$T=(3·2)x^{2+3}$\n$T=6x^5$."
+    },
+    {
+      "content": "Tích $(-xy)·4z^3$ bằng:",
+      "options": [
+        "$4xyz^3$",
+        "$-4x^2y^2z^3$",
+        "$-3xyz$",
+        "$-4xyz^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi tích là $T$.\n$T=(-xy)·4z^3$\nNhân hệ số và phần biến:\n$T=(-1·4)xyz^3$\n$T=-4xyz^3$."
+    },
+    {
+      "content": "Tích $6xy^3·(-0,5x^2)$ bằng:",
+      "options": [
+        "$3x^3y^3$",
+        "$-3x^3y^3$",
+        "$-3x^2y^3$",
+        "$-6,5x^3y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi tích là $T$.\n$T=6xy^3·(-0,5x^2)$\nNhân hệ số và phần biến:\n$T=(6·(-0,5))x^{1+2}y^3$\n$T=-3x^3y^3$."
+    },
+    {
+      "content": "Kết quả của $2x(x+3)$ là:",
+      "options": [
+        "$2x^2+3$",
+        "$2x+6$",
+        "$2x^2+6x$",
+        "$2x^2+3x$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi tích là $P$.\nNhân $2x$ với từng hạng tử:\n$P=2x·x+2x·3$\nTính từng tích:\n$P=2x^2+6x$."
+    },
+    {
+      "content": "Kết quả của $-3y(x-y)$ là:",
+      "options": [
+        "$-3xy+3y^2$",
+        "$-3xy-3y^2$",
+        "$3xy-3y^2$",
+        "$-3x+y^2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi tích là $P$.\nNhân $-3y$ với từng hạng tử:\n$P=(-3y)·x+(-3y)·(-y)$\nTính từng tích:\n$P=-3xy+3y^2$."
+    },
+    {
+      "content": "Kết quả của $xy(x^2+xy-y^2)$ là:",
+      "options": [
+        "$x^3+x^2y-y^3$",
+        "$x^3y+x^2y^2-xy^3$",
+        "$x^3y+xy^2-xy^3$",
+        "$x^3y+x^2y^2+y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi tích là $P$.\nNhân $xy$ với từng hạng tử:\n$P=xy·x^2+xy·xy+xy·(-y^2)$\nTính từng tích:\n$P=x^3y+x^2y^2-xy^3$."
+    },
+    {
+      "content": "Khi nhân một đa thức có 2 hạng tử với một đa thức có 3 hạng tử, trước khi gộp đồng dạng ta có bao nhiêu tích riêng?",
+      "options": [
+        "5",
+        "3",
+        "2",
+        "6"
+      ],
+      "correct_answer": 3,
+      "solution": "Mỗi trong 2 hạng tử của đa thức thứ nhất được nhân với cả 3 hạng tử của đa thức thứ hai.\nSố tích riêng là $2·3=6$."
+    },
+    {
+      "content": "Trong phép nhân $(x+2)(x+3)$, hạng tử $x$ của ngoặc thứ nhất phải nhân với:",
+      "options": [
+        "Cả $x$ và $3$",
+        "Chỉ $x$",
+        "Chỉ $3$",
+        "Không cần nhân"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo quy tắc nhân hai đa thức, mỗi hạng tử của ngoặc thứ nhất phải nhân với từng hạng tử của ngoặc thứ hai. Vì vậy $x$ phải nhân với cả $x$ và $3$."
+    },
+    {
+      "content": "Kết quả của $(x+2)(x+3)$ là:",
+      "options": [
+        "$x^2+6$",
+        "$x^2+6x+5$",
+        "$x^2+5x+6$",
+        "$2x^2+5x+6$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi tích là $P$.\nPhân phối từng hạng tử:\n$P=x·x+x·3+2·x+2·3$\nTính các tích:\n$P=x^2+3x+2x+6$\nThu gọn:\n$P=x^2+5x+6$."
+    },
+    {
+      "content": "Kết quả của $(x-2)(x+1)$ là:",
+      "options": [
+        "$x^2+3x-2$",
+        "$x^2-x+2$",
+        "$x^2-x-2$",
+        "$x^2-2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi tích là $P$.\nPhân phối từng hạng tử:\n$P=x·x+x·1+(-2)·x+(-2)·1$\n$P=x^2+x-2x-2$\nThu gọn:\n$P=x^2-x-2$."
+    },
+    {
+      "content": "Đẳng thức nào đúng?",
+      "options": [
+        "$x(a+b)=xa+xb$",
+        "$x(a+b)=xa+b$",
+        "$x(a+b)=x+a+b$",
+        "$x(a+b)=xab$"
+      ],
+      "correct_answer": 0,
+      "solution": "Dùng tính phân phối, nhân $x$ với cả hai hạng tử trong ngoặc:\n$x(a+b)=xa+xb$."
+    },
+    {
+      "content": "Một học sinh tính $2x(x+3)=2x^2+3$. Học sinh đã sai vì:",
+      "options": [
+        "Không được nhân đơn thức với đa thức",
+        "Đã cộng sai số mũ",
+        "Phải đổi dấu mọi hạng tử",
+        "Đã quên nhân $2x$ với hạng tử $3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Phải nhân $2x$ với từng hạng tử:\n$2x(x+3)=2x·x+2x·3$\n$2x(x+3)=2x^2+6x$\nHọc sinh đã không nhân đầy đủ với hạng tử $3$."
+    },
+    {
+      "content": "Nếu đơn thức $A$ có bậc 2 và đơn thức $B$ có bậc 3 thì tích $AB$ có bậc:",
+      "options": [
+        "6",
+        "5",
+        "3",
+        "2"
+      ],
+      "correct_answer": 1,
+      "solution": "Khi nhân hai đơn thức khác 0, số mũ của các biến được cộng. Vì vậy bậc của tích bằng tổng hai bậc:\n$2+3=5$."
+    },
+    {
+      "content": "Với mọi đa thức $P$, tích $P·0$ bằng:",
+      "options": [
+        "$0$",
+        "$P$",
+        "$1$",
+        "$-P$"
+      ],
+      "correct_answer": 0,
+      "solution": "Mỗi hạng tử của $P$ nhân với 0 đều bằng 0. Do đó:\n$P·0=0$."
+    },
+    {
+      "content": "Với mọi đa thức $P$, tích $P·1$ bằng:",
+      "options": [
+        "$0$",
+        "$P+1$",
+        "$P$",
+        "$-P$"
+      ],
+      "correct_answer": 2,
+      "solution": "Số 1 là phần tử đơn vị của phép nhân:\n$P·1=P$."
+    },
+    {
+      "content": "Khi nhân $(a+b)(c+d)$, cách khai triển đúng là:",
+      "options": [
+        "$ac+bd$",
+        "$ac+ad+bc+bd$",
+        "$ab+cd$",
+        "$ac+bc+d$"
+      ],
+      "correct_answer": 1,
+      "solution": "Nhân từng hạng tử của ngoặc đầu với từng hạng tử của ngoặc sau:\n$(a+b)(c+d)=ac+ad+bc+bd$."
+    },
+    {
+      "content": "Một lỗi thường gặp khi nhân hai đa thức là:",
+      "options": [
+        "Nhân một hạng tử với tất cả hạng tử của đa thức kia",
+        "Thu gọn các hạng tử đồng dạng",
+        "Viết kết quả thành đa thức",
+        "Bỏ sót một hoặc nhiều tích riêng"
+      ],
+      "correct_answer": 3,
+      "solution": "Khi nhân hai đa thức, phải tạo đủ mọi tích giữa hai nhóm hạng tử. Bỏ sót một tích riêng sẽ làm kết quả sai."
+    },
+    {
+      "content": "Sau khi thực hiện đầy đủ các tích riêng, bước tiếp theo là:",
+      "options": [
+        "Nhóm và thu gọn các hạng tử đồng dạng",
+        "Đổi dấu tất cả hạng tử",
+        "Nhân tiếp các số mũ với nhau",
+        "Bỏ hạng tử tự do"
+      ],
+      "correct_answer": 0,
+      "solution": "Các tích riêng có thể đồng dạng. Vì vậy cần nhóm chúng, cộng hoặc trừ hệ số rồi viết kết quả dưới dạng đa thức thu gọn."
+    },
+    {
+      "content": "Quy trình đúng khi nhân hai đa thức là:",
+      "options": [
+        "Cộng hai đa thức rồi bình phương",
+        "Nhân từng cặp hạng tử cần thiết, cộng các tích rồi thu gọn",
+        "Chỉ nhân các hạng tử đồng dạng",
+        "Tìm bậc rồi ghép các hệ số"
+      ],
+      "correct_answer": 1,
+      "solution": "Quy trình:\n1. Nhân mỗi hạng tử của đa thức này với từng hạng tử của đa thức kia.\n2. Cộng tất cả các tích.\n3. Nhóm và thu gọn các hạng tử đồng dạng."
+    }
+  ]
+}

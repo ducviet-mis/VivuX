@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Rút gọn $P=(x+3)(x^2-3x+9)-x^3$.",
+      "options": [
+        "$27$",
+        "$0$",
+        "$x^3+27$",
+        "$-27$"
+      ],
+      "correct_answer": 0,
+      "solution": "Nhận ra tích là tổng hai lập phương:\n\n$(x+3)(x^2-3x+9)=x^3+3^3=x^3+27$.\n\nThay vào $P$:\n\n$P=x^3+27-x^3$.\n\n$P=27$."
+    },
+    {
+      "content": "Rút gọn $P=(2x+y)(4x^2-2xy+y^2)-8x^3$.",
+      "options": [
+        "$0$",
+        "$y^3$",
+        "$8x^3+y^3$",
+        "$-y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Nhận ra tích là tổng hai lập phương:\n\n$(2x+y)(4x^2-2xy+y^2)=(2x)^3+y^3=8x^3+y^3$.\n\nThay vào $P$:\n\n$P=8x^3+y^3-8x^3$.\n\n$P=y^3$."
+    },
+    {
+      "content": "Rút gọn $P=(x-2)(x^2+2x+4)+8$.",
+      "options": [
+        "$x^3-16$",
+        "$x^3+16$",
+        "$x^3$",
+        "$8$"
+      ],
+      "correct_answer": 2,
+      "solution": "Nhận ra tích là hiệu hai lập phương:\n\n$(x-2)(x^2+2x+4)=x^3-2^3=x^3-8$.\n\nThay vào $P$:\n\n$P=x^3-8+8$.\n\n$P=x^3$."
+    },
+    {
+      "content": "Rút gọn $P=(x+y)(x^2-xy+y^2)-x^3-y^3$.",
+      "options": [
+        "$x^3+y^3$",
+        "$2x^3+2y^3$",
+        "$-x^3-y^3$",
+        "$0$"
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+y)(x^2-xy+y^2)=x^3+y^3$.\n\nThay vào $P$:\n\n$P=x^3+y^3-x^3-y^3$.\n\n$P=0$."
+    },
+    {
+      "content": "Rút gọn $P=(a-b)(a^2+ab+b^2)-a^3+b^3$.",
+      "options": [
+        "$2a^3-2b^3$",
+        "$0$",
+        "$a^3-b^3$",
+        "$-a^3+b^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Theo hiệu hai lập phương:\n\n$(a-b)(a^2+ab+b^2)=a^3-b^3$.\n\nThay vào $P$:\n\n$P=a^3-b^3-a^3+b^3$.\n\n$P=0$."
+    },
+    {
+      "content": "Giải phương trình $(x-2)(x^2+2x+4)=19$.",
+      "options": [
+        "$x=2$",
+        "$x=1$",
+        "$x=3$",
+        "$x=\\sqrt[3]{19}$"
+      ],
+      "correct_answer": 2,
+      "solution": "Theo hiệu hai lập phương:\n\n$(x-2)(x^2+2x+4)=x^3-8$.\n\nPhương trình trở thành $x^3-8=19$.\n\n$x^3=27$.\n\nVậy $x=3$."
+    },
+    {
+      "content": "Giải phương trình $(x+1)(x^2-x+1)=28$.",
+      "options": [
+        "$x=3$",
+        "$x=2$",
+        "$x=4$",
+        "$x=\\sqrt[3]{28}$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+1)(x^2-x+1)=x^3+1$.\n\nPhương trình trở thành $x^3+1=28$.\n\n$x^3=27$.\n\nVậy $x=3$."
+    },
+    {
+      "content": "Rút gọn $P=(x^2+2)(x^4-2x^2+4)-x^6$.",
+      "options": [
+        "$0$",
+        "$x^6+8$",
+        "$-8$",
+        "$8$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $A=x^2$, $B=2$.\n\nTheo tổng hai lập phương:\n\n$(x^2+2)(x^4-2x^2+4)=x^6+8$.\n\nThay vào $P$:\n\n$P=x^6+8-x^6$.\n\n$P=8$."
+    },
+    {
+      "content": "Rút gọn $P=(x^2-3)(x^4+3x^2+9)-x^6$.",
+      "options": [
+        "$27$",
+        "$0$",
+        "$-27$",
+        "$x^6-27$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $A=x^2$, $B=3$.\n\nTheo hiệu hai lập phương:\n\n$(x^2-3)(x^4+3x^2+9)=x^6-27$.\n\nThay vào $P$:\n\n$P=x^6-27-x^6$.\n\n$P=-27$."
+    },
+    {
+      "content": "Rút gọn $P=(3x+y)(9x^2-3xy+y^2)-27x^3$.",
+      "options": [
+        "$0$",
+        "$y^3$",
+        "$27x^3+y^3$",
+        "$-y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $A=3x$, $B=y$.\n\nTheo tổng hai lập phương:\n\n$(3x+y)(9x^2-3xy+y^2)=27x^3+y^3$.\n\nThay vào $P$:\n\n$P=27x^3+y^3-27x^3$.\n\n$P=y^3$."
+    },
+    {
+      "content": "Rút gọn $P=(x-y)(x^2+xy+y^2)+y^3$.",
+      "options": [
+        "$x^3$",
+        "$x^3-y^3$",
+        "$y^3$",
+        "$x^3+y^3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo hiệu hai lập phương:\n\n$(x-y)(x^2+xy+y^2)=x^3-y^3$.\n\nThay vào $P$:\n\n$P=x^3-y^3+y^3$.\n\n$P=x^3$."
+    },
+    {
+      "content": "Giải phương trình $(2x-1)(4x^2+2x+1)=7$.",
+      "options": [
+        "$x=0$",
+        "$x=2$",
+        "$x=-1$",
+        "$x=1$"
+      ],
+      "correct_answer": 3,
+      "solution": "Theo hiệu hai lập phương:\n\n$(2x-1)(4x^2+2x+1)=(2x)^3-1=8x^3-1$.\n\nPhương trình trở thành $8x^3-1=7$.\n\n$8x^3=8$.\n\n$x^3=1$.\n\nVậy $x=1$."
+    },
+    {
+      "content": "Rút gọn $P=(x+2y)(x^2-2xy+4y^2)-x^3$.",
+      "options": [
+        "$0$",
+        "$8y^3$",
+        "$x^3+8y^3$",
+        "$-8y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $A=x$, $B=2y$.\n\nTheo tổng hai lập phương:\n\n$(x+2y)(x^2-2xy+4y^2)=x^3+8y^3$.\n\nThay vào $P$:\n\n$P=x^3+8y^3-x^3$.\n\n$P=8y^3$."
+    },
+    {
+      "content": "Rút gọn $P=(2a-b)(4a^2+2ab+b^2)+b^3$.",
+      "options": [
+        "$8a^3-b^3$",
+        "$b^3$",
+        "$8a^3$",
+        "$8a^3+2b^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $A=2a$, $B=b$.\n\nTheo hiệu hai lập phương:\n\n$(2a-b)(4a^2+2ab+b^2)=8a^3-b^3$.\n\nThay vào $P$:\n\n$P=8a^3-b^3+b^3$.\n\n$P=8a^3$."
+    },
+    {
+      "content": "Với $n$ là số nguyên, $n^3+8$ luôn chia hết cho biểu thức nào?",
+      "options": [
+        "$n-2$",
+        "$n+4$",
+        "$n^2-2n+4$",
+        "$n+2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có $8=2^3$.\n\n$n^3+8=n^3+2^3$.\n\nTheo tổng hai lập phương:\n\n$n^3+8=(n+2)(n^2-2n+4)$.\n\nVậy $n^3+8$ luôn chia hết cho $n+2$."
+    },
+    {
+      "content": "Với $n$ là số nguyên, $n^3-27$ luôn chia hết cho biểu thức nào?",
+      "options": [
+        "$n-3$",
+        "$n+3$",
+        "$n^2-3n+9$",
+        "$n-9$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có $27=3^3$.\n\n$n^3-27=n^3-3^3$.\n\nTheo hiệu hai lập phương:\n\n$n^3-27=(n-3)(n^2+3n+9)$.\n\nVậy $n^3-27$ luôn chia hết cho $n-3$."
+    },
+    {
+      "content": "Tính nhanh $(50+1)(50^2-50+1)$.",
+      "options": [
+        "$125000$",
+        "$124999$",
+        "$125001$",
+        "$250001$"
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tổng hai lập phương với $A=50$, $B=1$:\n\n$(50+1)(50^2-50+1)=50^3+1^3$.\n\n$(50+1)(50^2-50+1)=125000+1$.\n\nVậy giá trị của tích là $125001$."
+    },
+    {
+      "content": "Tính nhanh $(100-1)(100^2+100+1)$.",
+      "options": [
+        "$1000001$",
+        "$999999$",
+        "$999900$",
+        "$1000000$"
+      ],
+      "correct_answer": 1,
+      "solution": "Theo hiệu hai lập phương với $A=100$, $B=1$:\n\n$(100-1)(100^2+100+1)=100^3-1^3$.\n\n$(100-1)(100^2+100+1)=1000000-1$.\n\nVậy giá trị của tích là $999999$."
+    },
+    {
+      "content": "Biết $(x-m)(x^2+mx+m^2)=x^3-125$ với $m>0$. Giá trị của $m$ là",
+      "options": [
+        "$3$",
+        "$25$",
+        "$125$",
+        "$5$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vế trái có dạng hiệu hai lập phương:\n\n$(x-m)(x^2+mx+m^2)=x^3-m^3$.\n\nSo sánh với $x^3-125$:\n\n$m^3=125$.\n\nDo $m>0$, suy ra $m=5$."
+    },
+    {
+      "content": "Rút gọn $P=(x^3+8)+(x+2)(x^2-2x+4)$.",
+      "options": [
+        "$2x^3+16$",
+        "$2x^3+8$",
+        "$x^3+16$",
+        "$16$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+2)(x^2-2x+4)=x^3+8$.\n\nThay vào $P$:\n\n$P=x^3+8+x^3+8$.\n\n$P=2x^3+16$."
+    },
+    {
+      "content": "Rút gọn $P=(x^3-27)-(x-3)(x^2+3x+9)$.",
+      "options": [
+        "$x^3-27$",
+        "$0$",
+        "$-27$",
+        "$27$"
+      ],
+      "correct_answer": 1,
+      "solution": "Theo hiệu hai lập phương:\n\n$(x-3)(x^2+3x+9)=x^3-27$.\n\nThay vào $P$:\n\n$P=x^3-27-(x^3-27)$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=x^3-27-x^3+27$.\n\n$P=0$."
+    },
+    {
+      "content": "Rút gọn $P=(8x^3+y^3)-(2x+y)(4x^2-2xy+y^2)$.",
+      "options": [
+        "$8x^3+y^3$",
+        "$y^3$",
+        "$0$",
+        "$-8x^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tổng hai lập phương:\n\n$(2x+y)(4x^2-2xy+y^2)=8x^3+y^3$.\n\nThay vào $P$:\n\n$P=8x^3+y^3-(8x^3+y^3)$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=8x^3+y^3-8x^3-y^3$.\n\n$P=0$."
+    },
+    {
+      "content": "Giải phương trình $(x+3)(x^2-3x+9)=35$.",
+      "options": [
+        "$x=2$",
+        "$x=3$",
+        "$x=1$",
+        "$x=\\sqrt[3]{35}$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+3)(x^2-3x+9)=x^3+27$.\n\nPhương trình trở thành $x^3+27=35$.\n\n$x^3=8$.\n\nVậy $x=2$."
+    },
+    {
+      "content": "Rút gọn $P=(a+b)(a^2-ab+b^2)+(a-b)(a^2+ab+b^2)$.",
+      "options": [
+        "$2b^3$",
+        "$a^3+b^3$",
+        "$a^3-b^3$",
+        "$2a^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tổng hai lập phương:\n\n$(a+b)(a^2-ab+b^2)=a^3+b^3$.\n\nTheo hiệu hai lập phương:\n\n$(a-b)(a^2+ab+b^2)=a^3-b^3$.\n\nThay vào $P$:\n\n$P=a^3+b^3+a^3-b^3=2a^3$."
+    },
+    {
+      "content": "Rút gọn $P=(a+b)(a^2-ab+b^2)-(a-b)(a^2+ab+b^2)$.",
+      "options": [
+        "$2a^3$",
+        "$a^3-b^3$",
+        "$2b^3$",
+        "$0$"
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tổng hai lập phương:\n\n$(a+b)(a^2-ab+b^2)=a^3+b^3$.\n\nTheo hiệu hai lập phương:\n\n$(a-b)(a^2+ab+b^2)=a^3-b^3$.\n\nThay vào $P$:\n\n$P=a^3+b^3-(a^3-b^3)$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=a^3+b^3-a^3+b^3=2b^3$."
+    },
+    {
+      "content": "Rút gọn $P=(x+2)(x^2-2x+4)+(x-2)(x^2+2x+4)$.",
+      "options": [
+        "$2x^3+16$",
+        "$2x^3$",
+        "$0$",
+        "$x^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+2)(x^2-2x+4)=x^3+8$.\n\nTheo hiệu hai lập phương:\n\n$(x-2)(x^2+2x+4)=x^3-8$.\n\nThay vào $P$:\n\n$P=x^3+8+x^3-8$.\n\n$P=2x^3$."
+    },
+    {
+      "content": "Rút gọn $P=(2x+y)(4x^2-2xy+y^2)-(2x-y)(4x^2+2xy+y^2)$.",
+      "options": [
+        "$2y^3$",
+        "$16x^3$",
+        "$2y$",
+        "$0$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tổng hai lập phương:\n\n$(2x+y)(4x^2-2xy+y^2)=8x^3+y^3$.\n\nTheo hiệu hai lập phương:\n\n$(2x-y)(4x^2+2xy+y^2)=8x^3-y^3$.\n\nThay vào $P$:\n\n$P=(8x^3+y^3)-(8x^3-y^3)$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=8x^3+y^3-8x^3+y^3$.\n\n$P=2y^3$."
+    },
+    {
+      "content": "Với $n$ là số nguyên, $n^3+1$ luôn chia hết cho biểu thức nào?",
+      "options": [
+        "$n-1$",
+        "$n+1$",
+        "$n^2-n+1$",
+        "$n+2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có $1=1^3$.\n\n$n^3+1=n^3+1^3$.\n\nTheo tổng hai lập phương:\n\n$n^3+1=(n+1)(n^2-n+1)$.\n\nVậy $n^3+1$ luôn chia hết cho $n+1$."
+    },
+    {
+      "content": "Rút gọn $P=(x+1)(x^2-x+1)+(x-1)(x^2+x+1)$.",
+      "options": [
+        "$2x^3$",
+        "$2$",
+        "$2x^3+2$",
+        "$0$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+1)(x^2-x+1)=x^3+1$.\n\nTheo hiệu hai lập phương:\n\n$(x-1)(x^2+x+1)=x^3-1$.\n\nThay vào $P$:\n\n$P=x^3+1+x^3-1=2x^3$."
+    },
+    {
+      "content": "Rút gọn $P=(x+1)(x^2-x+1)-(x-1)(x^2+x+1)$.",
+      "options": [
+        "$2x^3$",
+        "$0$",
+        "$-2$",
+        "$2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tổng hai lập phương:\n\n$(x+1)(x^2-x+1)=x^3+1$.\n\nTheo hiệu hai lập phương:\n\n$(x-1)(x^2+x+1)=x^3-1$.\n\nThay vào $P$:\n\n$P=x^3+1-(x^3-1)$.\n\nPhá ngoặc sau dấu trừ:\n\n$P=x^3+1-x^3+1=2$."
+    }
+  ]
+}

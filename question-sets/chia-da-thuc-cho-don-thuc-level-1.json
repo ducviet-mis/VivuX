@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Đa thức $A$ chia hết cho đa thức $B$ khác 0 khi nào?",
+      "options": [
+        "Khi tồn tại đa thức $Q$ sao cho $A=B·Q$",
+        "Khi $A$ và $B$ có cùng số hạng tử",
+        "Khi bậc của $A$ nhỏ hơn bậc của $B$",
+        "Khi $A+B=0$"
+      ],
+      "correct_answer": 0,
+      "solution": "Theo định nghĩa, $A$ chia hết cho $B$ với $B≠0$ nếu có đa thức $Q$ sao cho:\n$A=B·Q$\nKhi đó ta viết $A:B=Q$."
+    },
+    {
+      "content": "Nếu $A:B=Q$ thì đẳng thức nào đúng?",
+      "options": [
+        "$B=A·Q$",
+        "$Q=A·B$",
+        "$A=B·Q$",
+        "$A=B+Q$"
+      ],
+      "correct_answer": 2,
+      "solution": "Từ phép chia hết $A:B=Q$, ta có quan hệ giữa số bị chia, số chia và thương:\n$A=B·Q$."
+    },
+    {
+      "content": "Trong phép chia đa thức $A:B$, điều kiện bắt buộc đối với $B$ là:",
+      "options": [
+        "$B$ phải là số dương",
+        "$B$ phải khác đa thức 0",
+        "$B$ phải chứa mọi biến của $A$",
+        "$B$ phải có hệ số bằng 1"
+      ],
+      "correct_answer": 1,
+      "solution": "Không thể chia cho đa thức 0. Vì vậy trong định nghĩa phép chia, luôn phải có điều kiện:\n$B≠0$."
+    },
+    {
+      "content": "Đơn thức $A$ chia hết cho đơn thức $B$ khác 0 khi:",
+      "options": [
+        "Mỗi biến của $A$ đều có trong $B$ với số mũ lớn hơn",
+        "Hai đơn thức phải có cùng hệ số",
+        "Hai đơn thức phải có cùng bậc",
+        "Mỗi biến của $B$ đều có trong $A$ với số mũ không lớn hơn"
+      ],
+      "correct_answer": 3,
+      "solution": "Điều kiện chia hết được xét theo từng biến. Mỗi biến trong $B$ phải xuất hiện trong $A$, đồng thời số mũ của biến đó trong $B$ không được lớn hơn số mũ tương ứng trong $A$."
+    },
+    {
+      "content": "Muốn chia một đơn thức cho một đơn thức trong trường hợp chia hết, bước đầu tiên là:",
+      "options": [
+        "Cộng hai hệ số",
+        "Chia hệ số của đơn thức bị chia cho hệ số của đơn thức chia",
+        "Nhân hai hệ số",
+        "Giữ nguyên hệ số của đơn thức bị chia"
+      ],
+      "correct_answer": 1,
+      "solution": "Quy tắc bắt đầu bằng việc chia hệ số:\nHệ số của thương = hệ số của $A$ : hệ số của $B$.\nSau đó mới chia các lũy thừa cùng biến."
+    },
+    {
+      "content": "Khi chia $x^m$ cho $x^n$ với $m≥n$, kết quả là:",
+      "options": [
+        "$x^{m-n}$",
+        "$x^{m+n}$",
+        "$x^{mn}$",
+        "$x^{n-m}$"
+      ],
+      "correct_answer": 0,
+      "solution": "Dùng quy tắc chia hai lũy thừa cùng cơ số:\n$x^m:x^n=x^{m-n}$ với $m≥n$."
+    },
+    {
+      "content": "Sau khi chia hệ số và các lũy thừa cùng biến, ta:",
+      "options": [
+        "Cộng các kết quả",
+        "Trừ các kết quả",
+        "Chỉ giữ phần hệ số",
+        "Nhân các kết quả vừa tìm được với nhau"
+      ],
+      "correct_answer": 3,
+      "solution": "Quy tắc chia đơn thức gồm ba bước: chia hệ số, chia từng lũy thừa cùng biến, rồi nhân tất cả các kết quả để được thương."
+    },
+    {
+      "content": "Đa thức $A$ chia hết cho đơn thức $B$ khác 0 khi:",
+      "options": [
+        "Chỉ hạng tử đầu của $A$ chia hết cho $B$",
+        "Có ít nhất một hạng tử của $A$ chia hết cho $B$",
+        "Mọi hạng tử của $A$ đều chia hết cho $B$",
+        "Tổng các hệ số của $A$ chia hết cho hệ số của $B$"
+      ],
+      "correct_answer": 2,
+      "solution": "Muốn chia cả đa thức cho một đơn thức, từng hạng tử của đa thức đều phải chia hết cho đơn thức đó."
+    },
+    {
+      "content": "Muốn chia đa thức $A$ cho đơn thức $B$ trong trường hợp chia hết, ta:",
+      "options": [
+        "Chỉ chia hạng tử có bậc cao nhất",
+        "Chia hệ số đầu của $A$ cho $B$",
+        "Chia từng hạng tử của $A$ cho $B$ rồi cộng các kết quả",
+        "Cộng các hạng tử của $A$ rồi mới chia"
+      ],
+      "correct_answer": 2,
+      "solution": "Quy tắc:\n$A:B=$ tổng các thương nhận được khi chia từng hạng tử của $A$ cho $B$.\nSau đó thu gọn nếu có hạng tử đồng dạng."
+    },
+    {
+      "content": "Nếu một hạng tử của đa thức $A$ không chia hết cho đơn thức $B$ thì:",
+      "options": [
+        "$A$ vẫn luôn chia hết cho $B$",
+        "Chỉ cần bỏ hạng tử đó",
+        "Thương luôn bằng 0",
+        "$A$ không chia hết cho $B$"
+      ],
+      "correct_answer": 3,
+      "solution": "Điều kiện là mọi hạng tử của $A$ đều phải chia hết cho $B$. Chỉ cần một hạng tử không thỏa mãn thì $A$ không chia hết cho $B$."
+    },
+    {
+      "content": "Thực hiện phép chia $6x^3:3x^2$.",
+      "options": [
+        "$2x$",
+        "$2x^5$",
+        "$3x$",
+        "$2x^2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\nChia hệ số và trừ số mũ của $x$:\n$Q=6x^3:3x^2$\n$Q=(6:3)x^{3-2}$\n$Q=2x$."
+    },
+    {
+      "content": "Thực hiện phép chia $-12x^4y^3:4x^2y$.",
+      "options": [
+        "$3x^2y^2$",
+        "$-3x^2y^2$",
+        "$-3x^6y^4$",
+        "$-8x^2y^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi thương là $Q$.\n$Q=-12x^4y^3:4x^2y$\nChia hệ số và từng lũy thừa cùng biến:\n$Q=(-12:4)x^{4-2}y^{3-1}$\n$Q=-3x^2y^2$."
+    },
+    {
+      "content": "Thực hiện phép chia $15a^3b^2:(-5ab)$.",
+      "options": [
+        "$3a^2b$",
+        "$-3a^3b^2$",
+        "$-10a^2b$",
+        "$-3a^2b$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi thương là $Q$.\n$Q=15a^3b^2:(-5ab)$\n$Q=(15:-5)a^{3-1}b^{2-1}$\n$Q=-3a^2b$."
+    },
+    {
+      "content": "Thực hiện phép chia $8x^2y:2xy$.",
+      "options": [
+        "$4xy$",
+        "$4x$",
+        "$6x$",
+        "$4x^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi thương là $Q$.\n$Q=8x^2y:2xy$\n$Q=(8:2)x^{2-1}y^{1-1}$\nVì $y^0=1$ nên:\n$Q=4x$."
+    },
+    {
+      "content": "Thực hiện phép chia $9x^3y^2:3xy^2$.",
+      "options": [
+        "$3x^2y$",
+        "$6x^2$",
+        "$3x^2$",
+        "$3x^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi thương là $Q$.\n$Q=9x^3y^2:3xy^2$\n$Q=(9:3)x^{3-1}y^{2-2}$\n$Q=3x^2$."
+    },
+    {
+      "content": "Vì sao $x^2y$ không chia hết cho $xy^2$?",
+      "options": [
+        "Số mũ của $y$ trong số chia lớn hơn số mũ của $y$ trong số bị chia",
+        "Vì hệ số của hai đơn thức đều bằng 1",
+        "Vì số mũ của $x$ trong số bị chia lớn hơn",
+        "Vì hai đơn thức có chứa hai biến"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong $x^2y$, số mũ của $y$ là 1. Trong $xy^2$, số mũ của $y$ là 2. Vì $2>1$ nên không thể thực hiện phép chia hết."
+    },
+    {
+      "content": "Vì sao $6xy$ không chia hết cho $2yz$?",
+      "options": [
+        "Vì $6$ không chia được cho $2$",
+        "Biến $z$ có trong số chia nhưng không có trong số bị chia",
+        "Vì cả hai đơn thức đều chứa $y$",
+        "Vì số bị chia có biến $x$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đơn thức chia $2yz$ có biến $z$, còn $6xy$ không có biến $z$. Vì vậy điều kiện chia hết theo biến không được thỏa mãn."
+    },
+    {
+      "content": "Thực hiện phép chia $12x^3:5x^2$.",
+      "options": [
+        "$7x$",
+        "$\\frac{12}{5}x^2$",
+        "$60x$",
+        "$\\frac{12}{5}x$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi thương là $Q$.\nHệ số có thể là phân số khác 0:\n$Q=12x^3:5x^2$\n$Q=(12:5)x^{3-2}$\n$Q=\\frac{12}{5}x$."
+    },
+    {
+      "content": "Thực hiện phép chia $(6x^3+9x^2):3x^2$.",
+      "options": [
+        "$2x+3$",
+        "$2x^2+3$",
+        "$5x$",
+        "$2x+6$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $3x^2$:\n$Q=(6x^3:3x^2)+(9x^2:3x^2)$\n$Q=2x+3$."
+    },
+    {
+      "content": "Thực hiện phép chia $(8x^2y-4xy^2):4xy$.",
+      "options": [
+        "$2x+y$",
+        "$4x-y$",
+        "$2x-y$",
+        "$2x^2-y^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $4xy$:\n$Q=(8x^2y:4xy)+(-4xy^2:4xy)$\n$Q=2x-y$."
+    },
+    {
+      "content": "Thực hiện phép chia $(-12x^3y+6x^2y^2):(-3xy)$.",
+      "options": [
+        "$-4x^2+2xy$",
+        "$4x^2+2xy$",
+        "$4x^2-2xy$",
+        "$4x-2y$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi thương là $Q$.\nChia từng hạng tử cho $-3xy$:\n$Q=(-12x^3y:-3xy)+(6x^2y^2:-3xy)$\n$Q=4x^2-2xy$."
+    },
+    {
+      "content": "Thực hiện phép chia $(10a^2b+15ab^2-5ab):5ab$.",
+      "options": [
+        "$2a+3b-1$",
+        "$2a+3b+1$",
+        "$5a+3b-1$",
+        "$2a^2+3b^2-1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi thương là $Q$.\nChia lần lượt ba hạng tử:\n$Q=(10a^2b:5ab)+(15ab^2:5ab)+(-5ab:5ab)$\n$Q=2a+3b-1$."
+    },
+    {
+      "content": "Phép chia nào sau đây không phải là phép chia hết?",
+      "options": [
+        "$-15x^2y^2:3x^2y$",
+        "$6xyz:2yz$",
+        "$4xy^3:6xy^2$",
+        "$4xy^3:6xy^4$"
+      ],
+      "correct_answer": 3,
+      "solution": "Xét số mũ của $y$ trong $4xy^3:6xy^4$. Số chia có $y^4$ nhưng số bị chia chỉ có $y^3$. Vì $4>3$ nên phép chia không chia hết. Các phép chia còn lại đều thỏa mãn điều kiện về biến và số mũ."
+    },
+    {
+      "content": "Với đơn thức $B≠0$, thương $0:B$ bằng:",
+      "options": [
+        "$B$",
+        "$0$",
+        "$1$",
+        "Không xác định"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$0=B·0$\nVì vậy với $B≠0$:\n$0:B=0$."
+    },
+    {
+      "content": "Với mọi đa thức $A$, thương $A:1$ bằng:",
+      "options": [
+        "$A$",
+        "$1$",
+        "$0$",
+        "$-A$"
+      ],
+      "correct_answer": 0,
+      "solution": "Số 1 là phần tử đơn vị của phép nhân:\n$A=1·A$\nDo đó:\n$A:1=A$."
+    },
+    {
+      "content": "Cách kiểm tra thương $Q$ của phép chia $A:B$ là:",
+      "options": [
+        "Cộng $B$ với $Q$",
+        "Trừ $Q$ khỏi $B$",
+        "Nhân $B$ với $Q$ và kiểm tra có nhận lại $A$ hay không",
+        "Chỉ so sánh bậc của $A$ và $Q$"
+      ],
+      "correct_answer": 2,
+      "solution": "Nếu $A:B=Q$ thì phải có:\n$A=B·Q$\nVì vậy ta kiểm tra bằng cách nhân số chia với thương."
+    },
+    {
+      "content": "Nếu $A:B=Q$ thì muốn tìm lại $A$, ta tính:",
+      "options": [
+        "$A=B+Q$",
+        "$A=B·Q$",
+        "$A=Q:B$",
+        "$A=B-Q$"
+      ],
+      "correct_answer": 1,
+      "solution": "Số bị chia bằng số chia nhân với thương:\n$A=B·Q$."
+    },
+    {
+      "content": "Một bạn chia $(6x^2+9x):3x$ nhưng chỉ tính $6x^2:3x$. Bạn đã sai vì:",
+      "options": [
+        "Không được chia đa thức cho đơn thức",
+        "Phải cộng hai hạng tử trước",
+        "Phải nhân với $3x$",
+        "Chưa chia hạng tử $9x$ cho $3x$"
+      ],
+      "correct_answer": 3,
+      "solution": "Phải chia từng hạng tử của đa thức cho đơn thức:\n$Q=(6x^2:3x)+(9x:3x)$\n$Q=2x+3$."
+    },
+    {
+      "content": "Khi chia một hạng tử âm cho một đơn thức âm, dấu của thương là:",
+      "options": [
+        "Dương",
+        "Âm",
+        "Bằng 0",
+        "Không xác định"
+      ],
+      "correct_answer": 0,
+      "solution": "Hai hệ số âm chia nhau cho kết quả dương. Phần biến được chia theo quy tắc trừ số mũ."
+    },
+    {
+      "content": "Quy trình đúng khi chia một đa thức cho một đơn thức là:",
+      "options": [
+        "Cộng các hạng tử rồi chia hệ số",
+        "Kiểm tra chia hết, chia từng hạng tử, cộng các thương rồi thu gọn",
+        "Chỉ chia hạng tử đầu tiên",
+        "Nhân từng hạng tử với đơn thức chia"
+      ],
+      "correct_answer": 1,
+      "solution": "Quy trình gồm:\n1. Kiểm tra mọi hạng tử đều chia hết cho đơn thức chia.\n2. Chia từng hạng tử.\n3. Cộng các thương và thu gọn.\n4. Có thể nhân ngược để kiểm tra."
+    }
+  ]
+}

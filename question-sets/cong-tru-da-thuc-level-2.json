@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Cho $P=2x^2+3x-1$, $Q=x^2-x+2$. Tổng $P+Q$ là:",
+      "options": ["$x^2+4x-3$", "$3x^2+4x+1$", "$3x^2+2x+1$", "$3x^2+2x-3$"],
+      "correct_answer": 2,
+      "solution": "Lập tổng:\n$P+Q=(2x^2+3x-1)+(x^2-x+2)$\nPhá ngoặc (dấu cộng trước ngoặc nên giữ nguyên các dấu):\n$P+Q=2x^2+3x-1+x^2-x+2$\nNhóm các hạng tử đồng dạng:\n$P+Q=(2x^2+x^2)+(3x-x)+(-1+2)$\nThu gọn:\n$P+Q=3x^2+2x+1$."
+    },
+    {
+      "content": "Cho $P=2x^2+3x-1$, $Q=x^2-x+2$. Hiệu $P-Q$ là:",
+      "options": ["$x^2+4x-3$", "$3x^2+2x+1$", "$x^2+2x+1$", "$-x^2-4x+3$"],
+      "correct_answer": 0,
+      "solution": "Lập hiệu:\n$P-Q=(2x^2+3x-1)-(x^2-x+2)$\nPhá ngoặc thứ hai và đổi dấu từng hạng tử:\n$P-Q=2x^2+3x-1-x^2+x-2$\nNhóm các hạng tử đồng dạng:\n$P-Q=(2x^2-x^2)+(3x+x)+(-1-2)$\nThu gọn:\n$P-Q=x^2+4x-3$."
+    },
+    {
+      "content": "Với $P=2x^2+3x-1$, $Q=x^2-x+2$, hiệu $Q-P$ là:",
+      "options": ["$x^2+4x-3$", "$-3x^2-2x-1$", "$3x^2+2x+1$", "$-x^2-4x+3$"],
+      "correct_answer": 3,
+      "solution": "Lập hiệu theo đúng thứ tự:\n$Q-P=(x^2-x+2)-(2x^2+3x-1)$\nPhá ngoặc thứ hai:\n$Q-P=x^2-x+2-2x^2-3x+1$\nNhóm các hạng tử đồng dạng:\n$Q-P=(x^2-2x^2)+(-x-3x)+(2+1)$\nThu gọn:\n$Q-P=-x^2-4x+3$."
+    },
+    {
+      "content": "Cho $A=3x^2y-2xy^2+x$, $B=-x^2y+5xy^2-3x$. Tổng $A+B$ là:",
+      "options": ["$4x^2y+3xy^2-2x$", "$2x^2y+3xy^2-2x$", "$2x^2y-7xy^2+4x$", "$-2x^2y+3xy^2-2x$"],
+      "correct_answer": 1,
+      "solution": "Lập tổng:\n$A+B=(3x^2y-2xy^2+x)+(-x^2y+5xy^2-3x)$\nPhá ngoặc có dấu cộng:\n$A+B=3x^2y-2xy^2+x-x^2y+5xy^2-3x$\nNhóm các hạng tử đồng dạng:\n$A+B=(3-1)x^2y+(-2+5)xy^2+(1-3)x$\nThu gọn:\n$A+B=2x^2y+3xy^2-2x$."
+    },
+    {
+      "content": "Cho $A=3x^2y-2xy^2+x$, $B=-x^2y+5xy^2-3x$. Hiệu $A-B$ là:",
+      "options": ["$2x^2y+3xy^2-2x$", "$4x^2y+3xy^2+4x$", "$4x^2y-7xy^2+4x$", "$2x^2y-7xy^2-2x$"],
+      "correct_answer": 2,
+      "solution": "Lập hiệu:\n$A-B=(3x^2y-2xy^2+x)-(-x^2y+5xy^2-3x)$\nPhá ngoặc thứ hai và đổi dấu toàn bộ đa thức $B$:\n$A-B=3x^2y-2xy^2+x+x^2y-5xy^2+3x$\nNhóm các hạng tử đồng dạng:\n$A-B=(3+1)x^2y+(-2-5)xy^2+(1+3)x$\nThu gọn:\n$A-B=4x^2y-7xy^2+4x$."
+    },
+    {
+      "content": "Bỏ ngoặc và thu gọn $(x^2-2x+3)-(x^2+x-4)$ được:",
+      "options": ["$-3x-1$", "$2x^2-x-1$", "$-x+7$", "$-3x+7$"],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức cần thu gọn là $E$.\nLập hiệu:\n$E=(x^2-2x+3)-(x^2+x-4)$\nPhá ngoặc thứ hai:\n$E=x^2-2x+3-x^2-x+4$\nNhóm các hạng tử đồng dạng:\n$E=(x^2-x^2)+(-2x-x)+(3+4)$\nThu gọn:\n$E=-3x+7$."
+    },
+    {
+      "content": "Tổng $(4x^3-2x+1)+(-4x^3+5x-3)$ là:",
+      "options": ["$3x-2$", "$8x^3+3x-2$", "$-3x+4$", "$3x+4$"],
+      "correct_answer": 0,
+      "solution": "Gọi tổng cần tính là $S$.\nLập tổng:\n$S=(4x^3-2x+1)+(-4x^3+5x-3)$\nPhá ngoặc có dấu cộng:\n$S=4x^3-2x+1-4x^3+5x-3$\nNhóm các hạng tử đồng dạng:\n$S=(4x^3-4x^3)+(-2x+5x)+(1-3)$\nThu gọn:\n$S=3x-2$."
+    },
+    {
+      "content": "Bậc của tổng $(4x^3-2x+1)+(-4x^3+5x-3)$ là:",
+      "options": ["3", "2", "0", "1"],
+      "correct_answer": 3,
+      "solution": "Gọi tổng là $S$.\n$S=(4x^3-2x+1)+(-4x^3+5x-3)$\nPhá ngoặc:\n$S=4x^3-2x+1-4x^3+5x-3$\nThu gọn:\n$S=3x-2$\nHạng tử có bậc cao nhất là $3x$ với bậc 1. Vậy $S$ có bậc 1."
+    },
+    {
+      "content": "Với mọi đa thức $P$, $Q$, mối quan hệ đúng giữa hai hiệu là:",
+      "options": ["$P-Q=Q-P$", "$P-Q=-(Q-P)$", "$P-Q=P+Q$", "$P-Q=0$"],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$Q-P=-(P-Q)$\nDo đó:\n$P-Q=-(Q-P)$\nKhi đổi thứ tự hai đa thức trong phép trừ, phải đổi dấu toàn bộ kết quả. Vì vậy phép trừ không có tính giao hoán."
+    },
+    {
+      "content": "Cho $P=2x^2y-xy^2+22$ và $Q=xy^2-2x^2y+23$. Tổng $P+Q$ là:",
+      "options": ["$45$", "$4x^2y-2xy^2+45$", "$-45$", "$x^2y+xy^2$"],
+      "correct_answer": 0,
+      "solution": "Lập tổng:\n$P+Q=(2x^2y-xy^2+22)+(xy^2-2x^2y+23)$\nPhá ngoặc:\n$P+Q=2x^2y-xy^2+22+xy^2-2x^2y+23$\nNhóm các hạng tử đồng dạng:\n$P+Q=(2x^2y-2x^2y)+(-xy^2+xy^2)+(22+23)$\nThu gọn:\n$P+Q=45$."
+    },
+    {
+      "content": "Nếu $P+Q=45$ với mọi giá trị của các biến, kết quả nào trong bảng chắc chắn sai?",
+      "options": ["Một cột có $P=19$, $Q=26$", "Một cột có $P=25$, $Q=20$", "Một cột có $P=22$, $Q=23$", "Một cột có $P=38$, $Q=17$"],
+      "correct_answer": 3,
+      "solution": "Ta đã có:\n$P+Q=45$\nKiểm tra từng cột:\n$19+26=45$\n$25+20=45$\n$38+17=55$\n$22+23=45$\nChỉ cặp $38$ và $17$ có tổng khác 45, nên cột đó sai."
+    },
+    {
+      "content": "Thu gọn $(x-y)+(y-z)+(z-x)$ được:",
+      "options": ["$2x+2y+2z$", "$x-y+z$", "$x+y+z$", "$0$"],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $E$.\n$E=(x-y)+(y-z)+(z-x)$\nPhá các ngoặc có dấu cộng:\n$E=x-y+y-z+z-x$\nNhóm các hạng tử đồng dạng:\n$E=(x-x)+(-y+y)+(-z+z)$\nThu gọn:\n$E=0$."
+    },
+    {
+      "content": "Thu gọn $(2x-3y)+(2y-3z)+(2z-3x)$ được:",
+      "options": ["$x+y+z$", "$-x-y-z$", "$5x-5y-5z$", "$0$"],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $E$.\n$E=(2x-3y)+(2y-3z)+(2z-3x)$\nPhá các ngoặc có dấu cộng:\n$E=2x-3y+2y-3z+2z-3x$\nNhóm theo từng biến:\n$E=(2x-3x)+(-3y+2y)+(-3z+2z)$\nThu gọn:\n$E=-x-y-z$."
+    },
+    {
+      "content": "Biểu thức $(A+B)+C$ có thể viết thành:",
+      "options": ["$A+(B+C)$", "$A-(B+C)$", "$(A-B)+C$", "$A+B-C$"],
+      "correct_answer": 0,
+      "solution": "Phép cộng đa thức có tính kết hợp:\n$(A+B)+C=A+(B+C)$\nVì vậy ta có thể thay đổi cách đặt ngoặc khi chỉ có phép cộng mà không làm đổi kết quả."
+    },
+    {
+      "content": "Cho $A-B=C$. Muốn tìm $C$, ta thực hiện:",
+      "options": ["$C=A+B$", "$C=B-A$", "$C=A-B$", "$C=-A-B$"],
+      "correct_answer": 2,
+      "solution": "Đẳng thức đã cho:\n$A-B=C$\nĐổi thứ tự hai vế, ta có:\n$C=A-B$\nVì vậy muốn tìm $C$, ta lập hiệu của $A$ và $B$, sau đó phá ngoặc và thu gọn."
+    },
+    {
+      "content": "Cho $A-B=C$. Muốn tìm $A$, ta dùng:",
+      "options": ["$A=B-C$", "$A=B+C$", "$A=C-B$", "$A=-B-C$"],
+      "correct_answer": 1,
+      "solution": "Từ:\n$A-B=C$\nCộng $B$ vào hai vế:\n$A-B+B=C+B$\nThu gọn hai vế:\n$A=B+C$."
+    },
+    {
+      "content": "Cho $A-B=C$. Muốn tìm $B$, ta dùng:",
+      "options": ["$B=A+C$", "$B=C-A$", "$B=A-C$", "$B=-A-C$"],
+      "correct_answer": 2,
+      "solution": "Từ $A-B=C$, suy ra:\n$A=B+C$\nTrừ $C$ ở hai vế:\n$A-C=B+C-C$\nThu gọn:\n$B=A-C$."
+    },
+    {
+      "content": "Một bạn tính $(2x^2-x)-(x^2-3x+1)=2x^2-x-x^2-3x+1$. Bạn sai ở đâu?",
+      "options": ["Không đổi dấu của tất cả hạng tử trong ngoặc thứ hai", "Đã đổi dấu hạng tử $x^2$", "Đã viết đúng hoàn toàn", "Không được phép trừ hai đa thức"],
+      "correct_answer": 0,
+      "solution": "Đa thức thứ hai nằm sau dấu trừ nên phải đổi dấu từng hạng tử:\n$-(x^2-3x+1)=-x^2+3x-1$\nVì vậy phép biến đổi đúng là:\n$(2x^2-x)-(x^2-3x+1)=2x^2-x-x^2+3x-1$\nBạn đã quên đổi dấu của $-3x$ và $+1$."
+    },
+    {
+      "content": "Bỏ ngoặc đúng trong $(3x^2+2x-1)-(-x^2+4x-5)$ là:",
+      "options": ["$3x^2+2x-1-x^2+4x-5$", "$3x^2+2x-1+x^2-4x+5$", "$3x^2+2x-1+x^2+4x+5$", "$3x^2+2x-1-x^2-4x-5$"],
+      "correct_answer": 1,
+      "solution": "Gọi hiệu là $E$.\n$E=(3x^2+2x-1)-(-x^2+4x-5)$\nĐổi dấu từng hạng tử trong ngoặc thứ hai:\n$-(-x^2)=+x^2$, $-(4x)=-4x$, $-(-5)=+5$\nVì vậy:\n$E=3x^2+2x-1+x^2-4x+5$."
+    },
+    {
+      "content": "Trong tổng $2x^2y-3xy^2+5yx^2+xy^2$, cách nhóm đúng là:",
+      "options": ["$(2x^2y-3xy^2)+(5yx^2+xy^2)$", "$(2x^2y+xy^2)+(-3xy^2+5yx^2)$", "Cả bốn hạng tử cùng một nhóm", "$(2x^2y+5yx^2)+(-3xy^2+xy^2)$"],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $E$.\nĐưa phần biến về cùng thứ tự:\n$yx^2=x^2y$, $y^2x=xy^2$\nKhi đó:\n$E=2x^2y-3xy^2+5x^2y+xy^2$\nNhóm các hạng tử đồng dạng:\n$E=(2x^2y+5x^2y)+(-3xy^2+xy^2)$."
+    },
+    {
+      "content": "Tổng của hai đa thức cùng bậc 4 có thể có bậc nhỏ hơn 4 không?",
+      "options": ["Có, nếu các hạng tử bậc 4 triệt tiêu", "Không, tổng luôn có bậc 4", "Không, tổng phải có bậc 8", "Chỉ khi cả hai đa thức bằng 0"],
+      "correct_answer": 0,
+      "solution": "Có. Ví dụ:\n$P=x^4+x$, $Q=-x^4+2$\nKhi đó:\n$P+Q=(x^4+x)+(-x^4+2)$\n$P+Q=x^4+x-x^4+2$\n$P+Q=x+2$\nHai đa thức ban đầu có bậc 4 nhưng tổng chỉ có bậc 1 vì các hạng tử bậc 4 triệt tiêu."
+    },
+    {
+      "content": "Nếu các hạng tử bậc cao nhất của $P$ và $Q$ không đồng dạng thì bậc của $P+Q$:",
+      "options": ["Luôn bằng 0", "Bằng tổng bậc của $P$ và $Q$", "Bằng bậc lớn hơn trong hai đa thức", "Không thể xác định trong mọi trường hợp"],
+      "correct_answer": 2,
+      "solution": "Các hạng tử bậc cao nhất không đồng dạng thì không thể gộp hoặc triệt tiêu.\nVì vậy sau khi thu gọn $P+Q$, hạng tử có bậc lớn nhất vẫn còn. Bậc của $P+Q$ bằng bậc lớn hơn trong hai bậc của $P$ và $Q$."
+    },
+    {
+      "content": "Tại cùng một bộ giá trị của biến, giá trị của $P+Q$ bằng:",
+      "options": ["Giá trị của $P$ trừ giá trị của $Q$", "Tổng các giá trị tương ứng của $P$ và $Q$", "Tích các giá trị của $P$ và $Q$", "Luôn bằng 0"],
+      "correct_answer": 1,
+      "solution": "Thay cùng một bộ giá trị vào $P$ và $Q$.\nKhi đó:\n$(P+Q)(a)=P(a)+Q(a)$\nNghĩa là giá trị của tổng bằng tổng các giá trị tương ứng của hai đa thức."
+    },
+    {
+      "content": "Tại cùng một bộ giá trị của biến, giá trị của $P-Q$ bằng:",
+      "options": ["Hiệu giá trị của $P$ và giá trị của $Q$", "Tổng giá trị của $P$ và $Q$", "Giá trị của $Q-P$", "Luôn bằng 1"],
+      "correct_answer": 0,
+      "solution": "Thay cùng một bộ giá trị vào $P$ và $Q$.\nKhi đó:\n$(P-Q)(a)=P(a)-Q(a)$\nNghĩa là giá trị của hiệu bằng giá trị của đa thức thứ nhất trừ giá trị của đa thức thứ hai."
+    },
+    {
+      "content": "Nếu tại $x=a$, hai đa thức $P$ và $Q$ có cùng giá trị thì tại đó:",
+      "options": ["$P+Q=0$", "$P-Q=0$", "$P-Q=1$", "$P+Q=1$"],
+      "correct_answer": 1,
+      "solution": "Tại $x=a$, ta có:\n$P(a)=Q(a)$\nDo đó:\n$(P-Q)(a)=P(a)-Q(a)=0$\nVì vậy giá trị của hiệu tại điểm đang xét bằng 0."
+    },
+    {
+      "content": "Biết $P+Q$ là đa thức hằng 45. Cách kiểm tra nhanh một cặp giá trị $P$, $Q$ trong bảng là:",
+      "options": ["Nhân hai giá trị và so với 45", "Lấy giá trị lớn trừ giá trị nhỏ", "Cộng hai giá trị và kiểm tra có bằng 45 không", "Chỉ kiểm tra giá trị của $P$"],
+      "correct_answer": 2,
+      "solution": "Sau khi thu gọn:\n$P+Q=45$\nVì kết quả không còn biến, ở mỗi cột ta chỉ cần cộng giá trị của $P$ với giá trị của $Q$.\nNếu tổng khác 45 thì cột đó chắc chắn sai."
+    },
+    {
+      "content": "Với mọi đa thức $P$, hiệu $P-0$ bằng:",
+      "options": ["$0$", "$-P$", "$2P$", "$P$"],
+      "correct_answer": 3,
+      "solution": "Ta có:\n$P-0=P$\nTrừ đa thức 0 không làm thay đổi bất kì hạng tử nào của $P$."
+    },
+    {
+      "content": "Với mọi đa thức $P$, hiệu $0-P$ bằng:",
+      "options": ["$P$", "$-P$", "$0$", "$2P$"],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$0-P=-(P)$\nKhi phá ngoặc, mọi hạng tử của $P$ đều đổi dấu. Vì vậy:\n$0-P=-P$."
+    },
+    {
+      "content": "Khi viết hiệu $P-Q$, vì sao nên đặt toàn bộ $Q$ trong ngoặc?",
+      "options": ["Để tăng bậc của hiệu", "Để biến phép trừ thành phép nhân", "Để nhớ đổi dấu tất cả các hạng tử của $Q$ khi bỏ ngoặc", "Để bỏ các hạng tử tự do"],
+      "correct_answer": 2,
+      "solution": "Viết hiệu dưới dạng:\n$P-Q=P-(Q)$\nNgoặc cho thấy toàn bộ $Q$ là đa thức bị trừ. Khi phá ngoặc, phải đổi dấu từng hạng tử của $Q$, không chỉ đổi dấu hạng tử đầu."
+    },
+    {
+      "content": "Sau khi cộng hoặc trừ hai đa thức, bước kiểm tra phù hợp nhất là:",
+      "options": ["Kiểm tra đã đổi dấu đúng khi trừ và đã gộp hết các hạng tử đồng dạng", "Kiểm tra mọi hệ số đều dương", "Kiểm tra số hạng tử phải tăng", "Kiểm tra bậc phải bằng tổng hai bậc"],
+      "correct_answer": 0,
+      "solution": "Kiểm tra theo thứ tự:\n1. Đã đặt toàn bộ đa thức bị trừ trong ngoặc chưa?\n2. Khi phá ngoặc, đã đổi dấu mọi hạng tử chưa?\n3. Đã nhóm và gộp hết các hạng tử đồng dạng chưa?"
+    }
+  ]
+}

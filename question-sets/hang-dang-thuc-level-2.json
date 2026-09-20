@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Khai triển $(2x+3)^2$.",
+      "options": [
+        "$4x^2+12x+9$",
+        "$4x^2+6x+9$",
+        "$4x^2-12x+9$",
+        "$2x^2+12x+9$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2x+3)^2$\n$P=(2x)^2+2·2x·3+3^2$\n$P=4x^2+12x+9$."
+    },
+    {
+      "content": "Khai triển $(3x-2)^2$.",
+      "options": [
+        "$9x^2+12x+4$",
+        "$9x^2-4$",
+        "$9x^2-12x+4$",
+        "$3x^2-12x+4$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $P$.\n$P=(3x-2)^2$\n$P=(3x)^2-2·3x·2+2^2$\n$P=9x^2-12x+4$."
+    },
+    {
+      "content": "Khai triển $(x+5y)^2$.",
+      "options": [
+        "$x^2+5xy+25y^2$",
+        "$x^2+10xy+25y^2$",
+        "$x^2-10xy+25y^2$",
+        "$x^2+10xy+5y^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+5y)^2$\n$P=x^2+2·x·5y+(5y)^2$\n$P=x^2+10xy+25y^2$."
+    },
+    {
+      "content": "Khai triển $(2a-3b)^2$.",
+      "options": [
+        "$4a^2+12ab+9b^2$",
+        "$4a^2-6ab+9b^2$",
+        "$2a^2-12ab+3b^2$",
+        "$4a^2-12ab+9b^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2a-3b)^2$\n$P=(2a)^2-2·2a·3b+(3b)^2$\n$P=4a^2-12ab+9b^2$."
+    },
+    {
+      "content": "Khai triển $(x^2+2y)^2$.",
+      "options": [
+        "$x^4+2x^2y+4y^2$",
+        "$x^4+4x^2y+4y^2$",
+        "$x^4-4x^2y+4y^2$",
+        "$x^2+4x^2y+4y^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x^2+2y)^2$\n$P=(x^2)^2+2·x^2·2y+(2y)^2$\n$P=x^4+4x^2y+4y^2$."
+    },
+    {
+      "content": "Khai triển $(3m+n)^2$.",
+      "options": [
+        "$9m^2+6mn+n^2$",
+        "$9m^2+3mn+n^2$",
+        "$9m^2-6mn+n^2$",
+        "$3m^2+6mn+n^2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $P$.\n$P=(3m+n)^2$\n$P=(3m)^2+2·3m·n+n^2$\n$P=9m^2+6mn+n^2$."
+    },
+    {
+      "content": "Viết $x^2+8x+16$ dưới dạng bình phương.",
+      "options": [
+        "$(x-4)^2$",
+        "$(x+8)^2$",
+        "$(x+2)^2$",
+        "$(x+4)^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có:\n$x^2+8x+16=x^2+2·x·4+4^2$\nDo đó:\n$x^2+8x+16=(x+4)^2$."
+    },
+    {
+      "content": "Viết $4x^2-12xy+9y^2$ dưới dạng bình phương.",
+      "options": [
+        "$(2x+3y)^2$",
+        "$(4x-3y)^2$",
+        "$(2x-3y)^2$",
+        "$(2x-9y)^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$4x^2-12xy+9y^2=(2x)^2-2·2x·3y+(3y)^2$\nDo đó:\n$4x^2-12xy+9y^2=(2x-3y)^2$."
+    },
+    {
+      "content": "Viết $9a^2+6ab+b^2$ dưới dạng bình phương.",
+      "options": [
+        "$(3a-b)^2$",
+        "$(9a+b)^2$",
+        "$(3a+b)^2$",
+        "$(a+3b)^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$9a^2+6ab+b^2=(3a)^2+2·3a·b+b^2$\nDo đó:\n$9a^2+6ab+b^2=(3a+b)^2$."
+    },
+    {
+      "content": "Viết $x^2-25$ dưới dạng tích.",
+      "options": [
+        "$(x-5)^2$",
+        "$(x+5)^2$",
+        "$(x-25)(x+1)$",
+        "$(x-5)(x+5)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có:\n$x^2-25=x^2-5^2$\nDo đó:\n$x^2-25=(x-5)(x+5)$."
+    },
+    {
+      "content": "Viết $4x^2-y^2$ dưới dạng tích.",
+      "options": [
+        "$(2x-y)(2x+y)$",
+        "$(2x-y)^2$",
+        "$(4x-y)(4x+y)$",
+        "$(x-y)(x+y)$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$4x^2-y^2=(2x)^2-y^2$\nDo đó:\n$4x^2-y^2=(2x-y)(2x+y)$."
+    },
+    {
+      "content": "Viết $x^4-16$ dưới dạng tích.",
+      "options": [
+        "$(x^2-4)^2$",
+        "$(x^2-4)(x^2+4)$",
+        "$(x-4)(x+4)$",
+        "$(x^2-16)(x^2+1)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$x^4-16=(x^2)^2-4^2$\nÁp dụng hiệu hai bình phương:\n$x^4-16=(x^2-4)(x^2+4)$."
+    },
+    {
+      "content": "Tính nhanh $98^2$.",
+      "options": [
+        "$9404$",
+        "$9804$",
+        "$9600$",
+        "$9604$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta viết:\n$98=100-2$\n$P=98^2$\n$P=(100-2)^2$\n$P=10000-400+4$\n$P=9604$."
+    },
+    {
+      "content": "Tính nhanh $102^2$.",
+      "options": [
+        "$10204$",
+        "$10404$",
+        "$10400$",
+        "$10004$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta viết:\n$102=100+2$\n$P=102^2$\n$P=(100+2)^2$\n$P=10000+400+4$\n$P=10404$."
+    },
+    {
+      "content": "Tính nhanh $47·53$.",
+      "options": [
+        "$2509$",
+        "$2497$",
+        "$2491$",
+        "$2350$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$47·53=(50-3)(50+3)$\n$P=50^2-3^2$\n$P=2500-9$\n$P=2491$."
+    },
+    {
+      "content": "Tính nhanh $198·202$.",
+      "options": [
+        "$39996$",
+        "$40004$",
+        "$39600$",
+        "$39960$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$198·202=(200-2)(200+2)$\n$P=200^2-2^2$\n$P=40000-4$\n$P=39996$."
+    },
+    {
+      "content": "Để $x^2+4x+□$ là bình phương của một tổng, ô trống là:",
+      "options": [
+        "$2$",
+        "$4$",
+        "$8$",
+        "$16$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$x^2+4x+□=x^2+2·x·2+2^2$\nVì vậy:\n$□=4$."
+    },
+    {
+      "content": "Để $□-10xy+25y^2=(x-5y)^2$, ô trống là:",
+      "options": [
+        "$5x^2$",
+        "$10x^2$",
+        "$-x^2$",
+        "$x^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển:\n$(x-5y)^2=x^2-2·x·5y+25y^2$\n$(x-5y)^2=x^2-10xy+25y^2$.\nVậy ô trống là $x^2$."
+    },
+    {
+      "content": "Trong $(3x+□)^2=9x^2+24xy+16y^2$, ô trống là:",
+      "options": [
+        "$4y$",
+        "$2y$",
+        "$8y$",
+        "$4x$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$9x^2=(3x)^2$\n$16y^2=(4y)^2$\nHạng tử giữa là $2·3x·4y=24xy$.\nVậy ô trống là $4y$."
+    },
+    {
+      "content": "Kết quả của $(2x-y)(2x+y)$ là:",
+      "options": [
+        "$4x^2+y^2$",
+        "$4x^2-4xy+y^2$",
+        "$4x^2-y^2$",
+        "$2x^2-y^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Áp dụng hiệu hai bình phương:\n$(2x-y)(2x+y)=(2x)^2-y^2$\n$(2x-y)(2x+y)=4x^2-y^2$."
+    },
+    {
+      "content": "Rút gọn $(x+2)^2-(x-2)^2$.",
+      "options": [
+        "$4x$",
+        "$8$",
+        "$8x$",
+        "$8x^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+2)^2-(x-2)^2$\nÁp dụng hiệu hai bình phương:\n$P=[(x+2)-(x-2)]·[(x+2)+(x-2)]$\n$P=4·2x$\n$P=8x$."
+    },
+    {
+      "content": "Rút gọn $(x+3)^2+(x-3)^2$.",
+      "options": [
+        "$2x^2+18$",
+        "$2x^2-18$",
+        "$2x^2+6$",
+        "$x^2+18$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+3)^2+(x-3)^2$\n$P=(x^2+6x+9)+(x^2-6x+9)$\n$P=2x^2+18$."
+    },
+    {
+      "content": "Biểu thức nào bằng $(x-3y)(x+3y)$?",
+      "options": [
+        "$x^2+9y^2$",
+        "$x^2-6xy+9y^2$",
+        "$x^2+6xy+9y^2$",
+        "$x^2-9y^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Áp dụng hiệu hai bình phương:\n$(x-3y)(x+3y)=x^2-(3y)^2$\n$(x-3y)(x+3y)=x^2-9y^2$."
+    },
+    {
+      "content": "Khai triển $(2a+b)^2$.",
+      "options": [
+        "$4a^2+2ab+b^2$",
+        "$4a^2+4ab+b^2$",
+        "$4a^2-4ab+b^2$",
+        "$2a^2+4ab+b^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2a+b)^2$\n$P=(2a)^2+2·2a·b+b^2$\n$P=4a^2+4ab+b^2$."
+    },
+    {
+      "content": "Tính nhanh $54·66$.",
+      "options": [
+        "$3564$",
+        "$3464$",
+        "$3600$",
+        "$3560$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$54·66=(60-6)(60+6)$\n$P=60^2-6^2$\n$P=3600-36$\n$P=3564$."
+    },
+    {
+      "content": "Biểu thức $16a^2-16ab+4b^2$ bằng:",
+      "options": [
+        "$(4a+2b)^2$",
+        "$(16a-4b)^2$",
+        "$(4a-2b)^2$",
+        "$(2a-4b)^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$16a^2=(4a)^2$\n$4b^2=(2b)^2$\n$-16ab=-2·4a·2b$\nVậy:\n$16a^2-16ab+4b^2=(4a-2b)^2$."
+    },
+    {
+      "content": "Tích nào được tính nhanh bằng $a^2-b^2$?",
+      "options": [
+        "$(a-b)^2$",
+        "$(a-b)(a+b)$",
+        "$(a+b)^2$",
+        "$a(a-b)$"
+      ],
+      "correct_answer": 1,
+      "solution": "Hằng đẳng thức cho biết:\n$(a-b)(a+b)=a^2-b^2$."
+    },
+    {
+      "content": "Khai triển $(x-4y)^2$.",
+      "options": [
+        "$x^2+8xy+16y^2$",
+        "$x^2-4xy+16y^2$",
+        "$x^2-8xy+4y^2$",
+        "$x^2-8xy+16y^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x-4y)^2$\n$P=x^2-2·x·4y+(4y)^2$\n$P=x^2-8xy+16y^2$."
+    },
+    {
+      "content": "Dạng đúng của $x^2+12x+36$ là:",
+      "options": [
+        "$(x+6)^2$",
+        "$(x-6)^2$",
+        "$(x+12)^2$",
+        "$(x+3)^2$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$x^2+12x+36=x^2+2·x·6+6^2$\nDo đó:\n$x^2+12x+36=(x+6)^2$."
+    },
+    {
+      "content": "Dạng đúng của $25x^2-30xy+9y^2$ là:",
+      "options": [
+        "$(5x+3y)^2$",
+        "$(5x-3y)^2$",
+        "$(25x-9y)^2$",
+        "$(3x-5y)^2$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$25x^2=(5x)^2$\n$9y^2=(3y)^2$\n$-30xy=-2·5x·3y$\nVậy:\n$25x^2-30xy+9y^2=(5x-3y)^2$."
+    }
+  ]
+}

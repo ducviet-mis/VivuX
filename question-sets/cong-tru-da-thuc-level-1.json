@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Muốn cộng hai đa thức $P$ và $Q$, trước hết ta viết:",
+      "options": ["$P-Q$", "$P+Q$", "$PQ$", "$P:Q$"],
+      "correct_answer": 1,
+      "solution": "Phép cộng hai đa thức được lập bằng tổng $P+Q$, sau đó bỏ dấu ngoặc và thu gọn."
+    },
+    {
+      "content": "Muốn trừ đa thức $Q$ cho đa thức $P$, ta viết:",
+      "options": ["$P+Q$", "$Q+P$", "$P-Q$", "$Q-P$"],
+      "correct_answer": 3,
+      "solution": "Trừ $Q$ cho $P$ nghĩa là lấy $Q-P$."
+    },
+    {
+      "content": "Sau khi lập tổng của hai đa thức, bước tiếp theo là:",
+      "options": ["Bỏ dấu ngoặc rồi thu gọn các hạng tử đồng dạng", "Nhân mọi hạng tử với nhau", "Đổi dấu tất cả các hạng tử", "Tính bậc trước khi bỏ ngoặc"],
+      "correct_answer": 0,
+      "solution": "Ta bỏ ngoặc, nhóm các hạng tử đồng dạng và cộng các hệ số."
+    },
+    {
+      "content": "Khi bỏ dấu ngoặc có dấu trừ đứng trước, ta phải:",
+      "options": ["Giữ nguyên mọi dấu trong ngoặc", "Chỉ đổi dấu hạng tử đầu", "Đổi dấu tất cả các hạng tử trong ngoặc", "Bỏ các hạng tử âm"],
+      "correct_answer": 2,
+      "solution": "Dấu trừ trước ngoặc làm đổi dấu từng hạng tử trong ngoặc."
+    },
+    {
+      "content": "Khi bỏ dấu ngoặc có dấu cộng đứng trước, các dấu trong ngoặc:",
+      "options": ["Đều đổi thành dấu cộng", "Đều đổi thành dấu trừ", "Chỉ giữ dấu của hạng tử đầu", "Được giữ nguyên"],
+      "correct_answer": 3,
+      "solution": "Dấu cộng trước ngoặc không làm thay đổi dấu của các hạng tử."
+    },
+    {
+      "content": "Biểu thức $-(x^2-3x+2)$ sau khi bỏ ngoặc là:",
+      "options": ["$-x^2-3x+2$", "$x^2+3x-2$", "$-x^2+3x-2$", "$x^2-3x+2$"],
+      "correct_answer": 2,
+      "solution": "Đổi dấu từng hạng tử: $x^2$ thành $-x^2$, $-3x$ thành $+3x$, $+2$ thành $-2$."
+    },
+    {
+      "content": "Cặp hạng tử nào có thể gộp khi cộng hoặc trừ đa thức?",
+      "options": ["$2x^2y$ và $3xy^2$", "$-4xy$ và $7xy$", "$x^3$ và $x^2$", "$5x$ và $5y$"],
+      "correct_answer": 1,
+      "solution": "$-4xy$ và $7xy$ có cùng phần biến $xy$, nên là hai hạng tử đồng dạng."
+    },
+    {
+      "content": "Cặp hạng tử nào không đồng dạng?",
+      "options": ["$2x^2$ và $-5x^2$", "$3xy$ và $xy$", "$a^2b$ và $-4a^2b$", "$x^2y$ và $xy^2$"],
+      "correct_answer": 3,
+      "solution": "$x^2y$ và $xy^2$ có phần biến khác nhau nên không đồng dạng."
+    },
+    {
+      "content": "Phép cộng đa thức có tính chất nào sau đây?",
+      "options": ["Không giao hoán", "Luôn làm tăng bậc", "Chỉ thực hiện được với đa thức một biến", "Giao hoán"],
+      "correct_answer": 3,
+      "solution": "Phép cộng đa thức có tính chất giao hoán: $P+Q=Q+P$."
+    },
+    {
+      "content": "Với ba đa thức $A$, $B$, $C$, đẳng thức nào thể hiện tính kết hợp của phép cộng?",
+      "options": ["$A+B=A-B$", "$A+(B+C)=A-B-C$", "$(A+B)+C=A+(B+C)$", "$A+B=B-A$"],
+      "correct_answer": 2,
+      "solution": "Phép cộng đa thức có tính kết hợp giống phép cộng các số."
+    },
+    {
+      "content": "Phép trừ đa thức có tính giao hoán không?",
+      "options": ["Có trong mọi trường hợp", "Không; nói chung $P-Q$ khác $Q-P$", "Chỉ có khi đa thức có hai biến", "Chỉ có khi các hệ số dương"],
+      "correct_answer": 1,
+      "solution": "Nói chung $P-Q$ và $Q-P$ là hai đa thức đối nhau, không bằng nhau."
+    },
+    {
+      "content": "Nếu $A-B=C$ thì đẳng thức nào đúng?",
+      "options": ["$A=C-B$", "$B=A+C$", "$A+B=C$", "$A=B+C$"],
+      "correct_answer": 3,
+      "solution": "Từ $A-B=C$, cộng $B$ vào hai vế ta được $A=B+C$."
+    },
+    {
+      "content": "Nếu $A=B+C$ thì:",
+      "options": ["$A-B=C$", "$A-C=-B$", "$B-C=A$", "$A+B=C$"],
+      "correct_answer": 0,
+      "solution": "Từ $A=B+C$, trừ $B$ ở hai vế ta được $A-B=C$."
+    },
+    {
+      "content": "Cách lập tổng của $P=x+2$ và $Q=3x-1$ là:",
+      "options": ["$(x+2)-(3x-1)$", "$(3x-1)-(x+2)$", "$(x+2)+(3x-1)$", "$(x+2)(3x-1)$"],
+      "correct_answer": 2,
+      "solution": "Tổng hai đa thức là $P+Q=(x+2)+(3x-1)$."
+    },
+    {
+      "content": "Cách lập hiệu $P-Q$ với $P=x+2$, $Q=3x-1$ là:",
+      "options": ["$(x+2)+(3x-1)$", "$(x+2)-(3x-1)$", "$(3x-1)-(x+2)$", "$(x+2)(3x-1)$"],
+      "correct_answer": 1,
+      "solution": "Hiệu $P-Q$ được lập bằng cách đặt toàn bộ $Q$ sau dấu trừ."
+    },
+    {
+      "content": "Bỏ ngoặc trong $P-(x^2-3x+2)$, phần được trừ trở thành:",
+      "options": ["$x^2-3x+2$", "$-x^2-3x-2$", "$x^2+3x+2$", "$-x^2+3x-2$"],
+      "correct_answer": 3,
+      "solution": "Dấu trừ trước ngoặc làm đổi dấu tất cả các hạng tử của đa thức trong ngoặc."
+    },
+    {
+      "content": "Tổng $2x^2+3x^2$ bằng:",
+      "options": ["$5x^4$", "$6x^2$", "$5x^2$", "$x^2$"],
+      "correct_answer": 2,
+      "solution": "Hai hạng tử đồng dạng nên cộng hệ số: $2+3=5$, giữ nguyên $x^2$."
+    },
+    {
+      "content": "Hiệu $5xy-2xy$ bằng:",
+      "options": ["$3xy$", "$3$", "$3x$", "$7xy$"],
+      "correct_answer": 0,
+      "solution": "Trừ các hệ số $5-2=3$ và giữ nguyên phần biến $xy$."
+    },
+    {
+      "content": "Tổng của hai hạng tử $-3a^2b$ và $5a^2b$ là:",
+      "options": ["$-8a^2b$", "$2a^2b$", "$2a^4b^2$", "$8a^2b$"],
+      "correct_answer": 1,
+      "solution": "$-3+5=2$, nên tổng là $2a^2b$."
+    },
+    {
+      "content": "Hiệu $4x^3-7x^3$ bằng:",
+      "options": ["$11x^3$", "$3x^3$", "$-3x^6$", "$-3x^3$"],
+      "correct_answer": 3,
+      "solution": "$4-7=-3$, nên hiệu là $-3x^3$."
+    },
+    {
+      "content": "Tổng của hai hằng số $7$ và $-2$ là:",
+      "options": ["$5$", "$9$", "$-5$", "$-9$"],
+      "correct_answer": 0,
+      "solution": "$7+(-2)=5$."
+    },
+    {
+      "content": "Hiệu $3-8$ bằng:",
+      "options": ["$11$", "$5$", "$-5$", "$-11$"],
+      "correct_answer": 2,
+      "solution": "$3-8=-5$."
+    },
+    {
+      "content": "Tổng $(x^2+2x)+(3x^2-x)$ bằng:",
+      "options": ["$4x^2+x$", "$4x^4+x$", "$2x^2+x$", "$4x^2+3x$"],
+      "correct_answer": 0,
+      "solution": "$x^2+3x^2=4x^2$ và $2x-x=x$."
+    },
+    {
+      "content": "Hiệu $(x^2+2x)-(3x^2-x)$ bằng:",
+      "options": ["$-2x^2+x$", "$4x^2+x$", "$-2x^2+3x$", "$2x^2+3x$"],
+      "correct_answer": 2,
+      "solution": "Bỏ ngoặc: $x^2+2x-3x^2+x=-2x^2+3x$."
+    },
+    {
+      "content": "Với mọi đa thức $P$, ta có $P+0$ bằng:",
+      "options": ["$0$", "$-P$", "$2P$", "$P$"],
+      "correct_answer": 3,
+      "solution": "Đa thức 0 là phần tử trung hòa của phép cộng, nên $P+0=P$."
+    },
+    {
+      "content": "Với mọi đa thức $P$, hiệu $P-P$ bằng:",
+      "options": ["$P$", "$0$", "$2P$", "$-P$"],
+      "correct_answer": 1,
+      "solution": "Mỗi hạng tử của $P$ triệt tiêu với chính nó, nên $P-P=0$."
+    },
+    {
+      "content": "Đẳng thức nào đúng với mọi đa thức $P$, $Q$?",
+      "options": ["$P+Q=Q+P$", "$P-Q=Q-P$", "$P-Q=P+Q$", "$P+Q=0$"],
+      "correct_answer": 0,
+      "solution": "Phép cộng đa thức có tính giao hoán."
+    },
+    {
+      "content": "Đẳng thức nào đúng với mọi đa thức $A$, $B$, $C$?",
+      "options": ["$(A-B)-C=A-(B-C)$", "$A-B=B-A$", "$A+(B+C)=(A+B)+C$", "$A-(B+C)=A-B+C$"],
+      "correct_answer": 2,
+      "solution": "Tính kết hợp áp dụng cho phép cộng: $A+(B+C)=(A+B)+C$."
+    },
+    {
+      "content": "Cách thuận lợi để thu gọn tổng hoặc hiệu hai đa thức là:",
+      "options": ["Nhóm các hạng tử đồng dạng với nhau", "Nhân tất cả các số mũ", "Bỏ các hạng tử có hệ số âm", "Chỉ giữ hạng tử bậc cao nhất"],
+      "correct_answer": 0,
+      "solution": "Nhóm các hạng tử đồng dạng giúp cộng hoặc trừ hệ số chính xác."
+    },
+    {
+      "content": "Quy trình đúng để cộng hoặc trừ hai đa thức là:",
+      "options": ["Tìm bậc, nhân hai đa thức rồi thu gọn", "Nối hai đa thức bằng dấu thích hợp, bỏ ngoặc đúng quy tắc rồi thu gọn", "Cộng mọi số mũ rồi giữ nguyên hệ số", "Chỉ tính các hạng tử đầu tiên"],
+      "correct_answer": 1,
+      "solution": "Ta lập tổng hoặc hiệu, bỏ ngoặc đúng quy tắc và gộp các hạng tử đồng dạng."
+    }
+  ]
+}

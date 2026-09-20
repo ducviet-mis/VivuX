@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
+import { useStreak } from '@/features/streak/hooks/use-streak';
 import {
   DEFAULT_FLYTIEE_PROFILE,
   FLYTIEE_ACCESSORIES,
@@ -13,7 +14,21 @@ import {
   normalizeFlytieeProfile,
   xpNeededForLevel,
 } from './config';
-import type { FlytieeMission, FlytieeProfile } from './types';
+import {
+  BIRDIE_MAIL_CODES,
+  CHEST_COIN_POOLS,
+  CHEST_LABELS,
+  STUDY_MILESTONES,
+  rewardForStreakDay,
+} from './event-config';
+import type {
+  FlytieeChestTier,
+  FlytieeDailyEventState,
+  FlytieeEventStats,
+  FlytieeMission,
+  FlytieeProfile,
+  FlytieeRewardResult,
+} from './types';
 
 const SATIETY_LOSS_PER_HOUR = 4;
 
@@ -29,7 +44,45 @@ function startOfTodayIso() {
 }
 
 function createDefaultProfile(): FlytieeProfile {
-  return { ...DEFAULT_FLYTIEE_PROFILE, satietyUpdatedAt: new Date().toISOString(), equipped: {} };
+  return {
+    ...DEFAULT_FLYTIEE_PROFILE,
+    satietyUpdatedAt: new Date().toISOString(),
+    equipped: {},
+    chests: { ...DEFAULT_FLYTIEE_PROFILE.chests },
+    dailyEvent: { ...DEFAULT_FLYTIEE_PROFILE.dailyEvent, studyClaimedMilestones: [] },
+  };
+}
+
+function dailyEventForToday(profile: FlytieeProfile): FlytieeDailyEventState {
+  if (profile.dailyEvent.date === todayKey()) return profile.dailyEvent;
+  return {
+    date: todayKey(),
+    streakClaimed: false,
+    studyClaimedMilestones: [],
+    practiceCoinsClaimed: 0,
+    completionChestClaimed: false,
+  };
+}
+
+function randomItem<T>(items: T[]): T | undefined {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function grantReward(profile: FlytieeProfile, reward: FlytieeRewardResult) {
+  if (reward.kind === 'coins') return { ...profile, coins: profile.coins + (reward.amount ?? 0) };
+  if (reward.kind === 'chest' && reward.chestTier) {
+    return { ...profile, chests: { ...profile.chests, [reward.chestTier]: profile.chests[reward.chestTier] + 1 } };
+  }
+  if (reward.kind === 'accessory' && reward.itemId && !profile.ownedAccessoryIds.includes(reward.itemId)) {
+    return { ...profile, ownedAccessoryIds: [...profile.ownedAccessoryIds, reward.itemId] };
+  }
+  if (reward.kind === 'skin' && reward.itemId && !profile.ownedSkinIds.includes(reward.itemId)) {
+    return { ...profile, ownedSkinIds: [...profile.ownedSkinIds, reward.itemId] };
+  }
+  if (reward.kind === 'set' && reward.itemId && !profile.ownedSetIds.includes(reward.itemId)) {
+    return { ...profile, ownedSetIds: [...profile.ownedSetIds, reward.itemId] };
+  }
+  return profile;
 }
 
 function calculateSatiety(profile: FlytieeProfile, now = Date.now()) {
@@ -51,8 +104,15 @@ function addReward(profile: FlytieeProfile, xpReward: number, coinReward: number
 
 export function useFlytiee() {
   const user = useAuthStore((state) => state.user);
+  const { currentStreak } = useStreak();
   const [profile, setProfile] = useState<FlytieeProfile>(createDefaultProfile);
   const [missions, setMissions] = useState<FlytieeMission[]>([]);
+  const [eventStats, setEventStats] = useState<FlytieeEventStats>({
+    streak: 0,
+    studyMinutes: 0,
+    correctByLevel: { 1: 0, 2: 0, 3: 0, 4: 0 },
+    practiceCoinsEarned: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -100,8 +160,8 @@ export function useFlytiee() {
     const supabase = getSupabaseClient();
     const since = startOfTodayIso();
     const [practiceResult, mockResult] = await Promise.all([
-      supabase.from('practice_progress').select('is_correct').eq('user_id', userId).gte('answered_at', since),
-      supabase.from('mock_exam_attempts').select('id').eq('user_id', userId).gte('created_at', since),
+      supabase.from('practice_progress').select('is_correct, difficulty_level').eq('user_id', userId).gte('answered_at', since),
+      supabase.from('mock_exam_attempts').select('id, duration_used').eq('user_id', userId).gte('created_at', since),
     ]);
 
     const practiceRows = practiceResult.data ?? [];
@@ -109,6 +169,21 @@ export function useFlytiee() {
     const correct = practiceRows.filter((row: { is_correct: boolean }) => row.is_correct).length;
     const accuracy = answered > 0 ? Math.round(correct / answered * 100) : 0;
     const mockAttempts = mockResult.data?.length ?? 0;
+    const correctByLevel: FlytieeEventStats['correctByLevel'] = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    practiceRows.forEach((row: { is_correct: boolean; difficulty_level?: number }) => {
+      if (!row.is_correct) return;
+      const level = Math.max(1, Math.min(4, Math.floor(Number(row.difficulty_level) || 1))) as 1 | 2 | 3 | 4;
+      correctByLevel[level] += 1;
+    });
+    const practiceCoinsEarned = Math.min(100, Object.entries(correctByLevel)
+      .reduce((sum: number, [level, count]) => sum + Number(level) * count, 0));
+    const mockStudySeconds = (mockResult.data ?? []).reduce(
+      (sum: number, row: { duration_used?: number }) => sum + Math.max(0, Number(row.duration_used) || 0),
+      0,
+    );
+    const studyMinutes = practiceRows.length * 2 + Math.floor(mockStudySeconds / 60);
+
+    setEventStats({ streak: currentStreak, studyMinutes, correctByLevel, practiceCoinsEarned });
 
     setMissions([
       { id: 'practice-5', title: 'Khởi động trí não', description: 'Hoàn thành 5 câu tự luyện hôm nay', current: Math.min(answered, 5), target: 5, xp: 20, coins: 20 },
@@ -116,7 +191,7 @@ export function useFlytiee() {
       { id: 'accuracy-80', title: 'Đôi cánh chính xác', description: 'Đạt ít nhất 80% sau 10 câu hôm nay', current: answered >= 10 ? Math.min(accuracy, 80) : 0, target: 80, xp: 30, coins: 30 },
       { id: 'mock-exam-1', title: 'Dũng cảm thử sức', description: 'Hoàn thành 1 bài thi thử hôm nay', current: Math.min(mockAttempts, 1), target: 1, xp: 45, coins: 45 },
     ]);
-  }, [userId]);
+  }, [currentStreak, userId]);
 
   useEffect(() => {
     if (!userId) {
@@ -156,6 +231,7 @@ export function useFlytiee() {
 
   const satiety = useMemo(() => calculateSatiety(profile, clock), [clock, profile]);
   const xpNeeded = xpNeededForLevel(profile.level);
+  const dailyEvent = useMemo(() => dailyEventForToday(profile), [profile]);
 
   const rename = useCallback((name: string) => {
     const cleaned = name.trim().replace(/\s+/g, ' ').slice(0, 20);
@@ -175,6 +251,152 @@ export function useFlytiee() {
       const rewarded = addReward(current, mission.xp, mission.coins);
       return { ...rewarded, claimedMissionIds: [...rewarded.claimedMissionIds, claimId].slice(-120) };
     }, `Đã nhận ${mission.xp} EXP và ${mission.coins} xu!`);
+  }, [commit]);
+
+  const claimStreakReward = useCallback((): FlytieeRewardResult | null => {
+    const daily = dailyEventForToday(profileRef.current);
+    if (daily.streakClaimed || currentStreak < 1) return null;
+    const cycleDay = (currentStreak - 1) % 7 + 1;
+    const reward = rewardForStreakDay(cycleDay);
+    commit((current) => {
+      const rewarded = grantReward(current, reward);
+      return { ...rewarded, dailyEvent: { ...dailyEventForToday(rewarded), streakClaimed: true } };
+    }, reward.description);
+    return reward;
+  }, [commit, currentStreak]);
+
+  const claimStudyReward = useCallback((minutes: number): FlytieeRewardResult | null => {
+    const milestone = STUDY_MILESTONES.find((entry) => entry.minutes === minutes);
+    const daily = dailyEventForToday(profileRef.current);
+    if (!milestone || eventStats.studyMinutes < minutes || daily.studyClaimedMilestones.includes(minutes)) return null;
+    const reward: FlytieeRewardResult = milestone.reward.kind === 'coins'
+      ? { kind: 'coins', title: `Học đủ ${minutes} phút`, description: `Bạn nhận ${milestone.reward.amount} xu cho sự tập trung hôm nay!`, amount: milestone.reward.amount }
+      : { kind: 'chest', title: `Học đủ ${minutes} phút`, description: 'Rương bạc đã được chuyển vào kho rương.', chestTier: milestone.reward.chestTier };
+    commit((current) => {
+      const rewarded = grantReward(current, reward);
+      const currentDaily = dailyEventForToday(rewarded);
+      return {
+        ...rewarded,
+        dailyEvent: {
+          ...currentDaily,
+          studyClaimedMilestones: [...currentDaily.studyClaimedMilestones, minutes],
+        },
+      };
+    }, reward.description);
+    return reward;
+  }, [commit, eventStats.studyMinutes]);
+
+  const claimPracticeCoins = useCallback((): FlytieeRewardResult | null => {
+    const daily = dailyEventForToday(profileRef.current);
+    const available = Math.max(0, eventStats.practiceCoinsEarned - daily.practiceCoinsClaimed);
+    if (available < 1) return null;
+    const reward: FlytieeRewardResult = {
+      kind: 'coins',
+      title: 'Thưởng câu đúng',
+      description: `Bạn nhận ${available} xu từ các câu trả lời đúng hôm nay!`,
+      amount: available,
+    };
+    commit((current) => {
+      const rewarded = grantReward(current, reward);
+      return {
+        ...rewarded,
+        dailyEvent: {
+          ...dailyEventForToday(rewarded),
+          practiceCoinsClaimed: eventStats.practiceCoinsEarned,
+        },
+      };
+    }, reward.description);
+    return reward;
+  }, [commit, eventStats.practiceCoinsEarned]);
+
+  const claimDailyCompletionChest = useCallback((): FlytieeRewardResult | null => {
+    const daily = dailyEventForToday(profileRef.current);
+    const studyComplete = [15, 45, 90].every((minutes) => daily.studyClaimedMilestones.includes(minutes));
+    const practiceComplete = daily.practiceCoinsClaimed >= 100;
+    if (!studyComplete || !practiceComplete || daily.completionChestClaimed) return null;
+    const reward: FlytieeRewardResult = {
+      kind: 'chest',
+      title: 'Hoàn thành trọn vẹn!',
+      description: 'Bạn đã hoàn thành cả hai sự kiện ngày và nhận 1 Rương vàng.',
+      chestTier: 'gold',
+    };
+    commit((current) => {
+      const rewarded = grantReward(current, reward);
+      return {
+        ...rewarded,
+        dailyEvent: { ...dailyEventForToday(rewarded), completionChestClaimed: true },
+      };
+    }, reward.description);
+    return reward;
+  }, [commit]);
+
+  const openChest = useCallback((tier: FlytieeChestTier): FlytieeRewardResult | null => {
+    const current = profileRef.current;
+    if (current.chests[tier] < 1) return null;
+    const coinFallback = () => {
+      const amount = randomItem(CHEST_COIN_POOLS[tier]) ?? CHEST_COIN_POOLS[tier][0];
+      return { kind: 'coins', title: `${CHEST_LABELS[tier]} đã mở!`, description: `Bên trong có ${amount} xu.`, amount } as FlytieeRewardResult;
+    };
+    let reward = coinFallback();
+
+    if (tier === 'silver' && Math.floor(Math.random() * 6) === 5) {
+      const item = randomItem(FLYTIEE_ACCESSORIES.filter((entry) => !current.ownedAccessoryIds.includes(entry.id)));
+      if (item) reward = { kind: 'accessory', title: 'Phụ kiện mới!', description: `${item.name} đã được thêm vào tủ đồ.`, itemId: item.id };
+    }
+    if (tier === 'gold') {
+      const outcome = Math.floor(Math.random() * 7);
+      if (outcome === 4) {
+        const item = randomItem(FLYTIEE_ACCESSORIES.filter((entry) => !current.ownedAccessoryIds.includes(entry.id)));
+        if (item) reward = { kind: 'accessory', title: 'Phụ kiện hiếm!', description: `${item.name} đã được thêm vào tủ đồ.`, itemId: item.id };
+      } else if (outcome === 5) {
+        const skin = randomItem(FLYTIEE_SKINS.filter((entry) => entry.id !== 'classic' && !current.ownedSkinIds.includes(entry.id)));
+        if (skin) reward = { kind: 'skin', title: 'Skin mới!', description: `${skin.name} đã được thêm vào tủ đồ.`, itemId: skin.id };
+      } else if (outcome === 6) {
+        const set = randomItem(FLYTIEE_SETS.filter((entry) => !current.ownedSetIds.includes(entry.id)));
+        if (set) reward = { kind: 'set', title: 'Set sự kiện!', description: `${set.name} đã được mở khóa.`, itemId: set.id };
+      }
+    }
+
+    commit((value) => {
+      const consumed = { ...value, chests: { ...value.chests, [tier]: Math.max(0, value.chests[tier] - 1) } };
+      return grantReward(consumed, reward);
+    }, reward.description);
+    return reward;
+  }, [commit]);
+
+  const redeemBirdieMail = useCallback((rawCode: string): FlytieeRewardResult | null => {
+    const code = rawCode.trim().toUpperCase().replace(/\s+/g, '-');
+    const mailReward = BIRDIE_MAIL_CODES[code];
+    if (!mailReward) {
+      setMessage('Birdie Mail không hợp lệ hoặc đã hết hạn. Hãy kiểm tra lại mã.');
+      return null;
+    }
+    if (profileRef.current.redeemedMailCodes.includes(code)) {
+      setMessage('Birdie Mail này đã được nhận trên tài khoản của bạn.');
+      return null;
+    }
+
+    let reward: FlytieeRewardResult;
+    if (mailReward.kind === 'coins') {
+      reward = { kind: 'coins', title: 'Thư quà từ Birdie!', description: `Bạn nhận ${mailReward.amount} xu.`, amount: mailReward.amount };
+    } else if (mailReward.kind === 'chest') {
+      reward = { kind: 'chest', title: 'Thư quà từ Birdie!', description: `${CHEST_LABELS[mailReward.chestTier]} đã được chuyển vào kho.`, chestTier: mailReward.chestTier };
+    } else if (mailReward.kind === 'accessory') {
+      const item = FLYTIEE_ACCESSORIES.find((entry) => entry.id === mailReward.itemId);
+      reward = { kind: 'accessory', title: 'Thư quà từ Birdie!', description: `${item?.name ?? 'Phụ kiện'} đã được thêm vào tủ đồ.`, itemId: mailReward.itemId };
+    } else if (mailReward.kind === 'skin') {
+      const item = FLYTIEE_SKINS.find((entry) => entry.id === mailReward.itemId);
+      reward = { kind: 'skin', title: 'Thư quà từ Birdie!', description: `${item?.name ?? 'Skin'} đã được thêm vào tủ đồ.`, itemId: mailReward.itemId };
+    } else {
+      const item = FLYTIEE_SETS.find((entry) => entry.id === mailReward.itemId);
+      reward = { kind: 'set', title: 'Thư quà từ Birdie!', description: `${item?.name ?? 'Set sự kiện'} đã được mở khóa.`, itemId: mailReward.itemId };
+    }
+
+    commit((current) => {
+      const rewarded = grantReward(current, reward);
+      return { ...rewarded, redeemedMailCodes: [...rewarded.redeemedMailCodes, code].slice(-100) };
+    }, reward.description);
+    return reward;
   }, [commit]);
 
   const buyOrEquip = useCallback((accessoryId: string) => {
@@ -251,12 +473,20 @@ export function useFlytiee() {
     satiety,
     xpNeeded,
     missions,
+    eventStats,
+    dailyEvent,
     loading,
     saving,
     message,
     feed,
     rename,
     claimMission,
+    claimStreakReward,
+    claimStudyReward,
+    claimPracticeCoins,
+    claimDailyCompletionChest,
+    openChest,
+    redeemBirdieMail,
     buyOrEquip,
     equipSet,
     buyOrEquipSkin,

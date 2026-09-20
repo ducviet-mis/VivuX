@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Đa thức là biểu thức có dạng nào sau đây?",
+      "options": ["Một thương của hai đơn thức", "Một tổng của những đơn thức", "Một tích bắt buộc có nhiều biến", "Một biểu thức luôn có đúng hai hạng tử"],
+      "correct_answer": 1,
+      "solution": "Đa thức là tổng của những đơn thức."
+    },
+    {
+      "content": "Mỗi đơn thức trong tổng tạo thành một đa thức được gọi là:",
+      "options": ["Bậc của đa thức", "Hệ số cao nhất", "Phần biến", "Một hạng tử của đa thức"],
+      "correct_answer": 3,
+      "solution": "Mỗi đơn thức trong tổng được gọi là một hạng tử của đa thức đó."
+    },
+    {
+      "content": "Khẳng định nào đúng về mối quan hệ giữa đơn thức và đa thức?",
+      "options": ["Mỗi đơn thức cũng được coi là một đa thức", "Không đơn thức nào là đa thức", "Chỉ đơn thức có hai biến mới là đa thức", "Đơn thức chỉ là một phần của đa thức và không thể đứng riêng"],
+      "correct_answer": 0,
+      "solution": "Một đa thức có thể chỉ gồm một hạng tử, vì vậy mỗi đơn thức cũng được coi là một đa thức."
+    },
+    {
+      "content": "Biểu thức nào sau đây là một đa thức?",
+      "options": ["$x:y$", "$1/x+2$", "$x/(y+1)$", "$2x^2-3xy+1$"],
+      "correct_answer": 3,
+      "solution": "$2x^2-3xy+1$ là tổng của các đơn thức $2x^2$, $-3xy$ và $1$."
+    },
+    {
+      "content": "Đa thức $P=2x^2-3xy+5$ có bao nhiêu hạng tử?",
+      "options": ["3", "2", "4", "5"],
+      "correct_answer": 0,
+      "solution": "Ba hạng tử là $2x^2$, $-3xy$ và $5$."
+    },
+    {
+      "content": "Các hạng tử của đa thức $A=x^2-4xy+3y^2$ là:",
+      "options": ["$x^2$, $4xy$, $3y^2$", "$x^2-4xy$ và $3y^2$", "$x^2$, $-4xy$, $3y^2$", "$x$, $y$ và $3$"],
+      "correct_answer": 2,
+      "solution": "Dấu đứng trước mỗi hạng tử thuộc về hạng tử đó, nên hạng tử giữa là $-4xy$."
+    },
+    {
+      "content": "Đa thức thu gọn là đa thức:",
+      "options": ["Chỉ có một biến", "Có mọi hệ số dương", "Không có hạng tử tự do", "Không có hai hạng tử nào đồng dạng"],
+      "correct_answer": 3,
+      "solution": "Một đa thức thu gọn không còn hai hạng tử đồng dạng để có thể gộp tiếp."
+    },
+    {
+      "content": "Hai hạng tử đồng dạng trong một đa thức là hai hạng tử:",
+      "options": ["Có cùng hệ số", "Có cùng phần biến", "Có cùng dấu", "Có cùng số chữ cái nhưng khác số mũ"],
+      "correct_answer": 1,
+      "solution": "Các hạng tử là các đơn thức; hai hạng tử đồng dạng khi có cùng phần biến."
+    },
+    {
+      "content": "Bước cần thực hiện khi thu gọn một đa thức có các hạng tử đồng dạng là:",
+      "options": ["Đổi chỗ và nhóm các hạng tử đồng dạng", "Nhân tất cả các hạng tử", "Bỏ mọi hạng tử có hệ số âm", "Cộng tất cả số mũ"],
+      "correct_answer": 0,
+      "solution": "Ta đổi chỗ, nhóm các hạng tử đồng dạng rồi cộng hoặc trừ hệ số trong từng nhóm."
+    },
+    {
+      "content": "Sau khi nhóm các hạng tử đồng dạng, ta thu gọn chúng bằng cách:",
+      "options": ["Cộng các số mũ", "Nhân các hệ số", "Cộng hoặc trừ các hệ số và giữ nguyên phần biến", "Bỏ phần biến"],
+      "correct_answer": 2,
+      "solution": "Quy tắc cộng, trừ đơn thức đồng dạng được dùng để gộp các hạng tử đồng dạng."
+    },
+    {
+      "content": "Khi cộng hai hạng tử đồng dạng, phần nào được giữ nguyên?",
+      "options": ["Dấu của hạng tử đầu", "Số mũ lớn nhất", "Hệ số", "Phần biến"],
+      "correct_answer": 3,
+      "solution": "Ta cộng các hệ số và giữ nguyên phần biến chung."
+    },
+    {
+      "content": "Nếu đề bài không có yêu cầu khác, đa thức thường được viết dưới dạng:",
+      "options": ["Chưa thu gọn", "Thu gọn", "Một tích", "Một phân thức"],
+      "correct_answer": 1,
+      "solution": "Theo quy ước, ta thường viết đa thức dưới dạng thu gọn."
+    },
+    {
+      "content": "Bậc của một đa thức khác 0 là:",
+      "options": ["Bậc của hạng tử có bậc cao nhất trong dạng thu gọn", "Số hạng tử của đa thức", "Hệ số lớn nhất", "Tổng bậc của mọi hạng tử"],
+      "correct_answer": 0,
+      "solution": "Sau khi thu gọn, bậc của đa thức là bậc cao nhất trong các hạng tử còn lại."
+    },
+    {
+      "content": "Trước khi tìm bậc của một đa thức, việc cần làm trước hết là:",
+      "options": ["Thay giá trị cho biến", "Nhân mọi hạng tử", "Đếm số biến", "Thu gọn đa thức"],
+      "correct_answer": 3,
+      "solution": "Các hạng tử bậc cao có thể triệt tiêu khi thu gọn, nên phải thu gọn trước khi tìm bậc."
+    },
+    {
+      "content": "Một số khác 0 được coi là một đa thức có bậc:",
+      "options": ["Không xác định", "0", "1", "Bằng chính số đó"],
+      "correct_answer": 1,
+      "solution": "Mỗi số khác 0 là một đơn thức bậc 0, đồng thời là một đa thức bậc 0."
+    },
+    {
+      "content": "Đa thức không là:",
+      "options": ["Đa thức có một hạng tử", "Đa thức bậc 0", "Đa thức 0", "Đa thức có hệ số âm"],
+      "correct_answer": 2,
+      "solution": "Số 0 được gọi là đa thức không."
+    },
+    {
+      "content": "Bậc của đa thức không được quy ước như thế nào?",
+      "options": ["Không có bậc xác định", "Bằng 0", "Bằng 1", "Bằng số hạng tử"],
+      "correct_answer": 0,
+      "solution": "Đa thức không không có bậc xác định."
+    },
+    {
+      "content": "Bậc của hạng tử $x^2y^3$ là:",
+      "options": ["2", "5", "3", "6"],
+      "correct_answer": 1,
+      "solution": "Bậc của hạng tử bằng tổng số mũ: $2+3=5$."
+    },
+    {
+      "content": "Bậc của đa thức thu gọn $P=3x^4+2x^2y-6z$ là:",
+      "options": ["2", "1", "6", "4"],
+      "correct_answer": 3,
+      "solution": "Các hạng tử có bậc lần lượt là 4, 3 và 1; bậc cao nhất là 4."
+    },
+    {
+      "content": "Yếu tố nào không quyết định bậc của một hạng tử có hệ số khác 0?",
+      "options": ["Các số mũ của biến", "Tổng số mũ", "Giá trị của hệ số", "Phần biến"],
+      "correct_answer": 2,
+      "solution": "Bậc được tính từ số mũ của các biến, không phụ thuộc độ lớn của hệ số."
+    },
+    {
+      "content": "Đa thức nào sau đây chưa thu gọn?",
+      "options": ["$3x^2+2x^2-y$", "$x^3+xy+1$", "$2a^2b-ab^2$", "$m^2+n^2$"],
+      "correct_answer": 0,
+      "solution": "$3x^2$ và $2x^2$ là hai hạng tử đồng dạng nên còn có thể gộp."
+    },
+    {
+      "content": "Đa thức nào sau đây đã thu gọn?",
+      "options": ["$x^2+3x^2-y$", "$2xy-xy+1$", "$x^3-2x^2y+xy^2-1$", "$a^2b+4a^2b$"],
+      "correct_answer": 2,
+      "solution": "Trong $x^3-2x^2y+xy^2-1$, không có hai hạng tử nào có cùng phần biến."
+    },
+    {
+      "content": "Cặp hạng tử nào sau đây đồng dạng?",
+      "options": ["$2x^2y$ và $3xy^2$", "$-4ab^2$ và $7ab^2$", "$x^3$ và $x^2$", "$5m$ và $5n$"],
+      "correct_answer": 1,
+      "solution": "$-4ab^2$ và $7ab^2$ có cùng phần biến $ab^2$."
+    },
+    {
+      "content": "Cặp hạng tử nào sau đây không đồng dạng?",
+      "options": ["$2x^3$ và $-5x^3$", "$ab$ và $7ab$", "$3x^2y$ và $-xy^2$", "$m^2n$ và $-4m^2n$"],
+      "correct_answer": 2,
+      "solution": "$x^2y$ và $xy^2$ là hai phần biến khác nhau."
+    },
+    {
+      "content": "Trong đa thức $P=x^2-3x+5$, hạng tử tự do là:",
+      "options": ["$x^2$", "$-3x$", "$x$", "$5$"],
+      "correct_answer": 3,
+      "solution": "Hạng tử không chứa biến là 5, được gọi là hạng tử tự do."
+    },
+    {
+      "content": "Trong đa thức $Q=2x^2-5xy+y^2$, hạng tử chứa phần biến $xy$ là:",
+      "options": ["$-5xy$", "$5xy$", "$2x^2$", "$y^2$"],
+      "correct_answer": 0,
+      "solution": "Dấu trừ thuộc về hạng tử, nên hạng tử cần tìm là $-5xy$."
+    },
+    {
+      "content": "Đa thức có thể gồm ít nhất bao nhiêu hạng tử?",
+      "options": ["2", "3", "4", "1"],
+      "correct_answer": 3,
+      "solution": "Mỗi đơn thức cũng là một đa thức, nên đa thức có thể chỉ gồm một hạng tử."
+    },
+    {
+      "content": "Việc đổi thứ tự các hạng tử của một đa thức:",
+      "options": ["Luôn làm đổi bậc", "Không làm thay đổi giá trị của đa thức", "Biến đa thức thành đơn thức", "Làm mọi hạng tử trở nên đồng dạng"],
+      "correct_answer": 1,
+      "solution": "Phép cộng có tính giao hoán nên có thể đổi thứ tự các hạng tử mà không đổi giá trị."
+    },
+    {
+      "content": "Một đa thức thu gọn có thể có:",
+      "options": ["Hai hạng tử đồng dạng chưa gộp", "Chỉ một hạng tử có bậc cao nhất", "Một hoặc nhiều hạng tử cùng đạt bậc cao nhất", "Mọi hạng tử cùng bậc"],
+      "correct_answer": 2,
+      "solution": "Có thể có nhiều hạng tử khác phần biến nhưng cùng bậc cao nhất."
+    },
+    {
+      "content": "Phát biểu nào tóm tắt đúng cách tìm bậc của đa thức?",
+      "options": ["Thu gọn đa thức rồi chọn bậc lớn nhất trong các hạng tử", "Cộng tất cả hệ số", "Đếm số hạng tử", "Chọn hệ số có giá trị lớn nhất"],
+      "correct_answer": 0,
+      "solution": "Bậc của đa thức khác 0 là bậc cao nhất của các hạng tử trong dạng thu gọn."
+    }
+  ]
+}

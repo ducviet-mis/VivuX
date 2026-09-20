@@ -39,6 +39,34 @@ export interface FlytieeSkin {
 
 export type FlytieeSetEffect = 'cosmic-orbit' | 'dino-dream' | 'gentle-snow';
 
+export type FlytieeChestTier = 'bronze' | 'silver' | 'gold';
+
+export interface FlytieeDailyEventState {
+  date: string;
+  streakClaimed: boolean;
+  studyClaimedMilestones: number[];
+  practiceCoinsClaimed: number;
+  completionChestClaimed: boolean;
+}
+
+export interface FlytieeEventStats {
+  streak: number;
+  studyMinutes: number;
+  correctByLevel: Record<1 | 2 | 3 | 4, number>;
+  practiceCoinsEarned: number;
+}
+
+export type FlytieeRewardKind = 'coins' | 'chest' | 'accessory' | 'skin' | 'set';
+
+export interface FlytieeRewardResult {
+  kind: FlytieeRewardKind;
+  title: string;
+  description: string;
+  amount?: number;
+  chestTier?: FlytieeChestTier;
+  itemId?: string;
+}
+
 export interface FlytieeSet {
   id: string;
   name: string;
@@ -63,6 +91,9 @@ export interface FlytieeProfile {
   ownedSetIds: string[];
   equippedSetId: string | null;
   claimedMissionIds: string[];
+  chests: Record<FlytieeChestTier, number>;
+  dailyEvent: FlytieeDailyEventState;
+  redeemedMailCodes: string[];
 }
 
 export interface FlytieeMission {

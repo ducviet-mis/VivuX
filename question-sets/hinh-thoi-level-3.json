@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=4$ cm, $OB=5$ cm. Độ dài $AC$ là",
+      "options": [
+        "$4$ cm",
+        "$8$ cm",
+        "$10$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot4=8$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$60^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=5$ cm, $OB=6$ cm. Độ dài $AC$ là",
+      "options": [
+        "$5$ cm",
+        "$10$ cm",
+        "$12$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot5=10$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$60^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=6$ cm, $OB=7$ cm. Độ dài $AC$ là",
+      "options": [
+        "$6$ cm",
+        "$14$ cm",
+        "Không xác định được",
+        "$12$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot6=12$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$60^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=7$ cm, $OB=8$ cm. Độ dài $AC$ là",
+      "options": [
+        "$14$ cm",
+        "$7$ cm",
+        "$16$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot7=14$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$",
+        "$60^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=8$ cm, $OB=9$ cm. Độ dài $AC$ là",
+      "options": [
+        "$8$ cm",
+        "$18$ cm",
+        "$16$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot8=16$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$",
+        "$60^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=9$ cm, $OB=10$ cm. Độ dài $AC$ là",
+      "options": [
+        "$9$ cm",
+        "$20$ cm",
+        "$18$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot9=18$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$60^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=10$ cm, $OB=11$ cm. Độ dài $AC$ là",
+      "options": [
+        "$20$ cm",
+        "$10$ cm",
+        "$22$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot10=20$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$60^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=11$ cm, $OB=12$ cm. Độ dài $AC$ là",
+      "options": [
+        "$22$ cm",
+        "$11$ cm",
+        "$24$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot11=22$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$",
+        "$60^\\circ$"
+      ],
+      "correct_answer": 3,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Chưa đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=12$ cm, $OB=13$ cm. Độ dài $AC$ là",
+      "options": [
+        "$12$ cm",
+        "$24$ cm",
+        "$26$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot12=24$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$60^\\circ$",
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại trung điểm $O$ của mỗi đường và $AC\\perp BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thang.",
+        "Chưa đủ điều kiện.",
+        "$ABCD$ là hình thoi."
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo cắt nhau tại trung điểm mỗi đường nên $ABCD$ là hình bình hành.\n\nHình bình hành có hai đường chéo vuông góc là hình thoi."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $OA=13$ cm, $OB=14$ cm. Độ dài $AC$ là",
+      "options": [
+        "$13$ cm",
+        "$26$ cm",
+        "$28$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Vì $O$ là trung điểm của $AC$ nên $AC=2\\cdot OA$.\n\n$AC=2\\cdot13=26$ cm."
+    },
+    {
+      "content": "Trong hình thoi $ABCD$, $AC$ là phân giác của $\\widehat{A}$. Nếu $\\widehat{BAC}=30^\\circ$ thì $\\widehat{DAB}$ bằng",
+      "options": [
+        "$60^\\circ$",
+        "$30^\\circ$",
+        "$90^\\circ$",
+        "$120^\\circ$"
+      ],
+      "correct_answer": 0,
+      "solution": "Vì $AC$ là phân giác của $\\widehat{DAB}$ nên $\\widehat{DAC}=\\widehat{BAC}=30^\\circ$.\n\n$\\widehat{DAB}=30^\\circ+30^\\circ=60^\\circ$."
+    }
+  ]
+}

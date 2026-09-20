@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Phân tích đa thức $1x^3-1x^2y$ thành nhân tử.",
+      "options": [
+        "$1x^2(x-y)$",
+        "$1x^3-1x^2y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=1x^3-1x^2y$.\n\nNhân tử chung là $1x^2$.\n\n$P=1x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-1x+1y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-1x+1y-xy$",
+        "$(x-1)(x-y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-1x+1y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-1x+1y)$.\n\n$P=x(x-y)-1(x-y)$.\n\n$P=(x-1)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $1^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$1^2x^2-y^2$",
+        "$0$",
+        "$(1x-y)(1x+y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=1^2x^2-y^2$.\n\n$P=(1x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(1x-y)(1x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $2x^3-2x^2y$ thành nhân tử.",
+      "options": [
+        "$2x^3-2x^2y$",
+        "$0$",
+        "$1$",
+        "$2x^2(x-y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=2x^3-2x^2y$.\n\nNhân tử chung là $2x^2$.\n\n$P=2x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-2x+2y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-2x+2y-xy$",
+        "$(x-2)(x-y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-2x+2y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-2x+2y)$.\n\n$P=x(x-y)-2(x-y)$.\n\n$P=(x-2)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $2^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$2^2x^2-y^2$",
+        "$0$",
+        "$(2x-y)(2x+y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=2^2x^2-y^2$.\n\n$P=(2x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(2x-y)(2x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $3x^3-3x^2y$ thành nhân tử.",
+      "options": [
+        "$3x^2(x-y)$",
+        "$3x^3-3x^2y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=3x^3-3x^2y$.\n\nNhân tử chung là $3x^2$.\n\n$P=3x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-3x+3y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-3x+3y-xy$",
+        "$0$",
+        "$1$",
+        "$(x-3)(x-y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=x^2-3x+3y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-3x+3y)$.\n\n$P=x(x-y)-3(x-y)$.\n\n$P=(x-3)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $3^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$3^2x^2-y^2$",
+        "$0$",
+        "$(3x-y)(3x+y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=3^2x^2-y^2$.\n\n$P=(3x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(3x-y)(3x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $4x^3-4x^2y$ thành nhân tử.",
+      "options": [
+        "$4x^3-4x^2y$",
+        "$4x^2(x-y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=4x^3-4x^2y$.\n\nNhân tử chung là $4x^2$.\n\n$P=4x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-4x+4y-xy$ thành nhân tử.",
+      "options": [
+        "$(x-4)(x-y)$",
+        "$x^2-4x+4y-xy$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2-4x+4y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-4x+4y)$.\n\n$P=x(x-y)-4(x-y)$.\n\n$P=(x-4)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $4^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$4^2x^2-y^2$",
+        "$0$",
+        "$1$",
+        "$(4x-y)(4x+y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=4^2x^2-y^2$.\n\n$P=(4x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(4x-y)(4x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $5x^3-5x^2y$ thành nhân tử.",
+      "options": [
+        "$5x^3-5x^2y$",
+        "$5x^2(x-y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=5x^3-5x^2y$.\n\nNhân tử chung là $5x^2$.\n\n$P=5x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-5x+5y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-5x+5y-xy$",
+        "$0$",
+        "$(x-5)(x-y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^2-5x+5y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-5x+5y)$.\n\n$P=x(x-y)-5(x-y)$.\n\n$P=(x-5)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $5^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$5^2x^2-y^2$",
+        "$0$",
+        "$1$",
+        "$(5x-y)(5x+y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=5^2x^2-y^2$.\n\n$P=(5x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(5x-y)(5x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $6x^3-6x^2y$ thành nhân tử.",
+      "options": [
+        "$6x^2(x-y)$",
+        "$6x^3-6x^2y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=6x^3-6x^2y$.\n\nNhân tử chung là $6x^2$.\n\n$P=6x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-6x+6y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-6x+6y-xy$",
+        "$0$",
+        "$(x-6)(x-y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^2-6x+6y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-6x+6y)$.\n\n$P=x(x-y)-6(x-y)$.\n\n$P=(x-6)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $6^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$6^2x^2-y^2$",
+        "$(6x-y)(6x+y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=6^2x^2-y^2$.\n\n$P=(6x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(6x-y)(6x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $7x^3-7x^2y$ thành nhân tử.",
+      "options": [
+        "$7x^3-7x^2y$",
+        "$0$",
+        "$1$",
+        "$7x^2(x-y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=7x^3-7x^2y$.\n\nNhân tử chung là $7x^2$.\n\n$P=7x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-7x+7y-xy$ thành nhân tử.",
+      "options": [
+        "$(x-7)(x-y)$",
+        "$x^2-7x+7y-xy$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2-7x+7y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-7x+7y)$.\n\n$P=x(x-y)-7(x-y)$.\n\n$P=(x-7)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $7^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$7^2x^2-y^2$",
+        "$(7x-y)(7x+y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=7^2x^2-y^2$.\n\n$P=(7x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(7x-y)(7x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $8x^3-8x^2y$ thành nhân tử.",
+      "options": [
+        "$8x^3-8x^2y$",
+        "$0$",
+        "$8x^2(x-y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=8x^3-8x^2y$.\n\nNhân tử chung là $8x^2$.\n\n$P=8x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-8x+8y-xy$ thành nhân tử.",
+      "options": [
+        "$(x-8)(x-y)$",
+        "$x^2-8x+8y-xy$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2-8x+8y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-8x+8y)$.\n\n$P=x(x-y)-8(x-y)$.\n\n$P=(x-8)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $8^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$8^2x^2-y^2$",
+        "$0$",
+        "$1$",
+        "$(8x-y)(8x+y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=8^2x^2-y^2$.\n\n$P=(8x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(8x-y)(8x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $9x^3-9x^2y$ thành nhân tử.",
+      "options": [
+        "$9x^3-9x^2y$",
+        "$0$",
+        "$9x^2(x-y)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=9x^3-9x^2y$.\n\nNhân tử chung là $9x^2$.\n\n$P=9x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-9x+9y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-9x+9y-xy$",
+        "$(x-9)(x-y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-9x+9y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-9x+9y)$.\n\n$P=x(x-y)-9(x-y)$.\n\n$P=(x-9)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $9^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(9x-y)(9x+y)$",
+        "$9^2x^2-y^2$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=9^2x^2-y^2$.\n\n$P=(9x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(9x-y)(9x+y)$."
+    },
+    {
+      "content": "Phân tích đa thức $10x^3-10x^2y$ thành nhân tử.",
+      "options": [
+        "$10x^3-10x^2y$",
+        "$0$",
+        "$1$",
+        "$10x^2(x-y)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=10x^3-10x^2y$.\n\nNhân tử chung là $10x^2$.\n\n$P=10x^2(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-10x+10y-xy$ thành nhân tử.",
+      "options": [
+        "$x^2-10x+10y-xy$",
+        "$(x-10)(x-y)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-10x+10y-xy$.\n\nNhóm hạng tử:\n\n$P=(x^2-xy)+(-10x+10y)$.\n\n$P=x(x-y)-10(x-y)$.\n\n$P=(x-10)(x-y)$."
+    },
+    {
+      "content": "Phân tích đa thức $10^2x^2-y^2$ thành nhân tử.",
+      "options": [
+        "$(10x-y)(10x+y)$",
+        "$10^2x^2-y^2$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=10^2x^2-y^2$.\n\n$P=(10x)^2-y^2$.\n\nÁp dụng hiệu hai bình phương:\n\n$P=(10x-y)(10x+y)$."
+    }
+  ]
+}

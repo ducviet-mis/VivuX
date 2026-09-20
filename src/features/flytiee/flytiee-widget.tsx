@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import {
+  CalendarDays,
   Check,
   Coins,
   Edit3,
@@ -21,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { ACCESSORY_SLOT_LABELS, FLYTIEE_ACCESSORIES, FLYTIEE_SETS, FLYTIEE_SKINS } from './config';
 import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
+import { FlytieeEvents } from './flytiee-events';
 import type { FlytieeAccessorySlot, FlytieeMood } from './types';
 import { useFlytiee } from './use-flytiee';
 
@@ -146,7 +148,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
 
   const changeTab = (value: string) => {
     setTab(value);
-    if (value === 'missions') void flytiee.refreshMissions();
+    if (value === 'missions' || value === 'events') void flytiee.refreshMissions();
   };
 
   if (!user) return null;
@@ -210,9 +212,10 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
 
         <Tabs value={tab} onValueChange={changeTab} className="min-w-0">
           <div className="border-b border-border px-4 py-3 sm:px-7">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:grid-cols-4">
               <TabsTrigger value="home">Chăm sóc</TabsTrigger>
               <TabsTrigger value="missions">Nhiệm vụ</TabsTrigger>
+              <TabsTrigger value="events"><CalendarDays aria-hidden="true" className="mr-1.5 h-4 w-4" />Sự kiện</TabsTrigger>
               <TabsTrigger value="shop">Cửa hàng</TabsTrigger>
             </TabsList>
           </div>
@@ -266,6 +269,10 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                   </article>;
                 })}
               </div>
+            </TabsContent>
+
+            <TabsContent value="events" className="mt-0">
+              <FlytieeEvents flytiee={flytiee} />
             </TabsContent>
 
             <TabsContent value="shop" className="mt-0">

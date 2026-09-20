@@ -1,0 +1,71 @@
+.rewardCard {
+  animation: reward-arrive 420ms cubic-bezier(.2, .85, .3, 1.15) both;
+}
+
+.chestOpening {
+  animation: chest-wiggle 720ms ease-in-out both;
+  transform-origin: 50% 80%;
+}
+
+.chestGlow {
+  animation: chest-glow 900ms ease-out infinite alternate;
+}
+
+.confetti {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 8px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgb(var(--color-primary));
+  opacity: 0;
+  animation: confetti-burst 900ms ease-out forwards;
+}
+
+.confetti:nth-child(2n) { background: rgb(var(--color-warning)); }
+.confetti:nth-child(3n) { background: rgb(var(--color-success)); }
+.confetti:nth-child(4n) { background: rgb(var(--color-info)); }
+.confetti:nth-child(1) { --x: -140px; --y: -120px; --r: -40deg; animation-delay: 40ms; }
+.confetti:nth-child(2) { --x: -95px; --y: -155px; --r: 55deg; animation-delay: 80ms; }
+.confetti:nth-child(3) { --x: -45px; --y: -125px; --r: 120deg; }
+.confetti:nth-child(4) { --x: 12px; --y: -165px; --r: 185deg; animation-delay: 100ms; }
+.confetti:nth-child(5) { --x: 65px; --y: -130px; --r: 230deg; animation-delay: 30ms; }
+.confetti:nth-child(6) { --x: 125px; --y: -110px; --r: 280deg; animation-delay: 70ms; }
+.confetti:nth-child(7) { --x: -155px; --y: -45px; --r: 320deg; animation-delay: 120ms; }
+.confetti:nth-child(8) { --x: 150px; --y: -35px; --r: 380deg; animation-delay: 20ms; }
+.confetti:nth-child(9) { --x: -110px; --y: 25px; --r: 420deg; animation-delay: 90ms; }
+.confetti:nth-child(10) { --x: 105px; --y: 35px; --r: 470deg; animation-delay: 50ms; }
+
+@keyframes reward-arrive {
+  from { opacity: 0; transform: translateY(18px) scale(.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes chest-wiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  18% { transform: rotate(-6deg) scale(1.03); }
+  36% { transform: rotate(6deg) scale(1.06); }
+  54% { transform: rotate(-4deg) scale(1.08); }
+  72% { transform: rotate(3deg) scale(1.1); }
+}
+
+@keyframes chest-glow {
+  from { filter: drop-shadow(0 0 5px rgb(var(--color-warning) / .25)); }
+  to { filter: drop-shadow(0 0 18px rgb(var(--color-warning) / .7)); }
+}
+
+@keyframes confetti-burst {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.5) rotate(0); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1) rotate(var(--r)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rewardCard,
+  .chestOpening,
+  .chestGlow,
+  .confetti {
+    animation: none !important;
+  }
+}

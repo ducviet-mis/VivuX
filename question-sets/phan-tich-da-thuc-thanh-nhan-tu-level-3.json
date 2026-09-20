@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Phân tích đa thức $1x^3-1x$ thành nhân tử.",
+      "options": [
+        "$1x(x-1)(x+1)$",
+        "$1x^3-1x$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=1x^3-1x$.\n\nĐặt nhân tử chung $1x$:\n\n$P=1x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=1x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-1^2y^2-x+1y$ thành nhân tử.",
+      "options": [
+        "$x^2-1^2y^2-x+1y$",
+        "$(x-1y)(x+1y-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-1^2y^2-x+1y$.\n\nNhóm hạng tử:\n\n$P=(x^2-1^2y^2)-(x-1y)$.\n\n$P=(x-1y)(x+1y)-(x-1y)$.\n\n$P=(x-1y)(x+1y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-1^3y^3-x+1y$ thành nhân tử.",
+      "options": [
+        "$x^3-1^3y^3-x+1y$",
+        "$0$",
+        "$(x-1y)(x^2+1xy+1^2y^2-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^3-1^3y^3-x+1y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(1y)^3)-(x-1y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-1y)(x^2+1xy+1^2y^2)-(x-1y)$.\n\n$P=(x-1y)(x^2+1xy+1^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $2x^3-2x$ thành nhân tử.",
+      "options": [
+        "$2x^3-2x$",
+        "$0$",
+        "$1$",
+        "$2x(x-1)(x+1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=2x^3-2x$.\n\nĐặt nhân tử chung $2x$:\n\n$P=2x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=2x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-2^2y^2-x+2y$ thành nhân tử.",
+      "options": [
+        "$x^2-2^2y^2-x+2y$",
+        "$(x-2y)(x+2y-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-2^2y^2-x+2y$.\n\nNhóm hạng tử:\n\n$P=(x^2-2^2y^2)-(x-2y)$.\n\n$P=(x-2y)(x+2y)-(x-2y)$.\n\n$P=(x-2y)(x+2y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-2^3y^3-x+2y$ thành nhân tử.",
+      "options": [
+        "$x^3-2^3y^3-x+2y$",
+        "$0$",
+        "$(x-2y)(x^2+2xy+2^2y^2-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^3-2^3y^3-x+2y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(2y)^3)-(x-2y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-2y)(x^2+2xy+2^2y^2)-(x-2y)$.\n\n$P=(x-2y)(x^2+2xy+2^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $3x^3-3x$ thành nhân tử.",
+      "options": [
+        "$3x(x-1)(x+1)$",
+        "$3x^3-3x$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=3x^3-3x$.\n\nĐặt nhân tử chung $3x$:\n\n$P=3x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=3x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-3^2y^2-x+3y$ thành nhân tử.",
+      "options": [
+        "$x^2-3^2y^2-x+3y$",
+        "$0$",
+        "$1$",
+        "$(x-3y)(x+3y-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=x^2-3^2y^2-x+3y$.\n\nNhóm hạng tử:\n\n$P=(x^2-3^2y^2)-(x-3y)$.\n\n$P=(x-3y)(x+3y)-(x-3y)$.\n\n$P=(x-3y)(x+3y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-3^3y^3-x+3y$ thành nhân tử.",
+      "options": [
+        "$x^3-3^3y^3-x+3y$",
+        "$0$",
+        "$(x-3y)(x^2+3xy+3^2y^2-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^3-3^3y^3-x+3y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(3y)^3)-(x-3y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-3y)(x^2+3xy+3^2y^2)-(x-3y)$.\n\n$P=(x-3y)(x^2+3xy+3^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $4x^3-4x$ thành nhân tử.",
+      "options": [
+        "$4x^3-4x$",
+        "$4x(x-1)(x+1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=4x^3-4x$.\n\nĐặt nhân tử chung $4x$:\n\n$P=4x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=4x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-4^2y^2-x+4y$ thành nhân tử.",
+      "options": [
+        "$(x-4y)(x+4y-1)$",
+        "$x^2-4^2y^2-x+4y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2-4^2y^2-x+4y$.\n\nNhóm hạng tử:\n\n$P=(x^2-4^2y^2)-(x-4y)$.\n\n$P=(x-4y)(x+4y)-(x-4y)$.\n\n$P=(x-4y)(x+4y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-4^3y^3-x+4y$ thành nhân tử.",
+      "options": [
+        "$x^3-4^3y^3-x+4y$",
+        "$0$",
+        "$1$",
+        "$(x-4y)(x^2+4xy+4^2y^2-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=x^3-4^3y^3-x+4y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(4y)^3)-(x-4y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-4y)(x^2+4xy+4^2y^2)-(x-4y)$.\n\n$P=(x-4y)(x^2+4xy+4^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $5x^3-5x$ thành nhân tử.",
+      "options": [
+        "$5x^3-5x$",
+        "$5x(x-1)(x+1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=5x^3-5x$.\n\nĐặt nhân tử chung $5x$:\n\n$P=5x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=5x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-5^2y^2-x+5y$ thành nhân tử.",
+      "options": [
+        "$x^2-5^2y^2-x+5y$",
+        "$0$",
+        "$(x-5y)(x+5y-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^2-5^2y^2-x+5y$.\n\nNhóm hạng tử:\n\n$P=(x^2-5^2y^2)-(x-5y)$.\n\n$P=(x-5y)(x+5y)-(x-5y)$.\n\n$P=(x-5y)(x+5y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-5^3y^3-x+5y$ thành nhân tử.",
+      "options": [
+        "$x^3-5^3y^3-x+5y$",
+        "$0$",
+        "$1$",
+        "$(x-5y)(x^2+5xy+5^2y^2-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=x^3-5^3y^3-x+5y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(5y)^3)-(x-5y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-5y)(x^2+5xy+5^2y^2)-(x-5y)$.\n\n$P=(x-5y)(x^2+5xy+5^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $6x^3-6x$ thành nhân tử.",
+      "options": [
+        "$6x(x-1)(x+1)$",
+        "$6x^3-6x$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=6x^3-6x$.\n\nĐặt nhân tử chung $6x$:\n\n$P=6x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=6x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-6^2y^2-x+6y$ thành nhân tử.",
+      "options": [
+        "$x^2-6^2y^2-x+6y$",
+        "$0$",
+        "$(x-6y)(x+6y-1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=x^2-6^2y^2-x+6y$.\n\nNhóm hạng tử:\n\n$P=(x^2-6^2y^2)-(x-6y)$.\n\n$P=(x-6y)(x+6y)-(x-6y)$.\n\n$P=(x-6y)(x+6y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-6^3y^3-x+6y$ thành nhân tử.",
+      "options": [
+        "$x^3-6^3y^3-x+6y$",
+        "$(x-6y)(x^2+6xy+6^2y^2-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^3-6^3y^3-x+6y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(6y)^3)-(x-6y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-6y)(x^2+6xy+6^2y^2)-(x-6y)$.\n\n$P=(x-6y)(x^2+6xy+6^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $7x^3-7x$ thành nhân tử.",
+      "options": [
+        "$7x^3-7x$",
+        "$0$",
+        "$1$",
+        "$7x(x-1)(x+1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=7x^3-7x$.\n\nĐặt nhân tử chung $7x$:\n\n$P=7x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=7x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-7^2y^2-x+7y$ thành nhân tử.",
+      "options": [
+        "$(x-7y)(x+7y-1)$",
+        "$x^2-7^2y^2-x+7y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2-7^2y^2-x+7y$.\n\nNhóm hạng tử:\n\n$P=(x^2-7^2y^2)-(x-7y)$.\n\n$P=(x-7y)(x+7y)-(x-7y)$.\n\n$P=(x-7y)(x+7y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-7^3y^3-x+7y$ thành nhân tử.",
+      "options": [
+        "$x^3-7^3y^3-x+7y$",
+        "$(x-7y)(x^2+7xy+7^2y^2-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^3-7^3y^3-x+7y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(7y)^3)-(x-7y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-7y)(x^2+7xy+7^2y^2)-(x-7y)$.\n\n$P=(x-7y)(x^2+7xy+7^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $8x^3-8x$ thành nhân tử.",
+      "options": [
+        "$8x^3-8x$",
+        "$0$",
+        "$8x(x-1)(x+1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=8x^3-8x$.\n\nĐặt nhân tử chung $8x$:\n\n$P=8x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=8x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-8^2y^2-x+8y$ thành nhân tử.",
+      "options": [
+        "$(x-8y)(x+8y-1)$",
+        "$x^2-8^2y^2-x+8y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^2-8^2y^2-x+8y$.\n\nNhóm hạng tử:\n\n$P=(x^2-8^2y^2)-(x-8y)$.\n\n$P=(x-8y)(x+8y)-(x-8y)$.\n\n$P=(x-8y)(x+8y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-8^3y^3-x+8y$ thành nhân tử.",
+      "options": [
+        "$x^3-8^3y^3-x+8y$",
+        "$0$",
+        "$1$",
+        "$(x-8y)(x^2+8xy+8^2y^2-1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=x^3-8^3y^3-x+8y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(8y)^3)-(x-8y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-8y)(x^2+8xy+8^2y^2)-(x-8y)$.\n\n$P=(x-8y)(x^2+8xy+8^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $9x^3-9x$ thành nhân tử.",
+      "options": [
+        "$9x^3-9x$",
+        "$0$",
+        "$9x(x-1)(x+1)$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Đặt $P=9x^3-9x$.\n\nĐặt nhân tử chung $9x$:\n\n$P=9x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=9x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-9^2y^2-x+9y$ thành nhân tử.",
+      "options": [
+        "$x^2-9^2y^2-x+9y$",
+        "$(x-9y)(x+9y-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-9^2y^2-x+9y$.\n\nNhóm hạng tử:\n\n$P=(x^2-9^2y^2)-(x-9y)$.\n\n$P=(x-9y)(x+9y)-(x-9y)$.\n\n$P=(x-9y)(x+9y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-9^3y^3-x+9y$ thành nhân tử.",
+      "options": [
+        "$(x-9y)(x^2+9xy+9^2y^2-1)$",
+        "$x^3-9^3y^3-x+9y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^3-9^3y^3-x+9y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(9y)^3)-(x-9y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-9y)(x^2+9xy+9^2y^2)-(x-9y)$.\n\n$P=(x-9y)(x^2+9xy+9^2y^2-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $10x^3-10x$ thành nhân tử.",
+      "options": [
+        "$10x^3-10x$",
+        "$0$",
+        "$1$",
+        "$10x(x-1)(x+1)$"
+      ],
+      "correct_answer": 3,
+      "solution": "Đặt $P=10x^3-10x$.\n\nĐặt nhân tử chung $10x$:\n\n$P=10x(x^2-1)$.\n\nPhân tích $x^2-1$ thành hiệu hai bình phương:\n\n$P=10x(x-1)(x+1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^2-10^2y^2-x+10y$ thành nhân tử.",
+      "options": [
+        "$x^2-10^2y^2-x+10y$",
+        "$(x-10y)(x+10y-1)$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Đặt $P=x^2-10^2y^2-x+10y$.\n\nNhóm hạng tử:\n\n$P=(x^2-10^2y^2)-(x-10y)$.\n\n$P=(x-10y)(x+10y)-(x-10y)$.\n\n$P=(x-10y)(x+10y-1)$."
+    },
+    {
+      "content": "Phân tích đa thức $x^3-10^3y^3-x+10y$ thành nhân tử.",
+      "options": [
+        "$(x-10y)(x^2+10xy+10^2y^2-1)$",
+        "$x^3-10^3y^3-x+10y$",
+        "$0$",
+        "$1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Đặt $P=x^3-10^3y^3-x+10y$.\n\nNhóm hạng tử:\n\n$P=(x^3-(10y)^3)-(x-10y)$.\n\nPhân tích hiệu hai lập phương:\n\n$P=(x-10y)(x^2+10xy+10^2y^2)-(x-10y)$.\n\n$P=(x-10y)(x^2+10xy+10^2y^2-1)$."
+    }
+  ]
+}

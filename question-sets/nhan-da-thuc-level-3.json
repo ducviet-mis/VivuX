@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Thực hiện phép nhân $(2x+y)(x^2-xy+2y^2)$.",
+      "options": [
+        "$2x^3-x^2y+3xy^2+2y^3$",
+        "$2x^3+x^2y+3xy^2+2y^3$",
+        "$2x^3-x^2y+5xy^2+2y^3$",
+        "$2x^3+2y^3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi tích là $P$.\nPhân phối từng hạng tử:\n$P=2x·x^2+2x·(-xy)+2x·2y^2+y·x^2+y·(-xy)+y·2y^2$\nTính các tích:\n$P=2x^3-2x^2y+4xy^2+x^2y-xy^2+2y^3$\nThu gọn:\n$P=2x^3-x^2y+3xy^2+2y^3$."
+    },
+    {
+      "content": "Rút gọn $(x-2y)(x^2+2xy+4y^2)$.",
+      "options": [
+        "$x^3+8y^3$",
+        "$x^3-4xy^2-8y^3$",
+        "$x^3-8y^3$",
+        "$x^3-2x^2y+8y^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi tích là $P$.\nPhân phối từng hạng tử:\n$P=x·x^2+x·2xy+x·4y^2+(-2y)·x^2+(-2y)·2xy+(-2y)·4y^2$\n$P=x^3+2x^2y+4xy^2-2x^2y-4xy^2-8y^3$\nThu gọn:\n$P=x^3-8y^3$."
+    },
+    {
+      "content": "Rút gọn $(x+y)(x^2-xy+y^2)$.",
+      "options": [
+        "$x^3-y^3$",
+        "$x^3+y^3$",
+        "$x^3+2xy^2+y^3$",
+        "$x^3+x^2y+y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi tích là $P$.\nPhân phối:\n$P=x^3-x^2y+xy^2+x^2y-xy^2+y^3$\nCác hạng tử $-x^2y$ và $x^2y$, $xy^2$ và $-xy^2$ triệt tiêu.\nVậy:\n$P=x^3+y^3$."
+    },
+    {
+      "content": "Rút gọn $(2x-y)(4x^2+2xy+y^2)$.",
+      "options": [
+        "$8x^3+y^3$",
+        "$8x^3-4x^2y-y^3$",
+        "$6x^3-y^3$",
+        "$8x^3-y^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi tích là $P$.\nPhân phối:\n$P=8x^3+4x^2y+2xy^2-4x^2y-2xy^2-y^3$\nCác hạng tử đồng dạng ở giữa triệt tiêu.\nVậy:\n$P=8x^3-y^3$."
+    },
+    {
+      "content": "Rút gọn $(x+1)(x^2-x+1)$.",
+      "options": [
+        "$x^3-1$",
+        "$x^3+1$",
+        "$x^3+x^2+1$",
+        "$x^3-2x+1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi tích là $P$.\nPhân phối:\n$P=x^3-x^2+x+x^2-x+1$\nNhóm đồng dạng:\n$P=x^3+(-x^2+x^2)+(x-x)+1$\nThu gọn:\n$P=x^3+1$."
+    },
+    {
+      "content": "Rút gọn $(x-1)(x^2+x+1)$.",
+      "options": [
+        "$x^3-1$",
+        "$x^3+1$",
+        "$x^3-x^2-1$",
+        "$x^3+2x-1$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi tích là $P$.\nPhân phối:\n$P=x^3+x^2+x-x^2-x-1$\nNhóm đồng dạng:\n$P=x^3+(x^2-x^2)+(x-x)-1$\nThu gọn:\n$P=x^3-1$."
+    },
+    {
+      "content": "Rút gọn $(x+2)(x^2-2x+4)-(x-2)(x^2+2x+4)$.",
+      "options": [
+        "$2x^3$",
+        "$8$",
+        "$4x^2+16$",
+        "$16$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển tích thứ nhất:\n$A=(x+2)(x^2-2x+4)$\n$A=x^3-2x^2+4x+2x^2-4x+8$\n$A=x^3+8$\nKhai triển tích thứ hai:\n$B=(x-2)(x^2+2x+4)$\n$B=x^3+2x^2+4x-2x^2-4x-8$\n$B=x^3-8$\nLập hiệu:\n$E=A-B$\n$E=(x^3+8)-(x^3-8)$\nPhá ngoặc:\n$E=x^3+8-x^3+8$\nThu gọn:\n$E=16$."
+    },
+    {
+      "content": "Rút gọn $(x+y)^2-(x-y)^2$, trong đó bình phương được hiểu là tích của hai đa thức giống nhau.",
+      "options": [
+        "$2x^2+2y^2$",
+        "$2xy$",
+        "$4xy$",
+        "$4x^2y^2$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển bình phương thứ nhất:\n$A=(x+y)^2$\n$A=(x+y)(x+y)$\n$A=x^2+xy+xy+y^2$\n$A=x^2+2xy+y^2$\nKhai triển bình phương thứ hai:\n$B=(x-y)^2$\n$B=(x-y)(x-y)$\n$B=x^2-xy-xy+y^2$\n$B=x^2-2xy+y^2$\nLập hiệu:\n$E=A-B$\n$E=(x^2+2xy+y^2)-(x^2-2xy+y^2)$\nPhá ngoặc:\n$E=x^2+2xy+y^2-x^2+2xy-y^2$\nThu gọn:\n$E=4xy$."
+    },
+    {
+      "content": "Cho $P=(x+k)(x+2)$. Để hệ số của $x$ trong dạng thu gọn của $P$ bằng 5 thì $k$ bằng:",
+      "options": [
+        "5",
+        "2",
+        "3",
+        "-3"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển:\n$P=(x+k)(x+2)$\n$P=x^2+2x+kx+2k$\nThu gọn:\n$P=x^2+(k+2)x+2k$\nHệ số của $x$ bằng 5 nên:\n$k+2=5$\nSuy ra:\n$k=3$."
+    },
+    {
+      "content": "Cho $P=(x+a)(x-2)$. Để hạng tử chứa $x$ biến mất sau khi thu gọn thì $a$ bằng:",
+      "options": [
+        "-2",
+        "0",
+        "4",
+        "2"
+      ],
+      "correct_answer": 3,
+      "solution": "Khai triển:\n$P=(x+a)(x-2)$\n$P=x^2-2x+ax-2a$\nThu gọn:\n$P=x^2+(a-2)x-2a$\nHạng tử chứa $x$ biến mất khi:\n$a-2=0$\nSuy ra:\n$a=2$."
+    },
+    {
+      "content": "Rút gọn $P=(2k-3)(3m-2)-(3k-2)(2m-3)$.",
+      "options": [
+        "$5(k-m)$",
+        "$5(k+m)$",
+        "$k-m$",
+        "$6km-5k-5m$"
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển tích thứ nhất:\n$A=(2k-3)(3m-2)$\n$A=6km-4k-9m+6$\nKhai triển tích thứ hai:\n$B=(3k-2)(2m-3)$\n$B=6km-9k-4m+6$\nLập hiệu:\n$P=A-B$\n$P=(6km-4k-9m+6)-(6km-9k-4m+6)$\nPhá ngoặc:\n$P=6km-4k-9m+6-6km+9k+4m-6$\nThu gọn:\n$P=5k-5m$\nĐặt $5$ làm nhân tử chung:\n$P=5(k-m)$."
+    },
+    {
+      "content": "Vì sao $P=(2k-3)(3m-2)-(3k-2)(2m-3)$ chia hết cho 5 với mọi số nguyên $k,m$?",
+      "options": [
+        "Vì mọi tích đều chia hết cho 5",
+        "Vì $P=5(k-m)$",
+        "Vì $k,m$ luôn chia hết cho 5",
+        "Vì $P=5$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\nKhai triển hai tích:\n$P=(6km-4k-9m+6)-(6km-9k-4m+6)$\nPhá ngoặc:\n$P=6km-4k-9m+6-6km+9k+4m-6$\nThu gọn:\n$P=5k-5m$\n$P=5(k-m)$\nVới $k,m$ nguyên thì $k-m$ cũng là số nguyên. Vì $P$ bằng 5 nhân với một số nguyên nên $P$ chia hết cho 5."
+    },
+    {
+      "content": "Rút gọn $(x-5)(2x+3)-2x(x-3)+x+7$ cho kết quả:",
+      "options": [
+        "$8$",
+        "$-x-8$",
+        "$2x^2-8$",
+        "$-8$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển:\n$E=2x^2+3x-10x-15-(2x^2-6x)+x+7$\nPhá ngoặc có dấu trừ:\n$E=2x^2-7x-15-2x^2+6x+x+7$\nThu gọn:\n$E=-8$."
+    },
+    {
+      "content": "Kết luận nào đúng về giá trị của $(x-5)(2x+3)-2x(x-3)+x+7$?",
+      "options": [
+        "Phụ thuộc vào $x$",
+        "Không phụ thuộc vào $x$ và luôn bằng $-8$",
+        "Luôn bằng 8",
+        "Chỉ bằng $-8$ khi $x=0$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển các tích:\n$E=2x^2+3x-10x-15-(2x^2-6x)+x+7$\nPhá ngoặc có dấu trừ:\n$E=2x^2-7x-15-2x^2+6x+x+7$\nThu gọn:\n$E=-8$\nKết quả không còn chứa $x$, nên giá trị không phụ thuộc vào $x$ và luôn bằng $-8$."
+    },
+    {
+      "content": "Hai vế của đẳng thức $(2x+y)(2x^2+xy-y^2)=(2x-y)(2x^2+3xy+y^2)$ cùng thu gọn thành:",
+      "options": [
+        "$4x^3-4x^2y+xy^2-y^3$",
+        "$4x^3-y^3$",
+        "$4x^3+4x^2y-xy^2-y^3$",
+        "$4x^3+4x^2y+y^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển vế trái:\n$VT=(2x+y)(2x^2+xy-y^2)$\n$VT=4x^3+2x^2y-2xy^2+2x^2y+xy^2-y^3$\n$VT=4x^3+4x^2y-xy^2-y^3$\nKhai triển vế phải:\n$VP=(2x-y)(2x^2+3xy+y^2)$\n$VP=4x^3+6x^2y+2xy^2-2x^2y-3xy^2-y^3$\n$VP=4x^3+4x^2y-xy^2-y^3$\nHai vế có cùng dạng thu gọn nên $VT=VP$."
+    },
+    {
+      "content": "Cho $P=(x+k)(x-1)$. Để $P=x^2+2x-3$ với mọi $x$, giá trị của $k$ là:",
+      "options": [
+        "3",
+        "-3",
+        "2",
+        "1"
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển vế trái:\n$P=(x+k)(x-1)$\n$P=x^2-x+kx-k$\n$P=x^2+(k-1)x-k$\nSo sánh hệ số của $x$:\n$k-1=2$\n$k=3$\nKiểm tra hạng tử tự do:\n$-k=-3$\n$k=3$\nVậy giá trị cần tìm là $k=3$."
+    },
+    {
+      "content": "Một bạn khai triển $(x-2)(x^2+x+1)$ thành $x^3+x^2+x-2$. Bạn sai ở đâu?",
+      "options": [
+        "Nhân sai $x·x^2$",
+        "Chỉ nhân $-2$ với hạng tử cuối, bỏ sót hai tích còn lại",
+        "Không được phép khai triển",
+        "Phải đổi dấu hạng tử $x^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Phải nhân $-2$ với cả ba hạng tử:\n$(x-2)(x^2+x+1)=x(x^2+x+1)-2(x^2+x+1)$\n$(x-2)(x^2+x+1)=x^3+x^2+x-2x^2-2x-2$\nBạn chỉ viết $-2$ mà bỏ sót $-2x^2$ và $-2x$."
+    },
+    {
+      "content": "Giá trị của $(x+y)(x^2-xy+y^2)$ tại $x=2$, $y=1$ là:",
+      "options": [
+        "7",
+        "8",
+        "6",
+        "9"
+      ],
+      "correct_answer": 3,
+      "solution": "Trước hết thu gọn tích:\n$P=(x+y)(x^2-xy+y^2)$\n$P=x^3-x^2y+xy^2+x^2y-xy^2+y^3$\n$P=x^3+y^3$\nThay $x=2$, $y=1$:\n$P=2^3+1^3$\n$P=8+1$\n$P=9$."
+    },
+    {
+      "content": "Rút gọn $(x+y)(x-y)+y^2$.",
+      "options": [
+        "$x^2$",
+        "$x^2-y^2$",
+        "$x^2+2y^2$",
+        "$x^2+xy$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển tích:\n$E=x^2-xy+xy-y^2+y^2$\nNhóm các hạng tử đối nhau:\n$E=x^2+(-xy+xy)+(-y^2+y^2)$\nThu gọn:\n$E=x^2$."
+    },
+    {
+      "content": "Rút gọn $(x+2)(x^2-x+3)-x(x+1)$.",
+      "options": [
+        "$x^3+2x+6$",
+        "$x^3+x^2+6$",
+        "$x^3+6$",
+        "$x^3-6$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển tích thứ nhất:\n$A=(x+2)(x^2-x+3)$\n$A=x^3-x^2+3x+2x^2-2x+6$\n$A=x^3+x^2+x+6$\nKhai triển tích thứ hai:\n$B=x(x+1)$\n$B=x^2+x$\nLập hiệu:\n$E=A-B$\n$E=(x^3+x^2+x+6)-(x^2+x)$\nPhá ngoặc:\n$E=x^3+x^2+x+6-x^2-x$\nThu gọn:\n$E=x^3+6$."
+    },
+    {
+      "content": "Kết quả đúng của $(x+2y)(x-y)-(x-y)(x-2y)$ là:",
+      "options": [
+        "$4xy-2y^2$",
+        "$2xy-4y^2$",
+        "$4xy-4y^2$",
+        "$4xy$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển tích thứ nhất:\n$A=(x+2y)(x-y)$\n$A=x^2-xy+2xy-2y^2$\n$A=x^2+xy-2y^2$\nKhai triển tích thứ hai:\n$B=(x-y)(x-2y)$\n$B=x^2-2xy-xy+2y^2$\n$B=x^2-3xy+2y^2$\nLập hiệu:\n$E=A-B$\n$E=(x^2+xy-2y^2)-(x^2-3xy+2y^2)$\nPhá ngoặc:\n$E=x^2+xy-2y^2-x^2+3xy-2y^2$\nThu gọn:\n$E=4xy-4y^2$."
+    },
+    {
+      "content": "Nếu $P$ có bậc 3 và $Q$ có bậc 4, cả hai khác 0, thì $PQ$ có bậc:",
+      "options": [
+        "7",
+        "12",
+        "4",
+        "3"
+      ],
+      "correct_answer": 0,
+      "solution": "Hạng tử bậc cao nhất của $P$ nhân hạng tử bậc cao nhất của $Q$ tạo hạng tử bậc:\n$3+4=7$\nVậy $PQ$ có bậc 7."
+    },
+    {
+      "content": "Rút gọn $(2x^2-xy+y^2)(x+y)$.",
+      "options": [
+        "$2x^3+3x^2y+y^3$",
+        "$2x^3+xy^2+y^3$",
+        "$2x^3+x^2y+2xy^2+y^3$",
+        "$2x^3+x^2y+y^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi tích là $P$.\nPhân phối:\n$P=2x^3+2x^2y-x^2y-xy^2+xy^2+y^3$\nNhóm đồng dạng:\n$P=2x^3+(2-1)x^2y+(-1+1)xy^2+y^3$\nThu gọn:\n$P=2x^3+x^2y+y^3$."
+    },
+    {
+      "content": "Rút gọn $(x+1)(x^2-2x+3)+(x-1)(x^2+2x+3)$.",
+      "options": [
+        "$2x^3+2x^2$",
+        "$2x^3+2x$",
+        "$2x^3+6$",
+        "$2x^3-2x$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $E$.\nKhai triển tích thứ nhất:\n$A=(x+1)(x^2-2x+3)$\n$A=x^3-2x^2+3x+x^2-2x+3$\n$A=x^3-x^2+x+3$\nKhai triển tích thứ hai:\n$B=(x-1)(x^2+2x+3)$\n$B=x^3+2x^2+3x-x^2-2x-3$\n$B=x^3+x^2+x-3$\nCộng hai kết quả:\n$E=A+B$\n$E=(x^3-x^2+x+3)+(x^3+x^2+x-3)$\nThu gọn:\n$E=2x^3+2x$."
+    },
+    {
+      "content": "Kết quả đúng của $(x^2+y^2)(x-y)+xy(x+y)$ là:",
+      "options": [
+        "$x^3+2xy^2-y^3$",
+        "$x^3+y^3$",
+        "$x^3-y^3$",
+        "$x^3+2x^2y-y^3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $E$.\n$E=(x^2+y^2)(x-y)+xy(x+y)$\nKhai triển:\n$E=x^3-x^2y+xy^2-y^3+x^2y+xy^2$\nThu gọn:\n$E=x^3+2xy^2-y^3$."
+    },
+    {
+      "content": "Cho $P=(x+a)(x+b)$. Hệ số của $x$ trong dạng thu gọn của $P$ là:",
+      "options": [
+        "$ab$",
+        "$a-b$",
+        "$a+b$",
+        "$1$"
+      ],
+      "correct_answer": 2,
+      "solution": "Khai triển:\n$P=(x+a)(x+b)$\n$P=x^2+bx+ax+ab$\nThu gọn:\n$P=x^2+(a+b)x+ab$\nVậy hệ số của $x$ là $a+b$."
+    },
+    {
+      "content": "Cho $P=(x+a)(x+b)$. Hạng tử tự do của $P$ là:",
+      "options": [
+        "$a+b$",
+        "$ab$",
+        "$x^2$",
+        "$1$"
+      ],
+      "correct_answer": 1,
+      "solution": "Khai triển:\n$P=x^2+(a+b)x+ab$\nHạng tử không chứa $x$ là $ab$, nên hạng tử tự do của $P$ là $ab$."
+    },
+    {
+      "content": "Để chứng minh hai tích đa thức bằng nhau, cách phù hợp nhất trong bài này là:",
+      "options": [
+        "Chỉ thử một giá trị của biến",
+        "So sánh số hạng tử ban đầu",
+        "So sánh hệ số đầu tiên",
+        "Khai triển và thu gọn từng vế rồi so sánh"
+      ],
+      "correct_answer": 3,
+      "solution": "Quy trình:\n1. Khai triển vế trái và thu gọn.\n2. Khai triển vế phải và thu gọn.\n3. Nếu hai dạng thu gọn giống nhau thì đẳng thức được chứng minh."
+    },
+    {
+      "content": "Khi một biểu thức sau khai triển và thu gọn thành một hằng số, ta kết luận:",
+      "options": [
+        "Giá trị của biểu thức không phụ thuộc vào các biến",
+        "Biểu thức luôn bằng 0",
+        "Biểu thức không phải đa thức",
+        "Các biến phải bằng 1"
+      ],
+      "correct_answer": 0,
+      "solution": "Nếu dạng thu gọn không còn biến, giá trị của biểu thức luôn bằng hằng số đó với mọi giá trị hợp lệ của các biến. Vì vậy biểu thức không phụ thuộc vào biến."
+    },
+    {
+      "content": "Bước kiểm tra quan trọng nhất sau khi nhân và thu gọn nhiều đa thức là:",
+      "options": [
+        "Kiểm tra mọi hệ số đều dương",
+        "Kiểm tra đủ tích riêng, đúng dấu và đã gộp hết hạng tử đồng dạng",
+        "Kiểm tra số hạng tử luôn tăng",
+        "Kiểm tra bậc phải là số chẵn"
+      ],
+      "correct_answer": 1,
+      "solution": "Cần kiểm tra:\n1. Không bỏ sót tích riêng.\n2. Dấu của từng tích đúng.\n3. Số mũ khi nhân đúng.\n4. Các hạng tử đồng dạng đã được gộp hết."
+    }
+  ]
+}

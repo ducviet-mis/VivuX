@@ -1,4 +1,9 @@
-import type { FlytieeAccessory, FlytieeAccessorySlot, FlytieeProfile, FlytieeSet, FlytieeSkin } from './types';
+import type { FlytieeAccessory, FlytieeAccessorySlot, FlytieeDailyEventState, FlytieeProfile, FlytieeSet, FlytieeSkin } from './types';
+
+function currentDateKey() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+}
 
 export const FLYTIEE_METADATA_KEY = 'flytiee';
 export const FLYTIEE_STORAGE_PREFIX = 'flydo:flytiee:v1';
@@ -18,6 +23,15 @@ export const DEFAULT_FLYTIEE_PROFILE: FlytieeProfile = {
   ownedSetIds: [],
   equippedSetId: null,
   claimedMissionIds: [],
+  chests: { bronze: 0, silver: 0, gold: 0 },
+  dailyEvent: {
+    date: currentDateKey(),
+    streakClaimed: false,
+    studyClaimedMilestones: [],
+    practiceCoinsClaimed: 0,
+    completionChestClaimed: false,
+  },
+  redeemedMailCodes: [],
 };
 
 export const FLYTIEE_SETS: FlytieeSet[] = [
@@ -156,6 +170,16 @@ export function normalizeFlytieeProfile(value: unknown): FlytieeProfile {
     && validSetIds.has(raw.equippedSetId)
     ? raw.equippedSetId
     : null;
+  const rawDailyEvent = raw.dailyEvent && typeof raw.dailyEvent === 'object'
+    ? raw.dailyEvent as Partial<FlytieeDailyEventState>
+    : null;
+  const dailyDate = rawDailyEvent && typeof rawDailyEvent.date === 'string' ? rawDailyEvent.date : currentDateKey();
+  const studyMilestones = rawDailyEvent && Array.isArray(rawDailyEvent.studyClaimedMilestones)
+    ? rawDailyEvent.studyClaimedMilestones.filter((value): value is number => [15, 45, 90].includes(Number(value)))
+    : [];
+  const rawChests = raw.chests && typeof raw.chests === 'object'
+    ? raw.chests as Partial<FlytieeProfile['chests']>
+    : null;
 
   return {
     version: 1,
@@ -172,5 +196,20 @@ export function normalizeFlytieeProfile(value: unknown): FlytieeProfile {
     ownedSetIds,
     equippedSetId,
     claimedMissionIds: Array.isArray(raw.claimedMissionIds) ? raw.claimedMissionIds.filter((id): id is string => typeof id === 'string').slice(-120) : [],
+    chests: {
+      bronze: Math.max(0, Math.floor(Number(rawChests?.bronze) || 0)),
+      silver: Math.max(0, Math.floor(Number(rawChests?.silver) || 0)),
+      gold: Math.max(0, Math.floor(Number(rawChests?.gold) || 0)),
+    },
+    dailyEvent: {
+      date: dailyDate,
+      streakClaimed: Boolean(rawDailyEvent?.streakClaimed),
+      studyClaimedMilestones: Array.from(new Set(studyMilestones)),
+      practiceCoinsClaimed: Math.min(100, Math.max(0, Math.floor(Number(rawDailyEvent?.practiceCoinsClaimed) || 0))),
+      completionChestClaimed: Boolean(rawDailyEvent?.completionChestClaimed),
+    },
+    redeemedMailCodes: Array.isArray(raw.redeemedMailCodes)
+      ? raw.redeemedMailCodes.filter((code): code is string => typeof code === 'string').slice(-100)
+      : [],
   };
 }

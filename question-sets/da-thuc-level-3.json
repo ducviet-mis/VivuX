@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Thu gọn $P=2x^2-3xy+x^2+5xy-y^2$. Kết luận nào đúng?",
+      "options": ["$P=3x^2-8xy-y^2$, bậc 2", "$P=3x^4+2x^2y^2-y^2$, bậc 4", "$P=3x^2+2xy-y^2$, bậc 2", "$P=3x^2+2xy-y^2$, bậc 3"],
+      "correct_answer": 2,
+      "solution": "Gộp $2x^2+x^2=3x^2$ và $-3xy+5xy=2xy$. Mọi hạng tử còn lại đều có bậc 2 nên $P$ có bậc 2."
+    },
+    {
+      "content": "Cách nhóm nào đúng để thu gọn $A=2x^2y-3xy^2+4y x^2+5y^2x$?",
+      "options": ["$(2x^2y+4yx^2)+(-3xy^2+5y^2x)$", "$(2x^2y-3xy^2)+(4yx^2+5y^2x)$", "$(2x^2y+5y^2x)+(-3xy^2+4yx^2)$", "Cả bốn hạng tử đều đồng dạng"],
+      "correct_answer": 0,
+      "solution": "$yx^2=x^2y$ và $y^2x=xy^2$, nên các hạng tử được nhóm theo hai phần biến $x^2y$ và $xy^2$."
+    },
+    {
+      "content": "Một bạn nhóm $x^3$ với $xy^2$ vì cả hai đều có bậc 3. Nhận xét đúng là:",
+      "options": ["Bạn đúng vì cùng bậc thì đồng dạng", "Bạn đúng vì cùng chứa $x$", "Bạn sai vì hệ số của hai hạng tử khác nhau", "Bạn sai vì $x^3$ và $xy^2$ có phần biến khác nhau"],
+      "correct_answer": 3,
+      "solution": "Cùng bậc không có nghĩa là đồng dạng; muốn gộp, các hạng tử phải có cùng phần biến."
+    },
+    {
+      "content": "Thu gọn $B=5x^4-5x^4+2x^2y-3$. Bậc của $B$ là:",
+      "options": ["4", "2", "0", "3"],
+      "correct_answer": 3,
+      "solution": "Hai hạng tử bậc 4 triệt tiêu; còn $2x^2y-3$, có hạng tử cao nhất bậc 3."
+    },
+    {
+      "content": "Thu gọn $C=2x^2-2x^2+3y-3y$. Kết luận đúng là:",
+      "options": ["$C=0$ và không có bậc xác định", "$C$ có bậc 2", "$C$ có bậc 1", "$C$ không phải là đa thức"],
+      "correct_answer": 0,
+      "solution": "Tất cả các hạng tử triệt tiêu, nên $C$ là đa thức không và không có bậc xác định."
+    },
+    {
+      "content": "Thu gọn $D=x^3-x^3+7$. Kết luận đúng là:",
+      "options": ["$D$ là đa thức không", "$D$ có bậc 3", "$D$ không có bậc", "$D=7$ và có bậc 0"],
+      "correct_answer": 3,
+      "solution": "$x^3-x^3=0$, nên $D=7$ là đa thức khác 0 có bậc 0."
+    },
+    {
+      "content": "Hai biểu thức nào biểu thị cùng một đa thức?",
+      "options": ["$x^2+2x+1$ và $x^2+3x+1$", "$2x^2-x+x^2$ và $3x^2-x$", "$x^2+y^2$ và $2xy$", "$x^3+x$ và $x^4$"],
+      "correct_answer": 1,
+      "solution": "$2x^2-x+x^2$ thu gọn thành $3x^2-x$."
+    },
+    {
+      "content": "Sau khi thu gọn $E=x^2+2x+3x^2-x+5$, đa thức $E$ có bao nhiêu hạng tử?",
+      "options": ["5", "4", "2", "3"],
+      "correct_answer": 3,
+      "solution": "$E=4x^2+x+5$, gồm ba hạng tử."
+    },
+    {
+      "content": "Đa thức $F=x^3+x^2y+xy^2+y^3$ có đặc điểm nào?",
+      "options": ["Chưa thu gọn vì các hạng tử cùng bậc", "Có bậc 12", "Đã thu gọn và có bậc 3", "Có bậc 4"],
+      "correct_answer": 2,
+      "solution": "Bốn hạng tử có phần biến khác nhau nên không đồng dạng; mỗi hạng tử đều có bậc 3."
+    },
+    {
+      "content": "Thu gọn $G=x^4+y^4-x^4+2xy$. Bậc của $G$ là:",
+      "options": ["4", "2", "8", "0"],
+      "correct_answer": 0,
+      "solution": "$G=y^4+2xy$; hạng tử $y^4$ có bậc 4, cao nhất."
+    },
+    {
+      "content": "Một bạn nói đa thức $100x^2+x^5$ có bậc 100 vì 100 là số lớn nhất. Cách sửa đúng là:",
+      "options": ["Bậc là 2 vì hạng tử đầu đứng trước", "Bậc là 5 vì xét số mũ của biến, không xét độ lớn hệ số", "Bậc là 105", "Đa thức không có bậc"],
+      "correct_answer": 1,
+      "solution": "Hệ số 100 không quyết định bậc; hạng tử $x^5$ có bậc cao nhất là 5."
+    },
+    {
+      "content": "Một bạn cộng bậc của tất cả hạng tử trong $x^3+x^2+1$ và kết luận đa thức có bậc 5. Nhận xét đúng là:",
+      "options": ["Bạn đúng vì $3+2+0=5$", "Bậc phải bằng số hạng tử", "Đa thức có bậc 2", "Bạn sai; bậc là bậc cao nhất của một hạng tử, nên bằng 3"],
+      "correct_answer": 3,
+      "solution": "Không cộng bậc của các hạng tử; ta chọn bậc lớn nhất là 3."
+    },
+    {
+      "content": "Cho $P=3x^2y+kx^2y+y$. Với giá trị nào của $k$, hai hạng tử bậc 3 triệt tiêu?",
+      "options": ["$k=3$", "$k=0$", "$k=-3$", "$k=1$"],
+      "correct_answer": 2,
+      "solution": "Hệ số của $x^2y$ sau khi gộp là $3+k$. Muốn triệt tiêu thì $3+k=0$, nên $k=-3$."
+    },
+    {
+      "content": "Với $P=3x^2y+kx^2y+y$ và $k=-3$, bậc của đa thức thu gọn $P$ là:",
+      "options": ["1", "2", "3", "Không xác định"],
+      "correct_answer": 0,
+      "solution": "Khi $k=-3$, hai hạng tử $x^2y$ triệt tiêu, còn $P=y$ có bậc 1."
+    },
+    {
+      "content": "Đa thức $A=2x^2y-3xy^2+1$ đang thu gọn. Nếu thêm hạng tử $5x^2y$ thì biểu thức mới:",
+      "options": ["Vẫn thu gọn vì hệ số khác nhau", "Không còn là đa thức", "Có bậc bằng 5", "Chưa thu gọn vì xuất hiện hai hạng tử cùng phần biến $x^2y$"],
+      "correct_answer": 3,
+      "solution": "$2x^2y$ và $5x^2y$ đồng dạng nên cần được gộp."
+    },
+    {
+      "content": "Đa thức $A=2x^2y-3xy^2+1$ đang thu gọn. Nếu thêm hạng tử $4x^3$ thì:",
+      "options": ["Biểu thức vẫn ở dạng thu gọn", "Phải gộp $4x^3$ với $2x^2y$", "Phải gộp $4x^3$ với $-3xy^2$", "Đa thức trở thành đa thức không"],
+      "correct_answer": 0,
+      "solution": "$x^3$, $x^2y$, $xy^2$ và hạng tử tự do có các phần biến khác nhau."
+    },
+    {
+      "content": "Dạng thu gọn của $H=2a^2b-3ab^2+5ba^2+ab^2$ là:",
+      "options": ["$7a^2b-4ab^2$", "$7a^2b-2ab^2$", "$7a^4b^2-2a^2b^4$", "$3a^2b-2ab^2$"],
+      "correct_answer": 1,
+      "solution": "$ba^2=a^2b$. Do đó $2a^2b+5a^2b=7a^2b$ và $-3ab^2+ab^2=-2ab^2$."
+    },
+    {
+      "content": "Cho $K=-2x^3y^2+5x^2y^2-1$. Mô tả nào đúng?",
+      "options": ["$K$ có bậc 4 và hệ số của hạng tử cao nhất là 5", "$K$ có bậc 3", "$K$ có bậc 5 và hệ số của hạng tử bậc cao nhất là $-2$", "$K$ có bậc 10"],
+      "correct_answer": 2,
+      "solution": "$-2x^3y^2$ có bậc $3+2=5$, cao nhất; hệ số của hạng tử này là $-2$."
+    },
+    {
+      "content": "Khi thay một giá trị âm vào lũy thừa của biến, cách viết nào giúp tránh sai dấu?",
+      "options": ["Đặt giá trị âm trong ngoặc rồi mới thực hiện lũy thừa", "Bỏ dấu âm trước khi tính", "Đổi mọi số mũ thành 1", "Thay giá trị âm bằng giá trị tuyệt đối"],
+      "correct_answer": 0,
+      "solution": "Chẳng hạn, khi $x=-a$ thì $x^2$ phải được thay bằng $(-a)^2$ để giữ đúng dấu và thứ tự phép tính."
+    },
+    {
+      "content": "Khi tính giá trị của một đa thức, một bạn bỏ dấu trừ đứng trước một hạng tử. Nhận xét đúng là:",
+      "options": ["Không ảnh hưởng vì chỉ cần thay đúng biến", "Cách làm sai vì dấu là một phần của hạng tử", "Chỉ sai khi biến nhận giá trị âm", "Chỉ cần sửa lại bậc của đa thức"],
+      "correct_answer": 1,
+      "solution": "Phải giữ nguyên cả hệ số và dấu của từng hạng tử khi thay giá trị của biến."
+    },
+    {
+      "content": "Tính giá trị một đa thức trước hay sau khi thu gọn sẽ cho kết quả như thế nào?",
+      "options": ["Sau khi thu gọn luôn lớn hơn", "Trước khi thu gọn luôn đúng hơn", "Chỉ bằng nhau khi các biến bằng 0", "Hai cách cho cùng kết quả nếu thực hiện đúng"],
+      "correct_answer": 3,
+      "solution": "Thu gọn không làm thay đổi đa thức, nên thay cùng giá trị của biến sẽ cho cùng kết quả."
+    },
+    {
+      "content": "Khi thay $x=a$, $y=b$ vào hạng tử $xy^2$, biểu thức nhận được là:",
+      "options": ["$a^2b$", "$a+b^2$", "$ab^2$", "$(ab)^2$"],
+      "correct_answer": 2,
+      "solution": "Thay đúng từng biến: $x$ được thay bởi $a$, còn $y^2$ được thay bởi $b^2$, nên được $ab^2$."
+    },
+    {
+      "content": "Cho $P=2x^2+3x-x^2-5x+1$ và $Q=x^2-2x+1$. Kết luận đúng là:",
+      "options": ["$P$ và $Q$ biểu thị cùng một đa thức", "$P$ có bậc cao hơn $Q$", "$P-Q$ luôn bằng 1", "$P$ và $Q$ chỉ bằng nhau khi $x=0$"],
+      "correct_answer": 0,
+      "solution": "$P$ thu gọn thành $x^2-2x+1$, đúng bằng $Q$."
+    },
+    {
+      "content": "Các hạng tử của $M=-x^3+2x^2y-y^3+4$ phải được ghi như thế nào để không mất dấu?",
+      "options": ["$x^3$, $2x^2y$, $y^3$, $4$", "$-x^3+2x^2y$, $-y^3+4$", "$-x^3$, $2x^2y$, $y^3$, $4$", "$-x^3$, $2x^2y$, $-y^3$, $4$"],
+      "correct_answer": 3,
+      "solution": "Dấu đứng trước mỗi hạng tử là một phần của hạng tử đó."
+    },
+    {
+      "content": "Một đa thức thu gọn chứa các hạng tử $x^4$, $x^2y^2$ và $xy^3$. Nhận xét đúng là:",
+      "options": ["Phải gộp ba hạng tử vì cùng bậc", "Có thể giữ cả ba vì chúng không đồng dạng", "Đa thức chưa thu gọn vì đều chứa $x$", "Chỉ được giữ một hạng tử bậc 4"],
+      "correct_answer": 1,
+      "solution": "Ba hạng tử cùng bậc 4 nhưng có phần biến khác nhau, nên không đồng dạng và không gộp được."
+    },
+    {
+      "content": "Phân biệt nào đúng giữa đa thức $0$ và đa thức hằng $5$?",
+      "options": ["Cả hai đều không có bậc", "$0$ có bậc 0 còn $5$ không có bậc", "$0$ không có bậc xác định, còn $5$ có bậc 0", "Cả hai đều có bậc 5"],
+      "correct_answer": 2,
+      "solution": "Đa thức không không có bậc xác định; mọi số khác 0 là đa thức bậc 0."
+    },
+    {
+      "content": "Vì sao phải thu gọn đa thức trước khi xác định bậc?",
+      "options": ["Vì thu gọn luôn làm bậc tăng", "Vì các hạng tử bậc cao đồng dạng có thể triệt tiêu", "Vì đa thức chưa thu gọn không có hạng tử", "Vì chỉ đa thức một biến mới có bậc"],
+      "correct_answer": 1,
+      "solution": "Nếu các hạng tử bậc cao triệt tiêu, bậc thực sự của đa thức sẽ thấp hơn bậc nhìn thấy trước khi thu gọn."
+    },
+    {
+      "content": "Thu gọn $N=2x^2+3-2x^2+5$. Kết luận đúng là:",
+      "options": ["$N=8$ và có bậc 0", "$N=4x^2+8$ và có bậc 2", "$N=8x^2$ và có bậc 2", "$N=0$ và không có bậc"],
+      "correct_answer": 0,
+      "solution": "Hai hạng tử $2x^2$ và $-2x^2$ triệt tiêu; $3+5=8$, là đa thức bậc 0."
+    },
+    {
+      "content": "Cho $T=3x^3y-2xy^2-3x^3y+5xy^2-1$. Dạng thu gọn và bậc của $T$ là:",
+      "options": ["$6x^3y+3xy^2-1$, bậc 4", "$3xy^2-1$, bậc 3", "$3xy^2-1$, bậc 2", "$-7x^4y^3-1$, bậc 7"],
+      "correct_answer": 1,
+      "solution": "$3x^3y$ và $-3x^3y$ triệt tiêu; $-2xy^2+5xy^2=3xy^2$. Vì vậy $T=3xy^2-1$ có bậc 3."
+    },
+    {
+      "content": "Cách làm nào đúng khi cần vừa thu gọn, vừa tìm bậc và tính giá trị của một đa thức?",
+      "options": ["Tính bậc từ biểu thức ban đầu rồi bỏ các hạng tử đồng dạng", "Thay số trước và không cần chú ý dấu", "Thu gọn đa thức, xác định hạng tử có bậc cao nhất, rồi thay giá trị các biến khi được yêu cầu", "Cộng mọi số mũ và mọi hệ số thành một số"],
+      "correct_answer": 2,
+      "solution": "Thu gọn trước giúp xác định đúng bậc và làm việc thay số, tính giá trị gọn hơn."
+    }
+  ]
+}

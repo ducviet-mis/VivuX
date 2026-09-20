@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=6$ cm. Điểm nào sau đây cách $O$ một khoảng $6$ cm?",
+      "options": [
+        "$A, B, C, D$",
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=6$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $6$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=6$ cm, $OB=OD=6$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=12$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=12$ cm",
+        "$OB=OD=12$ cm",
+        "$OA=OB=OC=OD=6$ cm",
+        "$OA=OB=12$ cm"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=6$ cm.\n\n$OB=OD=\\frac{BD}{2}=6$ cm.\n\nVậy $OA=OB=OC=OD=6$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=7$ cm. Điểm nào sau đây cách $O$ một khoảng $7$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào",
+        "$A, B, C, D$"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=7$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $7$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=7$ cm, $OB=OD=7$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=14$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=14$ cm",
+        "$OB=OD=14$ cm",
+        "$OA=OB=OC=OD=7$ cm",
+        "$OA=OB=14$ cm"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=7$ cm.\n\n$OB=OD=\\frac{BD}{2}=7$ cm.\n\nVậy $OA=OB=OC=OD=7$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=8$ cm. Điểm nào sau đây cách $O$ một khoảng $8$ cm?",
+      "options": [
+        "$A, B, C, D$",
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=8$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $8$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=8$ cm, $OB=OD=8$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện.",
+        "$ABCD$ là hình chữ nhật."
+      ],
+      "correct_answer": 3,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=16$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=16$ cm",
+        "$OB=OD=16$ cm",
+        "$OA=OB=OC=OD=8$ cm",
+        "$OA=OB=16$ cm"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=8$ cm.\n\n$OB=OD=\\frac{BD}{2}=8$ cm.\n\nVậy $OA=OB=OC=OD=8$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=9$ cm. Điểm nào sau đây cách $O$ một khoảng $9$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "$A, B, C, D$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=9$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $9$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=9$ cm, $OB=OD=9$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=18$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=18$ cm",
+        "$OB=OD=18$ cm",
+        "$OA=OB=18$ cm",
+        "$OA=OB=OC=OD=9$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=9$ cm.\n\n$OB=OD=\\frac{BD}{2}=9$ cm.\n\nVậy $OA=OB=OC=OD=9$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=10$ cm. Điểm nào sau đây cách $O$ một khoảng $10$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "$A, B, C, D$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=10$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $10$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=10$ cm, $OB=OD=10$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=20$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=20$ cm",
+        "$OB=OD=20$ cm",
+        "$OA=OB=20$ cm",
+        "$OA=OB=OC=OD=10$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=10$ cm.\n\n$OB=OD=\\frac{BD}{2}=10$ cm.\n\nVậy $OA=OB=OC=OD=10$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=11$ cm. Điểm nào sau đây cách $O$ một khoảng $11$ cm?",
+      "options": [
+        "$A, B, C, D$",
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=11$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $11$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=11$ cm, $OB=OD=11$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "$ABCD$ là hình chữ nhật.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 2,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=22$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=22$ cm",
+        "$OA=OB=OC=OD=11$ cm",
+        "$OB=OD=22$ cm",
+        "$OA=OB=22$ cm"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=11$ cm.\n\n$OB=OD=\\frac{BD}{2}=11$ cm.\n\nVậy $OA=OB=OC=OD=11$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=12$ cm. Điểm nào sau đây cách $O$ một khoảng $12$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào",
+        "$A, B, C, D$"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=12$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $12$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=12$ cm, $OB=OD=12$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=24$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=24$ cm",
+        "$OA=OB=OC=OD=12$ cm",
+        "$OB=OD=24$ cm",
+        "$OA=OB=24$ cm"
+      ],
+      "correct_answer": 1,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=12$ cm.\n\n$OB=OD=\\frac{BD}{2}=12$ cm.\n\nVậy $OA=OB=OC=OD=12$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=13$ cm. Điểm nào sau đây cách $O$ một khoảng $13$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "$A, B, C, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=13$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $13$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=13$ cm, $OB=OD=13$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 0,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=26$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OC=26$ cm",
+        "$OB=OD=26$ cm",
+        "$OA=OB=26$ cm",
+        "$OA=OB=OC=OD=13$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=13$ cm.\n\n$OB=OD=\\frac{BD}{2}=13$ cm.\n\nVậy $OA=OB=OC=OD=13$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=14$ cm. Điểm nào sau đây cách $O$ một khoảng $14$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "$A, B, C, D$",
+        "Không có điểm nào"
+      ],
+      "correct_answer": 2,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=14$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $14$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=14$ cm, $OB=OD=14$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=28$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OB=OC=OD=14$ cm",
+        "$OA=OC=28$ cm",
+        "$OB=OD=28$ cm",
+        "$OA=OB=28$ cm"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=14$ cm.\n\n$OB=OD=\\frac{BD}{2}=14$ cm.\n\nVậy $OA=OB=OC=OD=14$ cm."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có hai đường chéo cắt nhau tại $O$. Biết $OA=15$ cm. Điểm nào sau đây cách $O$ một khoảng $15$ cm?",
+      "options": [
+        "Chỉ có $A, C$",
+        "Chỉ có $B, D$",
+        "Không có điểm nào",
+        "$A, B, C, D$"
+      ],
+      "correct_answer": 3,
+      "solution": "Trong hình chữ nhật, hai đường chéo bằng nhau và cắt nhau tại trung điểm.\n\nDo đó $OA=OB=OC=OD$.\n\nVì $OA=15$ cm nên cả bốn đỉnh $A,B,C,D$ đều cách $O$ một khoảng $15$ cm."
+    },
+    {
+      "content": "Tứ giác $ABCD$ có hai đường chéo cắt nhau tại $O$, biết $OA=OC=15$ cm, $OB=OD=15$ cm. Tứ giác còn có $AC=BD$. Kết luận đúng là",
+      "options": [
+        "$ABCD$ chỉ là hình thang.",
+        "$ABCD$ là hình chữ nhật.",
+        "$ABCD$ là hình thoi.",
+        "Không đủ điều kiện."
+      ],
+      "correct_answer": 1,
+      "solution": "Từ $OA=OC$ và $OB=OD$, hai đường chéo cắt nhau tại trung điểm của mỗi đường nên $ABCD$ là hình bình hành.\n\nLại có $AC=BD$.\n\nHình bình hành có hai đường chéo bằng nhau là hình chữ nhật."
+    },
+    {
+      "content": "Hình chữ nhật $ABCD$ có $AC=30$ cm, hai đường chéo cắt nhau tại $O$. Kết luận nào đúng?",
+      "options": [
+        "$OA=OB=OC=OD=15$ cm",
+        "$OA=OC=30$ cm",
+        "$OB=OD=30$ cm",
+        "$OA=OB=30$ cm"
+      ],
+      "correct_answer": 0,
+      "solution": "Trong hình chữ nhật, $AC=BD$ và $O$ là trung điểm của cả hai đường chéo.\n\n$OA=OC=\\frac{AC}{2}=15$ cm.\n\n$OB=OD=\\frac{BD}{2}=15$ cm.\n\nVậy $OA=OB=OC=OD=15$ cm."
+    }
+  ]
+}

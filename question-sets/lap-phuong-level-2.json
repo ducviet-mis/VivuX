@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Khai triển $(2x+3)^3$.",
+      "options": [
+        "$8x^3+36x^2+54x+27$",
+        "$8x^3+18x^2+27x+27$",
+        "$8x^3-36x^2+54x-27$",
+        "$2x^3+36x^2+54x+27$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2x+3)^3$\n$P=(2x)^3+3(2x)^2·3+3·2x·3^2+3^3$\n$P=8x^3+36x^2+54x+27$."
+    },
+    {
+      "content": "Khai triển $(3x-2)^3$.",
+      "options": [
+        "$27x^3+54x^2+36x+8$",
+        "$27x^3-18x^2+12x-8$",
+        "$27x^3-54x^2+36x-8$",
+        "$9x^3-54x^2+36x-8$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $P$.\n$P=(3x-2)^3$\n$P=(3x)^3-3(3x)^2·2+3·3x·2^2-2^3$\n$P=27x^3-54x^2+36x-8$."
+    },
+    {
+      "content": "Khai triển $(x+3y)^3$.",
+      "options": [
+        "$x^3+3x^2y+9xy^2+27y^3$",
+        "$x^3+9x^2y+27xy^2+27y^3$",
+        "$x^3-9x^2y+27xy^2-27y^3$",
+        "$x^3+9x^2y+9xy^2+27y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+3y)^3$\n$P=x^3+3x^2·3y+3x·(3y)^2+(3y)^3$\n$P=x^3+9x^2y+27xy^2+27y^3$."
+    },
+    {
+      "content": "Khai triển $(2a-b)^3$.",
+      "options": [
+        "$8a^3+12a^2b+6ab^2+b^3$",
+        "$8a^3-6a^2b+3ab^2-b^3$",
+        "$2a^3-12a^2b+6ab^2-b^3$",
+        "$8a^3-12a^2b+6ab^2-b^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2a-b)^3$\n$P=(2a)^3-3(2a)^2b+3·2a·b^2-b^3$\n$P=8a^3-12a^2b+6ab^2-b^3$."
+    },
+    {
+      "content": "Khai triển $(x^2+y)^3$.",
+      "options": [
+        "$x^6+3x^2y+3xy^2+y^3$",
+        "$x^6+3x^4y+3x^2y^2+y^3$",
+        "$x^6-3x^4y+3x^2y^2-y^3$",
+        "$x^4+3x^4y+3x^2y^2+y^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x^2+y)^3$\n$P=(x^2)^3+3(x^2)^2y+3x^2y^2+y^3$\n$P=x^6+3x^4y+3x^2y^2+y^3$."
+    },
+    {
+      "content": "Viết $x^3+12x^2+48x+64$ dưới dạng lập phương.",
+      "options": [
+        "$(x+4)^3$",
+        "$(x-4)^3$",
+        "$(x+3)^3$",
+        "$(x+8)^3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$x^3+12x^2+48x+64=x^3+3x^2·4+3x·4^2+4^3$\nVậy:\n$x^3+12x^2+48x+64=(x+4)^3$."
+    },
+    {
+      "content": "Viết $x^3-12x^2+48x-64$ dưới dạng lập phương.",
+      "options": [
+        "$(x+4)^3$",
+        "$(x-2)^3$",
+        "$(x-8)^3$",
+        "$(x-4)^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có:\n$x^3-12x^2+48x-64=x^3-3x^2·4+3x·4^2-4^3$\nVậy:\n$x^3-12x^2+48x-64=(x-4)^3$."
+    },
+    {
+      "content": "Viết $8x^3+36x^2y+54xy^2+27y^3$ dưới dạng lập phương.",
+      "options": [
+        "$(2x-3y)^3$",
+        "$(3x+2y)^3$",
+        "$(2x+3y)^3$",
+        "$(2x+y)^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$8x^3=(2x)^3$\n$27y^3=(3y)^3$\n$36x^2y=3(2x)^2·3y$\n$54xy^2=3·2x·(3y)^2$.\nVậy biểu thức bằng $(2x+3y)^3$."
+    },
+    {
+      "content": "Viết $27a^3-54a^2b+36ab^2-8b^3$ dưới dạng lập phương.",
+      "options": [
+        "$(3a+2b)^3$",
+        "$(2a-3b)^3$",
+        "$(3a-2b)^3$",
+        "$(3a-b)^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta có:\n$27a^3=(3a)^3$\n$-8b^3=(-2b)^3$\nCác hạng tử giữa lần lượt là $-3(3a)^2·2b$ và $3·3a·(2b)^2$.\nVậy biểu thức bằng $(3a-2b)^3$."
+    },
+    {
+      "content": "Tính nhanh $102^3$.",
+      "options": [
+        "$1060808$",
+        "$1041208$",
+        "$1061200$",
+        "$1061208$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta viết:\n$102=100+2$\n$P=102^3$\n$P=100^3+3·100^2·2+3·100·2^2+2^3$\n$P=1061208$."
+    },
+    {
+      "content": "Tính nhanh $98^3$.",
+      "options": [
+        "$941192$",
+        "$940192$",
+        "$960596$",
+        "$941200$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta viết:\n$98=100-2$\n$P=98^3$\n$P=100^3-3·100^2·2+3·100·2^2-2^3$\n$P=941192$."
+    },
+    {
+      "content": "Rút gọn $(x+2)^3-x^3-8$.",
+      "options": [
+        "$6x^2+12x+8$",
+        "$6x^2+12x$",
+        "$3x^2+6x$",
+        "$6x^2+8$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+2)^3-x^3-8$\n$P=(x^3+6x^2+12x+8)-x^3-8$\n$P=x^3+6x^2+12x+8-x^3-8$\n$P=6x^2+12x$."
+    },
+    {
+      "content": "Rút gọn $(x-2)^3-x^3+8$.",
+      "options": [
+        "$6x^2-12x$",
+        "$-6x^2-12x$",
+        "$-6x^2+12x-8$",
+        "$-6x^2+12x$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x-2)^3-x^3+8$\n$P=(x^3-6x^2+12x-8)-x^3+8$\n$P=x^3-6x^2+12x-8-x^3+8$\n$P=-6x^2+12x$."
+    },
+    {
+      "content": "Rút gọn $(x+y)^3-x^3-y^3$.",
+      "options": [
+        "$x^2y+xy^2$",
+        "$3x^2y+3xy^2$",
+        "$3x^2y-3xy^2$",
+        "$3xy$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+y)^3-x^3-y^3$\n$P=(x^3+3x^2y+3xy^2+y^3)-x^3-y^3$\n$P=3x^2y+3xy^2$."
+    },
+    {
+      "content": "Rút gọn $(x-y)^3-x^3+y^3$.",
+      "options": [
+        "$3x^2y-3xy^2$",
+        "$-3x^2y-3xy^2$",
+        "$-3x^2y+3xy^2$",
+        "$3xy$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x-y)^3-x^3+y^3$\n$P=(x^3-3x^2y+3xy^2-y^3)-x^3+y^3$\n$P=-3x^2y+3xy^2$."
+    },
+    {
+      "content": "Tìm $a$ để $x^3+3ax^2+12x+8=(x+2)^3$.",
+      "options": [
+        "$a=2$",
+        "$a=1$",
+        "$a=3$",
+        "$a=4$"
+      ],
+      "correct_answer": 0,
+      "solution": "Khai triển:\n$(x+2)^3=x^3+6x^2+12x+8$.\nSo sánh hệ số của $x^2$:\n$3a=6$\n$a=2$."
+    },
+    {
+      "content": "Tìm $b$ để $8x^3+12x^2y+6xy^2+by^3=(2x+y)^3$.",
+      "options": [
+        "$b=2$",
+        "$b=1$",
+        "$b=3$",
+        "$b=8$"
+      ],
+      "correct_answer": 1,
+      "solution": "Khai triển:\n$(2x+y)^3=8x^3+12x^2y+6xy^2+y^3$.\nSo sánh hệ số của $y^3$:\n$b=1$."
+    },
+    {
+      "content": "Rút gọn $(2x+y)^3-8x^3-y^3$.",
+      "options": [
+        "$6x^2y+3xy^2$",
+        "$12x^2y-6xy^2$",
+        "$12xy$",
+        "$12x^2y+6xy^2$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2x+y)^3-8x^3-y^3$\n$P=(8x^3+12x^2y+6xy^2+y^3)-8x^3-y^3$\n$P=12x^2y+6xy^2$."
+    },
+    {
+      "content": "Giá trị của $(x+1)^3$ tại $x=2$ là:",
+      "options": [
+        "$27$",
+        "$9$",
+        "$8$",
+        "$18$"
+      ],
+      "correct_answer": 0,
+      "solution": "Thay $x=2$:\n$P=(2+1)^3$\n$P=3^3$\n$P=27$."
+    },
+    {
+      "content": "Tính nhanh $1001^3$.",
+      "options": [
+        "$1003000001$",
+        "$1002003001$",
+        "$1003003001$",
+        "$1003003000$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta viết:\n$1001=1000+1$\n$P=1001^3$\n$P=1000^3+3·1000^2+3·1000+1$\n$P=1003003001$."
+    },
+    {
+      "content": "Tính nhanh $999^3$.",
+      "options": [
+        "$999000999$",
+        "$997000999$",
+        "$997002999$",
+        "$998002999$"
+      ],
+      "correct_answer": 2,
+      "solution": "Ta viết:\n$999=1000-1$\n$P=999^3$\n$P=1000^3-3·1000^2+3·1000-1$\n$P=997002999$."
+    },
+    {
+      "content": "Để $x^3+9x^2+27x+□$ là $(x+3)^3$, ô trống là:",
+      "options": [
+        "$27$",
+        "$9$",
+        "$18$",
+        "$81$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$(x+3)^3=x^3+9x^2+27x+27$.\nVậy ô trống là $27$."
+    },
+    {
+      "content": "Để $8x^3-12x^2y+6xy^2+□$ là $(2x-y)^3$, ô trống là:",
+      "options": [
+        "$y^3$",
+        "$-8y^3$",
+        "$-3y^3$",
+        "$-y^3$"
+      ],
+      "correct_answer": 3,
+      "solution": "Ta có:\n$(2x-y)^3=(2x)^3-3(2x)^2y+3·2x·y^2-y^3$.\nVậy hạng tử còn thiếu là $-y^3$."
+    },
+    {
+      "content": "Biểu thức $1+6x+12x^2+8x^3$ bằng:",
+      "options": [
+        "$(1-2x)^3$",
+        "$(1+2x)^3$",
+        "$(1+x)^3$",
+        "$(2+x)^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Ta có:\n$(1+2x)^3=1^3+3·1^2·2x+3·1·(2x)^2+(2x)^3$\n$(1+2x)^3=1+6x+12x^2+8x^3$."
+    },
+    {
+      "content": "Biểu thức $27-27x+9x^2-x^3$ bằng:",
+      "options": [
+        "$(3-x)^3$",
+        "$(3+x)^3$",
+        "$(x-3)^3$",
+        "$(1-x)^3$"
+      ],
+      "correct_answer": 0,
+      "solution": "Ta có:\n$(3-x)^3=3^3-3·3^2·x+3·3·x^2-x^3$\n$(3-x)^3=27-27x+9x^2-x^3$."
+    },
+    {
+      "content": "Khai triển $(2x-3y)^3$.",
+      "options": [
+        "$8x^3+36x^2y+54xy^2+27y^3$",
+        "$8x^3-18x^2y+27xy^2-27y^3$",
+        "$8x^3-36x^2y+54xy^2-27y^3$",
+        "$2x^3-36x^2y+54xy^2-27y^3$"
+      ],
+      "correct_answer": 2,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2x-3y)^3$\n$P=(2x)^3-3(2x)^2·3y+3·2x·(3y)^2-(3y)^3$\n$P=8x^3-36x^2y+54xy^2-27y^3$."
+    },
+    {
+      "content": "Khai triển $(a-2b)^3$.",
+      "options": [
+        "$a^3+6a^2b+12ab^2+8b^3$",
+        "$a^3-6a^2b+12ab^2-8b^3$",
+        "$a^3-3a^2b+6ab^2-8b^3$",
+        "$a^3-6a^2b-12ab^2-8b^3$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(a-2b)^3$\n$P=a^3-3a^2·2b+3a·(2b)^2-(2b)^3$\n$P=a^3-6a^2b+12ab^2-8b^3$."
+    },
+    {
+      "content": "Rút gọn $(x+2)^3-(x+1)^3$.",
+      "options": [
+        "$3x^2+3x+7$",
+        "$x^2+3x+7$",
+        "$3x^2+9x+9$",
+        "$3x^2+9x+7$"
+      ],
+      "correct_answer": 3,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x+2)^3-(x+1)^3$\n$P=(x^3+6x^2+12x+8)-(x^3+3x^2+3x+1)$\n$P=x^3+6x^2+12x+8-x^3-3x^2-3x-1$\n$P=3x^2+9x+7$."
+    },
+    {
+      "content": "Rút gọn $(x-1)^3+(x+1)^3$.",
+      "options": [
+        "$2x^3+6x$",
+        "$2x^3+2$",
+        "$2x^3-6x$",
+        "$x^3+6x$"
+      ],
+      "correct_answer": 0,
+      "solution": "Gọi biểu thức là $P$.\n$P=(x-1)^3+(x+1)^3$\n$P=(x^3-3x^2+3x-1)+(x^3+3x^2+3x+1)$\n$P=2x^3+6x$."
+    },
+    {
+      "content": "Rút gọn $(2x+1)^3-8x^3-1$.",
+      "options": [
+        "$6x^2+3x$",
+        "$12x^2+6x$",
+        "$12x^2-6x$",
+        "$12x$"
+      ],
+      "correct_answer": 1,
+      "solution": "Gọi biểu thức là $P$.\n$P=(2x+1)^3-8x^3-1$\n$P=(8x^3+12x^2+6x+1)-8x^3-1$\n$P=12x^2+6x$."
+    }
+  ]
+}

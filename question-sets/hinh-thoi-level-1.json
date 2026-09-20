@@ -1,0 +1,334 @@
+{
+  "questions": [
+    {
+      "content": "Hình thoi $ABCD$ có $AC=8$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$4$ cm",
+        "$8$ cm",
+        "$6$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=4$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Vuông góc với nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=10$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$10$ cm",
+        "$7$ cm",
+        "Không xác định được",
+        "$5$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=5$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Vuông góc với nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=12$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$6$ cm",
+        "$12$ cm",
+        "$8$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=6$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Luôn song song.",
+        "Không cắt nhau.",
+        "Vuông góc với nhau."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=14$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$14$ cm",
+        "$7$ cm",
+        "$9$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=7$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Vuông góc với nhau.",
+        "Luôn bằng nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau.",
+        "Đường phân giác của các góc mà nó đi qua."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=16$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$16$ cm",
+        "$8$ cm",
+        "$10$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 1,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=8$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Luôn song song.",
+        "Vuông góc với nhau.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau.",
+        "Đường phân giác của các góc mà nó đi qua."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=18$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$9$ cm",
+        "$18$ cm",
+        "$11$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 0,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=9$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Luôn song song.",
+        "Vuông góc với nhau.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 2,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=20$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$20$ cm",
+        "$12$ cm",
+        "Không xác định được",
+        "$10$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=10$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Vuông góc với nhau.",
+        "Luôn bằng nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=22$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$22$ cm",
+        "$13$ cm",
+        "$11$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=11$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Vuông góc với nhau.",
+        "Luôn bằng nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau.",
+        "Đường phân giác của các góc mà nó đi qua."
+      ],
+      "correct_answer": 3,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=24$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$24$ cm",
+        "$14$ cm",
+        "$12$ cm",
+        "Không xác định được"
+      ],
+      "correct_answer": 2,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=12$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Vuông góc với nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    },
+    {
+      "content": "Hình thoi $ABCD$ có $AC=26$ cm và hai đường chéo cắt nhau tại $O$. $OA$ bằng",
+      "options": [
+        "$26$ cm",
+        "$15$ cm",
+        "Không xác định được",
+        "$13$ cm"
+      ],
+      "correct_answer": 3,
+      "solution": "Hai đường chéo hình thoi cắt nhau tại trung điểm mỗi đường.\n\n$AC=2\\cdot OA$.\n\n$OA=13$ cm."
+    },
+    {
+      "content": "Trong hình thoi, hai đường chéo có tính chất nào?",
+      "options": [
+        "Luôn bằng nhau.",
+        "Vuông góc với nhau.",
+        "Luôn song song.",
+        "Không cắt nhau."
+      ],
+      "correct_answer": 1,
+      "solution": "Theo tính chất đường chéo hình thoi, hai đường chéo vuông góc với nhau."
+    },
+    {
+      "content": "Trong hình thoi, mỗi đường chéo là",
+      "options": [
+        "Đường phân giác của các góc mà nó đi qua.",
+        "Đường trung trực của mọi cạnh.",
+        "Đường cao của mọi tam giác.",
+        "Đường chéo bằng nhau."
+      ],
+      "correct_answer": 0,
+      "solution": "Theo tính chất hình thoi, mỗi đường chéo là đường phân giác của các góc mà nó đi qua."
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "questions": [
+    {
+      "content": "Đơn thức là biểu thức đại số có dạng nào sau đây?",
+      "options": ["Một tổng của các số và biến", "Một số, một biến hoặc một tích của các số và biến", "Một hiệu của hai biểu thức", "Một thương có biến ở mẫu"],
+      "correct_answer": 1,
+      "solution": "Đơn thức chỉ gồm một số, một biến hoặc một tích của các số và biến."
+    },
+    {
+      "content": "Biểu thức nào sau đây không phải là đơn thức?",
+      "options": ["$-5x^2y$", "$7$", "$xy^3$", "$x+y$"],
+      "correct_answer": 3,
+      "solution": "$x+y$ có phép cộng giữa hai hạng nên không phải là đơn thức."
+    },
+    {
+      "content": "Biểu thức nào sau đây là một đơn thức?",
+      "options": ["$-3x^2y$", "$x-2$", "$2x+y$", "$x+y-z$"],
+      "correct_answer": 0,
+      "solution": "$-3x^2y$ là tích của số $-3$ với các biến."
+    },
+    {
+      "content": "Vì sao một lũy thừa của biến có thể xuất hiện trong đơn thức?",
+      "options": ["Vì lũy thừa là một phép cộng", "Vì mọi lũy thừa đều bằng 1", "Vì lũy thừa là tích của các thừa số bằng nhau", "Vì lũy thừa không chứa biến"],
+      "correct_answer": 2,
+      "solution": "Một lũy thừa là tích của các thừa số bằng nhau, nên phù hợp với dạng tích trong đơn thức."
+    },
+    {
+      "content": "Đơn thức thu gọn là đơn thức có đặc điểm nào?",
+      "options": ["Mỗi biến chỉ xuất hiện một lần dưới dạng một lũy thừa", "Không có hệ số", "Phải có ít nhất hai biến", "Luôn có bậc bằng 1"],
+      "correct_answer": 0,
+      "solution": "Trong đơn thức thu gọn, mỗi biến chỉ xuất hiện một lần và được viết dưới dạng một lũy thừa."
+    },
+    {
+      "content": "Trong một đơn thức thu gọn, số mũ của mỗi biến là:",
+      "options": ["Một số nguyên âm", "Một phân số bất kỳ", "Luôn bằng 0", "Một số nguyên dương"],
+      "correct_answer": 3,
+      "solution": "Theo định nghĩa, mỗi biến trong đơn thức thu gọn được nâng lên lũy thừa với số mũ nguyên dương."
+    },
+    {
+      "content": "Trong đơn thức thu gọn, phần số được gọi là gì?",
+      "options": ["Phần biến", "Bậc", "Hệ số", "Số mũ"],
+      "correct_answer": 2,
+      "solution": "Phần số của đơn thức thu gọn được gọi là hệ số."
+    },
+    {
+      "content": "Trong đơn thức thu gọn, tích các biến được gọi là gì?",
+      "options": ["Hệ số", "Phần biến", "Bậc", "Hằng số"],
+      "correct_answer": 1,
+      "solution": "Tích các biến và lũy thừa của chúng tạo thành phần biến."
+    },
+    {
+      "content": "Theo quy ước, khi viết một đơn thức thu gọn, ta thường viết:",
+      "options": ["Phần biến trước, hệ số sau", "Các số mũ trước", "Hệ số trước, phần biến sau", "Bậc của đơn thức trước"],
+      "correct_answer": 2,
+      "solution": "Thông thường ta viết hệ số trước rồi đến phần biến."
+    },
+    {
+      "content": "Các biến trong phần biến của đơn thức thu gọn thường được viết theo:",
+      "options": ["Thứ tự bảng chữ cái", "Thứ tự số mũ giảm dần bắt buộc", "Thứ tự tùy ý và lặp lại", "Thứ tự từ phải sang trái"],
+      "correct_answer": 0,
+      "solution": "Các biến thường được viết theo thứ tự bảng chữ cái để biểu thức rõ ràng, thống nhất."
+    },
+    {
+      "content": "Khi đơn thức có hệ số bằng 1, ta thường viết như thế nào?",
+      "options": ["Viết thêm số 0", "Thay hệ số 1 bằng dấu trừ", "Bỏ phần biến", "Không viết số 1"],
+      "correct_answer": 3,
+      "solution": "Hệ số 1 thường được lược bỏ; chẳng hạn $1xy^2$ được viết là $xy^2$."
+    },
+    {
+      "content": "Khi đơn thức có hệ số bằng $-1$, ta thường:",
+      "options": ["Bỏ cả hệ số và dấu", "Chỉ viết dấu trừ trước phần biến", "Viết hệ số bằng 0", "Đổi dấu trừ thành dấu cộng"],
+      "correct_answer": 1,
+      "solution": "Hệ số $-1$ thường được viết bằng một dấu trừ trước phần biến."
+    },
+    {
+      "content": "Bậc của một đơn thức thu gọn có hệ số khác 0 là:",
+      "options": ["Hệ số của đơn thức", "Tổng các số mũ của các biến", "Số biến xuất hiện", "Số mũ lớn nhất"],
+      "correct_answer": 1,
+      "solution": "Bậc của đơn thức bằng tổng số mũ của tất cả các biến trong phần biến."
+    },
+    {
+      "content": "Mỗi số khác 0 được coi là một đơn thức có bậc bằng:",
+      "options": ["1", "Không có bậc", "0", "Chính số đó"],
+      "correct_answer": 2,
+      "solution": "Một số khác 0 là đơn thức thu gọn bậc 0."
+    },
+    {
+      "content": "Khẳng định nào đúng về đơn thức 0?",
+      "options": ["Đơn thức 0 không có bậc", "Đơn thức 0 có bậc 0", "Đơn thức 0 có bậc 1", "Số 0 không được coi là đơn thức"],
+      "correct_answer": 0,
+      "solution": "Số 0 được coi là một đơn thức, nhưng đơn thức 0 không có bậc."
+    },
+    {
+      "content": "Bậc của đơn thức $-6x^3y$ là bao nhiêu?",
+      "options": ["3", "6", "2", "4"],
+      "correct_answer": 3,
+      "solution": "Tổng các số mũ của phần biến là $3+1=4$."
+    },
+    {
+      "content": "Hệ số của đơn thức $-6x^3y$ là:",
+      "options": ["$x^3y$", "$6$", "$3$", "$-6$"],
+      "correct_answer": 3,
+      "solution": "Phần số của đơn thức là $-6$, nên hệ số là $-6$."
+    },
+    {
+      "content": "Phần biến của đơn thức $-6x^3y$ là:",
+      "options": ["$-6$", "$x^3y$", "$3y$", "$-6x$"],
+      "correct_answer": 1,
+      "solution": "Bỏ hệ số $-6$, phần còn lại $x^3y$ là phần biến."
+    },
+    {
+      "content": "Hai đơn thức đồng dạng là hai đơn thức:",
+      "options": ["Có hệ số khác 0 và có cùng phần biến", "Có cùng hệ số", "Có cùng số biến", "Có cùng dấu"],
+      "correct_answer": 0,
+      "solution": "Hai đơn thức đồng dạng phải có hệ số khác 0 và phần biến giống nhau."
+    },
+    {
+      "content": "Điều kiện quan trọng nhất để hai đơn thức có hệ số khác 0 đồng dạng là:",
+      "options": ["Cùng dấu", "Cùng hệ số", "Cùng phần biến", "Cùng cách viết hệ số"],
+      "correct_answer": 2,
+      "solution": "Phần biến của hai đơn thức phải giống hệt nhau."
+    },
+    {
+      "content": "Hai đơn thức đồng dạng luôn có đặc điểm nào sau đây?",
+      "options": ["Có cùng hệ số", "Có hệ số dương", "Có cùng bậc", "Có cùng giá trị với mọi biến"],
+      "correct_answer": 2,
+      "solution": "Cùng phần biến nên tổng các số mũ bằng nhau; vì vậy hai đơn thức đồng dạng có cùng bậc."
+    },
+    {
+      "content": "Hai đơn thức có cùng bậc thì:",
+      "options": ["Luôn có cùng hệ số", "Luôn trái dấu", "Luôn đồng dạng", "Chưa chắc đồng dạng"],
+      "correct_answer": 3,
+      "solution": "Cùng bậc chỉ cho biết tổng số mũ bằng nhau; phần biến vẫn có thể khác nhau."
+    },
+    {
+      "content": "Muốn cộng các đơn thức đồng dạng, ta thực hiện thế nào?",
+      "options": ["Cộng các số mũ", "Cộng các hệ số và giữ nguyên phần biến", "Nhân các hệ số", "Đổi dấu phần biến"],
+      "correct_answer": 1,
+      "solution": "Quy tắc cộng là cộng các hệ số với nhau và giữ nguyên phần biến."
+    },
+    {
+      "content": "Muốn trừ các đơn thức đồng dạng, ta thực hiện thế nào?",
+      "options": ["Trừ các hệ số và giữ nguyên phần biến", "Trừ các số mũ", "Bỏ phần biến", "Nhân các hệ số"],
+      "correct_answer": 0,
+      "solution": "Quy tắc trừ là trừ các hệ số với nhau và giữ nguyên phần biến."
+    },
+    {
+      "content": "Khi cộng hoặc trừ các đơn thức đồng dạng, phần nào được giữ nguyên?",
+      "options": ["Dấu của mọi đơn thức", "Hệ số", "Phần biến", "Giá trị của hệ số"],
+      "correct_answer": 2,
+      "solution": "Ta chỉ cộng hoặc trừ các hệ số; phần biến được giữ nguyên."
+    },
+    {
+      "content": "Cặp đơn thức nào sau đây đồng dạng?",
+      "options": ["$2x^2y$ và $2xy^2$", "$3xy$ và $-5xy$", "$x^2$ và $x^3$", "$4x$ và $4y$"],
+      "correct_answer": 1,
+      "solution": "$3xy$ và $-5xy$ có cùng phần biến $xy$, nên chúng đồng dạng."
+    },
+    {
+      "content": "Cặp đơn thức nào sau đây không đồng dạng?",
+      "options": ["$2x^2y$ và $-3xy^2$", "$x^3$ và $-5x^3$", "$4ab$ và $ab$", "$7m^2n$ và $-m^2n$"],
+      "correct_answer": 0,
+      "solution": "$x^2y$ và $xy^2$ là hai phần biến khác nhau nên hai đơn thức không đồng dạng."
+    },
+    {
+      "content": "Trong đơn thức $xy^2$, hệ số được hiểu là:",
+      "options": ["$0$", "$-1$", "$1$", "$2$"],
+      "correct_answer": 2,
+      "solution": "Khi không viết hệ số trước phần biến, hệ số được hiểu là 1."
+    },
+    {
+      "content": "Trong đơn thức $-x^2y$, hệ số được hiểu là:",
+      "options": ["$1$", "$0$", "$2$", "$-1$"],
+      "correct_answer": 3,
+      "solution": "Dấu trừ đứng trước phần biến biểu thị hệ số $-1$."
+    },
+    {
+      "content": "Khi nói đến một đơn thức trong phần kiến thức này, thông thường ta hiểu đơn thức đó:",
+      "options": ["Đã được thu gọn", "Luôn có hai biến", "Luôn có hệ số dương", "Có bậc bằng 1"],
+      "correct_answer": 0,
+      "solution": "Sau khi học khái niệm đơn thức thu gọn, ta thường hiểu đơn thức đang xét đã được thu gọn."
+    }
+  ]
+}

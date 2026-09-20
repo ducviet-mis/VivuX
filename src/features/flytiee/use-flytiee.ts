@@ -364,11 +364,46 @@ export function useFlytiee() {
     return reward;
   }, [commit]);
 
-  const redeemBirdieMail = useCallback((rawCode: string): FlytieeRewardResult | null => {
+  const redeemBirdieMail = useCallback(async (rawCode: string): Promise<FlytieeRewardResult | null> => {
     const code = rawCode.trim().toUpperCase().replace(/\s+/g, '-');
+    if (!code) return null;
+
+    // Birdie Mail phát hành chính thức được kiểm tra trên Supabase. Điều này
+    // tránh việc mã quà, số lượt nhận và phần thưởng bị sửa ở trình duyệt.
+    const { data, error } = await getSupabaseClient().rpc('redeem_flytiee_gift_code', { p_code: code });
+    if (!error && data?.ok) {
+      const remoteReward = data as {
+        kind: FlytieeRewardResult['kind'];
+        title: string;
+        description: string;
+        amount?: number | null;
+        chestTier?: FlytieeChestTier | null;
+        itemId?: string | null;
+      };
+      const reward: FlytieeRewardResult = {
+        kind: remoteReward.kind,
+        title: remoteReward.title,
+        description: remoteReward.description,
+        ...(remoteReward.amount != null ? { amount: remoteReward.amount } : {}),
+        ...(remoteReward.chestTier ? { chestTier: remoteReward.chestTier } : {}),
+        ...(remoteReward.itemId ? { itemId: remoteReward.itemId } : {}),
+      };
+      commit((current) => {
+        const rewarded = grantReward(current, reward);
+        return { ...rewarded, redeemedMailCodes: [...rewarded.redeemedMailCodes, code].slice(-100) };
+      }, reward.description);
+      return reward;
+    }
+
+    // Các mã mẫu cũ vẫn dùng được nếu migration Birdie Mail chưa chạy. Mã mới
+    // trong bảng flytiee_gift_codes chỉ hoạt động qua RPC ở phía trên.
     const mailReward = BIRDIE_MAIL_CODES[code];
     if (!mailReward) {
-      setMessage('Birdie Mail không hợp lệ hoặc đã hết hạn. Hãy kiểm tra lại mã.');
+      if (error?.code === 'PGRST202') {
+        setMessage('Hệ thống Birdie Mail chưa được cài trên Supabase. Hãy chạy đầy đủ file flytiee-events-schema.sql.');
+      } else {
+        setMessage(error?.message || 'Birdie Mail không hợp lệ hoặc đã hết hạn. Hãy kiểm tra lại mã.');
+      }
       return null;
     }
     if (profileRef.current.redeemedMailCodes.includes(code)) {

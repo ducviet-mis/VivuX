@@ -112,6 +112,7 @@ function RewardOverlay({ reward, openingTier, onClose }: {
 export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
   const [mailOpen, setMailOpen] = useState(false);
   const [mailCode, setMailCode] = useState('');
+  const [redeemingMail, setRedeemingMail] = useState(false);
   const [reward, setReward] = useState<FlytieeRewardResult | null>(null);
   const [openingTier, setOpeningTier] = useState<FlytieeChestTier | null>(null);
   const cycleDay = Math.max(1, (flytiee.eventStats.streak - 1) % 7 + 1);
@@ -139,13 +140,19 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
     }, 850);
   };
 
-  const submitMail = (event: React.FormEvent) => {
+  const submitMail = async (event: React.FormEvent) => {
     event.preventDefault();
-    const result = flytiee.redeemBirdieMail(mailCode);
-    if (result) {
-      setMailCode('');
-      setMailOpen(false);
-      reveal(result);
+    if (redeemingMail) return;
+    setRedeemingMail(true);
+    try {
+      const result = await flytiee.redeemBirdieMail(mailCode);
+      if (result) {
+        setMailCode('');
+        setMailOpen(false);
+        reveal(result);
+      }
+    } finally {
+      setRedeemingMail(false);
     }
   };
 
@@ -161,7 +168,7 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
           </div>
           <Button type="button" variant={mailOpen ? 'secondary' : 'default'} onClick={() => setMailOpen((value) => !value)} aria-expanded={mailOpen} aria-controls="birdie-mail-form"><Mail aria-hidden="true" className="h-4 w-4" />{mailOpen ? 'Đóng thư' : 'Nhập Birdie Mail'}</Button>
         </div>
-        {mailOpen && <form id="birdie-mail-form" onSubmit={submitMail} className="border-t border-border bg-card/60 p-4 sm:p-5"><Label htmlFor="birdie-mail-code">Mã Birdie Mail</Label><div className="mt-2 flex flex-col gap-2 sm:flex-row"><Input id="birdie-mail-code" value={mailCode} onChange={(event) => setMailCode(event.target.value.toUpperCase())} placeholder="VD: BIRDIE-WELCOME" autoComplete="off" className="h-11 uppercase" /><Button type="submit" className="h-11 sm:min-w-32" disabled={!mailCode.trim()}>Nhận quà</Button></div><p className="mt-2 text-xs text-muted-foreground">Mỗi mã chỉ nhận một lần trên mỗi tài khoản.</p></form>}
+        {mailOpen && <form id="birdie-mail-form" onSubmit={submitMail} className="border-t border-border bg-card/60 p-4 sm:p-5"><Label htmlFor="birdie-mail-code">Mã Birdie Mail</Label><div className="mt-2 flex flex-col gap-2 sm:flex-row"><Input id="birdie-mail-code" value={mailCode} onChange={(event) => setMailCode(event.target.value.toUpperCase())} placeholder="VD: BIRDIE-WELCOME" autoComplete="off" className="h-11 uppercase" disabled={redeemingMail} /><Button type="submit" className="h-11 sm:min-w-32" disabled={!mailCode.trim() || redeemingMail}>{redeemingMail ? 'Đang nhận…' : 'Nhận quà'}</Button></div><p className="mt-2 text-xs text-muted-foreground">Mỗi mã chỉ nhận một lần trên mỗi tài khoản.</p></form>}
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3">

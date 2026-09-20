@@ -50,22 +50,23 @@ function wrapRawMathAtoms(value: string) {
 
 /**
  * Some imported question JSON mixes Vietnamese prose and raw LaTeX, for
- * example: "4x^3y^2 và -\\frac{1}{2}x^3y^2". Keep the prose as normal text
- * while turning the complete fraction expression into an inline math block.
+ * examples: "4x^3y^2 và -\\frac{1}{2}x^3y^2" or
+ * "\\widehat{DAC}=\\widehat{BAC}=30^\\circ". Keep the prose as normal text
+ * while turning raw LaTex fragments into inline math blocks.
  */
 function formatPlainTextMath(value: string) {
-  const fractionPattern = /[+-]?\s*\\(?:d?frac|tfrac)\s*\{[^{}\n]+\}\s*\{[^{}\n]+\}(?:\s*[A-Za-z](?:\^(?:\{[^{}\n]+\}|[+-]?\d+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))?)*/g;
+  const rawLatexExpressionPattern = /[+-]?\s*\\(?:d?frac|tfrac)\s*\{[^{}\n]+\}\s*\{[^{}\n]+\}(?:\s*[A-Za-z](?:\^(?:\{[^{}\n]+\}|[+-]?\d+|\\[A-Za-z]+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))?)*|[+-]?\s*\\[A-Za-z]+(?:\s*\{[^{}\n]+\})?(?:\s*(?:=|\+|-|\*|\/)\s*(?:\\[A-Za-z]+(?:\s*\{[^{}\n]+\})?|[0-9A-Za-z]+(?:\^(?:\{[^{}\n]+\}|[+-]?\d+|\\[A-Za-z]+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))?))*|[+-]?\d+(?:\^(?:\{[^{}\n]+\}|[+-]?\d+|\\[A-Za-z]+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))/g;
   const parts: string[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
-  while ((match = fractionPattern.exec(value)) !== null) {
+  while ((match = rawLatexExpressionPattern.exec(value)) !== null) {
     if (match.index > lastIndex) {
       parts.push(wrapRawMathAtoms(value.slice(lastIndex, match.index)));
     }
 
     parts.push(`$${match[0]}$`);
-    lastIndex = fractionPattern.lastIndex;
+    lastIndex = rawLatexExpressionPattern.lastIndex;
   }
 
   if (lastIndex < value.length) {

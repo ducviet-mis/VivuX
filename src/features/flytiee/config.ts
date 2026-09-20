@@ -24,6 +24,11 @@ export const ACCESSORY_SLOT_LABELS: Record<FlytieeAccessorySlot, string> = {
 };
 
 export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
+  { id: 'santa-hat', name: 'Mũ Noel ấm áp', slot: 'head', price: 55, description: 'Chiếc mũ đỏ mềm mại cho đêm Giáng sinh.', tone: 'red' },
+  { id: 'snowflake-glasses', name: 'Kính bông tuyết', slot: 'eyes', price: 45, description: 'Khung kính xanh lấp lánh như tuyết đầu mùa.', tone: 'cyan' },
+  { id: 'jingle-bell', name: 'Nơ chuông leng keng', slot: 'neck', price: 45, description: 'Chiếc chuông vàng ngân vang lời chúc an lành.', tone: 'yellow' },
+  { id: 'candy-cane', name: 'Gậy kẹo Giáng sinh', slot: 'hand', price: 40, description: 'Ngọt ngào, nổi bật với hai màu đỏ trắng.', tone: 'red' },
+  { id: 'christmas-gift', name: 'Hộp quà bí mật', slot: 'hand', price: 50, description: 'Một món quà nhỏ đang chờ được mở.', tone: 'green' },
   { id: 'moon-rabbit', name: 'Băng đô thỏ ngọc', slot: 'head', price: 50, description: 'Đôi tai mềm cùng đi chơi đêm trăng.', tone: 'coral' },
   { id: 'moon-glasses', name: 'Kính trăng sao', slot: 'eyes', price: 45, description: 'Ngắm trăng qua chiếc kính vàng xinh.', tone: 'yellow' },
   { id: 'moon-pendant', name: 'Vòng cổ trăng rằm', slot: 'neck', price: 40, description: 'Vầng trăng nhỏ ôm lấy ngôi sao.', tone: 'yellow' },

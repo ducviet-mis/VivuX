@@ -1,4 +1,4 @@
-import type { FlytieeAccessory, FlytieeAccessorySlot, FlytieeProfile } from './types';
+import type { FlytieeAccessory, FlytieeAccessorySlot, FlytieeProfile, FlytieeSkin } from './types';
 
 export const FLYTIEE_METADATA_KEY = 'flytiee';
 export const FLYTIEE_STORAGE_PREFIX = 'flydo:flytiee:v1';
@@ -13,8 +13,53 @@ export const DEFAULT_FLYTIEE_PROFILE: FlytieeProfile = {
   satietyUpdatedAt: new Date().toISOString(),
   ownedAccessoryIds: [],
   equipped: {},
+  ownedSkinIds: ['classic'],
+  equippedSkinId: 'classic',
   claimedMissionIds: [],
 };
+
+export const FLYTIEE_SKINS: FlytieeSkin[] = [
+  {
+    id: 'classic', name: 'Xanh trời nguyên bản', price: 0,
+    description: 'Màu xanh thân quen, trong trẻo và luôn sẵn sàng học cùng bạn.',
+    personality: 'Thân thiện', mood: 'friendly',
+    palette: { bodyStart: '#a8b6ff', bodyMid: '#8394f5', bodyEnd: '#6574d9', outline: '#586ac4', highlight: '#d0d9ff', bellyStart: '#fff9e8', bellyEnd: '#f4e8c9', cheek: '#e6a5bd', eye: '#26345e', brow: '#58679d', accent: '#7f91ff' },
+  },
+  {
+    id: 'sakura', name: 'Hồng đào Sakura', price: 130,
+    description: 'Sắc hoa anh đào dịu dàng với ánh nhìn mềm mại, ấm áp.',
+    personality: 'Dịu dàng', mood: 'gentle',
+    palette: { bodyStart: '#ffd2df', bodyMid: '#f3a9c2', bodyEnd: '#d979a2', outline: '#bd608c', highlight: '#fff0f5', bellyStart: '#fffaf4', bellyEnd: '#f8dfd7', cheek: '#f487ad', eye: '#67405f', brow: '#9b5479', accent: '#f59abb' },
+  },
+  {
+    id: 'golden-canary', name: 'Hoàng yến Hoàng Kim', price: 155,
+    description: 'Rực rỡ như nắng sớm, đôi mắt luôn lấp lánh đầy hào hứng.',
+    personality: 'Rạng rỡ', mood: 'bright',
+    palette: { bodyStart: '#ffe99a', bodyMid: '#f7c94d', bodyEnd: '#df9f25', outline: '#bd7d19', highlight: '#fff7c9', bellyStart: '#fffdf0', bellyEnd: '#f7e7b3', cheek: '#f39b72', eye: '#553c27', brow: '#8b5d22', accent: '#ffd45d' },
+  },
+  {
+    id: 'pastel-jade', name: 'Xanh ngọc Pastel', price: 120,
+    description: 'Trong veo như làn nước mát, tò mò và thích khám phá điều mới.',
+    personality: 'Tò mò', mood: 'curious',
+    palette: { bodyStart: '#c7f3e9', bodyMid: '#80d7c7', bodyEnd: '#4fb6aa', outline: '#3a918b', highlight: '#e7fff9', bellyStart: '#fffdf2', bellyEnd: '#e9f1dc', cheek: '#f1a6ac', eye: '#234e57', brow: '#397a7b', accent: '#6ed5c5' },
+  },
+  {
+    id: 'black-hawk', name: 'Hắc Ưng', price: 195,
+    description: 'Bộ lông huyền bí cùng ánh mắt nghiêm nghị của một chiến binh học tập.',
+    personality: 'Nghiêm nghị', mood: 'stern',
+    palette: { bodyStart: '#66738d', bodyMid: '#364158', bodyEnd: '#1d2638', outline: '#111827', highlight: '#aeb9cc', bellyStart: '#e9edf2', bellyEnd: '#bfc7d2', cheek: '#9d6678', eye: '#131a2b', brow: '#0d1422', accent: '#8b9ab6' },
+  },
+  {
+    id: 'lavender-cloud', name: 'Mây tím Lavender', price: 145,
+    description: 'Mềm như mây chiều, mang nét mơ màng và một chút tinh nghịch.',
+    personality: 'Mơ mộng', mood: 'dreamy',
+    palette: { bodyStart: '#e4d9ff', bodyMid: '#bca7ee', bodyEnd: '#8e78ca', outline: '#725dae', highlight: '#f4efff', bellyStart: '#fff9f0', bellyEnd: '#eee2ed', cheek: '#e39fca', eye: '#4d3d72', brow: '#715b94', accent: '#bba2ef' },
+  },
+];
+
+export function getFlytieeSkin(id?: string) {
+  return FLYTIEE_SKINS.find((skin) => skin.id === id) ?? FLYTIEE_SKINS[0];
+}
 
 export const ACCESSORY_SLOT_LABELS: Record<FlytieeAccessorySlot, string> = {
   head: 'Mũ & băng đô',
@@ -59,6 +104,17 @@ export function normalizeFlytieeProfile(value: unknown): FlytieeProfile {
     ? raw.satietyUpdatedAt
     : new Date().toISOString();
 
+  const validSkinIds = new Set(FLYTIEE_SKINS.map((skin) => skin.id));
+  const ownedSkinIds = Array.isArray(raw.ownedSkinIds)
+    ? raw.ownedSkinIds.filter((id): id is string => typeof id === 'string' && validSkinIds.has(id))
+    : [];
+  if (!ownedSkinIds.includes('classic')) ownedSkinIds.unshift('classic');
+  const equippedSkinId = typeof raw.equippedSkinId === 'string'
+    && ownedSkinIds.includes(raw.equippedSkinId)
+    && validSkinIds.has(raw.equippedSkinId)
+    ? raw.equippedSkinId
+    : 'classic';
+
   return {
     version: 1,
     name: typeof raw.name === 'string' && raw.name.trim() ? raw.name.trim().slice(0, 20) : DEFAULT_FLYTIEE_PROFILE.name,
@@ -69,6 +125,8 @@ export function normalizeFlytieeProfile(value: unknown): FlytieeProfile {
     satietyUpdatedAt: updatedAt,
     ownedAccessoryIds: Array.isArray(raw.ownedAccessoryIds) ? raw.ownedAccessoryIds.filter((id): id is string => typeof id === 'string') : [],
     equipped: raw.equipped && typeof raw.equipped === 'object' ? raw.equipped : {},
+    ownedSkinIds,
+    equippedSkinId,
     claimedMissionIds: Array.isArray(raw.claimedMissionIds) ? raw.claimedMissionIds.filter((id): id is string => typeof id === 'string').slice(-120) : [],
   };
 }

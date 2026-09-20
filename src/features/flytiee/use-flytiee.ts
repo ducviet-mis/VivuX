@@ -6,6 +6,7 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import {
   DEFAULT_FLYTIEE_PROFILE,
   FLYTIEE_ACCESSORIES,
+  FLYTIEE_SKINS,
   FLYTIEE_METADATA_KEY,
   FLYTIEE_STORAGE_PREFIX,
   normalizeFlytieeProfile,
@@ -199,6 +200,28 @@ export function useFlytiee() {
     return true;
   }, [commit]);
 
+  const buyOrEquipSkin = useCallback((skinId: string) => {
+    const skin = FLYTIEE_SKINS.find((entry) => entry.id === skinId);
+    if (!skin) return false;
+    const current = profileRef.current;
+    const owned = current.ownedSkinIds.includes(skin.id);
+    if (!owned && current.coins < skin.price) {
+      setMessage(`Cần thêm ${skin.price - current.coins} xu để mua ${skin.name}.`);
+      return false;
+    }
+    if (current.equippedSkinId === skin.id) {
+      setMessage(`${skin.name} đang được sử dụng.`);
+      return true;
+    }
+    commit((value) => ({
+      ...value,
+      coins: owned ? value.coins : value.coins - skin.price,
+      ownedSkinIds: owned ? value.ownedSkinIds : [...value.ownedSkinIds, skin.id],
+      equippedSkinId: skin.id,
+    }), owned ? `Đã đổi sang ${skin.name}.` : `Đã mua và sử dụng ${skin.name}!`);
+    return true;
+  }, [commit]);
+
   const clearMessage = useCallback(() => setMessage(''), []);
 
   return {
@@ -213,6 +236,7 @@ export function useFlytiee() {
     rename,
     claimMission,
     buyOrEquip,
+    buyOrEquipSkin,
     refreshMissions,
     clearMessage,
   };

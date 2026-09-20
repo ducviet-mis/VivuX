@@ -2,7 +2,8 @@
 
 import { useEffect, useId, useState } from 'react';
 import { cn } from '@/lib/utils';
-import type { FlytieeAccessory, FlytieeMood, FlytieeProfile } from './types';
+import { getFlytieeSkin } from './config';
+import type { FlytieeAccessory, FlytieeMood, FlytieeProfile, FlytieeSkin } from './types';
 import styles from './flytiee-bird.module.css';
 
 interface FlytieeBirdProps {
@@ -47,21 +48,63 @@ function AccessoryLayers({ equipped }: { equipped: FlytieeProfile['equipped'] })
   </>;
 }
 
+function DefaultFace({ skin }: { skin: FlytieeSkin }) {
+  const { mood, palette } = skin;
+  const browPaths: Record<FlytieeSkin['mood'], [string, string]> = {
+    friendly: ['M365 360C379 350 394 352 405 359', 'M545 352C558 343 575 347 585 357'],
+    gentle: ['M360 361Q385 342 410 358', 'M539 355Q563 338 588 356'],
+    bright: ['M360 356Q385 337 409 354', 'M539 349Q564 330 589 351'],
+    curious: ['M359 350Q384 333 409 350', 'M541 367Q563 353 586 364'],
+    stern: ['M357 343L410 363', 'M539 363L590 341'],
+    dreamy: ['M361 363Q385 349 409 360', 'M540 357Q563 344 587 356'],
+  };
+  const [leftBrow, rightBrow] = browPaths[mood];
+  const pupil = mood === 'curious'
+    ? { lx: 407, ly: 407, rx: 574, ry: 400, lrx: 22, lry: 29, rrx: 20, rry: 27 }
+    : mood === 'stern'
+      ? { lx: 400, ly: 420, rx: 567, ry: 414, lrx: 22, lry: 25, rrx: 20, rry: 24 }
+      : mood === 'dreamy'
+        ? { lx: 399, ly: 425, rx: 567, ry: 419, lrx: 22, lry: 27, rrx: 20, rry: 26 }
+        : mood === 'bright'
+          ? { lx: 400, ly: 417, rx: 568, ry: 411, lrx: 25, lry: 33, rrx: 23, rry: 31 }
+          : { lx: 400, ly: 419, rx: 568, ry: 413, lrx: 23, lry: 31, rrx: 21, rry: 29 };
+
+  return <>
+    <g className={styles.brows} stroke={palette.brow} strokeWidth={mood === 'stern' ? 9 : 7} strokeLinecap="round" fill="none">
+      <path d={leftBrow}/><path d={rightBrow}/>
+    </g>
+    <g className={styles.eyes}>
+      <ellipse cx="388" cy="412" rx="39" ry="48" fill="#fffef7"/>
+      <ellipse cx="559" cy="406" rx="35" ry="45" fill="#fffef7"/>
+      <ellipse cx={pupil.lx} cy={pupil.ly} rx={pupil.lrx} ry={pupil.lry} fill={palette.eye}/>
+      <ellipse cx={pupil.rx} cy={pupil.ry} rx={pupil.rrx} ry={pupil.rry} fill={palette.eye}/>
+      <ellipse cx={pupil.lx - 6} cy={pupil.ly - 15} rx="9" ry="11" fill="#fff"/>
+      <ellipse cx={pupil.rx - 6} cy={pupil.ry - 14} rx="8" ry="10" fill="#fff"/>
+      <circle cx={pupil.lx + 10} cy={pupil.ly + 7} r="4" fill="#fff"/>
+      <circle cx={pupil.rx + 9} cy={pupil.ry + 6} r="3.5" fill="#fff"/>
+      {mood === 'gentle' && <><path d="M351 391Q344 380 338 372M594 384Q603 373 608 364" stroke={palette.brow} strokeWidth="5" strokeLinecap="round"/><circle cx="425" cy="382" r="5" fill={palette.accent}/></>}
+      {mood === 'bright' && <><path d="M420 385l4 8 9 1-7 6 2 9-8-4-8 4 2-9-7-6 9-1Z" fill="#fff4b3"/><path d="M588 374l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z" fill="#fff4b3"/></>}
+      {mood === 'stern' && <><path d="M351 393Q389 375 427 401M525 399Q559 374 594 390" fill={palette.bodyMid} stroke={palette.outline} strokeWidth="6"/><path d="M355 399Q389 390 424 404M529 403Q559 389 591 395" fill="none" stroke={palette.outline} strokeWidth="4"/></>}
+      {mood === 'dreamy' && <><path d="M351 397Q388 376 426 400M526 391Q560 372 594 394" fill={palette.bodyStart} stroke={palette.outline} strokeWidth="5"/><path d="M425 377l4 8 9 1-7 6 2 9-8-4-8 4 2-9-7-6 9-1Z" fill={palette.accent}/></>}
+    </g>
+  </>;
+}
+
 function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood; profile: FlytieeProfile; gradientId: string; className?: string }) {
-  return <g className={cn(styles.scene, className)} data-mood={mood} data-held={Boolean(profile.equipped.hand) ? 'true' : 'false'}>
+  const skin = getFlytieeSkin(profile.equippedSkinId);
+  return <g className={cn(styles.scene, className)} data-mood={mood} data-held={Boolean(profile.equipped.hand) ? 'true' : 'false'} data-skin={skin.id}>
     <ellipse cx="454" cy="760" rx="170" ry="18" fill="#7b84ae" opacity=".17"/>
     <g className={styles.body}>
       <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
-      <g className={styles.waveWing}><path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill="#8ea2fb" stroke="#596dcb" strokeWidth="6" strokeLinejoin="round"/></g>
-      <path d="M366 267C342 239 338 217 350 203C363 189 389 210 413 237C407 201 416 175 433 173C452 171 461 206 463 236C480 213 500 205 511 218C520 230 507 253 491 267C609 285 671 396 666 532C663 663 595 730 467 735C340 741 240 695 226 576C209 433 251 303 366 267Z" fill={`url(#${gradientId}-body)`} stroke="#586ac4" strokeWidth="7"/>
-      <path d="M296 362C321 326 345 312 370 303M421 244C422 226 424 214 429 205" stroke="#d0d9ff" strokeWidth="12" strokeLinecap="round" opacity=".65"/>
+      <g className={styles.waveWing}><path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6" strokeLinejoin="round"/></g>
+      <path d="M366 267C342 239 338 217 350 203C363 189 389 210 413 237C407 201 416 175 433 173C452 171 461 206 463 236C480 213 500 205 511 218C520 230 507 253 491 267C609 285 671 396 666 532C663 663 595 730 467 735C340 741 240 695 226 576C209 433 251 303 366 267Z" fill={`url(#${gradientId}-body)`} stroke={skin.palette.outline} strokeWidth="7"/>
+      <path d="M296 362C321 326 345 312 370 303M421 244C422 226 424 214 429 205" stroke={skin.palette.highlight} strokeWidth="12" strokeLinecap="round" opacity=".65"/>
       <path d="M472 484C491 465 504 459 519 462C532 466 542 478 550 493C611 519 626 569 614 624C601 687 545 714 466 713C378 712 322 680 318 624C314 565 349 523 411 505C436 498 454 491 472 484Z" fill={`url(#${gradientId}-belly)`}/>
       <path d="M413 645C442 658 475 659 501 650" stroke="#e3d5bd" strokeWidth="5" strokeLinecap="round"/>
-      <g className={styles.restWing}><path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill="#768aeb" stroke="#596dcb" strokeWidth="6"/><path d="M262 478C253 511 271 548 289 561" stroke="#acbbff" strokeWidth="8" strokeLinecap="round"/></g>
-      <g className={styles.brows} stroke="#4f5da4" strokeWidth="7" strokeLinecap="round" fill="none"><path d="M365 360C379 350 394 352 405 359"/><path d="M545 352C558 343 575 347 585 357"/></g>
-      <g className={styles.eyes}><ellipse cx="388" cy="412" rx="39" ry="48" fill="#fffef7"/><ellipse cx="559" cy="406" rx="35" ry="45" fill="#fffef7"/><ellipse cx="400" cy="419" rx="23" ry="31" fill="#283559"/><ellipse cx="568" cy="413" rx="21" ry="29" fill="#283559"/><ellipse cx="394" cy="404" rx="9" ry="11" fill="#fff"/><ellipse cx="562" cy="399" rx="8" ry="10" fill="#fff"/><circle cx="410" cy="426" r="4" fill="#fff"/><circle cx="577" cy="419" r="3.5" fill="#fff"/></g>
+      <g className={styles.restWing}><path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill={skin.palette.bodyEnd} stroke={skin.palette.outline} strokeWidth="6"/><path d="M262 478C253 511 271 548 289 561" stroke={skin.palette.highlight} strokeWidth="8" strokeLinecap="round"/></g>
+      <DefaultFace skin={skin}/>
       <g className={styles.closedEyes} fill="none" stroke="#35446d" strokeWidth="9" strokeLinecap="round"><path d="M360 416Q388 444 420 414M532 410Q558 436 585 408"/></g>
-      <ellipse cx="356" cy="465" rx="27" ry="14" fill="#e6a5bd" opacity=".8"/><ellipse cx="598" cy="454" rx="23" ry="13" fill="#e6a5bd" opacity=".8"/>
+      <ellipse cx="356" cy="465" rx="27" ry="14" fill={skin.palette.cheek} opacity=".8"/><ellipse cx="598" cy="454" rx="23" ry="13" fill={skin.palette.cheek} opacity=".8"/>
       <g className={styles.beak}><path d="M482 477C490 502 516 508 531 480" fill="#d98643" stroke="#bc733e" strokeWidth="4"/><path d="M477 466C482 452 496 445 508 446C521 446 538 456 542 465C545 474 528 481 511 483C493 484 474 478 477 466Z" fill="#ffd482" stroke="#d4954d" strokeWidth="4"/><path d="M492 460C498 456 505 455 511 456" stroke="#ffebc0" strokeWidth="6" strokeLinecap="round"/></g>
 
       <g className={cn(styles.expression, styles.faceHungry)}><path d="M356 364Q384 365 407 344M539 343Q560 364 586 361" stroke="#4f5da4" strokeWidth="8" strokeLinecap="round"/><g className={styles.hungryGaze}><path d="M351 404Q389 421 428 397C431 442 414 458 391 458C366 458 351 440 351 404Z" fill="#fffef7"/><path d="M526 396Q558 414 594 392C596 434 583 450 560 451C538 451 526 434 526 396Z" fill="#fffef7"/><ellipse cx="394" cy="433" rx="20" ry="23" fill="#283559"/><ellipse cx="563" cy="426" rx="18" ry="22" fill="#283559"/><ellipse cx="388" cy="422" rx="7" ry="9" fill="#fff"/><ellipse cx="558" cy="416" rx="7" ry="8" fill="#fff"/><path d="M351 404Q389 421 428 397M526 396Q558 414 594 392" stroke="#5868b4" strokeWidth="7" strokeLinecap="round"/></g><ellipse cx="508" cy="480" rx="19" ry="27" fill="#754c48" stroke="#d4954d" strokeWidth="7"/><path d="M497 497Q508 484 519 497" fill="#ee9b9f"/><path d="M480 463Q506 440 534 463Q510 480 480 463Z" fill="#ffd482" stroke="#d4954d" strokeWidth="4"/></g>
@@ -90,6 +133,7 @@ export function FlytieeAccessoryPreview({ item }: { item: FlytieeAccessory }) {
 
 export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
   const gradientId = useId().replace(/:/g, '');
+  const skin = getFlytieeSkin(profile.equippedSkinId);
   const [visibleMood, setVisibleMood] = useState(mood);
   const [previousMood, setPreviousMood] = useState<FlytieeMood | null>(null);
 
@@ -108,7 +152,7 @@ export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
 
   const longTransition = previousMood === 'sleep' || visibleMood === 'sleep';
   return <svg className={cn(styles.bird, className)} viewBox="160 110 650 700" fill="none" role="img" aria-label={`${profile.name} đang ${MOOD_LABELS[mood]}`}>
-    <defs><linearGradient id={`${gradientId}-body`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#a8b6ff"/><stop offset=".5" stopColor="#8394f5"/><stop offset="1" stopColor="#6574d9"/></linearGradient><linearGradient id={`${gradientId}-belly`} x2="0" y2="1"><stop stopColor="#fff9e9"/><stop offset="1" stopColor="#f3e9d6"/></linearGradient></defs>
+    <defs><linearGradient id={`${gradientId}-body`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={skin.palette.bodyStart}/><stop offset=".5" stopColor={skin.palette.bodyMid}/><stop offset="1" stopColor={skin.palette.bodyEnd}/></linearGradient><linearGradient id={`${gradientId}-belly`} x2="0" y2="1"><stop stopColor={skin.palette.bellyStart}/><stop offset="1" stopColor={skin.palette.bellyEnd}/></linearGradient></defs>
     {previousMood && <BirdScene key={`${previousMood}-out`} mood={previousMood} profile={profile} gradientId={gradientId} className={cn(styles.sceneExit, longTransition && styles.sceneTransitionLong)}/>}
     <BirdScene key={`${visibleMood}-in`} mood={visibleMood} profile={profile} gradientId={gradientId} className={cn(previousMood && styles.sceneEnter, longTransition && styles.sceneTransitionLong)}/>
   </svg>;

@@ -13,6 +13,30 @@ export type FlytieeMood =
 
 export type FlytieeAccessorySlot = 'head' | 'eyes' | 'neck' | 'hand';
 
+export type FlytieeSkinMood = 'friendly' | 'gentle' | 'bright' | 'curious' | 'stern' | 'dreamy';
+
+export interface FlytieeSkin {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  personality: string;
+  mood: FlytieeSkinMood;
+  palette: {
+    bodyStart: string;
+    bodyMid: string;
+    bodyEnd: string;
+    outline: string;
+    highlight: string;
+    bellyStart: string;
+    bellyEnd: string;
+    cheek: string;
+    eye: string;
+    brow: string;
+    accent: string;
+  };
+}
+
 export interface FlytieeProfile {
   version: 1;
   name: string;
@@ -23,6 +47,8 @@ export interface FlytieeProfile {
   satietyUpdatedAt: string;
   ownedAccessoryIds: string[];
   equipped: Partial<Record<FlytieeAccessorySlot, string>>;
+  ownedSkinIds: string[];
+  equippedSkinId: string;
   claimedMissionIds: string[];
 }
 

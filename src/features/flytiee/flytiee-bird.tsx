@@ -72,51 +72,72 @@ function SetEffects({ setId }: { setId: string | null }) {
   return null;
 }
 
-function SetLayers({ setId }: { setId: string | null }) {
-  if (setId === 'cosmic-explorer') return <g className={styles.setOutfit} aria-hidden="true" strokeLinejoin="round">
-    <path d="M302 514Q468 462 628 513L607 675Q541 718 462 717Q370 716 315 669Z" fill="#f3f7fb" stroke="#7893b2" strokeWidth="7"/>
-    <path d="M342 542Q462 509 590 541L580 650Q520 683 461 681Q398 681 349 647Z" fill="#dce8f1" stroke="#a3b8ca" strokeWidth="5"/>
-    <path d="M447 522H526V610H447Z" fill="#243d63" stroke="#607fa1" strokeWidth="6"/>
-    <rect x="461" y="538" width="51" height="26" rx="8" fill="#65d8ed"/><circle cx="465" cy="585" r="8" fill="#f07476"/><circle cx="488" cy="585" r="8" fill="#f4cf67"/><circle cx="511" cy="585" r="8" fill="#76d6aa"/>
-    <path d="M335 576L286 612L301 654L352 628M590 576L638 606L626 651L579 627" fill="#f3f7fb" stroke="#7893b2" strokeWidth="7"/>
-    <path d="M284 612Q260 619 266 646Q276 667 303 654L301 626Z" fill="#d7edf5" stroke="#7893b2" strokeWidth="6"/><path d="M640 606Q663 616 658 642Q650 662 626 651L628 622Z" fill="#d7edf5" stroke="#7893b2" strokeWidth="6"/>
-    <path d="M339 682L332 744Q360 768 405 750L401 695M526 693L524 748Q556 767 591 746L575 680" fill="#e4edf4" stroke="#7893b2" strokeWidth="7"/>
-    <path d="M321 741Q366 727 411 745L407 770H324Z" fill="#6382a6" stroke="#3f5d80" strokeWidth="6"/><path d="M515 744Q556 727 598 744L601 770H516Z" fill="#6382a6" stroke="#3f5d80" strokeWidth="6"/>
-    <path d="M305 355Q326 257 452 238Q586 244 627 349L608 491Q537 530 458 527Q370 528 306 486Z" fill="#d9f3ff" fillOpacity=".28" stroke="#e8fbff" strokeWidth="15"/>
-    <path d="M306 354Q337 277 450 258Q567 264 625 348" fill="none" stroke="#7893b2" strokeWidth="22" strokeLinecap="round"/>
-    <path d="M306 486Q464 533 608 491" fill="none" stroke="#7893b2" strokeWidth="18" strokeLinecap="round"/>
-    <circle cx="342" cy="329" r="10" fill="#65d8ed"/><path d="M577 309l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2Z" fill="#f4cf67"/>
+function SetCharacterFace({ face = '#8495ef' }: { face?: string }) {
+  return <>
+    <ellipse cx="465" cy="405" rx="133" ry="121" fill={face} stroke="#5367bd" strokeWidth="7"/>
+    <path d="M366 355Q390 337 414 353M521 350Q546 332 571 351" fill="none" stroke="#4b5b99" strokeWidth="7" strokeLinecap="round"/>
+    <g className={styles.setEyes}>
+      <ellipse cx="397" cy="406" rx="40" ry="49" fill="#fffef8"/><ellipse cx="543" cy="401" rx="40" ry="49" fill="#fffef8"/>
+      <ellipse cx="405" cy="414" rx="23" ry="31" fill="#243253"/><ellipse cx="551" cy="409" rx="23" ry="31" fill="#243253"/>
+      <ellipse cx="398" cy="398" rx="9" ry="12" fill="#fff"/><ellipse cx="544" cy="393" rx="9" ry="12" fill="#fff"/>
+      <circle cx="415" cy="424" r="4" fill="#fff"/><circle cx="561" cy="419" r="4" fill="#fff"/>
+    </g>
+    <g className={styles.setClosedEyes} fill="none" stroke="#2f3e67" strokeWidth="9" strokeLinecap="round"><path d="M366 412Q397 441 429 410M511 406Q543 435 575 404"/></g>
+    <ellipse cx="354" cy="458" rx="25" ry="13" fill="#efa3bd" opacity=".82"/><ellipse cx="581" cy="451" rx="25" ry="13" fill="#efa3bd" opacity=".82"/>
+    <g className={styles.setBeak}><path d="M442 462Q466 440 492 460Q469 482 442 462Z" fill="#ffd27b" stroke="#d28c42" strokeWidth="5"/><path d="M447 469Q468 492 488 469" fill="#d98643" stroke="#b96f39" strokeWidth="4"/></g>
+  </>;
+}
+
+function EventSetCharacter({ setId }: { setId: string }) {
+  if (setId === 'cosmic-explorer') return <g className={styles.fullSetCharacter} strokeLinejoin="round">
+    <path d="M315 501Q284 526 273 584L268 647Q278 676 312 665L347 628L350 529Z" fill="#eff6fb" stroke="#6f8da9" strokeWidth="8"/>
+    <path d="M616 503Q649 527 662 581L668 641Q658 673 625 663L584 625L582 528Z" fill="#eff6fb" stroke="#6f8da9" strokeWidth="8"/>
+    <path d="M285 621Q257 626 260 653Q267 681 300 669L313 645Z" fill="#c9e9f2" stroke="#6f8da9" strokeWidth="7"/><path d="M649 618Q678 624 675 652Q667 679 635 667L621 643Z" fill="#c9e9f2" stroke="#6f8da9" strokeWidth="7"/>
+    <path d="M333 493Q465 454 598 494Q630 540 620 642Q608 704 538 724Q465 744 389 719Q326 697 313 638Q305 544 333 493Z" fill="#f7fafc" stroke="#6f8da9" strokeWidth="9"/>
+    <path d="M350 540Q465 505 583 539L579 660Q528 692 464 692Q401 691 351 657Z" fill="#dfeaf2" stroke="#a4b8ca" strokeWidth="6"/>
+    <path d="M420 530H514V621H420Z" fill="#263c5d" stroke="#66829e" strokeWidth="6"/><rect x="438" y="546" width="58" height="28" rx="7" fill="#6fe2ee"/><circle cx="441" cy="598" r="8" fill="#f17478"/><circle cx="467" cy="598" r="8" fill="#f5cf66"/><circle cx="493" cy="598" r="8" fill="#70d5a4"/>
+    <path d="M346 690L329 744Q350 773 409 758L417 701M519 701L526 758Q584 774 604 745L584 684" fill="#e5edf3" stroke="#6f8da9" strokeWidth="8"/>
+    <path d="M323 742Q367 725 414 747L411 773H321Z" fill="#567699" stroke="#34516f" strokeWidth="7"/><path d="M520 747Q562 726 607 744L610 773H520Z" fill="#567699" stroke="#34516f" strokeWidth="7"/>
+    <ellipse cx="465" cy="392" rx="176" ry="166" fill="#d9f5ff" fillOpacity=".26" stroke="#eefcff" strokeWidth="16"/>
+    <ellipse cx="465" cy="392" rx="176" ry="166" fill="none" stroke="#6f8da9" strokeWidth="12"/>
+    <path d="M319 299Q353 242 465 226Q575 239 612 298" fill="#f7fafc" stroke="#6f8da9" strokeWidth="13"/>
+    <SetCharacterFace/>
+    <path d="M316 487Q465 532 614 487" fill="none" stroke="#6f8da9" strokeWidth="17" strokeLinecap="round"/>
+    <circle cx="333" cy="326" r="11" fill="#64dbe9"/><path d="M573 302l8 15 17 3-13 12 3 18-15-8-16 8 3-18-13-12 18-3Z" fill="#f5d36f"/>
   </g>;
 
-  if (setId === 'dino-dreamer') return <g className={styles.setOutfit} aria-hidden="true" strokeLinejoin="round">
-    <path d="M278 355Q297 271 375 244L395 198L430 238L466 185L489 238L535 205L548 255Q610 286 638 360L613 504Q541 535 458 531Q364 532 293 493ZM330 372Q350 307 455 292Q565 297 602 368L586 476Q525 503 455 499Q379 500 332 470Z" fill="#8fd6b5" fillRule="evenodd" stroke="#3d8e75" strokeWidth="8"/>
-    <path d="M317 353Q337 294 387 280L411 248L435 276L467 225L494 278L526 250L540 291Q585 313 609 356" fill="#bcebcf" stroke="#5fae8f" strokeWidth="7"/>
-    <path d="M317 484Q461 528 613 497" fill="none" stroke="#e9fff3" strokeWidth="15" strokeLinecap="round"/>
-    <path d="M291 501Q459 466 624 507L604 688Q535 724 459 722Q369 722 315 675Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
-    <ellipse cx="467" cy="607" rx="99" ry="102" fill="#dff6d5" stroke="#69aa77" strokeWidth="6"/>
-    <path d="M326 563L280 610L296 660L349 627M600 562L650 605L634 658L581 626" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
-    <path d="M291 642l-20 21 25 2 7 22 17-20 25 7-5-27M637 640l21 20-25 4-6 23-18-19-24 8 4-28" fill="#fff5cf" stroke="#c3a96c" strokeWidth="5"/>
-    <path d="M342 688L333 747Q369 767 409 749L405 701M522 700L520 749Q557 768 591 746L574 687" fill="#75c59f" stroke="#3d8e75" strokeWidth="7"/>
-    <path d="M326 744Q366 729 414 747L409 768H323Z" fill="#c7efd6" stroke="#3d8e75" strokeWidth="6"/><path d="M513 746Q554 729 599 745L601 768H512Z" fill="#c7efd6" stroke="#3d8e75" strokeWidth="6"/>
-    <path d="M623 593Q706 620 696 679Q665 652 617 658" fill="#73c29a" stroke="#3d8e75" strokeWidth="8"/><path d="M680 647l24-8-13 21 13 14-25-2" fill="#fff5cf" stroke="#c3a96c" strokeWidth="4"/>
-    <circle cx="331" cy="343" r="8" fill="#315e55"/><circle cx="596" cy="343" r="8" fill="#315e55"/><path d="M357 322l12 18 12-18M548 322l12 18 12-18" fill="#fff8de" stroke="#c8ae71" strokeWidth="4"/>
+  if (setId === 'dino-dreamer') return <g className={styles.fullSetCharacter} strokeLinejoin="round">
+    <path d="M596 585Q695 594 718 658Q672 640 622 681L577 652Z" fill="#75c59f" stroke="#3d8e75" strokeWidth="9"/><path d="M689 631l26-5-17 21 17 17-27-1" fill="#fff1bd" stroke="#bea260" strokeWidth="5"/>
+    <path d="M309 501Q276 528 270 590L275 650Q286 676 315 662L350 624L351 527Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="9"/>
+    <path d="M620 504Q651 530 660 588L655 648Q645 675 615 661L581 624L580 527Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="9"/>
+    <path d="M276 625l-21 24 27 2 8 25 18-21 26 8-7-28" fill="#fff1bd" stroke="#bea260" strokeWidth="5"/><path d="M653 624l22 23-27 3-7 25-19-20-26 9 6-29" fill="#fff1bd" stroke="#bea260" strokeWidth="5"/>
+    <path d="M330 491Q463 454 601 496Q631 546 619 650Q604 706 538 727Q463 748 387 723Q323 700 311 640Q303 542 330 491Z" fill="#91d9b8" stroke="#3d8e75" strokeWidth="9"/>
+    <ellipse cx="466" cy="615" rx="105" ry="102" fill="#dff6d5" stroke="#68aa77" strokeWidth="7"/>
+    <path d="M344 690L329 748Q358 774 413 754L418 704M516 704L523 755Q577 774 605 746L584 686" fill="#75c59f" stroke="#3d8e75" strokeWidth="8"/>
+    <path d="M321 744Q366 726 416 749L411 773H319Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="7"/><path d="M517 748Q560 727 609 746L612 773H517Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="7"/>
+    <path d="M291 347Q304 275 376 243L397 190L430 232L465 177L495 235L538 197L550 251Q618 285 638 355L611 495Q543 526 463 525Q375 526 298 491Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="9"/>
+    <path d="M326 336Q350 282 394 263L414 231L437 263L467 213L496 265L525 238L538 279Q581 298 609 343" fill="#c8efd5" stroke="#5bae8d" strokeWidth="7"/>
+    <SetCharacterFace face="#8fa1f3"/>
+    <path d="M302 484Q463 530 612 489" fill="none" stroke="#effff5" strokeWidth="17" strokeLinecap="round"/>
+    <circle cx="324" cy="342" r="9" fill="#315e55"/><circle cx="605" cy="342" r="9" fill="#315e55"/><path d="M348 327l13 20 13-20M558 327l13 20 13-20" fill="#fff6d3" stroke="#bea260" strokeWidth="5"/>
   </g>;
 
-  if (setId === 'snowy-christmas') return <g className={styles.setOutfit} aria-hidden="true" strokeLinejoin="round">
-    <path d="M314 346Q334 264 425 239Q529 221 610 333L611 486Q538 524 456 522Q372 522 305 482ZM332 369Q354 302 455 286Q558 291 592 362L583 470Q524 500 456 497Q383 498 334 466Z" fill="#c83f54" fillRule="evenodd" stroke="#8f2d43" strokeWidth="8"/>
-    <path d="M300 351Q458 303 622 344L616 382Q457 344 296 391Z" fill="#fffaf0" stroke="#d7e5e6" strokeWidth="7"/>
-    <path d="M575 274Q617 230 653 258Q681 282 649 316Q629 336 608 344" fill="#d84d5d" stroke="#8f2d43" strokeWidth="7"/><circle cx="651" cy="263" r="26" fill="#fffaf0" stroke="#d7e5e6" strokeWidth="6"/>
-    <path d="M302 493Q462 466 627 505L608 687Q540 724 461 722Q369 722 314 675Z" fill="#c83f54" stroke="#8f2d43" strokeWidth="8"/>
-    <path d="M319 507Q464 551 619 511" fill="none" stroke="#fffaf0" strokeWidth="18" strokeLinecap="round"/>
-    <path d="M464 523V701" stroke="#fff3e3" strokeWidth="18"/><circle cx="474" cy="566" r="8" fill="#f5d06f"/><circle cx="474" cy="611" r="8" fill="#f5d06f"/><circle cx="474" cy="656" r="8" fill="#f5d06f"/>
-    <path d="M326 566L276 612L293 660L347 627M602 565L653 607L635 658L580 626" fill="#c83f54" stroke="#8f2d43" strokeWidth="8"/>
-    <path d="M276 612Q263 632 293 660M653 607Q668 631 635 658" fill="none" stroke="#fffaf0" strokeWidth="16" strokeLinecap="round"/>
-    <path d="M341 686L332 746Q366 769 410 749L405 701M524 700L520 749Q556 770 592 746L574 687" fill="#8f2d43" stroke="#692237" strokeWidth="7"/>
-    <path d="M322 742Q366 727 415 747L410 770H322Z" fill="#f7fbff" stroke="#b8cdd5" strokeWidth="7"/><path d="M511 745Q555 728 600 745L603 770H511Z" fill="#f7fbff" stroke="#b8cdd5" strokeWidth="7"/>
-    <path d="M386 522Q450 574 515 521L506 584L466 561L427 588L417 528Z" fill="#3b8f72" stroke="#25654f" strokeWidth="6"/><circle cx="466" cy="553" r="15" fill="#f5d06f" stroke="#b78431" strokeWidth="5"/>
+  return <g className={styles.fullSetCharacter} strokeLinejoin="round">
+    <path d="M322 497Q283 517 267 575L266 633Q269 659 294 670Q315 676 331 655L358 612L357 518Z" fill="#d94759" stroke="#922f43" strokeWidth="9"/>
+    <path d="M609 497Q649 518 665 575L666 632Q662 659 638 669Q616 675 601 654L573 612L575 518Z" fill="#d94759" stroke="#922f43" strokeWidth="9"/>
+    <path d="M270 622Q262 650 291 668Q309 679 326 655L337 633L307 614Z" fill="#fffaf0" stroke="#cfdee1" strokeWidth="8"/><path d="M662 621Q671 649 642 667Q623 678 607 654L596 632L626 613Z" fill="#fffaf0" stroke="#cfdee1" strokeWidth="8"/>
+    <path d="M328 486Q463 448 602 490Q633 540 622 648Q608 704 539 726Q464 747 387 722Q322 699 309 638Q302 538 328 486Z" fill="#dc4658" stroke="#922f43" strokeWidth="9"/>
+    <path d="M317 519Q463 557 614 520" fill="none" stroke="#fffaf0" strokeWidth="18" strokeLinecap="round"/>
+    <path d="M310 628Q465 658 622 626L618 670Q463 708 314 672Z" fill="#263040" stroke="#111827" strokeWidth="6"/><rect x="440" y="638" width="53" height="45" rx="8" fill="#f2c65d" stroke="#a9782f" strokeWidth="6"/><rect x="454" y="649" width="25" height="20" rx="4" fill="#263040"/>
+    <path d="M342 687L328 747Q356 774 413 754L419 702M516 702L523 755Q579 773 607 745L583 685" fill="#b72f45" stroke="#7d2638" strokeWidth="8"/>
+    <path d="M319 743Q365 725 416 749L411 773H318Z" fill="#cf3c50" stroke="#7d2638" strokeWidth="7"/><path d="M517 748Q561 726 610 746L613 773H517Z" fill="#cf3c50" stroke="#7d2638" strokeWidth="7"/>
+    <path d="M288 347Q310 266 393 234Q499 199 599 274L632 341L612 493Q540 525 462 524Q374 525 297 490Z" fill="#d94759" stroke="#922f43" strokeWidth="9"/>
+    <path d="M300 349Q461 300 624 340L617 382Q459 345 294 391Z" fill="#fffaf0" stroke="#cfdee1" strokeWidth="8"/>
+    <path d="M566 267Q608 218 650 246Q687 272 654 311Q633 335 611 342" fill="#dc4658" stroke="#922f43" strokeWidth="8"/><circle cx="654" cy="248" r="29" fill="#fffaf0" stroke="#cfdee1" strokeWidth="7"/>
+    <SetCharacterFace/>
+    <path d="M299 486Q461 530 613 488" fill="none" stroke="#fffaf0" strokeWidth="17" strokeLinecap="round"/>
+    <path d="M394 514Q462 565 531 513L518 583L466 557L416 587L407 520Z" fill="#2f946f" stroke="#1e654e" strokeWidth="7"/><circle cx="466" cy="548" r="16" fill="#f4ce68" stroke="#a97931" strokeWidth="5"/>
   </g>;
-
-  return null;
 }
 
 function DefaultFace({ skin }: { skin: FlytieeSkin }) {
@@ -167,7 +188,7 @@ function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood
   return <g className={cn(styles.scene, className)} data-mood={mood} data-held={!setId && Boolean(profile.equipped.hand) ? 'true' : 'false'} data-skin={skin.id} data-set={setId ?? 'none'}>
     <SetEffects setId={setId}/>
     <ellipse cx="454" cy="760" rx="170" ry="18" fill="#7b84ae" opacity=".17"/>
-    <g className={styles.body}>
+    {setId ? <g className={styles.body}><EventSetCharacter setId={setId}/></g> : <g className={styles.body}>
       <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
       <g className={styles.waveWing}><path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6" strokeLinejoin="round"/></g>
       <path d="M366 267C342 239 338 217 350 203C363 189 389 210 413 237C407 201 416 175 433 173C452 171 461 206 463 236C480 213 500 205 511 218C520 230 507 253 491 267C609 285 671 396 666 532C663 663 595 730 467 735C340 741 240 695 226 576C209 433 251 303 366 267Z" fill={`url(#${gradientId}-body)`} stroke={skin.palette.outline} strokeWidth="7"/>
@@ -193,9 +214,8 @@ function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood
       <g className={styles.food} fill="#eeb66f" stroke="#c18746" strokeWidth="3"><ellipse cx="504" cy="515" rx="9" ry="14"/><ellipse cx="528" cy="536" rx="8" ry="12"/></g>
       <g className={styles.sneezePuff} stroke="#bac9f7" strokeWidth="6" strokeLinecap="round"><path d="M551 475L586 465M555 488L594 489M550 500L582 516"/></g>
       <g className={styles.flyingAir} stroke="#acb9ef" strokeWidth="5" strokeLinecap="round"><path d="M254 643Q273 651 290 644M628 649Q649 657 667 648M281 681H305M612 684H637"/></g>
-      <AccessoryLayers equipped={setId ? {} : profile.equipped}/>
-      <SetLayers setId={setId}/>
-    </g>
+      <AccessoryLayers equipped={profile.equipped}/>
+    </g>}
     <g className={styles.sleepZ}><text x="650" y="340">z</text><text x="689" y="289">Z</text><text x="729" y="235">Z</text></g>
   </g>;
 }

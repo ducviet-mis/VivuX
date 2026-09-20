@@ -31,7 +31,14 @@
 .chewingCheeks { transform-box: view-box; transform-origin: 487px 472px; animation: puff-cheeks .65s ease-in-out infinite alternate; }
 .chewingMouth { transform-box: view-box; transform-origin: 508px 478px; animation: munch .65s ease-in-out infinite alternate; }
 .sleepZ text { fill: #9ba8f7; font: 700 44px system-ui, sans-serif; }
-.setOutfit { pointer-events: none; }
+.fullSetCharacter { pointer-events: none; }
+.setEyes {
+  transform-box: view-box;
+  transform-origin: 470px 410px;
+  animation: blink 4.8s infinite;
+}
+.setClosedEyes { display: none; }
+.setBeak { transform-box: view-box; transform-origin: 467px 466px; }
 .cosmicEffect,
 .dinoDreamEffect,
 .snowEffect {
@@ -55,7 +62,9 @@
 .flyingAir { display: none; }
 
 .scene[data-mood='sleep'] .eyes { display: none; }
+.scene[data-mood='sleep'] .setEyes { display: none; }
 .scene[data-mood='sleep'] .closedEyes,
+.scene[data-mood='sleep'] .setClosedEyes,
 .scene[data-mood='sleep'] .sleepZ { display: block; }
 .scene[data-mood='sleep'] .body { animation: sleep 4s ease-in-out infinite; }
 .scene[data-mood='sleep'] .sleepZ { animation: sleep-z 3s ease-out infinite; }
@@ -98,6 +107,7 @@
 
 .scene[data-mood='look'] .body { animation: look-around 4.6s ease-in-out both; }
 .scene[data-mood='look'] .eyes { animation: eye-roam 4.6s ease-in-out both; }
+.scene[data-mood='look'] .setEyes { animation: eye-roam 4.6s ease-in-out both; }
 .scene[data-mood='sway'] .body { animation: dance 4.2s ease-in-out both; }
 .scene[data-mood='sway'] .waveWing { visibility: visible; animation: dance-wing 4.2s ease-in-out both; }
 .scene[data-mood='fly'] .body { animation: takeoff 4.1s ease-in-out both; }
@@ -106,11 +116,14 @@
 .scene[data-mood='fly'] .flyingAir { display: block; animation: flying-air 4.1s ease-in-out both; }
 .scene[data-mood='feet'] .body { animation: look-feet 4.5s ease-in-out both; }
 .scene[data-mood='feet'] .eyes { animation: eyes-down 4.5s ease-in-out both; }
+.scene[data-mood='feet'] .setEyes { animation: eyes-down 4.5s ease-in-out both; }
 .scene[data-mood='feet'] .beak,
 .scene[data-mood='feet'] .brows { animation: face-down 4.5s ease-in-out both; }
 .scene[data-mood='sneeze'] .body { animation: sneeze 2.8s ease-in-out both; }
 .scene[data-mood='sneeze'] .eyes { animation: sneeze-eyes 2.8s ease-in-out both; }
+.scene[data-mood='sneeze'] .setEyes { animation: sneeze-eyes 2.8s ease-in-out both; }
 .scene[data-mood='sneeze'] .beak { transform-box: view-box; transform-origin: 508px 473px; animation: sneeze-mouth 2.8s ease-in-out both; }
+.scene[data-mood='sneeze'] .setBeak { animation: sneeze-mouth 2.8s ease-in-out both; }
 .scene[data-mood='sneeze'] .sneezePuff { display: block; animation: sneeze-puff 2.8s ease-out both; }
 .scene[data-held='true'] .waveWing { visibility: hidden; }
 
@@ -153,6 +166,6 @@
 @keyframes snow-drift { 0%, 100% { transform: translate(0); opacity: .72; } 50% { transform: translate(4px, 10px); opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird *, .scene, .body, .eyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect { animation: none !important; }
+  .bird *, .scene, .body, .eyes, .setEyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect { animation: none !important; }
   .sceneExit { display: none; }
 }

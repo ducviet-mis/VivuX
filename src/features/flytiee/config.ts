@@ -153,6 +153,13 @@ export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
   { id: 'vietnam-national-flag', name: 'Quốc kỳ Việt Nam', slot: 'hand', price: 65, description: 'Lá cờ đỏ sao vàng được thể hiện đúng tỷ lệ và màu sắc.', tone: 'red' },
   { id: 'dong-son-drum', name: 'Trống đồng Đông Sơn', slot: 'hand', price: 75, description: 'Họa tiết mặt trời gợi nhớ di sản văn hóa Việt.', tone: 'yellow' },
   { id: 'lotus-lantern', name: 'Đèn hoa sen', slot: 'hand', price: 60, description: 'Đóa sen hồng tỏa ánh sáng ấm áp và bình yên.', tone: 'coral' },
+  { id: 'summer-straw-hat', name: 'Mũ cói đi biển', slot: 'head', price: 65, description: 'Chiếc mũ vành rộng che nắng cho ngày hè rực rỡ.', tone: 'yellow' },
+  { id: 'hibiscus-hair-clip', name: 'Kẹp hoa dâm bụt', slot: 'head', price: 50, description: 'Bông hoa san hô nhỏ xinh mang theo hơi thở nhiệt đới.', tone: 'coral' },
+  { id: 'ocean-sunglasses', name: 'Kính mát đại dương', slot: 'eyes', price: 60, description: 'Tròng kính xanh mát dành cho những ngày đầy nắng.', tone: 'cyan' },
+  { id: 'tropical-flower-lei', name: 'Vòng hoa nhiệt đới', slot: 'neck', price: 60, description: 'Chuỗi hoa nhiều màu làm mùa hè thêm rộn ràng.', tone: 'coral' },
+  { id: 'cool-coconut', name: 'Dừa mát lạnh', slot: 'hand', price: 55, description: 'Một trái dừa tươi cùng chiếc ô nhỏ bên bờ biển.', tone: 'green' },
+  { id: 'summer-beach-ball', name: 'Bóng bãi biển', slot: 'hand', price: 50, description: 'Quả bóng nhiều màu sẵn sàng cho cuộc vui trên cát.', tone: 'cyan' },
+  { id: 'mini-surfboard', name: 'Ván lướt sóng mini', slot: 'hand', price: 75, description: 'Tấm ván aqua với họa tiết sóng biển năng động.', tone: 'cyan' },
 ];
 
 export function xpNeededForLevel(level: number) {

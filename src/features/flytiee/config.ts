@@ -24,6 +24,11 @@ export const ACCESSORY_SLOT_LABELS: Record<FlytieeAccessorySlot, string> = {
 };
 
 export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
+  { id: 'cat-bow-headband', name: 'Băng đô mèo nơ hồng', slot: 'head', price: 55, description: 'Tai mèo trắng cùng chiếc nơ hồng thật ngọt ngào.', tone: 'coral' },
+  { id: 'sweet-heart-glasses', name: 'Kính trái tim kẹo ngọt', slot: 'eyes', price: 45, description: 'Cặp kính hồng dành cho những ngày thật đáng yêu.', tone: 'coral' },
+  { id: 'pink-kawaii-bow', name: 'Nơ hồng đáng yêu', slot: 'neck', price: 40, description: 'Một chiếc nơ mềm xinh xắn trước ngực FlyTiee.', tone: 'coral' },
+  { id: 'cat-mini-bag', name: 'Túi mèo mini', slot: 'hand', price: 50, description: 'Chiếc túi mặt mèo nhỏ gọn cho buổi đến lớp.', tone: 'coral' },
+  { id: 'heart-magic-wand', name: 'Đũa phép trái tim', slot: 'hand', price: 55, description: 'Mang theo một chút phép màu màu hồng.', tone: 'coral' },
   { id: 'santa-hat', name: 'Mũ Noel ấm áp', slot: 'head', price: 55, description: 'Chiếc mũ đỏ mềm mại cho đêm Giáng sinh.', tone: 'red' },
   { id: 'snowflake-glasses', name: 'Kính bông tuyết', slot: 'eyes', price: 45, description: 'Khung kính xanh lấp lánh như tuyết đầu mùa.', tone: 'cyan' },
   { id: 'jingle-bell', name: 'Nơ chuông leng keng', slot: 'neck', price: 45, description: 'Chiếc chuông vàng ngân vang lời chúc an lành.', tone: 'yellow' },

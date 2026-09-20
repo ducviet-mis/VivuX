@@ -48,6 +48,77 @@ function AccessoryLayers({ equipped }: { equipped: FlytieeProfile['equipped'] })
   </>;
 }
 
+function SetEffects({ setId }: { setId: string | null }) {
+  if (setId === 'cosmic-explorer') return <g className={styles.cosmicEffect} aria-hidden="true">
+    <ellipse cx="468" cy="455" rx="276" ry="205" fill="none" stroke="#7bd8ff" strokeWidth="4" strokeDasharray="8 18" opacity=".42"/>
+    <g className={styles.cosmicOrbiter}><circle cx="719" cy="375" r="18" fill="#9cecff" stroke="#4c9ed0" strokeWidth="4"/><path d="M692 374Q719 353 747 375" fill="none" stroke="#fff0aa" strokeWidth="6" strokeLinecap="round"/></g>
+    <path d="M250 319l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2Z" fill="#fff0a9" opacity=".9"/>
+    <path d="M700 614l5 10 12 2-9 8 2 12-10-6-11 6 3-12-9-8 12-2Z" fill="#d7c6ff" opacity=".78"/>
+    <circle cx="229" cy="584" r="7" fill="#9cecff"/><circle cx="694" cy="274" r="6" fill="#fff" opacity=".8"/>
+  </g>;
+
+  if (setId === 'dino-dreamer') return <g className={styles.dinoDreamEffect} aria-hidden="true">
+    <g className={styles.dreamBubble}><circle cx="693" cy="294" r="23" fill="#c9f5df" opacity=".28" stroke="#b6ead3" strokeWidth="4"/><circle cx="731" cy="248" r="13" fill="#dff9ec" opacity=".42"/></g>
+    <path d="M239 364l6 12 13 2-10 9 3 14-12-7-12 7 3-14-10-9 13-2Z" fill="#e6d4ff" opacity=".7"/>
+    <path d="M699 603Q719 582 740 603Q720 625 699 603Z" fill="#ffc4d9" opacity=".55"/>
+    <circle cx="245" cy="606" r="10" fill="#baf0d3" opacity=".52"/>
+  </g>;
+
+  if (setId === 'snowy-christmas') return <g className={styles.snowEffect} aria-hidden="true">
+    {[[255, 300, 13], [690, 277, 15], [730, 470, 11], [235, 552, 10], [674, 650, 12]].map(([x, y, size], index) => <g key={index} transform={`translate(${x} ${y}) scale(${size / 15})`} stroke="#dff6ff" strokeWidth="5" strokeLinecap="round" opacity=".8"><path d="M0-15V15M-13-7L13 7M-13 7L13-7"/><circle r="3" fill="#fff" stroke="none"/></g>)}
+    <circle cx="316" cy="249" r="5" fill="#fff" opacity=".65"/><circle cx="620" cy="211" r="7" fill="#dff6ff" opacity=".7"/><circle cx="758" cy="575" r="5" fill="#fff" opacity=".6"/>
+  </g>;
+
+  return null;
+}
+
+function SetLayers({ setId }: { setId: string | null }) {
+  if (setId === 'cosmic-explorer') return <g className={styles.setOutfit} aria-hidden="true" strokeLinejoin="round">
+    <path d="M302 514Q468 462 628 513L607 675Q541 718 462 717Q370 716 315 669Z" fill="#f3f7fb" stroke="#7893b2" strokeWidth="7"/>
+    <path d="M342 542Q462 509 590 541L580 650Q520 683 461 681Q398 681 349 647Z" fill="#dce8f1" stroke="#a3b8ca" strokeWidth="5"/>
+    <path d="M447 522H526V610H447Z" fill="#243d63" stroke="#607fa1" strokeWidth="6"/>
+    <rect x="461" y="538" width="51" height="26" rx="8" fill="#65d8ed"/><circle cx="465" cy="585" r="8" fill="#f07476"/><circle cx="488" cy="585" r="8" fill="#f4cf67"/><circle cx="511" cy="585" r="8" fill="#76d6aa"/>
+    <path d="M335 576L286 612L301 654L352 628M590 576L638 606L626 651L579 627" fill="#f3f7fb" stroke="#7893b2" strokeWidth="7"/>
+    <path d="M284 612Q260 619 266 646Q276 667 303 654L301 626Z" fill="#d7edf5" stroke="#7893b2" strokeWidth="6"/><path d="M640 606Q663 616 658 642Q650 662 626 651L628 622Z" fill="#d7edf5" stroke="#7893b2" strokeWidth="6"/>
+    <path d="M339 682L332 744Q360 768 405 750L401 695M526 693L524 748Q556 767 591 746L575 680" fill="#e4edf4" stroke="#7893b2" strokeWidth="7"/>
+    <path d="M321 741Q366 727 411 745L407 770H324Z" fill="#6382a6" stroke="#3f5d80" strokeWidth="6"/><path d="M515 744Q556 727 598 744L601 770H516Z" fill="#6382a6" stroke="#3f5d80" strokeWidth="6"/>
+    <path d="M305 355Q326 257 452 238Q586 244 627 349L608 491Q537 530 458 527Q370 528 306 486Z" fill="#d9f3ff" fillOpacity=".28" stroke="#e8fbff" strokeWidth="15"/>
+    <path d="M306 354Q337 277 450 258Q567 264 625 348" fill="none" stroke="#7893b2" strokeWidth="22" strokeLinecap="round"/>
+    <path d="M306 486Q464 533 608 491" fill="none" stroke="#7893b2" strokeWidth="18" strokeLinecap="round"/>
+    <circle cx="342" cy="329" r="10" fill="#65d8ed"/><path d="M577 309l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2Z" fill="#f4cf67"/>
+  </g>;
+
+  if (setId === 'dino-dreamer') return <g className={styles.setOutfit} aria-hidden="true" strokeLinejoin="round">
+    <path d="M278 355Q297 271 375 244L395 198L430 238L466 185L489 238L535 205L548 255Q610 286 638 360L613 504Q541 535 458 531Q364 532 293 493ZM330 372Q350 307 455 292Q565 297 602 368L586 476Q525 503 455 499Q379 500 332 470Z" fill="#8fd6b5" fillRule="evenodd" stroke="#3d8e75" strokeWidth="8"/>
+    <path d="M317 353Q337 294 387 280L411 248L435 276L467 225L494 278L526 250L540 291Q585 313 609 356" fill="#bcebcf" stroke="#5fae8f" strokeWidth="7"/>
+    <path d="M317 484Q461 528 613 497" fill="none" stroke="#e9fff3" strokeWidth="15" strokeLinecap="round"/>
+    <path d="M291 501Q459 466 624 507L604 688Q535 724 459 722Q369 722 315 675Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
+    <ellipse cx="467" cy="607" rx="99" ry="102" fill="#dff6d5" stroke="#69aa77" strokeWidth="6"/>
+    <path d="M326 563L280 610L296 660L349 627M600 562L650 605L634 658L581 626" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
+    <path d="M291 642l-20 21 25 2 7 22 17-20 25 7-5-27M637 640l21 20-25 4-6 23-18-19-24 8 4-28" fill="#fff5cf" stroke="#c3a96c" strokeWidth="5"/>
+    <path d="M342 688L333 747Q369 767 409 749L405 701M522 700L520 749Q557 768 591 746L574 687" fill="#75c59f" stroke="#3d8e75" strokeWidth="7"/>
+    <path d="M326 744Q366 729 414 747L409 768H323Z" fill="#c7efd6" stroke="#3d8e75" strokeWidth="6"/><path d="M513 746Q554 729 599 745L601 768H512Z" fill="#c7efd6" stroke="#3d8e75" strokeWidth="6"/>
+    <path d="M623 593Q706 620 696 679Q665 652 617 658" fill="#73c29a" stroke="#3d8e75" strokeWidth="8"/><path d="M680 647l24-8-13 21 13 14-25-2" fill="#fff5cf" stroke="#c3a96c" strokeWidth="4"/>
+    <circle cx="331" cy="343" r="8" fill="#315e55"/><circle cx="596" cy="343" r="8" fill="#315e55"/><path d="M357 322l12 18 12-18M548 322l12 18 12-18" fill="#fff8de" stroke="#c8ae71" strokeWidth="4"/>
+  </g>;
+
+  if (setId === 'snowy-christmas') return <g className={styles.setOutfit} aria-hidden="true" strokeLinejoin="round">
+    <path d="M314 346Q334 264 425 239Q529 221 610 333L611 486Q538 524 456 522Q372 522 305 482ZM332 369Q354 302 455 286Q558 291 592 362L583 470Q524 500 456 497Q383 498 334 466Z" fill="#c83f54" fillRule="evenodd" stroke="#8f2d43" strokeWidth="8"/>
+    <path d="M300 351Q458 303 622 344L616 382Q457 344 296 391Z" fill="#fffaf0" stroke="#d7e5e6" strokeWidth="7"/>
+    <path d="M575 274Q617 230 653 258Q681 282 649 316Q629 336 608 344" fill="#d84d5d" stroke="#8f2d43" strokeWidth="7"/><circle cx="651" cy="263" r="26" fill="#fffaf0" stroke="#d7e5e6" strokeWidth="6"/>
+    <path d="M302 493Q462 466 627 505L608 687Q540 724 461 722Q369 722 314 675Z" fill="#c83f54" stroke="#8f2d43" strokeWidth="8"/>
+    <path d="M319 507Q464 551 619 511" fill="none" stroke="#fffaf0" strokeWidth="18" strokeLinecap="round"/>
+    <path d="M464 523V701" stroke="#fff3e3" strokeWidth="18"/><circle cx="474" cy="566" r="8" fill="#f5d06f"/><circle cx="474" cy="611" r="8" fill="#f5d06f"/><circle cx="474" cy="656" r="8" fill="#f5d06f"/>
+    <path d="M326 566L276 612L293 660L347 627M602 565L653 607L635 658L580 626" fill="#c83f54" stroke="#8f2d43" strokeWidth="8"/>
+    <path d="M276 612Q263 632 293 660M653 607Q668 631 635 658" fill="none" stroke="#fffaf0" strokeWidth="16" strokeLinecap="round"/>
+    <path d="M341 686L332 746Q366 769 410 749L405 701M524 700L520 749Q556 770 592 746L574 687" fill="#8f2d43" stroke="#692237" strokeWidth="7"/>
+    <path d="M322 742Q366 727 415 747L410 770H322Z" fill="#f7fbff" stroke="#b8cdd5" strokeWidth="7"/><path d="M511 745Q555 728 600 745L603 770H511Z" fill="#f7fbff" stroke="#b8cdd5" strokeWidth="7"/>
+    <path d="M386 522Q450 574 515 521L506 584L466 561L427 588L417 528Z" fill="#3b8f72" stroke="#25654f" strokeWidth="6"/><circle cx="466" cy="553" r="15" fill="#f5d06f" stroke="#b78431" strokeWidth="5"/>
+  </g>;
+
+  return null;
+}
+
 function DefaultFace({ skin }: { skin: FlytieeSkin }) {
   const { mood, palette } = skin;
   const browPaths: Record<FlytieeSkin['mood'], [string, string]> = {
@@ -92,7 +163,9 @@ function DefaultFace({ skin }: { skin: FlytieeSkin }) {
 
 function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood; profile: FlytieeProfile; gradientId: string; className?: string }) {
   const skin = getFlytieeSkin(profile.equippedSkinId);
-  return <g className={cn(styles.scene, className)} data-mood={mood} data-held={Boolean(profile.equipped.hand) ? 'true' : 'false'} data-skin={skin.id}>
+  const setId = profile.equippedSetId;
+  return <g className={cn(styles.scene, className)} data-mood={mood} data-held={!setId && Boolean(profile.equipped.hand) ? 'true' : 'false'} data-skin={skin.id} data-set={setId ?? 'none'}>
+    <SetEffects setId={setId}/>
     <ellipse cx="454" cy="760" rx="170" ry="18" fill="#7b84ae" opacity=".17"/>
     <g className={styles.body}>
       <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
@@ -120,7 +193,8 @@ function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood
       <g className={styles.food} fill="#eeb66f" stroke="#c18746" strokeWidth="3"><ellipse cx="504" cy="515" rx="9" ry="14"/><ellipse cx="528" cy="536" rx="8" ry="12"/></g>
       <g className={styles.sneezePuff} stroke="#bac9f7" strokeWidth="6" strokeLinecap="round"><path d="M551 475L586 465M555 488L594 489M550 500L582 516"/></g>
       <g className={styles.flyingAir} stroke="#acb9ef" strokeWidth="5" strokeLinecap="round"><path d="M254 643Q273 651 290 644M628 649Q649 657 667 648M281 681H305M612 684H637"/></g>
-      <AccessoryLayers equipped={profile.equipped}/>
+      <AccessoryLayers equipped={setId ? {} : profile.equipped}/>
+      <SetLayers setId={setId}/>
     </g>
     <g className={styles.sleepZ}><text x="650" y="340">z</text><text x="689" y="289">Z</text><text x="729" y="235">Z</text></g>
   </g>;

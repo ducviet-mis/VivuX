@@ -37,6 +37,17 @@ export interface FlytieeSkin {
   };
 }
 
+export type FlytieeSetEffect = 'cosmic-orbit' | 'dino-dream' | 'gentle-snow';
+
+export interface FlytieeSet {
+  id: string;
+  name: string;
+  description: string;
+  eventName: string;
+  effect: FlytieeSetEffect;
+  tone: string;
+}
+
 export interface FlytieeProfile {
   version: 1;
   name: string;
@@ -49,6 +60,8 @@ export interface FlytieeProfile {
   equipped: Partial<Record<FlytieeAccessorySlot, string>>;
   ownedSkinIds: string[];
   equippedSkinId: string;
+  ownedSetIds: string[];
+  equippedSetId: string | null;
   claimedMissionIds: string[];
 }
 

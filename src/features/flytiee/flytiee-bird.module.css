@@ -31,6 +31,19 @@
 .chewingCheeks { transform-box: view-box; transform-origin: 487px 472px; animation: puff-cheeks .65s ease-in-out infinite alternate; }
 .chewingMouth { transform-box: view-box; transform-origin: 508px 478px; animation: munch .65s ease-in-out infinite alternate; }
 .sleepZ text { fill: #9ba8f7; font: 700 44px system-ui, sans-serif; }
+.setOutfit { pointer-events: none; }
+.cosmicEffect,
+.dinoDreamEffect,
+.snowEffect {
+  transform-box: view-box;
+  transform-origin: 475px 470px;
+  pointer-events: none;
+}
+.cosmicEffect { animation: event-glow 5.6s ease-in-out infinite; }
+.cosmicOrbiter { transform-box: view-box; transform-origin: 468px 455px; animation: cosmic-orbit 12s linear infinite; }
+.dinoDreamEffect { animation: dream-float 5.2s ease-in-out infinite; }
+.dreamBubble { animation: bubble-float 4.8s ease-in-out infinite; }
+.snowEffect { animation: snow-drift 6.5s ease-in-out infinite; }
 
 .closedEyes,
 .sleepZ,
@@ -133,8 +146,13 @@
 @keyframes sneeze-eyes { 0%, 18%, 76%, 100% { transform: scaleY(1); } 30%, 43% { transform: scaleY(.5); } 49%, 65% { transform: scaleY(.06); } }
 @keyframes sneeze-mouth { 0%, 100% { transform: scale(1); } 25%, 42% { transform: scale(.85, 1.35); } 51%, 61% { transform: scale(1.1, 1.2); } 78% { transform: scale(1); } }
 @keyframes sneeze-puff { 0%, 46% { opacity: 0; transform: translate(0); } 52% { opacity: .8; } 76%, 100% { opacity: 0; transform: translate(38px, 12px); } }
+@keyframes event-glow { 0%, 100% { opacity: .72; } 50% { opacity: 1; } }
+@keyframes cosmic-orbit { to { transform: rotate(360deg); } }
+@keyframes dream-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes bubble-float { 0%, 100% { transform: translate(0); opacity: .65; } 50% { transform: translate(-5px, -12px); opacity: 1; } }
+@keyframes snow-drift { 0%, 100% { transform: translate(0); opacity: .72; } 50% { transform: translate(4px, 10px); opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird *, .scene, .body, .eyes, .brows, .waveWing, .restWing { animation: none !important; }
+  .bird *, .scene, .body, .eyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect { animation: none !important; }
   .sceneExit { display: none; }
 }

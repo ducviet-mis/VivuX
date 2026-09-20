@@ -1,4 +1,4 @@
-import type { FlytieeAccessory, FlytieeAccessorySlot, FlytieeProfile, FlytieeSkin } from './types';
+import type { FlytieeAccessory, FlytieeAccessorySlot, FlytieeProfile, FlytieeSet, FlytieeSkin } from './types';
 
 export const FLYTIEE_METADATA_KEY = 'flytiee';
 export const FLYTIEE_STORAGE_PREFIX = 'flydo:flytiee:v1';
@@ -15,8 +15,41 @@ export const DEFAULT_FLYTIEE_PROFILE: FlytieeProfile = {
   equipped: {},
   ownedSkinIds: ['classic'],
   equippedSkinId: 'classic',
+  ownedSetIds: [],
+  equippedSetId: null,
   claimedMissionIds: [],
 };
+
+export const FLYTIEE_SETS: FlytieeSet[] = [
+  {
+    id: 'cosmic-explorer',
+    name: 'Nhà thám hiểm vũ trụ',
+    description: 'Bộ phi hành gia trắng xanh, mũ kính trong và quỹ đạo sao tí hon.',
+    eventName: 'Sự kiện Chạm tới vì sao',
+    effect: 'cosmic-orbit',
+    tone: 'cyan',
+  },
+  {
+    id: 'dino-dreamer',
+    name: 'Khủng long ngủ ngoan',
+    description: 'Bộ đồ ngủ khủng long xanh bạc hà, mềm xốp với đuôi và móng chân tí hon.',
+    eventName: 'Sự kiện Đêm ngủ diệu kỳ',
+    effect: 'dino-dream',
+    tone: 'mint',
+  },
+  {
+    id: 'snowy-christmas',
+    name: 'Giáng sinh tuyết',
+    description: 'Áo choàng đỏ phủ viền lông ấm áp, bốt tuyết và những bông tuyết dịu nhẹ.',
+    eventName: 'Sự kiện Mùa đông nhiệm màu',
+    effect: 'gentle-snow',
+    tone: 'red',
+  },
+];
+
+export function getFlytieeSet(id?: string | null) {
+  return FLYTIEE_SETS.find((set) => set.id === id) ?? null;
+}
 
 export const FLYTIEE_SKINS: FlytieeSkin[] = [
   {
@@ -114,6 +147,15 @@ export function normalizeFlytieeProfile(value: unknown): FlytieeProfile {
     && validSkinIds.has(raw.equippedSkinId)
     ? raw.equippedSkinId
     : 'classic';
+  const validSetIds = new Set(FLYTIEE_SETS.map((set) => set.id));
+  const ownedSetIds = Array.isArray(raw.ownedSetIds)
+    ? raw.ownedSetIds.filter((id): id is string => typeof id === 'string' && validSetIds.has(id))
+    : [];
+  const equippedSetId = typeof raw.equippedSetId === 'string'
+    && ownedSetIds.includes(raw.equippedSetId)
+    && validSetIds.has(raw.equippedSetId)
+    ? raw.equippedSetId
+    : null;
 
   return {
     version: 1,
@@ -124,9 +166,11 @@ export function normalizeFlytieeProfile(value: unknown): FlytieeProfile {
     satiety: Number.isFinite(raw.satiety) ? Math.min(100, Math.max(0, Number(raw.satiety))) : DEFAULT_FLYTIEE_PROFILE.satiety,
     satietyUpdatedAt: updatedAt,
     ownedAccessoryIds: Array.isArray(raw.ownedAccessoryIds) ? raw.ownedAccessoryIds.filter((id): id is string => typeof id === 'string') : [],
-    equipped: raw.equipped && typeof raw.equipped === 'object' ? raw.equipped : {},
+    equipped: equippedSetId ? {} : raw.equipped && typeof raw.equipped === 'object' ? raw.equipped : {},
     ownedSkinIds,
     equippedSkinId,
+    ownedSetIds,
+    equippedSetId,
     claimedMissionIds: Array.isArray(raw.claimedMissionIds) ? raw.claimedMissionIds.filter((id): id is string => typeof id === 'string').slice(-120) : [],
   };
 }

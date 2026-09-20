@@ -6,6 +6,7 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import {
   DEFAULT_FLYTIEE_PROFILE,
   FLYTIEE_ACCESSORIES,
+  FLYTIEE_SETS,
   FLYTIEE_SKINS,
   FLYTIEE_METADATA_KEY,
   FLYTIEE_STORAGE_PREFIX,
@@ -180,6 +181,10 @@ export function useFlytiee() {
     const item = FLYTIEE_ACCESSORIES.find((entry) => entry.id === accessoryId);
     if (!item) return false;
     const current = profileRef.current;
+    if (current.equippedSetId) {
+      setMessage('Hãy tháo Set sự kiện trước khi phối phụ kiện riêng.');
+      return false;
+    }
     const owned = current.ownedAccessoryIds.includes(item.id);
     if (!owned && current.coins < item.price) {
       setMessage(`Cần thêm ${item.price - current.coins} xu để mua ${item.name}.`);
@@ -197,6 +202,23 @@ export function useFlytiee() {
         equipped,
       };
     }, owned ? `${item.name} đã được thay đổi.` : `Đã mua và mặc ${item.name}!`);
+    return true;
+  }, [commit]);
+
+  const equipSet = useCallback((setId: string) => {
+    const item = FLYTIEE_SETS.find((entry) => entry.id === setId);
+    if (!item) return false;
+    const current = profileRef.current;
+    if (!current.ownedSetIds.includes(item.id)) {
+      setMessage(`${item.name} chỉ có thể nhận khi tham gia ${item.eventName}.`);
+      return false;
+    }
+    const removing = current.equippedSetId === item.id;
+    commit((value) => ({
+      ...value,
+      equippedSetId: removing ? null : item.id,
+      equipped: removing ? value.equipped : {},
+    }), removing ? `Đã tháo ${item.name}.` : `Đã mặc trọn bộ ${item.name}!`);
     return true;
   }, [commit]);
 
@@ -236,6 +258,7 @@ export function useFlytiee() {
     rename,
     claimMission,
     buyOrEquip,
+    equipSet,
     buyOrEquipSkin,
     refreshMissions,
     clearMessage,

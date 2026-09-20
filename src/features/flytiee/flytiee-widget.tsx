@@ -8,6 +8,7 @@ import {
   Gift,
   RefreshCw,
   Sparkles,
+  Ticket,
   Utensils,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
-import { ACCESSORY_SLOT_LABELS, FLYTIEE_ACCESSORIES, FLYTIEE_SKINS } from './config';
+import { ACCESSORY_SLOT_LABELS, FLYTIEE_ACCESSORIES, FLYTIEE_SETS, FLYTIEE_SKINS } from './config';
 import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
 import type { FlytieeAccessorySlot, FlytieeMood } from './types';
 import { useFlytiee } from './use-flytiee';
@@ -42,7 +43,7 @@ const ACCESSORY_TONES: Record<string, string> = {
   yellow: 'bg-warning-soft text-warning', green: 'bg-success-soft text-success',
 };
 
-type ShopCategory = 'skin' | FlytieeAccessorySlot;
+type ShopCategory = 'set' | 'skin' | FlytieeAccessorySlot;
 
 function levelTitle(level: number) {
   if (level >= 20) return 'Bạn học siêu sao';
@@ -72,17 +73,21 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
   const [editingName, setEditingName] = useState(false);
   const [selectedAccessoryId, setSelectedAccessoryId] = useState(FLYTIEE_ACCESSORIES[0].id);
   const [selectedSkinId, setSelectedSkinId] = useState(FLYTIEE_SKINS[1].id);
-  const [shopCategory, setShopCategory] = useState<ShopCategory>('skin');
+  const [selectedSetId, setSelectedSetId] = useState(FLYTIEE_SETS[0].id);
+  const [shopCategory, setShopCategory] = useState<ShopCategory>('set');
 
   const isHungry = flytiee.satiety <= 35;
   const selectedAccessory = FLYTIEE_ACCESSORIES.find((item) => item.id === selectedAccessoryId) ?? FLYTIEE_ACCESSORIES[0];
   const selectedSkin = FLYTIEE_SKINS.find((item) => item.id === selectedSkinId) ?? FLYTIEE_SKINS[0];
+  const selectedSet = FLYTIEE_SETS.find((item) => item.id === selectedSetId) ?? FLYTIEE_SETS[0];
   const previewProfile = useMemo(() => ({
     ...flytiee.profile,
-    ...(shopCategory === 'skin'
-      ? { equippedSkinId: selectedSkin.id }
-      : { equipped: { ...flytiee.profile.equipped, [selectedAccessory.slot]: selectedAccessory.id } }),
-  }), [flytiee.profile, selectedAccessory, selectedSkin, shopCategory]);
+    ...(shopCategory === 'set'
+      ? { equippedSetId: selectedSet.id, equipped: {} }
+      : shopCategory === 'skin'
+        ? { equippedSetId: null, equippedSkinId: selectedSkin.id }
+        : { equippedSetId: null, equipped: { ...flytiee.profile.equipped, [selectedAccessory.slot]: selectedAccessory.id } }),
+  }), [flytiee.profile, selectedAccessory, selectedSet, selectedSkin, shopCategory]);
 
   useEffect(() => {
     setDraftName(flytiee.profile.name);
@@ -266,25 +271,45 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
             <TabsContent value="shop" className="mt-0">
               <div className="grid items-start gap-6 lg:grid-cols-[minmax(260px,.75fr)_minmax(0,1.25fr)]">
                 <section className="rounded-xl border border-border bg-hero p-4 lg:sticky lg:top-0">
-                  <p className="text-center text-sm font-semibold">{shopCategory === 'skin' ? selectedSkin.name : selectedAccessory.name}</p>
+                  <p className="text-center text-sm font-semibold">{shopCategory === 'set' ? selectedSet.name : shopCategory === 'skin' ? selectedSkin.name : selectedAccessory.name}</p>
                   <FlytieeBird mood="idle" profile={previewProfile} className="mx-auto h-[290px] max-w-sm" />
                   <div className="rounded-lg bg-card p-3 text-center shadow-soft">
                     <p className="text-sm font-semibold">Xem thử trên {flytiee.profile.name}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{shopCategory === 'skin' ? `${selectedSkin.personality} · Mỗi skin có nét mặt riêng.` : 'Chọn món không làm mất xu.'}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{shopCategory === 'set' ? 'Full combo toàn thân · Không đi cùng phụ kiện riêng.' : shopCategory === 'skin' ? `${selectedSkin.personality} · Mỗi skin có nét mặt riêng.` : 'Chọn món không làm mất xu.'}</p>
                   </div>
                 </section>
 
                 <section className="min-w-0">
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <div><h3 className="text-lg font-bold">Tủ đồ FlyTiee</h3><p className="text-sm text-muted-foreground">Mua một lần, tự do phối đồ.</p></div>
+                    <div><h3 className="text-lg font-bold">Tủ đồ FlyTiee</h3><p className="text-sm text-muted-foreground">Phối đồ thường hoặc sưu tầm Set giới hạn.</p></div>
                     <span className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-warning-soft px-4 text-sm font-bold text-warning"><Coins aria-hidden="true" className="h-4 w-4" />{flytiee.profile.coins} xu</span>
                   </div>
                   <div className="mb-4 flex gap-2 overflow-x-auto pb-1" aria-label="Danh mục cửa hàng">
+                    <Button type="button" size="sm" variant={shopCategory === 'set' ? 'default' : 'outline'} onClick={() => setShopCategory('set')}><Sparkles aria-hidden="true" className="h-4 w-4" />Set sự kiện</Button>
                     <Button type="button" size="sm" variant={shopCategory === 'skin' ? 'default' : 'outline'} onClick={() => setShopCategory('skin')}>Skin</Button>
                     {(Object.keys(ACCESSORY_SLOT_LABELS) as FlytieeAccessorySlot[]).map((slot) => <Button key={slot} type="button" size="sm" variant={shopCategory === slot ? 'default' : 'outline'} onClick={() => { setShopCategory(slot); const first = FLYTIEE_ACCESSORIES.find((item) => item.slot === slot); if (first) setSelectedAccessoryId(first.id); }}>{ACCESSORY_SLOT_LABELS[slot]}</Button>)}
                   </div>
 
-                  {shopCategory === 'skin' ? <>
+                  {shopCategory === 'set' ? <>
+                    <div className="mb-4 rounded-xl border border-special/25 bg-special-soft px-4 py-3 text-sm text-special"><span className="font-semibold">Set toàn thân:</span> khi mặc, FlyTiee sẽ tự tháo mọi phụ kiện riêng. Các Set chỉ nhận được qua sự kiện, không bán bằng xu.</div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {FLYTIEE_SETS.map((item) => {
+                        const owned = flytiee.profile.ownedSetIds.includes(item.id);
+                        const equipped = flytiee.profile.equippedSetId === item.id;
+                        const selected = selectedSetId === item.id;
+                        return <button key={item.id} type="button" aria-pressed={selected} onClick={() => setSelectedSetId(item.id)} className={cn('min-h-[280px] overflow-hidden rounded-xl border p-3 text-left transition-colors', selected ? 'border-primary bg-primary-soft ring-2 ring-primary/15' : 'border-border bg-card hover:border-primary/50')}>
+                          <span className={cn('relative flex h-40 w-full items-center justify-center overflow-hidden rounded-lg', ACCESSORY_TONES[item.tone])}><FlytieeBird mood="idle" profile={{ ...flytiee.profile, equippedSetId: item.id, equipped: {} }} className="h-48 w-full" /><span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-card/90 px-2 py-1 text-[11px] font-bold text-special shadow-soft"><Ticket aria-hidden="true" className="h-3.5 w-3.5" />Sự kiện</span></span>
+                          <strong className="mt-3 block text-sm">{item.name}</strong>
+                          <span className="mt-1 block text-xs font-semibold text-special">{item.eventName}</span>
+                          <span className="mt-1.5 block text-xs text-muted-foreground">{item.description}</span>
+                          <span className="mt-2 block text-xs font-bold text-primary">{equipped ? 'Đang mặc trọn bộ' : owned ? 'Đã sở hữu' : 'Chưa mở khóa'}</span>
+                        </button>;
+                      })}
+                    </div>
+                    <div className="mt-4 rounded-xl border border-border bg-card p-4">
+                      <div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedSet.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.ownedSetIds.includes(selectedSet.id) ? 'Set đã có trong tủ đồ sự kiện.' : selectedSet.eventName}</p></div><Button type="button" onClick={() => flytiee.equipSet(selectedSet.id)} disabled={!flytiee.profile.ownedSetIds.includes(selectedSet.id)}>{flytiee.profile.equippedSetId === selectedSet.id ? 'Tháo Set' : flytiee.profile.ownedSetIds.includes(selectedSet.id) ? 'Mặc trọn bộ' : <><Ticket aria-hidden="true" className="h-4 w-4" />Nhận từ sự kiện</>}</Button></div>
+                    </div>
+                  </> : shopCategory === 'skin' ? <>
                     <div className="grid gap-3 sm:grid-cols-2">
                       {FLYTIEE_SKINS.map((skin) => {
                         const owned = flytiee.profile.ownedSkinIds.includes(skin.id);
@@ -313,7 +338,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                         </button>;
                       })}
                     </div>
-                    <div className="mt-4 rounded-xl border border-border bg-card p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedAccessory.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Món này đã có trong tủ đồ.' : `${selectedAccessory.price} xu`}</p></div><Button type="button" onClick={() => flytiee.buyOrEquip(selectedAccessory.id)} disabled={!flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) && flytiee.profile.coins < selectedAccessory.price}>{flytiee.profile.equipped[selectedAccessory.slot] === selectedAccessory.id ? 'Tháo ra' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Mặc ngay' : 'Mua & mặc'}</Button></div></div>
+                    <div className="mt-4 rounded-xl border border-border bg-card p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedAccessory.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.equippedSetId ? 'Đang mặc Set toàn thân nên không thể phối phụ kiện.' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Món này đã có trong tủ đồ.' : `${selectedAccessory.price} xu`}</p></div><Button type="button" onClick={() => flytiee.buyOrEquip(selectedAccessory.id)} disabled={Boolean(flytiee.profile.equippedSetId) || (!flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) && flytiee.profile.coins < selectedAccessory.price)}>{flytiee.profile.equippedSetId ? 'Tháo Set để phối' : flytiee.profile.equipped[selectedAccessory.slot] === selectedAccessory.id ? 'Tháo ra' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Mặc ngay' : 'Mua & mặc'}</Button></div></div>
                   </>}
                 </section>
               </div>

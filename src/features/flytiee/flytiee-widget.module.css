@@ -4,6 +4,8 @@
   --flytiee-gold: 246 192 86;
   --flytiee-peach: 247 153 133;
   position: relative;
+  /* Lift the tall lounge dialog into the visual centre of the app viewport. */
+  top: calc(50% - clamp(4rem, 12vh, 7rem)) !important;
   isolation: isolate;
   /* Keep the dialog centered while its long content scrolls inside the viewport. */
   overflow-x: hidden;

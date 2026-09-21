@@ -5,7 +5,11 @@
   --flytiee-peach: 247 153 133;
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  /* Keep the dialog centered while its long content scrolls inside the viewport. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   border: 1px solid rgb(var(--flytiee-lavender) / .3);
   background:
     radial-gradient(circle at 8% 8%, rgb(var(--flytiee-lavender) / .2), transparent 27%),

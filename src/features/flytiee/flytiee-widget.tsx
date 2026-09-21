@@ -202,7 +202,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
         </button>
       </DialogTrigger>
 
-      <DialogContent className={cn('max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-[1180px] gap-0 overflow-y-auto p-0 sm:max-h-[calc(100dvh-2rem)] [&>button]:right-3 [&>button]:top-3 [&>button]:z-20 [&>button]:rounded-full [&>button]:bg-card/70 [&>button]:backdrop-blur', styles.world)}>
+      <DialogContent className={cn('h-[calc(100dvh-1rem)] max-h-[840px] min-h-0 w-[calc(100%-1rem)] max-w-[1180px] gap-0 overflow-x-hidden overflow-y-auto overscroll-contain p-0 sm:h-[calc(100dvh-2rem)] [&>button]:right-3 [&>button]:top-3 [&>button]:z-20 [&>button]:rounded-full [&>button]:bg-card/70 [&>button]:backdrop-blur', styles.world)}>
         <DialogHeader className={cn('px-5 py-5 sm:px-7 sm:py-6', styles.header)}>
           <div className="flex items-center gap-3 pr-10 sm:gap-4">
             <span className={styles.brandMark}><Sparkles aria-hidden="true" className="h-6 w-6" /></span>

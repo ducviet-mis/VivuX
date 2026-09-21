@@ -160,6 +160,15 @@ export const FLYTIEE_ACCESSORIES: FlytieeAccessory[] = [
   { id: 'cool-coconut', name: 'Dừa mát lạnh', slot: 'hand', price: 55, description: 'Một trái dừa tươi cùng chiếc ô nhỏ bên bờ biển.', tone: 'green' },
   { id: 'summer-beach-ball', name: 'Bóng bãi biển', slot: 'hand', price: 50, description: 'Quả bóng nhiều màu sẵn sàng cho cuộc vui trên cát.', tone: 'cyan' },
   { id: 'mini-surfboard', name: 'Ván lướt sóng mini', slot: 'hand', price: 75, description: 'Tấm ván aqua với họa tiết sóng biển năng động.', tone: 'cyan' },
+  { id: 'tet-khan-dong', name: 'Khăn đóng gấm đỏ', slot: 'head', price: 75, description: 'Khăn đóng đỏ son viền vàng, trang trọng và đậm nét Tết Việt.', tone: 'red' },
+  { id: 'tet-peach-headdress', name: 'Mấn hoa đào', slot: 'head', price: 65, description: 'Chiếc mấn đỏ ấm áp điểm những cánh đào đầu xuân.', tone: 'coral' },
+  { id: 'tet-apricot-glasses', name: 'Kính hoa mai', slot: 'eyes', price: 55, description: 'Khung kính vàng rực rỡ như mai nở sáng mùng Một.', tone: 'yellow' },
+  { id: 'tet-lucky-coin-necklace', name: 'Vòng tiền may mắn', slot: 'neck', price: 55, description: 'Ba đồng tiền vàng cùng dây đỏ gửi lời chúc tài lộc.', tone: 'yellow' },
+  { id: 'tet-brocade-scarf', name: 'Khăn gấm khai xuân', slot: 'neck', price: 65, description: 'Khăn gấm đỏ thêu mây vàng, mềm mại và ấm áp ngày xuân.', tone: 'red' },
+  { id: 'tet-peach-branch', name: 'Cành đào đón Tết', slot: 'hand', price: 70, description: 'Cành đào hồng hé nụ mang mùa xuân về bên FlyTiee.', tone: 'coral' },
+  { id: 'tet-red-envelope', name: 'Bao lì xì Phúc Lộc', slot: 'hand', price: 45, description: 'Phong bao đỏ ánh kim chứa lời chúc bình an và may mắn.', tone: 'red' },
+  { id: 'tet-banh-chung', name: 'Bánh chưng đoàn viên', slot: 'hand', price: 55, description: 'Chiếc bánh chưng xanh vuông vắn cho mâm Tết sum vầy.', tone: 'green' },
+  { id: 'tet-red-lantern', name: 'Đèn lồng đoàn viên', slot: 'hand', price: 65, description: 'Đèn lồng đỏ tỏa ánh vàng dịu, thắp sáng đêm đầu năm.', tone: 'red' },
 ];
 
 export function xpNeededForLevel(level: number) {

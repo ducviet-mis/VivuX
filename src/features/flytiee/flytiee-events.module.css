@@ -31,7 +31,11 @@
     radial-gradient(circle at 72% 90%, rgb(var(--event-cyan) / .13), transparent 28%),
     linear-gradient(135deg, rgb(73 61 143 / .68), rgb(28 42 79 / .9));
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .11), 0 16px 36px rgb(4 8 28 / .2);
+  color: white;
 }
+
+.festivalBanner p:not(.eyebrow) { color: rgb(237 242 255 / .9) !important; }
+.festivalBanner .eyebrow { color: rgb(136 235 255); }
 
 .festivalBanner::before,
 .festivalBanner::after {
@@ -246,6 +250,60 @@
 .chestCard[data-tier='silver'] { border: 1px solid rgb(184 205 235 / .32); background: linear-gradient(155deg, rgb(143 155 179 / .16), rgb(var(--color-card) / .96)); }
 .chestCard[data-tier='gold'] { border: 1px solid rgb(var(--event-gold) / .55); background: radial-gradient(circle at 50% 27%, rgb(var(--event-gold) / .2), transparent 37%), linear-gradient(155deg, rgb(216 158 36 / .14), rgb(var(--color-card) / .96)); box-shadow: 0 18px 45px rgb(var(--event-gold) / .12), inset 0 1px 0 rgb(255 255 255 / .1); }
 .chestCard[data-tier='gold']::before { position: absolute; inset: -50%; content: ''; background: conic-gradient(from 0deg, transparent, rgb(var(--event-gold) / .07), transparent 28%); animation: gold-rays 10s linear infinite; pointer-events: none; }
+
+/* Light theme: deepen accent colors and keep reward surfaces distinct from white. */
+:global(html:not(.dark)) .eventWorld {
+  --event-lavender: 99 102 241;
+  --event-cyan: 8 145 178;
+  --event-gold: 183 111 13;
+  --event-peach: 226 94 98;
+}
+
+:global(html:not(.dark)) .festivalBanner {
+  border-color: rgb(99 102 241 / .28);
+  background:
+    radial-gradient(circle at 87% 20%, rgb(255 205 102 / .24), transparent 24%),
+    radial-gradient(circle at 72% 90%, rgb(93 217 235 / .16), transparent 30%),
+    linear-gradient(135deg, rgb(79 70 170), rgb(33 49 96));
+  box-shadow: 0 16px 36px rgb(23 32 74 / .16), inset 0 1px 0 rgb(255 255 255 / .16);
+}
+
+:global(html:not(.dark)) .mailBox,
+:global(html:not(.dark)) .streakCard,
+:global(html:not(.dark)) .eventCard,
+:global(html:not(.dark)) .completionCard {
+  box-shadow: 0 12px 30px rgb(23 32 74 / .075), inset 0 1px 0 rgb(255 255 255);
+}
+
+:global(html:not(.dark)) .mailBox {
+  background:
+    linear-gradient(135deg, rgb(255 239 242 / .86), transparent 45%),
+    linear-gradient(155deg, rgb(255 255 255), rgb(247 248 255));
+}
+
+:global(html:not(.dark)) .streakCard {
+  background:
+    radial-gradient(circle at 85% 0%, rgb(255 247 229), transparent 30%),
+    linear-gradient(145deg, rgb(255 255 255), rgb(255 250 246));
+}
+
+:global(html:not(.dark)) .eventCard {
+  border-color: rgb(99 102 241 / .13);
+  background: linear-gradient(150deg, rgb(255 255 255), rgb(247 248 255));
+}
+
+:global(html:not(.dark)) .completionCard {
+  background:
+    radial-gradient(circle at 90% 10%, rgb(255 230 170 / .6), transparent 30%),
+    linear-gradient(145deg, rgb(244 239 255), rgb(255 255 255));
+}
+
+:global(html:not(.dark)) .milestoneRow { background: rgb(246 248 252); }
+:global(html:not(.dark)) .levelTile { background: linear-gradient(145deg, rgb(231 248 252), rgb(246 248 252)); }
+
+:global(html:not(.dark)) .chestCard[data-tier='bronze'] { background: linear-gradient(155deg, rgb(255 242 232), rgb(255 255 255)); }
+:global(html:not(.dark)) .chestCard[data-tier='silver'] { background: linear-gradient(155deg, rgb(239 245 255), rgb(255 255 255)); }
+:global(html:not(.dark)) .chestCard[data-tier='gold'] { background: radial-gradient(circle at 50% 27%, rgb(255 226 139 / .55), transparent 38%), linear-gradient(155deg, rgb(255 249 229), rgb(255 255 255)); }
 
 @keyframes gold-rays { to { transform: rotate(360deg); } }
 

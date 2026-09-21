@@ -25,6 +25,7 @@ import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
 import { FlytieeEvents } from './flytiee-events';
 import type { FlytieeAccessorySlot, FlytieeMood } from './types';
 import { useFlytiee } from './use-flytiee';
+import styles from './flytiee-widget.module.css';
 
 const IDLE_ACTIONS: Array<{ mood: FlytieeMood; line: string; duration: number }> = [
   { mood: 'idle', line: 'Chớp chớp… tớ vẫn ở đây nhé!', duration: 2600 },
@@ -201,71 +202,80 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="max-h-[calc(100dvh-1rem)] max-w-5xl gap-0 overflow-y-auto p-0 sm:max-h-[calc(100dvh-3rem)]">
-        <DialogHeader className="border-b border-border px-5 py-5 sm:px-7">
-          <DialogTitle className="flex flex-wrap items-center gap-2 text-xl sm:text-2xl">
-            Nhà của {flytiee.profile.name}
-            {flytiee.saving && <RefreshCw aria-label="Đang lưu" className="h-4 w-4 animate-spin text-muted-foreground" />}
-          </DialogTitle>
-          <DialogDescription>Nuôi bạn đồng hành bằng những tiến bộ nhỏ mỗi ngày.</DialogDescription>
+      <DialogContent className={cn('max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-[1180px] gap-0 overflow-y-auto p-0 sm:max-h-[calc(100dvh-2rem)] [&>button]:right-3 [&>button]:top-3 [&>button]:z-20 [&>button]:rounded-full [&>button]:bg-card/70 [&>button]:backdrop-blur', styles.world)}>
+        <DialogHeader className={cn('px-5 py-5 sm:px-7 sm:py-6', styles.header)}>
+          <div className="flex items-center gap-3 pr-10 sm:gap-4">
+            <span className={styles.brandMark}><Sparkles aria-hidden="true" className="h-6 w-6" /></span>
+            <div className="min-w-0 flex-1">
+              <DialogDescription className="mb-1 text-xs font-bold uppercase tracking-[.18em] text-primary">FlyDo companion lounge</DialogDescription>
+              <DialogTitle className="flex flex-wrap items-center gap-2 text-xl sm:text-2xl">
+                Nhà của {flytiee.profile.name}
+                {flytiee.saving && <RefreshCw aria-label="Đang lưu" className="h-4 w-4 animate-spin text-muted-foreground" />}
+              </DialogTitle>
+              <DialogDescription className="mt-1 hidden sm:block">Góc nghỉ ngơi, nhận thưởng và lớn lên cùng những tiến bộ nhỏ mỗi ngày.</DialogDescription>
+            </div>
+            <span className={styles.headerBadge}><Coins aria-hidden="true" className="h-4 w-4" />{flytiee.profile.coins} xu</span>
+          </div>
         </DialogHeader>
 
         <Tabs value={tab} onValueChange={changeTab} className="min-w-0">
-          <div className="border-b border-border px-4 py-3 sm:px-7">
-            <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:grid-cols-4">
-              <TabsTrigger value="home">Chăm sóc</TabsTrigger>
-              <TabsTrigger value="missions">Nhiệm vụ</TabsTrigger>
-              <TabsTrigger value="events"><CalendarDays aria-hidden="true" className="mr-1.5 h-4 w-4" />Sự kiện</TabsTrigger>
-              <TabsTrigger value="shop">Cửa hàng</TabsTrigger>
+          <div className={cn('px-4 py-3 sm:px-7 sm:py-4', styles.tabBar)}>
+            <TabsList className={cn('grid h-auto w-full grid-cols-2 sm:grid-cols-4', styles.tabList)}>
+              <TabsTrigger value="home" className={styles.tabTrigger}><Utensils aria-hidden="true" className="h-4 w-4" />Chăm sóc</TabsTrigger>
+              <TabsTrigger value="missions" className={styles.tabTrigger}><Gift aria-hidden="true" className="h-4 w-4" />Nhiệm vụ</TabsTrigger>
+              <TabsTrigger value="events" className={styles.tabTrigger}><CalendarDays aria-hidden="true" className="h-4 w-4" />Sự kiện</TabsTrigger>
+              <TabsTrigger value="shop" className={styles.tabTrigger}><Sparkles aria-hidden="true" className="h-4 w-4" />Cửa hàng</TabsTrigger>
             </TabsList>
           </div>
 
-          <div className="p-4 sm:p-7">
-            {flytiee.message && <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-primary/25 bg-primary-soft px-4 py-3 text-sm font-medium text-primary">{flytiee.message}</div>}
+          <div className={styles.content}>
+            {flytiee.message && <div role="status" aria-live="polite" className={cn('mb-4 px-4 py-3 text-sm font-semibold', styles.statusMessage)}>{flytiee.message}</div>}
 
             <TabsContent value="home" className="mt-0">
-              <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,.9fr)]">
-                <section className="relative min-h-[390px] overflow-hidden rounded-xl border border-border bg-hero p-4 sm:min-h-[440px]">
-                  <div className="mx-auto flex max-w-sm justify-center rounded-full bg-card/90 px-4 py-2 text-center text-sm font-medium text-foreground shadow-soft">{speech}</div>
-                  <FlytieeBird mood={mood} profile={flytiee.profile} className="mx-auto h-[330px] max-w-md sm:h-[380px]" />
+              <div className={styles.homeGrid}>
+                <section className={styles.petStage}>
+                  <span className={styles.stageLabel}><Sparkles aria-hidden="true" className="h-3.5 w-3.5" />Góc thư giãn</span>
+                  <div className={styles.speechBubble}>{speech}</div>
+                  <FlytieeBird mood={mood} profile={flytiee.profile} className={styles.petVisual} />
                 </section>
 
-                <section className="space-y-5">
-                  <div className="rounded-xl border border-border bg-card p-4">
+                <section className={styles.sidePanel}>
+                  <div className={cn('p-4 sm:p-5', styles.softCard)}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Người bạn của bạn</p>
-                        {!editingName ? <h3 className="mt-1 truncate text-xl font-bold">{flytiee.profile.name}</h3> : null}
+                        <p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Người bạn của bạn</p>
+                        {!editingName ? <h3 className="mt-1 truncate text-2xl font-extrabold">{flytiee.profile.name}</h3> : null}
                       </div>
                       <Button type="button" variant="ghost" size="icon" onClick={() => setEditingName((value) => !value)} aria-label="Đổi tên FlyTiee"><Edit3 aria-hidden="true" className="h-4 w-4" /></Button>
                     </div>
-                    {editingName && <div className="mt-3 space-y-2"><Label htmlFor="flytiee-name">Tên mới</Label><div className="flex gap-2"><Input id="flytiee-name" maxLength={20} value={draftName} onChange={(event) => setDraftName(event.target.value)} onKeyDown={(event) => event.key === 'Enter' && saveName()} /><Button type="button" onClick={saveName}>Lưu</Button></div><p className="text-xs text-muted-foreground">Từ 2–20 ký tự.</p></div>}
+                    {!editingName && <p className="mt-2 text-sm text-muted-foreground">Luôn chờ bạn trở về sau mỗi buổi học.</p>}
+                    {editingName && <div className="mt-3 space-y-2"><Label htmlFor="flytiee-name">Tên mới</Label><div className="flex gap-2"><Input id="flytiee-name" maxLength={20} value={draftName} onChange={(event) => setDraftName(event.target.value)} onKeyDown={(event) => event.key === 'Enter' && saveName()} /><Button type="button" onClick={saveName} className={styles.primaryButton}>Lưu</Button></div><p className="text-xs text-muted-foreground">Từ 2–20 ký tự.</p></div>}
                   </div>
 
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <div className="flex items-center justify-between gap-3"><div><p className="text-sm font-semibold">Cấp {flytiee.profile.level} · {levelTitle(flytiee.profile.level)}</p><p className="text-xs text-muted-foreground">{flytiee.profile.xp}/{flytiee.xpNeeded} EXP tới cấp tiếp theo</p></div><Sparkles aria-hidden="true" className="h-5 w-5 text-primary" /></div>
+                  <div className={cn('p-4 sm:p-5', styles.softCard, styles.levelCard)}>
+                    <div className="flex items-center gap-3"><span className={styles.miniIcon}><Sparkles aria-hidden="true" className="h-5 w-5" /></span><div className="min-w-0 flex-1"><div className="flex items-center justify-between gap-3"><p className="text-sm font-bold">Cấp {flytiee.profile.level} · {levelTitle(flytiee.profile.level)}</p><span className="text-xs font-bold tabular-nums text-info">{Math.round(flytiee.profile.xp / flytiee.xpNeeded * 100)}%</span></div><p className="mt-1 text-xs text-muted-foreground">{flytiee.profile.xp}/{flytiee.xpNeeded} EXP tới cấp tiếp theo</p></div></div>
                     <Progress value={flytiee.profile.xp / flytiee.xpNeeded * 100} className="mt-3" />
                   </div>
 
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <div className="flex items-center justify-between"><div><p className="text-sm font-semibold">Độ no</p><p className="text-xs text-muted-foreground">Thức ăn luôn miễn phí.</p></div><span className={cn('text-sm font-bold tabular-nums', isHungry ? 'text-warning' : 'text-success')}>{flytiee.satiety}%</span></div>
+                  <div className={cn('p-4 sm:p-5', styles.softCard, styles.careCard)}>
+                    <div className="flex items-center justify-between"><div className="flex items-center gap-3"><span className={cn(styles.miniIcon, 'text-success')}><Utensils aria-hidden="true" className="h-5 w-5" /></span><div><p className="text-sm font-bold">Năng lượng yêu thương</p><p className="text-xs text-muted-foreground">Thức ăn luôn miễn phí.</p></div></div><span className={cn('text-sm font-extrabold tabular-nums', isHungry ? 'text-warning' : 'text-success')}>{flytiee.satiety}%</span></div>
                     <Progress value={flytiee.satiety} className="mt-3" />
-                    <Button type="button" className="mt-4 w-full" onClick={handleFeed} disabled={mood === 'eat'}><Utensils aria-hidden="true" className="h-4 w-4" />{mood === 'eat' ? 'Đang ăn…' : 'Cho ăn miễn phí'}</Button>
+                    <Button type="button" className={cn('mt-4 w-full', styles.primaryButton)} onClick={handleFeed} disabled={mood === 'eat'}><Utensils aria-hidden="true" className="h-4 w-4" />{mood === 'eat' ? 'Đang ăn…' : 'Cho FlyTiee ăn'}</Button>
                   </div>
                 </section>
               </div>
             </TabsContent>
 
             <TabsContent value="missions" className="mt-0">
-              <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-lg font-bold">Nhiệm vụ hôm nay</h3><p className="text-sm text-muted-foreground">Làm bài trên FlyDo rồi quay lại nhận thưởng.</p></div><Button type="button" variant="outline" size="sm" onClick={() => void flytiee.refreshMissions()}><RefreshCw aria-hidden="true" className="h-4 w-4" />Cập nhật</Button></div>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className={cn('flex flex-wrap items-center justify-between gap-3', styles.missionHeader)}><div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Daily quests</p><h3 className="mt-1 text-xl font-extrabold">Nhiệm vụ hôm nay</h3><p className="mt-1 text-sm text-muted-foreground">Mỗi bước tiến trên FlyDo đều biến thành quà cho FlyTiee.</p></div><Button type="button" variant="outline" size="sm" className={styles.secondaryButton} onClick={() => void flytiee.refreshMissions()}><RefreshCw aria-hidden="true" className="h-4 w-4" />Cập nhật</Button></div>
+              <div className="grid gap-4 sm:grid-cols-2">
                 {flytiee.missions.map((mission) => {
                   const complete = mission.current >= mission.target;
                   const claimed = claimedToday(flytiee.profile.claimedMissionIds, mission.id);
-                  return <article key={mission.id} className="flex min-h-[190px] flex-col rounded-xl border border-border bg-card p-4">
-                    <div className="flex items-start justify-between gap-3"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary"><Gift aria-hidden="true" className="h-5 w-5" /></div><span className="text-xs font-bold text-primary">+{mission.xp} EXP · +{mission.coins} xu</span></div>
-                    <h4 className="mt-3 font-bold">{mission.title}</h4><p className="mt-1 text-sm text-muted-foreground">{mission.description}</p>
-                    <div className="mt-auto pt-4"><div className="mb-2 flex justify-between text-xs font-semibold"><span>{mission.current}/{mission.target}</span><span>{Math.round(mission.current / mission.target * 100)}%</span></div><Progress value={mission.current / mission.target * 100} /><Button type="button" className="mt-3 w-full" variant={claimed ? 'secondary' : complete ? 'default' : 'outline'} disabled={!complete || claimed} onClick={() => flytiee.claimMission(mission)}>{claimed ? <><Check aria-hidden="true" className="h-4 w-4" />Đã nhận</> : complete ? 'Nhận thưởng' : 'Chưa hoàn thành'}</Button></div>
+                  return <article key={mission.id} className={cn('flex min-h-[210px] flex-col p-5', styles.missionCard)}>
+                    <div className="relative z-10 flex items-start justify-between gap-3"><span className={styles.miniIcon}><Gift aria-hidden="true" className="h-5 w-5" /></span><span className={styles.rewardPill}><Sparkles aria-hidden="true" className="h-3.5 w-3.5" />+{mission.xp} EXP · +{mission.coins} xu</span></div>
+                    <h4 className="relative z-10 mt-4 text-base font-extrabold">{mission.title}</h4><p className="relative z-10 mt-1 text-sm leading-6 text-muted-foreground">{mission.description}</p>
+                    <div className="relative z-10 mt-auto pt-4"><div className="mb-2 flex justify-between text-xs font-bold"><span>{mission.current}/{mission.target}</span><span className="text-primary">{Math.round(mission.current / mission.target * 100)}%</span></div><Progress value={mission.current / mission.target * 100} /><Button type="button" className={cn('mt-4 w-full', complete && !claimed ? styles.primaryButton : styles.secondaryButton)} variant={claimed ? 'secondary' : complete ? 'default' : 'outline'} disabled={!complete || claimed} onClick={() => flytiee.claimMission(mission)}>{claimed ? <><Check aria-hidden="true" className="h-4 w-4" />Đã nhận</> : complete ? 'Nhận thưởng ngay' : 'Đang tiến hành'}</Button></div>
                   </article>;
                 })}
               </div>
@@ -277,24 +287,25 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
 
             <TabsContent value="shop" className="mt-0">
               <div className="grid items-start gap-6 lg:grid-cols-[minmax(260px,.75fr)_minmax(0,1.25fr)]">
-                <section className="rounded-xl border border-border bg-hero p-4 lg:sticky lg:top-0">
-                  <p className="text-center text-sm font-semibold">{shopCategory === 'set' ? selectedSet.name : shopCategory === 'skin' ? selectedSkin.name : selectedAccessory.name}</p>
-                  <FlytieeBird mood="idle" profile={previewProfile} className="mx-auto h-[290px] max-w-sm" />
-                  <div className="rounded-lg bg-card p-3 text-center shadow-soft">
-                    <p className="text-sm font-semibold">Xem thử trên {flytiee.profile.name}</p>
+                <section className={cn('p-4 lg:sticky lg:top-0', styles.shopPreview)}>
+                  <p className="relative z-10 text-center text-sm font-bold text-info">Phòng thử đồ</p>
+                  <p className="relative z-10 mt-1 text-center text-lg font-extrabold">{shopCategory === 'set' ? selectedSet.name : shopCategory === 'skin' ? selectedSkin.name : selectedAccessory.name}</p>
+                  <FlytieeBird mood="idle" profile={previewProfile} className="relative z-10 mx-auto h-[300px] max-w-sm" />
+                  <div className="relative z-10 rounded-2xl border border-white/10 bg-card/80 p-3 text-center shadow-soft backdrop-blur">
+                    <p className="text-sm font-bold">Xem thử trên {flytiee.profile.name}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{shopCategory === 'set' ? 'Full combo toàn thân · Không đi cùng phụ kiện riêng.' : shopCategory === 'skin' ? `${selectedSkin.personality} · Mỗi skin có nét mặt riêng.` : 'Chọn món không làm mất xu.'}</p>
                   </div>
                 </section>
 
                 <section className="min-w-0">
-                  <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <div><h3 className="text-lg font-bold">Tủ đồ FlyTiee</h3><p className="text-sm text-muted-foreground">Phối đồ thường hoặc sưu tầm Set giới hạn.</p></div>
+                  <div className={cn('flex flex-wrap items-center justify-between gap-3', styles.shopHeader)}>
+                    <div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Boutique & wardrobe</p><h3 className="mt-1 text-xl font-extrabold">Tủ đồ FlyTiee</h3><p className="mt-1 text-sm text-muted-foreground">Phối một diện mạo thật riêng hoặc săn Set sự kiện giới hạn.</p></div>
                     <span className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-warning-soft px-4 text-sm font-bold text-warning"><Coins aria-hidden="true" className="h-4 w-4" />{flytiee.profile.coins} xu</span>
                   </div>
-                  <div className="mb-4 flex gap-2 overflow-x-auto pb-1" aria-label="Danh mục cửa hàng">
-                    <Button type="button" size="sm" variant={shopCategory === 'set' ? 'default' : 'outline'} onClick={() => setShopCategory('set')}><Sparkles aria-hidden="true" className="h-4 w-4" />Set sự kiện</Button>
-                    <Button type="button" size="sm" variant={shopCategory === 'skin' ? 'default' : 'outline'} onClick={() => setShopCategory('skin')}>Skin</Button>
-                    {(Object.keys(ACCESSORY_SLOT_LABELS) as FlytieeAccessorySlot[]).map((slot) => <Button key={slot} type="button" size="sm" variant={shopCategory === slot ? 'default' : 'outline'} onClick={() => { setShopCategory(slot); const first = FLYTIEE_ACCESSORIES.find((item) => item.slot === slot); if (first) setSelectedAccessoryId(first.id); }}>{ACCESSORY_SLOT_LABELS[slot]}</Button>)}
+                  <div className={cn('mb-4 flex gap-2 overflow-x-auto pb-2', styles.categoryRail)} aria-label="Danh mục cửa hàng">
+                    <Button type="button" size="sm" className={shopCategory === 'set' ? styles.primaryButton : styles.secondaryButton} variant={shopCategory === 'set' ? 'default' : 'outline'} onClick={() => setShopCategory('set')}><Sparkles aria-hidden="true" className="h-4 w-4" />Set sự kiện</Button>
+                    <Button type="button" size="sm" className={shopCategory === 'skin' ? styles.primaryButton : styles.secondaryButton} variant={shopCategory === 'skin' ? 'default' : 'outline'} onClick={() => setShopCategory('skin')}>Skin</Button>
+                    {(Object.keys(ACCESSORY_SLOT_LABELS) as FlytieeAccessorySlot[]).map((slot) => <Button key={slot} type="button" size="sm" className={shopCategory === slot ? styles.primaryButton : styles.secondaryButton} variant={shopCategory === slot ? 'default' : 'outline'} onClick={() => { setShopCategory(slot); const first = FLYTIEE_ACCESSORIES.find((item) => item.slot === slot); if (first) setSelectedAccessoryId(first.id); }}>{ACCESSORY_SLOT_LABELS[slot]}</Button>)}
                   </div>
 
                   {shopCategory === 'set' ? <>
@@ -304,7 +315,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                         const owned = flytiee.profile.ownedSetIds.includes(item.id);
                         const equipped = flytiee.profile.equippedSetId === item.id;
                         const selected = selectedSetId === item.id;
-                        return <button key={item.id} type="button" aria-pressed={selected} onClick={() => setSelectedSetId(item.id)} className={cn('min-h-[280px] overflow-hidden rounded-xl border p-3 text-left transition-colors', selected ? 'border-primary bg-primary-soft ring-2 ring-primary/15' : 'border-border bg-card hover:border-primary/50')}>
+                        return <button key={item.id} type="button" aria-pressed={selected} onClick={() => setSelectedSetId(item.id)} className={cn('min-h-[280px] overflow-hidden border p-3 text-left', styles.itemCard, selected ? 'border-primary bg-primary-soft' : 'border-border bg-card hover:border-primary/50')}>
                           <span className={cn('relative flex h-40 w-full items-center justify-center overflow-hidden rounded-lg', ACCESSORY_TONES[item.tone])}><FlytieeBird mood="idle" profile={{ ...flytiee.profile, equippedSetId: item.id, equipped: {} }} className="h-48 w-full" /><span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-card/90 px-2 py-1 text-[11px] font-bold text-special shadow-soft"><Ticket aria-hidden="true" className="h-3.5 w-3.5" />Sự kiện</span></span>
                           <strong className="mt-3 block text-sm">{item.name}</strong>
                           <span className="mt-1 block text-xs font-semibold text-special">{item.eventName}</span>
@@ -313,8 +324,8 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                         </button>;
                       })}
                     </div>
-                    <div className="mt-4 rounded-xl border border-border bg-card p-4">
-                      <div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedSet.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.ownedSetIds.includes(selectedSet.id) ? 'Set đã có trong tủ đồ sự kiện.' : selectedSet.eventName}</p></div><Button type="button" onClick={() => flytiee.equipSet(selectedSet.id)} disabled={!flytiee.profile.ownedSetIds.includes(selectedSet.id)}>{flytiee.profile.equippedSetId === selectedSet.id ? 'Tháo Set' : flytiee.profile.ownedSetIds.includes(selectedSet.id) ? 'Mặc trọn bộ' : <><Ticket aria-hidden="true" className="h-4 w-4" />Nhận từ sự kiện</>}</Button></div>
+                    <div className={cn('mt-4 p-4', styles.actionDock)}>
+                      <div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedSet.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.ownedSetIds.includes(selectedSet.id) ? 'Set đã có trong tủ đồ sự kiện.' : selectedSet.eventName}</p></div><Button type="button" className={styles.primaryButton} onClick={() => flytiee.equipSet(selectedSet.id)} disabled={!flytiee.profile.ownedSetIds.includes(selectedSet.id)}>{flytiee.profile.equippedSetId === selectedSet.id ? 'Tháo Set' : flytiee.profile.ownedSetIds.includes(selectedSet.id) ? 'Mặc trọn bộ' : <><Ticket aria-hidden="true" className="h-4 w-4" />Nhận từ sự kiện</>}</Button></div>
                     </div>
                   </> : shopCategory === 'skin' ? <>
                     <div className="grid gap-3 sm:grid-cols-2">
@@ -322,7 +333,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                         const owned = flytiee.profile.ownedSkinIds.includes(skin.id);
                         const equipped = flytiee.profile.equippedSkinId === skin.id;
                         const selected = selectedSkinId === skin.id;
-                        return <button key={skin.id} type="button" aria-pressed={selected} onClick={() => setSelectedSkinId(skin.id)} className={cn('min-h-[250px] overflow-hidden rounded-xl border p-3 text-left transition-colors', selected ? 'border-primary bg-primary-soft ring-2 ring-primary/15' : 'border-border bg-card hover:border-primary/50')}>
+                        return <button key={skin.id} type="button" aria-pressed={selected} onClick={() => setSelectedSkinId(skin.id)} className={cn('min-h-[250px] overflow-hidden border p-3 text-left', styles.itemCard, selected ? 'border-primary bg-primary-soft' : 'border-border bg-card hover:border-primary/50')}>
                           <span className="flex h-36 w-full items-center justify-center overflow-hidden rounded-lg bg-hero"><FlytieeBird mood="idle" profile={{ ...flytiee.profile, equippedSkinId: skin.id, equipped: {} }} className="h-44 w-full" /></span>
                           <span className="mt-3 flex items-start justify-between gap-2"><span><strong className="block text-sm">{skin.name}</strong><span className="mt-0.5 block text-xs font-semibold text-primary">{skin.personality}</span></span><span className="h-5 w-5 shrink-0 rounded-full border-2 border-background shadow-sm" style={{ background: skin.palette.bodyMid }} aria-hidden="true" /></span>
                           <span className="mt-1.5 block text-xs text-muted-foreground">{skin.description}</span>
@@ -330,8 +341,8 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                         </button>;
                       })}
                     </div>
-                    <div className="mt-4 rounded-xl border border-border bg-card p-4">
-                      <div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedSkin.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.ownedSkinIds.includes(selectedSkin.id) ? `${selectedSkin.personality} · Đã có trong tủ đồ.` : `${selectedSkin.price} xu`}</p></div><Button type="button" onClick={() => flytiee.buyOrEquipSkin(selectedSkin.id)} disabled={flytiee.profile.equippedSkinId === selectedSkin.id || (!flytiee.profile.ownedSkinIds.includes(selectedSkin.id) && flytiee.profile.coins < selectedSkin.price)}>{flytiee.profile.equippedSkinId === selectedSkin.id ? 'Đang sử dụng' : flytiee.profile.ownedSkinIds.includes(selectedSkin.id) ? 'Dùng skin' : 'Mua & sử dụng'}</Button></div>
+                    <div className={cn('mt-4 p-4', styles.actionDock)}>
+                      <div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedSkin.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.ownedSkinIds.includes(selectedSkin.id) ? `${selectedSkin.personality} · Đã có trong tủ đồ.` : `${selectedSkin.price} xu`}</p></div><Button type="button" className={styles.primaryButton} onClick={() => flytiee.buyOrEquipSkin(selectedSkin.id)} disabled={flytiee.profile.equippedSkinId === selectedSkin.id || (!flytiee.profile.ownedSkinIds.includes(selectedSkin.id) && flytiee.profile.coins < selectedSkin.price)}>{flytiee.profile.equippedSkinId === selectedSkin.id ? 'Đang sử dụng' : flytiee.profile.ownedSkinIds.includes(selectedSkin.id) ? 'Dùng skin' : 'Mua & sử dụng'}</Button></div>
                     </div>
                   </> : <>
                     <div className="grid gap-3 sm:grid-cols-2">
@@ -339,13 +350,13 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                         const owned = flytiee.profile.ownedAccessoryIds.includes(item.id);
                         const equipped = flytiee.profile.equipped[item.slot] === item.id;
                         const selected = selectedAccessoryId === item.id;
-                        return <button key={item.id} type="button" aria-pressed={selected} onClick={() => setSelectedAccessoryId(item.id)} className={cn('min-h-[150px] rounded-xl border p-4 text-left transition-colors', selected ? 'border-primary bg-primary-soft ring-2 ring-primary/15' : 'border-border bg-card hover:border-primary/50')}>
+                        return <button key={item.id} type="button" aria-pressed={selected} onClick={() => setSelectedAccessoryId(item.id)} className={cn('min-h-[150px] border p-4 text-left', styles.itemCard, selected ? 'border-primary bg-primary-soft' : 'border-border bg-card hover:border-primary/50')}>
                           <span className={cn('flex w-full items-center justify-center rounded-lg p-3', ACCESSORY_TONES[item.tone])}><FlytieeAccessoryPreview item={item} /></span>
                           <strong className="mt-3 block text-sm">{item.name}</strong><span className="mt-1 block text-xs text-muted-foreground">{item.description}</span><span className="mt-2 block text-xs font-bold text-primary">{equipped ? 'Đang mặc' : owned ? 'Đã sở hữu' : `${item.price} xu`}</span>
                         </button>;
                       })}
                     </div>
-                    <div className="mt-4 rounded-xl border border-border bg-card p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedAccessory.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.equippedSetId ? 'Đang mặc Set toàn thân nên không thể phối phụ kiện.' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Món này đã có trong tủ đồ.' : `${selectedAccessory.price} xu`}</p></div><Button type="button" onClick={() => flytiee.buyOrEquip(selectedAccessory.id)} disabled={Boolean(flytiee.profile.equippedSetId) || (!flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) && flytiee.profile.coins < selectedAccessory.price)}>{flytiee.profile.equippedSetId ? 'Tháo Set để phối' : flytiee.profile.equipped[selectedAccessory.slot] === selectedAccessory.id ? 'Tháo ra' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Mặc ngay' : 'Mua & mặc'}</Button></div></div>
+                    <div className={cn('mt-4 p-4', styles.actionDock)}><div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><p className="font-bold">{selectedAccessory.name}</p><p className="text-sm text-muted-foreground">{flytiee.profile.equippedSetId ? 'Đang mặc Set toàn thân nên không thể phối phụ kiện.' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Món này đã có trong tủ đồ.' : `${selectedAccessory.price} xu`}</p></div><Button type="button" className={styles.primaryButton} onClick={() => flytiee.buyOrEquip(selectedAccessory.id)} disabled={Boolean(flytiee.profile.equippedSetId) || (!flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) && flytiee.profile.coins < selectedAccessory.price)}>{flytiee.profile.equippedSetId ? 'Tháo Set để phối' : flytiee.profile.equipped[selectedAccessory.slot] === selectedAccessory.id ? 'Tháo ra' : flytiee.profile.ownedAccessoryIds.includes(selectedAccessory.id) ? 'Mặc ngay' : 'Mua & mặc'}</Button></div></div>
                   </>}
                 </section>
               </div>

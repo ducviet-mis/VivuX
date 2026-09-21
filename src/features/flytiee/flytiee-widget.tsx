@@ -202,8 +202,8 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
         </button>
       </DialogTrigger>
 
-      <DialogContent className={cn('h-[calc(100dvh-1rem)] max-h-[840px] min-h-0 w-[calc(100%-1rem)] max-w-[1180px] gap-0 overflow-x-hidden overflow-y-auto overscroll-contain p-0 sm:h-[calc(100dvh-2rem)] [&>button]:right-3 [&>button]:top-3 [&>button]:z-20 [&>button]:rounded-full [&>button]:bg-card/70 [&>button]:backdrop-blur', styles.world)}>
-        <DialogHeader className={cn('px-5 py-5 sm:px-7 sm:py-6', styles.header)}>
+      <DialogContent className={cn('flex h-[calc(100dvh-1rem)] max-h-[840px] min-h-0 w-[calc(100%-1rem)] max-w-[1180px] flex-col gap-0 overflow-hidden p-0 sm:h-[calc(100dvh-2rem)] [&>button]:right-3 [&>button]:top-3 [&>button]:z-20 [&>button]:rounded-full [&>button]:bg-card/70 [&>button]:backdrop-blur', styles.world)}>
+        <DialogHeader className={cn('shrink-0 px-5 py-5 sm:px-7 sm:py-6', styles.header)}>
           <div className="flex items-center gap-3 pr-10 sm:gap-4">
             <span className={styles.brandMark}><Sparkles aria-hidden="true" className="h-6 w-6" /></span>
             <div className="min-w-0 flex-1">
@@ -218,9 +218,9 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
           </div>
         </DialogHeader>
 
-        <Tabs value={tab} onValueChange={changeTab} className="min-w-0">
-          <div className={cn('px-4 py-3 sm:px-7 sm:py-4', styles.tabBar)}>
-            <TabsList className={cn('grid h-auto w-full grid-cols-2 sm:grid-cols-4', styles.tabList)}>
+        <Tabs value={tab} onValueChange={changeTab} className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+          <div className={cn('shrink-0 px-4 py-3 sm:px-7 sm:py-4', styles.tabBar)}>
+            <TabsList className={cn('grid h-auto w-full grid-cols-4', styles.tabList)}>
               <TabsTrigger value="home" className={styles.tabTrigger}><Utensils aria-hidden="true" className="h-4 w-4" />Chăm sóc</TabsTrigger>
               <TabsTrigger value="missions" className={styles.tabTrigger}><Gift aria-hidden="true" className="h-4 w-4" />Nhiệm vụ</TabsTrigger>
               <TabsTrigger value="events" className={styles.tabTrigger}><CalendarDays aria-hidden="true" className="h-4 w-4" />Sự kiện</TabsTrigger>

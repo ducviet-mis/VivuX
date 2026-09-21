@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { getSessionIdFromAccessToken, SESSION_REPLACED_QUERY } from "@/lib/auth/single-session";
+import { rememberAccount } from "../lib/remembered-accounts";
 import type { User } from "../types";
 
 export type RegisterResult = {
@@ -154,7 +155,9 @@ export const useAuthStore = create<AuthState>()(
               .single();
 
             if (profile) {
-              set({ user: mapProfile(profile), initialized: true });
+              const mappedUser = mapProfile(profile);
+              rememberAccount(mappedUser);
+              set({ user: mappedUser, initialized: true });
             } else {
               set({ initialized: true });
             }
@@ -175,7 +178,9 @@ export const useAuthStore = create<AuthState>()(
                 .eq("id", session.user.id)
                 .single();
               if (profile) {
-                set({ user: mapProfile(profile) });
+                const mappedUser = mapProfile(profile);
+                rememberAccount(mappedUser);
+                set({ user: mappedUser });
               }
             }
           });
@@ -213,7 +218,9 @@ export const useAuthStore = create<AuthState>()(
               .single();
 
             if (profile) {
-              set({ user: mapProfile(profile), isLoading: false, initialized: true });
+              const mappedUser = mapProfile(profile);
+              rememberAccount(mappedUser);
+              set({ user: mappedUser, isLoading: false, initialized: true });
               return true;
             }
           }
@@ -289,8 +296,7 @@ export const useAuthStore = create<AuthState>()(
               .eq("id", data.user.id)
               .maybeSingle();
 
-            set({
-              user: profile ? mapProfile(profile) : {
+            const signedInUser: User = profile ? mapProfile(profile) : {
                 id: data.user.id,
                 name, email,
                 accountTier: 'flygo',
@@ -298,7 +304,10 @@ export const useAuthStore = create<AuthState>()(
                 referralDiscountPercent: 0,
                 referralEligibleUntil: new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString(),
                 createdAt: new Date().toISOString(),
-              },
+              };
+            rememberAccount(signedInUser);
+            set({
+              user: signedInUser,
               isLoading: false,
               initialized: true,
             });
@@ -385,7 +394,9 @@ export const useAuthStore = create<AuthState>()(
               .eq("id", authUser.id)
               .single();
             if (profile) {
-              set({ user: mapProfile(profile) });
+              const mappedUser = mapProfile(profile);
+              rememberAccount(mappedUser);
+              set({ user: mappedUser });
             }
           } else {
             set({ user: null });

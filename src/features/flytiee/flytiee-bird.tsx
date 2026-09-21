@@ -125,17 +125,15 @@ function SetCharacterFace({ skin }: { skin: FlytieeSkin }) {
 function NaturalSetBase({ skin, gradientId }: { skin: FlytieeSkin; gradientId: string }) {
   return <>
     <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
+    <g className={styles.waveWing}><path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6"/></g>
     <path d="M366 267C342 239 338 217 350 203C363 189 389 210 413 237C407 201 416 175 433 173C452 171 461 206 463 236C480 213 500 205 511 218C520 230 507 253 491 267C609 285 671 396 666 532C663 663 595 730 467 735C340 741 240 695 226 576C209 433 251 303 366 267Z" fill={`url(#${gradientId}-body)`} stroke={skin.palette.outline} strokeWidth="7"/>
     <path d="M296 362C321 326 345 312 370 303M421 244C422 226 424 214 429 205" stroke={skin.palette.highlight} strokeWidth="12" strokeLinecap="round" opacity=".65"/>
     <SetCharacterFace skin={skin}/>
   </>;
 }
 
-function NaturalSetWings({ skin }: { skin: FlytieeSkin }) {
-  return <>
-    <g className={styles.restWing}><path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill={skin.palette.bodyEnd} stroke={skin.palette.outline} strokeWidth="6"/><path d="M262 478C253 511 271 548 289 561" stroke={skin.palette.highlight} strokeWidth="8" strokeLinecap="round"/></g>
-    <g className={styles.waveWing}><path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6"/></g>
-  </>;
+function NaturalSetFrontWing({ skin }: { skin: FlytieeSkin }) {
+  return <g className={styles.restWing}><path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill={skin.palette.bodyEnd} stroke={skin.palette.outline} strokeWidth="6"/><path d="M262 478C253 511 271 548 289 561" stroke={skin.palette.highlight} strokeWidth="8" strokeLinecap="round"/></g>;
 }
 
 function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: FlytieeSkin; gradientId: string }) {
@@ -143,7 +141,7 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
     <NaturalSetBase skin={skin} gradientId={gradientId}/>
 
     {setId === 'cosmic-explorer' && <>
-      <path d="M286 510Q460 557 640 505L654 610Q657 681 585 716Q477 757 352 718Q279 690 276 611Z" fill="#f5f9fc" stroke="#6f8da9" strokeWidth="8"/>
+      <path d="M286 508Q461 558 642 504C652 531 663 574 658 616C653 676 611 709 566 727Q469 760 357 729C291 715 247 679 241 617C236 571 254 535 286 508Z" fill="#f5f9fc" stroke="#6f8da9" strokeWidth="8"/>
       <path d="M324 552Q462 586 610 548L618 631Q604 680 550 700Q466 728 374 700Q318 678 311 631Z" fill="#dfeaf2" stroke="#a4b8ca" strokeWidth="5"/>
       <path d="M407 546H523V635H407Z" fill="#263c5d" stroke="#66829e" strokeWidth="6"/><rect x="428" y="560" width="74" height="28" rx="7" fill="#6fe2ee"/><circle cx="433" cy="611" r="8" fill="#f17478"/><circle cx="465" cy="611" r="8" fill="#f5cf66"/><circle cx="497" cy="611" r="8" fill="#70d5a4"/>
       <path d="M290 508Q462 558 638 504" fill="none" stroke="#c8e6ef" strokeWidth="18" strokeLinecap="round"/>
@@ -154,7 +152,7 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
 
     {setId === 'dino-dreamer' && <>
       <path d="M611 579Q704 589 727 648Q681 637 626 681L577 650Z" fill="#75c59f" stroke="#3d8e75" strokeWidth="8"/><path d="M697 621l27-7-17 23 18 17-28 0" fill="#fff1bd" stroke="#bea260" strokeWidth="4"/>
-      <path d="M284 508Q461 558 642 504L654 612Q655 681 582 717Q475 758 351 718Q278 688 275 611Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
+      <path d="M286 508Q461 558 642 504C652 531 663 574 658 616C653 676 611 709 566 727Q469 760 357 729C291 715 247 679 241 617C236 571 254 535 286 508Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
       <ellipse cx="466" cy="624" rx="132" ry="103" fill="#dff6d5" stroke="#68aa77" strokeWidth="6"/>
       <path d="M289 507Q461 558 640 503" fill="none" stroke="#effff5" strokeWidth="18" strokeLinecap="round"/>
       <path d="M331 738Q365 727 404 742L401 762H325Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="6"/><path d="M508 742Q550 727 590 741L594 762H508Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="6"/>
@@ -163,16 +161,16 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
     </>}
 
     {setId === 'snowy-christmas' && <>
-      <path d="M284 508Q461 558 642 504L654 612Q655 681 582 717Q475 758 351 718Q278 688 275 611Z" fill="#dc4658" stroke="#922f43" strokeWidth="8"/>
+      <path d="M286 508Q461 558 642 504C652 531 663 574 658 616C653 676 611 709 566 727Q469 760 357 729C291 715 247 679 241 617C236 571 254 535 286 508Z" fill="#dc4658" stroke="#922f43" strokeWidth="8"/>
       <path d="M289 507Q461 558 640 503" fill="none" stroke="#fffaf0" strokeWidth="19" strokeLinecap="round"/>
-      <path d="M280 627Q462 670 649 624L651 668Q466 712 281 670Z" fill="#263040" stroke="#111827" strokeWidth="6"/><rect x="438" y="642" width="57" height="44" rx="8" fill="#f2c65d" stroke="#a9782f" strokeWidth="6"/><rect x="453" y="653" width="27" height="20" rx="4" fill="#263040"/>
+      <path d="M249 625Q461 673 656 623L653 670Q464 715 256 671Z" fill="#263040" stroke="#111827" strokeWidth="6"/><rect x="438" y="642" width="57" height="44" rx="8" fill="#f2c65d" stroke="#a9782f" strokeWidth="6"/><rect x="453" y="653" width="27" height="20" rx="4" fill="#263040"/>
       <path d="M330 738Q366 726 405 742L402 762H324Z" fill="#cf3c50" stroke="#7d2638" strokeWidth="6"/><path d="M508 742Q550 727 591 741L595 762H508Z" fill="#cf3c50" stroke="#7d2638" strokeWidth="6"/>
       <path d="M382 514Q462 570 544 511L529 581L466 557L404 587L398 520Z" fill="#2f946f" stroke="#1e654e" strokeWidth="7"/><circle cx="466" cy="550" r="16" fill="#f4ce68" stroke="#a97931" strokeWidth="5"/>
       <path d="M296 319Q408 267 548 296Q592 305 625 326L619 363Q457 326 293 372Z" fill="#dc4658" stroke="#922f43" strokeWidth="8"/>
       <path d="M294 355Q458 316 623 347" fill="none" stroke="#fffaf0" strokeWidth="19" strokeLinecap="round"/>
       <path d="M564 292Q607 238 649 263Q682 285 654 320Q636 341 617 348" fill="#dc4658" stroke="#922f43" strokeWidth="7"/><circle cx="651" cy="264" r="27" fill="#fffaf0" stroke="#cfdee1" strokeWidth="6"/>
     </>}
-    <NaturalSetWings skin={skin}/>
+    <NaturalSetFrontWing skin={skin}/>
   </g>;
 }
 

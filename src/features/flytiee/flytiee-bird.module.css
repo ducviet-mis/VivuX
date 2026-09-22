@@ -42,7 +42,8 @@
 .cosmicEffect,
 .dinoDreamEffect,
 .snowEffect,
-.shadowNinjaEffect {
+.shadowNinjaEffect,
+.mushroomGroveEffect {
   transform-box: view-box;
   transform-origin: 475px 470px;
   pointer-events: none;
@@ -68,6 +69,23 @@
   transform-box: fill-box;
   transform-origin: center;
   animation: ninja-rune 4.4s ease-in-out infinite;
+}
+.mushroomGroveEffect { animation: mushroom-grove 5.4s ease-in-out infinite; }
+.mushroomBloom {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: mushroom-bloom 4.8s ease-in-out infinite;
+}
+.mushroomBloomAlt { animation-delay: -2.4s; }
+.mushroomSpore {
+  transform-box: view-box;
+  transform-origin: 475px 470px;
+  animation: mushroom-spores 5.8s ease-in-out infinite;
+}
+.mushroomStar {
+  transform-box: view-box;
+  transform-origin: 505px 420px;
+  animation: mushroom-star 3.8s ease-in-out infinite;
 }
 
 .closedEyes,
@@ -186,8 +204,12 @@
 @keyframes ninja-smoke { 0%, 100% { transform: translate(0); opacity: .25; } 50% { transform: translate(10px, -8px); opacity: .52; } }
 @keyframes ninja-spin { to { transform: rotate(360deg); } }
 @keyframes ninja-rune { 0%, 100% { transform: translateY(0) scale(1); opacity: .76; } 50% { transform: translateY(-10px) scale(1.08); opacity: 1; } }
+@keyframes mushroom-grove { 0%, 100% { opacity: .82; } 50% { opacity: 1; } }
+@keyframes mushroom-bloom { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-7px) scale(1.045); } }
+@keyframes mushroom-spores { 0%, 100% { transform: translate(0); opacity: .5; } 50% { transform: translate(6px, -15px); opacity: 1; } }
+@keyframes mushroom-star { 0%, 100% { transform: scale(.88); opacity: .68; } 50% { transform: scale(1.1); opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird *, .scene, .body, .eyes, .setEyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect, .shadowNinjaEffect, .ninjaSmoke, .ninjaShuriken, .ninjaRune { animation: none !important; }
+  .bird *, .scene, .body, .eyes, .setEyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect, .shadowNinjaEffect, .ninjaSmoke, .ninjaShuriken, .ninjaRune, .mushroomGroveEffect, .mushroomBloom, .mushroomSpore, .mushroomStar { animation: none !important; }
   .sceneExit { display: none; }
 }

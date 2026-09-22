@@ -41,7 +41,8 @@ export type FlytieeSetEffect =
   | 'cosmic-orbit'
   | 'dino-dream'
   | 'gentle-snow'
-  | 'shadow-eclipse';
+  | 'shadow-eclipse'
+  | 'mushroom-grove';
 
 export type FlytieeChestTier = 'bronze' | 'silver' | 'gold';
 

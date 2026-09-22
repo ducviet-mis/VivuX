@@ -67,6 +67,14 @@ export const FLYTIEE_SETS: FlytieeSet[] = [
     effect: 'shadow-eclipse',
     tone: 'indigo',
   },
+  {
+    id: 'mushroom-kingdom',
+    name: 'Vương quốc Nấm Ma Thuật',
+    description: 'Áo choàng tím than, vương miện nấm đỏ và những bào tử sao dẫn lối qua khu rừng bí mật.',
+    eventName: 'Sự kiện Khu rừng Nấm Bí Ẩn',
+    effect: 'mushroom-grove',
+    tone: 'coral',
+  },
 ];
 
 export function getFlytieeSet(id?: string | null) {

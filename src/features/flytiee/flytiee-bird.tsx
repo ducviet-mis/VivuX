@@ -34,6 +34,21 @@ const SHADOW_NINJA_SKIN: FlytieeSkin = {
   },
 };
 
+const MUSHROOM_KINGDOM_SKIN: FlytieeSkin = {
+  id: 'mushroom-kingdom',
+  name: 'Vương quốc Nấm Ma Thuật',
+  price: 0,
+  description: 'Sắc tím than huyền ảo của người bảo hộ khu rừng nấm.',
+  personality: 'Tinh nghịch',
+  mood: 'curious',
+  palette: {
+    bodyStart: '#b99aff', bodyMid: '#64478d', bodyEnd: '#1d1530',
+    outline: '#160d25', highlight: '#e5d7ff', bellyStart: '#f6edff',
+    bellyEnd: '#c8b3df', cheek: '#d77a9b', eye: '#251940',
+    brow: '#32204e', accent: '#ffcf72',
+  },
+};
+
 function HeldAccessoryGrip({ skin }: { skin: FlytieeSkin }) {
   return <path d="M595 592Q622 574 645 591Q655 615 619 624L600 613" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6" strokeLinejoin="round"/>;
 }
@@ -147,6 +162,24 @@ function SetEffects({ setId }: { setId: string | null }) {
     <g fill="#a879ff"><path d="M710 513l6 12 13 2-10 9 3 14-12-7-13 7 3-14-10-9 13-2Z"/><path d="M302 451l5 10 11 2-8 8 2 11-10-6-10 6 2-11-8-8 11-2Z"/></g>
   </g>;
 
+  if (setId === 'mushroom-kingdom') return <g className={styles.mushroomGroveEffect} aria-hidden="true">
+    <ellipse cx="468" cy="693" rx="282" ry="62" fill="#2f1d4d" opacity=".26"/>
+    <path d="M192 695Q264 627 342 679T494 671Q569 620 648 681T773 659" fill="none" stroke="#563878" strokeWidth="24" strokeLinecap="round" opacity=".52"/>
+    <g className={styles.mushroomBloom} transform="translate(238 565)">
+      <path d="M-24 81Q-5 32 19 80L18 122H-23Z" fill="#f4e4bf" stroke="#9f795d" strokeWidth="6"/>
+      <path d="M-67 68Q-45 4-3 18Q39 1 67 66Q19 90-67 68Z" fill="#dc5269" stroke="#7f3155" strokeWidth="7"/>
+      <circle cx="-29" cy="40" r="10" fill="#fff4d0"/><circle cx="7" cy="29" r="8" fill="#fff4d0"/><circle cx="35" cy="46" r="11" fill="#fff4d0"/>
+    </g>
+    <g className={cn(styles.mushroomBloom, styles.mushroomBloomAlt)} transform="translate(688 534) scale(.8)">
+      <path d="M-24 81Q-5 32 19 80L18 122H-23Z" fill="#f7e8c8" stroke="#9f795d" strokeWidth="7"/>
+      <path d="M-67 68Q-45 4-3 18Q39 1 67 66Q19 90-67 68Z" fill="#f0a847" stroke="#9c5d35" strokeWidth="8"/>
+      <circle cx="-29" cy="40" r="10" fill="#fff8d8"/><circle cx="7" cy="29" r="8" fill="#fff8d8"/><circle cx="35" cy="46" r="11" fill="#fff8d8"/>
+    </g>
+    <g className={styles.mushroomSpore} fill="#ffe9a6"><circle cx="262" cy="392" r="8"/><circle cx="306" cy="300" r="5"/><circle cx="694" cy="348" r="8"/><circle cx="745" cy="448" r="5"/><circle cx="644" cy="664" r="6"/></g>
+    <g className={styles.mushroomStar} fill="#ffd96c"><path d="M708 255l8 16 18 3-13 12 3 18-16-9-16 9 3-18-13-12 18-3Z"/><path d="M308 514l6 12 13 2-10 9 3 14-12-7-13 7 3-14-10-9 13-2Z"/></g>
+    <path d="M257 612Q286 588 316 612M636 609Q666 584 698 605" fill="none" stroke="#9ed37b" strokeWidth="8" strokeLinecap="round" opacity=".85"/>
+  </g>;
+
   return null;
 }
 
@@ -180,8 +213,16 @@ function NaturalSetFrontWing({ skin }: { skin: FlytieeSkin }) {
 }
 
 function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: FlytieeSkin; gradientId: string }) {
-  const setSkin = setId === 'shadow-ninja' ? SHADOW_NINJA_SKIN : skin;
-  const setGradientId = setId === 'shadow-ninja' ? `${gradientId}-shadow-ninja` : gradientId;
+  const setSkin = setId === 'shadow-ninja'
+    ? SHADOW_NINJA_SKIN
+    : setId === 'mushroom-kingdom'
+      ? MUSHROOM_KINGDOM_SKIN
+      : skin;
+  const setGradientId = setId === 'shadow-ninja'
+    ? `${gradientId}-shadow-ninja`
+    : setId === 'mushroom-kingdom'
+      ? `${gradientId}-mushroom-kingdom`
+      : gradientId;
   return <g className={styles.fullSetCharacter} strokeLinejoin="round">
     <NaturalSetBase skin={setSkin} gradientId={setGradientId}/>
 
@@ -295,6 +336,41 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M373 512Q464 543 553 512" fill="none" stroke="#bca1ef" strokeWidth="4" strokeLinecap="round"/>
       <path d="M430 525l8 14 16 2-12 11 3 16-15-8-15 8 3-16-12-11 16-2ZM500 525l8 14 16 2-12 11 3 16-15-8-15 8 3-16-12-11 16-2Z" fill="#8760c4" opacity=".84"/>
       <path d="M294 579Q304 605 323 617M636 577Q622 606 603 621" fill="none" stroke="#cbb6ff" strokeWidth="4" strokeLinecap="round" opacity=".75"/>
+    </>}
+
+    {setId === 'mushroom-kingdom' && <>
+      <g opacity=".96">
+        <path d="M319 565Q282 515 252 499L265 474Q309 484 345 543Z" fill="#3d285c" stroke="#190f2a" strokeWidth="8"/>
+        <path d="M613 544Q650 488 691 474L702 499Q665 530 632 574Z" fill="#3d285c" stroke="#190f2a" strokeWidth="8"/>
+        <path d="M285 504l20 6M651 509l24-7" stroke="#f3c963" strokeWidth="6" strokeLinecap="round"/>
+      </g>
+      <path d="M218 495Q304 529 369 541Q463 557 560 537Q617 527 659 495C678 551 673 616 650 667Q619 721 562 738Q465 763 354 736Q291 717 245 665Q211 609 218 495Z" fill="#2a183f" stroke="#160c25" strokeWidth="9"/>
+      <path d="M233 511Q342 553 463 560Q575 554 644 511L651 587Q564 620 468 621Q359 614 227 578Z" fill="#623a84" stroke="#3a235c" strokeWidth="7"/>
+      <path d="M248 568Q291 590 343 605L328 681Q279 654 245 619ZM585 604Q627 588 652 563L649 633Q629 678 595 696Z" fill="#442861" stroke="#211332" strokeWidth="5"/>
+      <path d="M306 577Q383 608 468 612Q546 609 623 576L608 695Q553 728 470 732Q377 727 324 685Z" fill="#382051" stroke="#6a4390" strokeWidth="6"/>
+      <path d="M344 617Q387 643 423 650M522 650Q568 637 598 614M348 684Q405 708 467 709Q530 709 586 680" fill="none" stroke="#8760af" strokeWidth="5" strokeLinecap="round" opacity=".9"/>
+      <path d="M219 497Q331 534 465 542Q586 537 657 497" fill="none" stroke="#180d29" strokeWidth="33" strokeLinecap="round"/>
+      <path d="M225 492Q338 522 465 532Q583 528 652 492" fill="none" stroke="#8953a3" strokeWidth="21" strokeLinecap="round"/>
+      <path d="M241 492Q349 514 465 521Q575 517 637 493" fill="none" stroke="#f3d47b" strokeWidth="5" strokeLinecap="round" opacity=".95"/>
+      <path d="M333 638Q466 679 608 639L604 681Q465 722 329 681Z" fill="#1b122c" stroke="#10091c" strokeWidth="7"/>
+      <path d="M337 647Q463 684 602 646" fill="none" stroke="#e3bb64" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M426 644Q464 628 507 646L523 676Q507 700 467 707Q426 700 411 674Z" fill="#5b357a" stroke="#d8b06a" strokeWidth="5"/>
+      <path d="M466 649Q440 653 438 676Q466 694 494 676Q493 653 466 649Z" fill="#d95468" stroke="#7d314e" strokeWidth="4"/>
+      <path d="M439 674Q465 641 493 674" fill="none" stroke="#fff1c8" strokeWidth="6" strokeLinecap="round"/>
+      <circle cx="455" cy="660" r="5" fill="#fff4d6"/><circle cx="475" cy="657" r="5" fill="#fff4d6"/>
+      <path d="M351 738Q367 725 404 740L404 761H323L331 744Z" fill="#211630" stroke="#120a20" strokeWidth="7"/>
+      <path d="M511 740Q549 725 589 740L597 761H509Z" fill="#211630" stroke="#120a20" strokeWidth="7"/>
+      <path d="M334 749H394M521 749H585" stroke="#bc8bce" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M286 334Q302 230 395 181Q460 143 529 184Q608 224 635 333Q467 299 286 334Z" fill="#9f3659" stroke="#421b43" strokeWidth="9"/>
+      <path d="M310 316Q349 238 421 207Q458 189 503 209Q567 236 608 317" fill="none" stroke="#dc6575" strokeWidth="11" strokeLinecap="round" opacity=".82"/>
+      <path d="M289 326Q458 289 632 325L630 361Q461 330 290 363Z" fill="#4b2a68" stroke="#1d1030" strokeWidth="7"/>
+      <path d="M305 333Q462 304 615 331" fill="none" stroke="#f5d87b" strokeWidth="5" strokeLinecap="round"/>
+      <g fill="#fff3cf" stroke="#bc704f" strokeWidth="4"><circle cx="367" cy="255" r="18"/><circle cx="443" cy="208" r="15"/><circle cx="524" cy="246" r="20"/><circle cx="573" cy="288" r="12"/></g>
+      <path d="M334 491Q462 530 592 498L572 544Q466 570 357 541Z" fill="#241333" stroke="#412154" strokeWidth="6"/>
+      <path d="M375 513Q463 543 554 512" fill="none" stroke="#efca72" strokeWidth="4" strokeLinecap="round"/>
+      <g fill="#ffdd76" stroke="#a46a43" strokeWidth="3"><path d="M397 526l6 12 14 2-10 9 2 14-12-7-13 7 3-14-10-9 14-2Z"/><path d="M533 526l6 12 14 2-10 9 2 14-12-7-13 7 3-14-10-9 14-2Z"/></g>
+      <path d="M293 580Q308 604 324 618M636 578Q622 607 603 621" fill="none" stroke="#f3d47b" strokeWidth="4" strokeLinecap="round" opacity=".78"/>
+      <path d="M347 581Q374 564 398 581M535 580Q559 564 584 578" fill="none" stroke="#b16fbb" strokeWidth="5" strokeLinecap="round"/>
     </>}
     <NaturalSetFrontWing skin={setSkin}/>
   </g>;
@@ -413,6 +489,7 @@ export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
       <linearGradient id={`${gradientId}-body`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={skin.palette.bodyStart}/><stop offset=".5" stopColor={skin.palette.bodyMid}/><stop offset="1" stopColor={skin.palette.bodyEnd}/></linearGradient>
       <linearGradient id={`${gradientId}-belly`} x2="0" y2="1"><stop stopColor={skin.palette.bellyStart}/><stop offset="1" stopColor={skin.palette.bellyEnd}/></linearGradient>
       <linearGradient id={`${gradientId}-shadow-ninja-body`} x1=".12" y1="0" x2=".86" y2="1"><stop stopColor="#b69aff"/><stop offset=".48" stopColor="#604096"/><stop offset="1" stopColor="#181026"/></linearGradient>
+      <linearGradient id={`${gradientId}-mushroom-kingdom-body`} x1=".1" y1="0" x2=".9" y2="1"><stop stopColor="#c0a6ff"/><stop offset=".46" stopColor="#674790"/><stop offset="1" stopColor="#1b122d"/></linearGradient>
     </defs>
     {previousMood && <BirdScene key={`${previousMood}-out`} mood={previousMood} profile={profile} gradientId={gradientId} className={cn(styles.sceneExit, longTransition && styles.sceneTransitionLong)}/>}
     <BirdScene key={`${visibleMood}-in`} mood={visibleMood} profile={profile} gradientId={gradientId} className={cn(previousMood && styles.sceneEnter, longTransition && styles.sceneTransitionLong)}/>

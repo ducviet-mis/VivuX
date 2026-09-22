@@ -170,14 +170,20 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
     </>}
 
     {setId === 'snowy-christmas' && <>
-      <path d="M286 508Q461 558 642 504C652 531 663 574 658 616C653 676 611 709 566 727Q469 760 357 729C291 715 247 679 241 617C236 571 254 535 286 508Z" fill="#dc4658" stroke="#922f43" strokeWidth="8"/>
-      <path d="M289 507Q461 558 640 503" fill="none" stroke="#fffaf0" strokeWidth="19" strokeLinecap="round"/>
-      <path d="M249 625Q461 673 656 623L653 670Q464 715 256 671Z" fill="#263040" stroke="#111827" strokeWidth="6"/><rect x="438" y="642" width="57" height="44" rx="8" fill="#f2c65d" stroke="#a9782f" strokeWidth="6"/><rect x="453" y="653" width="27" height="20" rx="4" fill="#263040"/>
+      <path d="M220 495Q463 564 658 495C668 526 672 578 661 621C648 680 613 711 566 730Q465 763 354 730C292 711 245 678 225 617C214 576 211 527 220 495Z" fill="#dc4658" stroke="#922f43" strokeWidth="7"/>
+      <path d="M223 500Q462 560 655 500" fill="none" stroke="#fffaf0" strokeWidth="19" strokeLinecap="round"/>
+      <path d="M231 624Q462 683 657 623L652 669Q463 719 246 667Z" fill="#263040" stroke="#111827" strokeWidth="6"/><rect x="438" y="646" width="57" height="43" rx="8" fill="#f2c65d" stroke="#a9782f" strokeWidth="6"/><rect x="453" y="656" width="27" height="21" rx="4" fill="#263040"/>
       <path d="M330 738Q366 726 405 742L402 762H324Z" fill="#cf3c50" stroke="#7d2638" strokeWidth="6"/><path d="M508 742Q550 727 591 741L595 762H508Z" fill="#cf3c50" stroke="#7d2638" strokeWidth="6"/>
       <path d="M382 514Q462 570 544 511L529 581L466 557L404 587L398 520Z" fill="#2f946f" stroke="#1e654e" strokeWidth="7"/><circle cx="466" cy="550" r="16" fill="#f4ce68" stroke="#a97931" strokeWidth="5"/>
-      <path d="M296 319Q408 267 548 296Q592 305 625 326L619 363Q457 326 293 372Z" fill="#dc4658" stroke="#922f43" strokeWidth="8"/>
-      <path d="M294 355Q458 316 623 347" fill="none" stroke="#fffaf0" strokeWidth="19" strokeLinecap="round"/>
-      <path d="M564 292Q607 238 649 263Q682 285 654 320Q636 341 617 348" fill="#dc4658" stroke="#922f43" strokeWidth="7"/><circle cx="651" cy="264" r="27" fill="#fffaf0" stroke="#cfdee1" strokeWidth="6"/>
+      <g fill="none" stroke="#a97843" strokeWidth="13" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M357 247Q335 207 332 153M340 197L304 168M339 190L353 156"/>
+        <path d="M565 247Q591 206 594 153M585 197L620 168M586 190L573 156"/>
+      </g>
+      <path d="M281 325C305 232 366 161 455 155C540 152 608 232 632 326Q464 293 281 325Z" fill="#dc4658" stroke="#922f43" strokeWidth="8"/>
+      <path d="M329 279Q382 199 459 189Q547 188 594 279" fill="none" stroke="#ee8190" strokeWidth="9" strokeLinecap="round" opacity=".75"/>
+      <path d="M283 318Q459 282 632 318L631 353Q460 318 284 353Z" fill="#fffaf0" stroke="#d8dce0" strokeWidth="6"/>
+      <path d="M308 327Q462 300 606 326" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" opacity=".9"/>
+      <path d="M458 252l7 13 15 2-11 10 3 15-14-7-14 7 3-15-11-10 15-2Z" fill="#f5cb65" stroke="#ac7934" strokeWidth="4"/>
     </>}
     <NaturalSetFrontWing skin={skin}/>
   </g>;

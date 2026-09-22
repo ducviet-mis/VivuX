@@ -150,23 +150,64 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
     <NaturalSetBase skin={skin} gradientId={gradientId}/>
 
     {setId === 'cosmic-explorer' && <>
-      <path d="M286 508Q461 558 642 504C652 531 663 574 658 616C653 676 611 709 566 727Q469 760 357 729C291 715 247 679 241 617C236 571 254 535 286 508Z" fill="#f5f9fc" stroke="#6f8da9" strokeWidth="8"/>
-      <path d="M324 552Q462 586 610 548L618 631Q604 680 550 700Q466 728 374 700Q318 678 311 631Z" fill="#dfeaf2" stroke="#a4b8ca" strokeWidth="5"/>
-      <path d="M407 546H523V635H407Z" fill="#263c5d" stroke="#66829e" strokeWidth="6"/><rect x="428" y="560" width="74" height="28" rx="7" fill="#6fe2ee"/><circle cx="433" cy="611" r="8" fill="#f17478"/><circle cx="465" cy="611" r="8" fill="#f5cf66"/><circle cx="497" cy="611" r="8" fill="#70d5a4"/>
-      <path d="M290 508Q462 558 638 504" fill="none" stroke="#c8e6ef" strokeWidth="18" strokeLinecap="round"/>
-      <path d="M314 658Q464 699 626 656" fill="none" stroke="#bdcfdd" strokeWidth="5"/>
-      <path d="M332 738Q365 727 402 741L400 761H326Z" fill="#567699" stroke="#34516f" strokeWidth="6"/><path d="M508 742Q548 727 588 741L592 761H508Z" fill="#567699" stroke="#34516f" strokeWidth="6"/>
-      <path d="M315 322Q395 285 497 292Q564 296 618 327" fill="none" stroke="#f4f8fb" strokeWidth="18" strokeLinecap="round"/><path d="M568 285V247Q568 224 588 218" fill="none" stroke="#6f8da9" strokeWidth="7" strokeLinecap="round"/><circle cx="591" cy="216" r="17" fill="#6fe2ee" stroke="#3f7fa0" strokeWidth="5"/><path d="M584 209l6 12 13 2-10 9 3 13-12-6-12 6 3-13-10-9 13-2Z" fill="#fff3a6"/>
+      <path d="M219 495Q461 563 659 495C673 540 675 585 661 627C642 687 602 720 559 733Q463 759 355 731C290 713 240 674 222 616C211 578 210 534 219 495Z" fill="#f5f9fd" stroke="#68829e" strokeWidth="8"/>
+      <path d="M226 548Q257 563 303 568L303 647Q273 637 236 611ZM631 558Q650 550 662 540L661 616Q651 644 624 663Z" fill="#b9d9e9" stroke="#7196aa" strokeWidth="5"/>
+      <path d="M302 553Q462 590 622 549L630 647Q596 696 552 708Q467 733 375 707Q332 690 298 649Z" fill="#e7f1fa" stroke="#a9bfd1" strokeWidth="5"/>
+      <path d="M315 574Q354 594 394 592L386 673Q350 672 316 648ZM539 594Q580 585 612 572L616 647Q585 670 547 676Z" fill="#d1e3f1" stroke="#91aec3" strokeWidth="4"/>
+      <path d="M217 499Q462 567 659 498" fill="none" stroke="#6b8da9" strokeWidth="27" strokeLinecap="round"/>
+      <path d="M219 496Q461 558 658 496" fill="none" stroke="#e9fbff" strokeWidth="17" strokeLinecap="round"/>
+      <path d="M232 512Q463 567 644 511" fill="none" stroke="#78d9ef" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M318 543Q466 574 619 540" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" opacity=".8"/>
+      <path d="M311 650Q463 699 624 649" fill="none" stroke="#7899b3" strokeWidth="5"/>
+      <path d="M325 668Q465 709 607 666" fill="none" stroke="#fff" strokeWidth="4" opacity=".9"/>
+      <rect x="403" y="550" width="126" height="99" rx="17" fill="#708ca7" stroke="#4c6985" strokeWidth="6"/>
+      <rect x="412" y="558" width="108" height="80" rx="12" fill="#253b5b" stroke="#b9e4ef" strokeWidth="5"/>
+      <rect x="429" y="571" width="74" height="29" rx="7" fill="#6ce4ef"/>
+      <path d="M438 587h18l9-10 9 14 8-7h13" fill="none" stroke="#f8ffff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="433" cy="621" r="7" fill="#ff8d96"/><circle cx="465" cy="621" r="7" fill="#ffd176"/><circle cx="497" cy="621" r="7" fill="#81e6bb"/>
+      <path d="M350 592l9 16 18 3-13 12 3 18-17-8-16 8 3-18-13-12 18-3Z" fill="#f5cf77" stroke="#c19447" strokeWidth="4"/>
+      <path d="M556 604h38M556 616h29" stroke="#6088a9" strokeWidth="5" strokeLinecap="round"/>
+      <circle cx="578" cy="669" r="12" fill="#65d9e8" stroke="#5285a8" strokeWidth="5"/>
+      <path d="M252 580l21 5M628 586l24-11" stroke="#71dbe7" strokeWidth="8" strokeLinecap="round"/>
+      <path d="M332 739Q365 727 403 741L401 763H326Z" fill="#597b9e" stroke="#34516f" strokeWidth="6"/>
+      <path d="M507 742Q547 727 589 741L593 763H507Z" fill="#597b9e" stroke="#34516f" strokeWidth="6"/>
+      <path d="M338 749h54M519 750h61" stroke="#a9e9f1" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M309 321Q394 280 494 287Q567 290 622 324" fill="none" stroke="#6385a2" strokeWidth="27" strokeLinecap="round"/>
+      <path d="M309 316Q394 277 494 285Q566 290 622 320" fill="none" stroke="#f4faff" strokeWidth="19" strokeLinecap="round"/>
+      <path d="M343 303Q461 269 585 306" fill="none" stroke="#9ce6f2" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M566 282V247Q566 223 586 218" fill="none" stroke="#597996" strokeWidth="8" strokeLinecap="round"/>
+      <circle cx="591" cy="216" r="17" fill="#6fe2ee" stroke="#3f7fa0" strokeWidth="5"/>
+      <path d="M589 204l4 9 9 2-7 6 2 9-8-4-8 4 2-9-7-6 9-2Z" fill="#fff3a6"/>
     </>}
 
     {setId === 'dino-dreamer' && <>
-      <path d="M611 579Q704 589 727 648Q681 637 626 681L577 650Z" fill="#75c59f" stroke="#3d8e75" strokeWidth="8"/><path d="M697 621l27-7-17 23 18 17-28 0" fill="#fff1bd" stroke="#bea260" strokeWidth="4"/>
-      <path d="M286 508Q461 558 642 504C652 531 663 574 658 616C653 676 611 709 566 727Q469 760 357 729C291 715 247 679 241 617C236 571 254 535 286 508Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="8"/>
-      <ellipse cx="466" cy="624" rx="132" ry="103" fill="#dff6d5" stroke="#68aa77" strokeWidth="6"/>
-      <path d="M289 507Q461 558 640 503" fill="none" stroke="#effff5" strokeWidth="18" strokeLinecap="round"/>
-      <path d="M331 738Q365 727 404 742L401 762H325Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="6"/><path d="M508 742Q550 727 590 741L594 762H508Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="6"/>
-      <path d="M342 300Q382 258 428 269L465 216L496 270Q547 261 589 302Q528 282 465 286Q400 284 342 300Z" fill="#8fd6b5" stroke="#3d8e75" strokeWidth="7"/>
-      <path d="M378 276l19-42 25 39 42-58 31 58 34-41 20 49" fill="#c8efd5" stroke="#5bae8d" strokeWidth="6" strokeLinejoin="round"/>
+      <path d="M615 578Q701 582 736 643Q695 635 639 683L593 651Z" fill="#6fc5a4" stroke="#398d7c" strokeWidth="8"/>
+      <path d="M660 602l22-27 10 34 28-10-15 27 27 19-35 1-11 30-19-25" fill="#ffe7af" stroke="#c6a15e" strokeWidth="5"/>
+      <path d="M219 495Q461 563 659 495C673 540 675 585 661 627C642 687 602 720 559 733Q463 759 355 731C290 713 240 674 222 616C211 578 210 534 219 495Z" fill="#81cfad" stroke="#348c78" strokeWidth="8"/>
+      <path d="M239 534Q261 557 306 568L303 648Q266 634 229 612ZM627 554Q649 549 661 535L660 610Q650 638 627 655Z" fill="#a8e5c4" stroke="#5aa98a" strokeWidth="5"/>
+      <path d="M329 560Q461 588 607 554Q630 588 617 644Q599 704 467 719Q348 715 319 648Q303 597 329 560Z" fill="#e5f7df" stroke="#76b890" strokeWidth="6"/>
+      <path d="M349 583Q463 608 586 580" fill="none" stroke="#fff9e8" strokeWidth="6" strokeLinecap="round"/>
+      <path d="M340 658Q463 701 597 656" fill="none" stroke="#bbdfb3" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M219 496Q461 561 658 496" fill="none" stroke="#3b947c" strokeWidth="28" strokeLinecap="round"/>
+      <path d="M219 493Q462 554 658 493" fill="none" stroke="#f0fff0" strokeWidth="18" strokeLinecap="round"/>
+      <path d="M234 510Q462 560 640 508" fill="none" stroke="#a7e7bb" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M356 544Q462 566 570 541" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" opacity=".8"/>
+      <path d="M289 637Q302 683 349 710M639 631Q623 691 576 713" fill="none" stroke="#4fa485" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M419 551Q468 563 512 549L504 602Q467 613 427 603Z" fill="#f3cde0" stroke="#bd83ac" strokeWidth="5"/>
+      <path d="M449 569l13 10 23-21" fill="none" stroke="#fff9e9" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M458 612v34" stroke="#79ab89" strokeWidth="5" strokeLinecap="round" strokeDasharray="4 10"/>
+      <path d="M398 654Q431 672 463 663Q497 672 532 652" fill="none" stroke="#8fbea0" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M352 607Q341 619 349 632Q361 640 374 629M574 608Q586 619 580 632Q568 641 554 629" fill="none" stroke="#80bc95" strokeWidth="5" strokeLinecap="round"/>
+      <circle cx="371" cy="566" r="7" fill="#f6cadd"/><circle cx="558" cy="565" r="7" fill="#f6cadd"/>
+      <path d="M331 739Q365 727 405 742L402 763H325Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="6"/>
+      <path d="M508 742Q550 727 591 741L595 763H508Z" fill="#c9efd8" stroke="#3d8e75" strokeWidth="6"/>
+      <path d="M341 752l-7 9M366 750v11M390 751l7 10M521 752l-7 9M549 750v11M578 751l7 10" stroke="#61ad88" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M335 302Q371 264 425 268L463 214L500 269Q558 262 595 304Q528 281 464 282Q394 281 335 302Z" fill="#76cba9" stroke="#348c78" strokeWidth="8"/>
+      <path d="M374 276l22-40 24 39 43-62 31 62 36-40 22 47" fill="#d9f5cf" stroke="#5bac89" strokeWidth="6" strokeLinejoin="round"/>
+      <path d="M390 275l8-17 10 15M450 259l14-28 14 29M528 272l9-16 8 17" fill="none" stroke="#fff8dd" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M336 307Q463 268 597 307" fill="none" stroke="#e4ffe7" strokeWidth="7" strokeLinecap="round"/>
+      <path d="M340 307Q465 279 590 308" fill="none" stroke="#3b967d" strokeWidth="4"/>
+      <circle cx="365" cy="292" r="7" fill="#f9cfdf"/><circle cx="562" cy="292" r="7" fill="#f9cfdf"/>
     </>}
 
     {setId === 'snowy-christmas' && <>

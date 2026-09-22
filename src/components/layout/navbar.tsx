@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown, LibraryBig } from "lucide-react";
+import { Home, BookOpen, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown, LibraryBig, WandSparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -57,7 +57,7 @@ export function Navbar() {
                       <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-data-[state=open]:rotate-180" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-40">
+                  <DropdownMenuContent align="start" className={item.href === '/practice' || item.href === '/mock-exams' ? 'w-56' : 'w-40'}>
                     <DropdownMenuLabel>Chọn lớp</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {[6, 7, 8, 9].map((grade) => (
@@ -65,6 +65,16 @@ export function Navbar() {
                         <Link href={`${item.href}?grade=${grade}`}>Lớp {grade}</Link>
                       </DropdownMenuItem>
                     ))}
+                    {(item.href === '/practice' || item.href === '/mock-exams') && <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href={`/personal-exams?source=${item.href === '/practice' ? 'practice' : 'mock-exams'}`} className="flex items-center gap-2.5 py-2.5">
+                          <WandSparkles aria-hidden="true" className="h-4 w-4 text-primary" />
+                          <span className="min-w-0 flex-1 font-semibold">Tạo đề cá nhân</span>
+                          <span className="rounded-full bg-primary-soft px-2 py-0.5 text-[10px] font-bold text-primary">{accountTier === 'flygo' ? 'FlyMax' : 'Pro'}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>}
                   </DropdownMenuContent>
                 </DropdownMenu>
               );
@@ -133,7 +143,7 @@ export function Navbar() {
                         <ChevronDown aria-hidden="true" className="ml-auto h-4 w-4 transition-transform group-data-[state=open]:rotate-180" />
                       </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-40">
+                    <DropdownMenuContent align="start" className={item.href === '/practice' || item.href === '/mock-exams' ? 'w-56' : 'w-40'}>
                       <DropdownMenuLabel>Chọn lớp</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       {[6, 7, 8, 9].map((grade) => (
@@ -141,6 +151,16 @@ export function Navbar() {
                           <Link href={`${item.href}?grade=${grade}`} onClick={() => setMobileOpen(false)}>Lớp {grade}</Link>
                         </DropdownMenuItem>
                       ))}
+                      {(item.href === '/practice' || item.href === '/mock-exams') && <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link href={`/personal-exams?source=${item.href === '/practice' ? 'practice' : 'mock-exams'}`} onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5 py-2.5">
+                            <WandSparkles aria-hidden="true" className="h-4 w-4 text-primary" />
+                            <span className="min-w-0 flex-1 font-semibold">Tạo đề cá nhân</span>
+                            <span className="rounded-full bg-primary-soft px-2 py-0.5 text-[10px] font-bold text-primary">{accountTier === 'flygo' ? 'FlyMax' : 'Pro'}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </>}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 );

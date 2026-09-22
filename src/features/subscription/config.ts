@@ -74,6 +74,7 @@ export const PREMIUM_FEATURES = [
   'Toàn bộ quyền lợi của FlyGo',
   'Mở khóa toàn bộ bài luyện, bao gồm Level 3',
   'Mở toàn bộ ngân hàng đề thi thử',
+  'Tạo đề cá nhân theo chương, Level và thời gian',
   'Sổ câu sai và danh sách câu hỏi đã lưu',
   'Lời giải chi tiết và thống kê học tập đầy đủ',
   'Ưu tiên trải nghiệm các tính năng mới',

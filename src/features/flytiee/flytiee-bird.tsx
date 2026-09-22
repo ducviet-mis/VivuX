@@ -224,6 +224,13 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       ? `${gradientId}-mushroom-kingdom`
       : gradientId;
   return <g className={styles.fullSetCharacter} strokeLinejoin="round">
+    {setId === 'shadow-ninja' && <g opacity=".98">
+      <path d="M628 569L720 391L748 407L650 588Z" fill="#241334" stroke="#10091d" strokeWidth="9"/>
+      <path d="M642 566L730 397" stroke="#c8b4ff" strokeWidth="6" strokeLinecap="round"/>
+      <path d="M716 395L743 370" stroke="#e9e0ff" strokeWidth="7" strokeLinecap="round"/>
+      <path d="M620 578L650 550L675 575L645 606Z" fill="#6f4bb1" stroke="#1b0f2d" strokeWidth="7"/>
+      <path d="M634 576L656 598M645 563L667 585" stroke="#e6d8ff" strokeWidth="4" strokeLinecap="round"/>
+    </g>}
     <NaturalSetBase skin={setSkin} gradientId={setGradientId}/>
 
     {setId === 'cosmic-explorer' && <>
@@ -305,12 +312,6 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
     </>}
 
     {setId === 'shadow-ninja' && <>
-      <g opacity=".96">
-        <path d="M301 579L561 384L588 404L329 601Z" fill="#241334" stroke="#10091d" strokeWidth="9"/>
-        <path d="M319 581L565 399" stroke="#bfa7ff" strokeWidth="6" strokeLinecap="round"/>
-        <path d="M292 592L330 565L355 593L315 620Z" fill="#6f4bb1" stroke="#1b0f2d" strokeWidth="7"/>
-        <path d="M580 391L607 370" stroke="#e4d9ff" strokeWidth="7" strokeLinecap="round"/>
-      </g>
       <path d="M218 495Q294 530 367 542Q465 557 560 537Q618 526 659 495C677 546 673 607 652 660Q624 718 563 736Q466 763 354 734Q288 715 245 663Q212 608 218 495Z" fill="#211333" stroke="#120a22" strokeWidth="9"/>
       <path d="M234 511Q353 551 464 558Q572 553 643 510L653 578Q576 607 470 610Q359 602 227 573Z" fill="#4c2b78" stroke="#2c184c" strokeWidth="6"/>
       <path d="M247 566Q299 597 342 604L328 678Q281 652 246 618ZM586 603Q627 588 652 564L650 632Q629 673 597 691Z" fill="#382157" stroke="#1b1031" strokeWidth="5"/>

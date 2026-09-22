@@ -37,7 +37,11 @@ export interface FlytieeSkin {
   };
 }
 
-export type FlytieeSetEffect = 'cosmic-orbit' | 'dino-dream' | 'gentle-snow';
+export type FlytieeSetEffect =
+  | 'cosmic-orbit'
+  | 'dino-dream'
+  | 'gentle-snow'
+  | 'shadow-eclipse';
 
 export type FlytieeChestTier = 'bronze' | 'silver' | 'gold';
 

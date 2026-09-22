@@ -59,6 +59,14 @@ export const FLYTIEE_SETS: FlytieeSet[] = [
     effect: 'gentle-snow',
     tone: 'red',
   },
+  {
+    id: 'shadow-ninja',
+    name: 'Ninja Hắc Ám',
+    description: 'Áo choàng tím thẫm, phù ấn nguyệt thực và bí thuật bóng đêm dành cho chiến binh huyền bí.',
+    eventName: 'Sự kiện Nguyệt Ảnh',
+    effect: 'shadow-eclipse',
+    tone: 'indigo',
+  },
 ];
 
 export function getFlytieeSet(id?: string | null) {

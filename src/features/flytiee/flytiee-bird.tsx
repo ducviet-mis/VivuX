@@ -19,6 +19,21 @@ const MOOD_LABELS: Record<FlytieeMood, string> = {
   happy: 'vui vẻ', sleep: 'ngủ ngon',
 };
 
+const SHADOW_NINJA_SKIN: FlytieeSkin = {
+  id: 'shadow-ninja',
+  name: 'Ninja Hắc Ám',
+  price: 0,
+  description: 'Sắc tím huyền bí của chiến binh nguyệt thực.',
+  personality: 'Bí ẩn',
+  mood: 'stern',
+  palette: {
+    bodyStart: '#b79aff', bodyMid: '#65439d', bodyEnd: '#1b122d',
+    outline: '#150d26', highlight: '#decfff', bellyStart: '#f0e9ff',
+    bellyEnd: '#b9a7db', cheek: '#b978bd', eye: '#201435',
+    brow: '#25153f', accent: '#c3a6ff',
+  },
+};
+
 function HeldAccessoryGrip({ skin }: { skin: FlytieeSkin }) {
   return <path d="M595 592Q622 574 645 591Q655 615 619 624L600 613" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6" strokeLinejoin="round"/>;
 }
@@ -113,6 +128,25 @@ function SetEffects({ setId }: { setId: string | null }) {
     <circle cx="316" cy="249" r="7" fill="#fff" opacity=".9"/><circle cx="620" cy="211" r="9" fill="#dff6ff" opacity=".92"/><circle cx="758" cy="575" r="7" fill="#fff" opacity=".88"/><circle cx="214" cy="461" r="6" fill="#dff6ff" opacity=".86"/>
   </g>;
 
+  if (setId === 'shadow-ninja') return <g className={styles.shadowNinjaEffect} aria-hidden="true">
+    <ellipse cx="470" cy="482" rx="294" ry="239" fill="#39205f" opacity=".22"/>
+    <ellipse cx="470" cy="482" rx="275" ry="218" fill="none" stroke="#a983ff" strokeWidth="4" strokeDasharray="4 18" opacity=".72"/>
+    <ellipse cx="470" cy="482" rx="237" ry="186" fill="none" stroke="#5e3e96" strokeWidth="6" strokeDasharray="2 23" opacity=".62"/>
+    <path className={styles.ninjaSmoke} d="M182 616Q235 560 298 600T418 577Q478 546 535 588T670 570Q729 548 785 598" fill="none" stroke="#a77bff" strokeWidth="19" strokeLinecap="round" opacity=".20"/>
+    <path className={cn(styles.ninjaSmoke, styles.ninjaSmokeAlt)} d="M199 664Q258 622 320 655T450 638Q518 607 590 653T748 639" fill="none" stroke="#3e246c" strokeWidth="26" strokeLinecap="round" opacity=".34"/>
+    <g className={styles.ninjaRune} transform="translate(677 254)">
+      <circle r="34" fill="#211238" stroke="#c7adff" strokeWidth="4" opacity=".92"/>
+      <path d="M0-22V22M-19-11L19 11M-19 11L19-11M-22 0H22" stroke="#d8c5ff" strokeWidth="3" strokeLinecap="round"/>
+      <circle r="8" fill="#c498ff"/>
+    </g>
+    <g className={styles.ninjaShuriken} transform="translate(243 600)">
+      <path d="M0-31L10-10 33 0 10 10 0 31-10 10-33 0-10-10Z" fill="#b99dff" stroke="#3c2865" strokeWidth="5"/>
+      <circle r="8" fill="#2a1a48" stroke="#e1d5ff" strokeWidth="3"/>
+    </g>
+    <g fill="#dfceff"><circle cx="245" cy="321" r="7"/><circle cx="298" cy="255" r="5"/><circle cx="740" cy="422" r="8"/><circle cx="714" cy="652" r="5"/></g>
+    <g fill="#a879ff"><path d="M710 513l6 12 13 2-10 9 3 14-12-7-13 7 3-14-10-9 13-2Z"/><path d="M302 451l5 10 11 2-8 8 2 11-10-6-10 6 2-11-8-8 11-2Z"/></g>
+  </g>;
+
   return null;
 }
 
@@ -146,8 +180,10 @@ function NaturalSetFrontWing({ skin }: { skin: FlytieeSkin }) {
 }
 
 function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: FlytieeSkin; gradientId: string }) {
+  const setSkin = setId === 'shadow-ninja' ? SHADOW_NINJA_SKIN : skin;
+  const setGradientId = setId === 'shadow-ninja' ? `${gradientId}-shadow-ninja` : gradientId;
   return <g className={styles.fullSetCharacter} strokeLinejoin="round">
-    <NaturalSetBase skin={skin} gradientId={gradientId}/>
+    <NaturalSetBase skin={setSkin} gradientId={setGradientId}/>
 
     {setId === 'cosmic-explorer' && <>
       <path d="M219 495Q461 563 659 495C673 540 675 585 661 627C642 687 602 720 559 733Q463 759 355 731C290 713 240 674 222 616C211 578 210 534 219 495Z" fill="#f5f9fd" stroke="#68829e" strokeWidth="8"/>
@@ -226,7 +262,41 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M308 327Q462 300 606 326" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" opacity=".9"/>
       <path d="M458 252l7 13 15 2-11 10 3 15-14-7-14 7 3-15-11-10 15-2Z" fill="#f5cb65" stroke="#ac7934" strokeWidth="4"/>
     </>}
-    <NaturalSetFrontWing skin={skin}/>
+
+    {setId === 'shadow-ninja' && <>
+      <g opacity=".96">
+        <path d="M301 579L561 384L588 404L329 601Z" fill="#241334" stroke="#10091d" strokeWidth="9"/>
+        <path d="M319 581L565 399" stroke="#bfa7ff" strokeWidth="6" strokeLinecap="round"/>
+        <path d="M292 592L330 565L355 593L315 620Z" fill="#6f4bb1" stroke="#1b0f2d" strokeWidth="7"/>
+        <path d="M580 391L607 370" stroke="#e4d9ff" strokeWidth="7" strokeLinecap="round"/>
+      </g>
+      <path d="M218 495Q294 530 367 542Q465 557 560 537Q618 526 659 495C677 546 673 607 652 660Q624 718 563 736Q466 763 354 734Q288 715 245 663Q212 608 218 495Z" fill="#211333" stroke="#120a22" strokeWidth="9"/>
+      <path d="M234 511Q353 551 464 558Q572 553 643 510L653 578Q576 607 470 610Q359 602 227 573Z" fill="#4c2b78" stroke="#2c184c" strokeWidth="6"/>
+      <path d="M247 566Q299 597 342 604L328 678Q281 652 246 618ZM586 603Q627 588 652 564L650 632Q629 673 597 691Z" fill="#382157" stroke="#1b1031" strokeWidth="5"/>
+      <path d="M306 575Q391 608 467 609Q543 608 622 576L607 690Q552 726 470 730Q377 725 325 684Z" fill="#321c52" stroke="#512f80" strokeWidth="6"/>
+      <path d="M340 617Q382 641 423 647M522 647Q565 637 597 614M350 682Q407 704 465 705Q523 706 582 679" fill="none" stroke="#7351a8" strokeWidth="5" strokeLinecap="round" opacity=".9"/>
+      <path d="M221 497Q332 533 465 541Q584 536 657 497" fill="none" stroke="#160b28" strokeWidth="32" strokeLinecap="round"/>
+      <path d="M226 492Q338 522 465 531Q583 527 652 492" fill="none" stroke="#6b48a2" strokeWidth="20" strokeLinecap="round"/>
+      <path d="M241 492Q352 514 465 520Q574 516 637 493" fill="none" stroke="#d8c5ff" strokeWidth="5" strokeLinecap="round" opacity=".9"/>
+      <path d="M332 642Q465 680 608 640L604 680Q464 723 329 681Z" fill="#171027" stroke="#0e091a" strokeWidth="6"/>
+      <path d="M337 649Q462 685 602 647" fill="none" stroke="#9c75e7" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M429 645H504L521 671L507 696H426L412 671Z" fill="#4a2e76" stroke="#c5a6ff" strokeWidth="5"/>
+      <path d="M466 652l9 17 19 3-14 13 4 19-18-10-18 10 4-19-14-13 19-3Z" fill="#e3d3ff" stroke="#7d5ab9" strokeWidth="3"/>
+      <path d="M352 738Q367 725 404 740L404 761H323L331 744Z" fill="#29203c" stroke="#120b21" strokeWidth="7"/>
+      <path d="M511 740Q549 725 588 740L597 761H509Z" fill="#29203c" stroke="#120b21" strokeWidth="7"/>
+      <path d="M335 749H394M521 749H585" stroke="#9677d2" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M291 337Q320 231 454 190Q586 225 633 337L603 355Q563 278 462 252Q359 274 322 354Z" fill="#1a102b" stroke="#0e091b" strokeWidth="9"/>
+      <path d="M317 334Q356 263 459 236Q556 264 607 335" fill="none" stroke="#5e3c91" strokeWidth="17" strokeLinecap="round"/>
+      <path d="M326 340Q459 304 601 339L598 370Q462 339 328 373Z" fill="#392259" stroke="#160d28" strokeWidth="7"/>
+      <path d="M340 344Q460 320 586 344" fill="none" stroke="#d2baff" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M464 317l8 16 18 3-13 12 3 18-16-9-16 9 3-18-13-12 18-3Z" fill="#e6d8ff" stroke="#7956af" strokeWidth="4"/>
+      <circle cx="464" cy="338" r="8" fill="#b885ff"/>
+      <path d="M337 497Q463 532 591 499L570 542Q466 568 358 540Z" fill="#160d27" stroke="#2d1948" strokeWidth="6"/>
+      <path d="M373 512Q464 543 553 512" fill="none" stroke="#bca1ef" strokeWidth="4" strokeLinecap="round"/>
+      <path d="M430 525l8 14 16 2-12 11 3 16-15-8-15 8 3-16-12-11 16-2ZM500 525l8 14 16 2-12 11 3 16-15-8-15 8 3-16-12-11 16-2Z" fill="#8760c4" opacity=".84"/>
+      <path d="M294 579Q304 605 323 617M636 577Q622 606 603 621" fill="none" stroke="#cbb6ff" strokeWidth="4" strokeLinecap="round" opacity=".75"/>
+    </>}
+    <NaturalSetFrontWing skin={setSkin}/>
   </g>;
 }
 
@@ -339,7 +409,11 @@ export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
 
   const longTransition = previousMood === 'sleep' || visibleMood === 'sleep';
   return <svg className={cn(styles.bird, className)} viewBox="160 110 650 700" fill="none" role="img" aria-label={`${profile.name} đang ${MOOD_LABELS[mood]}`}>
-    <defs><linearGradient id={`${gradientId}-body`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={skin.palette.bodyStart}/><stop offset=".5" stopColor={skin.palette.bodyMid}/><stop offset="1" stopColor={skin.palette.bodyEnd}/></linearGradient><linearGradient id={`${gradientId}-belly`} x2="0" y2="1"><stop stopColor={skin.palette.bellyStart}/><stop offset="1" stopColor={skin.palette.bellyEnd}/></linearGradient></defs>
+    <defs>
+      <linearGradient id={`${gradientId}-body`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={skin.palette.bodyStart}/><stop offset=".5" stopColor={skin.palette.bodyMid}/><stop offset="1" stopColor={skin.palette.bodyEnd}/></linearGradient>
+      <linearGradient id={`${gradientId}-belly`} x2="0" y2="1"><stop stopColor={skin.palette.bellyStart}/><stop offset="1" stopColor={skin.palette.bellyEnd}/></linearGradient>
+      <linearGradient id={`${gradientId}-shadow-ninja-body`} x1=".12" y1="0" x2=".86" y2="1"><stop stopColor="#b69aff"/><stop offset=".48" stopColor="#604096"/><stop offset="1" stopColor="#181026"/></linearGradient>
+    </defs>
     {previousMood && <BirdScene key={`${previousMood}-out`} mood={previousMood} profile={profile} gradientId={gradientId} className={cn(styles.sceneExit, longTransition && styles.sceneTransitionLong)}/>}
     <BirdScene key={`${visibleMood}-in`} mood={visibleMood} profile={profile} gradientId={gradientId} className={cn(previousMood && styles.sceneEnter, longTransition && styles.sceneTransitionLong)}/>
   </svg>;

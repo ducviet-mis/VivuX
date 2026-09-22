@@ -54,7 +54,7 @@ function wrapRawMathAtoms(value: string) {
  * "\\widehat{DAC}=\\widehat{BAC}=30^\\circ". Keep the prose as normal text
  * while turning raw LaTex fragments into inline math blocks.
  */
-function formatPlainTextMath(value: string) {
+function formatRawMathInText(value: string) {
   const rawLatexExpressionPattern = /[+-]?\s*\\(?:d?frac|tfrac)\s*\{[^{}\n]+\}\s*\{[^{}\n]+\}(?:\s*[A-Za-z](?:\^(?:\{[^{}\n]+\}|[+-]?\d+|\\[A-Za-z]+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))?)*|[+-]?\s*\\[A-Za-z]+(?:\s*\{[^{}\n]+\})?(?:\s*(?:=|\+|-|\*|\/)\s*(?:\\[A-Za-z]+(?:\s*\{[^{}\n]+\})?|[0-9A-Za-z]+(?:\^(?:\{[^{}\n]+\}|[+-]?\d+|\\[A-Za-z]+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))?))*|[+-]?\d+(?:\^(?:\{[^{}\n]+\}|[+-]?\d+|\\[A-Za-z]+)|_(?:\{[^{}\n]+\}|[A-Za-z0-9+-]+))/g;
   const parts: string[] = [];
   let lastIndex = 0;
@@ -74,6 +74,17 @@ function formatPlainTextMath(value: string) {
   }
 
   return parts.join('');
+}
+
+/** Recognize simple slash expressions inside prose without touching URLs or dates. */
+function formatPlainTextMath(value: string) {
+  const slashExpression = /(?<![A-Za-zÀ-ỹĐđ0-9/:.])(?:[+-]?(?:\d+(?:\.\d+)?|[A-Za-z]{1,2}(?:\^\{?[-+]?\d+\}?)?|\([^()\n]+\)))\s*\/\s*(?:\([^()\n]+\)|[A-Za-z]{1,2}(?:\^\{?[-+]?\d+\}?)?|\d+(?:\.\d+)?)(?![A-Za-zÀ-ỹĐđ0-9/])/g;
+  const withFractions = value.replace(slashExpression, (match) => `$${match}$`);
+
+  return splitMathParts(withFractions).map((part) => {
+    if (part.type === 'text') return formatRawMathInText(part.value);
+    return part.type === 'display-math' ? `$$${part.value}$$` : `$${part.value}$`;
+  }).join('');
 }
 
 function splitMathParts(content: string): MathPart[] {
@@ -166,10 +177,12 @@ export function formatOptionMath(opt: string): string {
   // "Với A, B là hai biểu thức tùy ý, A^2 - B^2 = ...". Wrapping the
   // whole sentence makes KaTeX discard normal word spacing.
   const withoutLatexCommands = s.replace(/\\[a-zA-Z]+/g, '');
-  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/=<>.,;:|·÷√∞π]+$/.test(s)
+  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/⁄∕=<>.,;:|·÷×−≤≥≠≈√∞π]+$/.test(s)
+    && !/(?:https?:\/\/|www\.)/i.test(s)
+    && !/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(s)
     && !(/\s/.test(withoutLatexCommands) && /[A-Za-z]{3,}/.test(withoutLatexCommands));
 
-  if (isMathOnly && (s.includes('\\') || s.includes('^') || s.includes('_'))) {
+  if (isMathOnly && (/[\\^_\/⁄∕×÷−≤≥≠≈√∞π]/.test(s))) {
     return `$${s}$`;
   }
 

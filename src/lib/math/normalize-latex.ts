@@ -10,6 +10,186 @@ const SIZING_DELIMITER_COMMANDS = new Set([
   'Uparrow', 'Downarrow', 'Updownarrow',
 ]);
 
+const GROUP_PAIRS: Record<string, string> = { '(': ')', '[': ']', '{': '}' };
+const CLOSING_GROUPS: Record<string, string> = { ')': '(', ']': '[', '}': '{' };
+const MATH_ATOM = /[A-Za-z0-9.πΠ∞α-ωΑ-Ω]/;
+
+function matchingClose(source: string, start: number) {
+  const stack: string[] = [];
+  for (let index = start; index < source.length; index += 1) {
+    const character = source[index];
+    if (source[index - 1] === '\\') continue;
+    if (GROUP_PAIRS[character]) stack.push(GROUP_PAIRS[character]);
+    else if (CLOSING_GROUPS[character]) {
+      if (stack.pop() !== character) return -1;
+      if (stack.length === 0) return index;
+    }
+  }
+  return -1;
+}
+
+function matchingOpen(source: string, end: number) {
+  const stack: string[] = [];
+  for (let index = end; index >= 0; index -= 1) {
+    const character = source[index];
+    if (index > 0 && source[index - 1] === '\\') continue;
+    if (CLOSING_GROUPS[character]) stack.push(CLOSING_GROUPS[character]);
+    else if (GROUP_PAIRS[character]) {
+      if (stack.pop() !== character) return -1;
+      if (stack.length === 0) return index;
+    }
+  }
+  return -1;
+}
+
+type Atom = { start: number; end: number; value: string };
+
+function leftAtom(source: string, before: number): Atom | null {
+  let end = before;
+  while (end >= 0 && /\s/.test(source[end])) end -= 1;
+  if (end < 0) return null;
+  let start = end;
+
+  if (CLOSING_GROUPS[source[end]]) {
+    start = matchingOpen(source, end);
+    if (start < 0) return null;
+
+    if (source[end] === '}') {
+      // Treat both arguments of \frac{a}{b} as a single left operand.
+      const previousEnd = start - 1;
+      if (source[previousEnd] === '^' || source[previousEnd] === '_') {
+        const base = leftAtom(source, previousEnd - 1);
+        if (base) start = base.start;
+      } else if (source[previousEnd] === '}') {
+        const previousStart = matchingOpen(source, previousEnd);
+        if (previousStart >= 0) {
+          const command = source.slice(0, previousStart).match(/\\(?:dfrac|tfrac|frac|binom)$/);
+          if (command) start = previousStart - command[0].length;
+        }
+      } else {
+        const command = source.slice(0, start).match(/\\[A-Za-z]+$/);
+        if (command) start -= command[0].length;
+      }
+    }
+  } else if (MATH_ATOM.test(source[end])) {
+    while (start > 0 && MATH_ATOM.test(source[start - 1])) start -= 1;
+    if (source[start - 1] === '\\') {
+      start -= 1;
+    } else if (start > 0 && /[\^_]/.test(source[start - 1])) {
+      const base = leftAtom(source, start - 2);
+      if (base) start = base.start;
+    }
+  } else {
+    return null;
+  }
+
+  return { start, end: end + 1, value: source.slice(start, end + 1) };
+}
+
+function rightAtom(source: string, after: number): Atom | null {
+  let start = after;
+  while (start < source.length && /\s/.test(source[start])) start += 1;
+  if (start >= source.length) return null;
+  let end = start;
+
+  if (source[end] === '-' || source[end] === '+') end += 1;
+  if (GROUP_PAIRS[source[end]]) {
+    end = matchingClose(source, end);
+    if (end < 0) return null;
+    end += 1;
+  } else if (source[end] === '\\') {
+    const command = source.slice(end).match(/^\\[A-Za-z]+/);
+    if (!command) return null;
+    end += command[0].length;
+    for (let count = 0; count < (/^\\(?:dfrac|tfrac|frac|binom)$/.test(command[0]) ? 2 : 1); count += 1) {
+      if (source[end] !== '{') break;
+      const close = matchingClose(source, end);
+      if (close < 0) return null;
+      end = close + 1;
+    }
+  } else if (MATH_ATOM.test(source[end])) {
+    while (end < source.length && MATH_ATOM.test(source[end])) end += 1;
+  } else {
+    return null;
+  }
+
+  while (source[end] === '^' || source[end] === '_') {
+    end += 1;
+    if (source[end] === '{') {
+      const close = matchingClose(source, end);
+      if (close < 0) return null;
+      end = close + 1;
+    } else {
+      if (source[end] === '-' || source[end] === '+') end += 1;
+      while (end < source.length && MATH_ATOM.test(source[end])) end += 1;
+    }
+  }
+
+  return { start, end, value: source.slice(start, end) };
+}
+
+function ungroup(value: string) {
+  if ((value.startsWith('(') && value.endsWith(')')) ||
+      (value.startsWith('[') && value.endsWith(']'))) {
+    return value.slice(1, -1);
+  }
+  return value;
+}
+
+/** Turn ordinary math slash notation into stacked fractions without changing grouping. */
+export function normalizeSlashFractions(source: string): string {
+  let expanded = '';
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    if (!GROUP_PAIRS[character] || source[index - 1] === '\\') {
+      expanded += character;
+      continue;
+    }
+
+    const close = matchingClose(source, index);
+    if (close < 0) {
+      expanded += character;
+      continue;
+    }
+    const command = source.slice(0, index).match(/\\(?:text|textbf|mathrm|operatorname)$/);
+    const inner = source.slice(index + 1, close);
+    expanded += character + (command ? inner : normalizeSlashFractions(inner)) + source[close];
+    index = close;
+  }
+
+  let cursor = 0;
+  while (cursor < expanded.length) {
+    if (GROUP_PAIRS[expanded[cursor]] && expanded[cursor - 1] !== '\\') {
+      const close = matchingClose(expanded, cursor);
+      if (close >= 0) {
+        cursor = close + 1;
+        continue;
+      }
+    }
+    if (expanded[cursor] !== '/') {
+      cursor += 1;
+      continue;
+    }
+    // Never interpret URL separators or incomplete expressions as division.
+    if (expanded[cursor - 1] === '/' || expanded[cursor + 1] === '/' || expanded[cursor - 1] === ':') {
+      cursor += 1;
+      continue;
+    }
+
+    const numerator = leftAtom(expanded, cursor - 1);
+    const denominator = rightAtom(expanded, cursor + 1);
+    if (!numerator || !denominator) {
+      cursor += 1;
+      continue;
+    }
+    const replacement = `\\frac{${ungroup(numerator.value)}}{${ungroup(denominator.value)}}`;
+    expanded = expanded.slice(0, numerator.start) + replacement + expanded.slice(denominator.end);
+    cursor = numerator.start + replacement.length;
+  }
+
+  return expanded;
+}
+
 /**
  * Removes only malformed \left / \right sizing commands while preserving the
  * mathematical expression that follows. For example, AI-authored `\leftx`
@@ -48,6 +228,17 @@ export function normalizeLatexInput(latex: string) {
   fixed = fixed.replace(/>=/g, ' \\ge ');
   fixed = fixed.replace(/<=/g, ' \\le ');
   fixed = fixed.replace(/!=/g, ' \\neq ');
+  fixed = fixed
+    .replace(/[−–]/g, '-')
+    .replace(/[⁄∕]/g, '/')
+    .replace(/×/g, ' \\times ')
+    .replace(/÷/g, ' \\div ')
+    .replace(/≤/g, ' \\le ')
+    .replace(/≥/g, ' \\ge ')
+    .replace(/≠/g, ' \\neq ')
+    .replace(/≈/g, ' \\approx ')
+    .replace(/∞/g, ' \\infty ')
+    .replace(/π/g, ' \\pi ');
 
   const commands = [
     'cdot', 'frac', 'text', 'Rightarrow', 'Leftrightarrow', 'leftarrow', 'rightarrow', 'neq', 'circ', 'widehat',
@@ -61,5 +252,11 @@ export function normalizeLatexInput(latex: string) {
     fixed = fixed.replace(pattern, `\\${command}`);
   });
 
-  return removeMalformedSizingCommands(fixed);
+  fixed = removeMalformedSizingCommands(fixed);
+  if (fixed.includes('/')) {
+    // Sized parentheses are visual only; remove their commands so the grouped
+    // expression can become one numerator or denominator without orphaning \right.
+    fixed = fixed.replace(/\\left\s*(?=[(\[])/g, '').replace(/\\right\s*(?=[)\]])/g, '');
+  }
+  return normalizeSlashFractions(fixed);
 }

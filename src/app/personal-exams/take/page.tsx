@@ -3,7 +3,7 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeft, ArrowRight, CheckCircle2, Clock3, LayoutGrid, Send } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock3, FileText, LayoutGrid, Send, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -99,14 +99,53 @@ function PersonalExamRoom() {
   const currentQuestion = session.questions[currentIndex];
   const answeredCount = Object.keys(answers).length;
   const isExam = session.config.mode === 'exam';
+  const selectedAnswer = answers[currentQuestion.id];
+  const showPracticeFeedback = !isExam && selectedAnswer !== undefined;
+
+  const selectAnswer = (optionIndex: number) => {
+    if (submittedRef.current || (!isExam && answersRef.current[currentQuestion.id] !== undefined)) return;
+    const nextAnswers = { ...answersRef.current, [currentQuestion.id]: optionIndex };
+    answersRef.current = nextAnswers;
+    setAnswers(nextAnswers);
+  };
 
   return <main className="container max-w-6xl py-4 md:py-7"><div className="mb-5 flex flex-wrap items-center justify-between gap-3"><Button asChild variant="ghost" className="h-11"><Link href={`/personal-exams?grade=${session.config.grade}&source=${isExam ? 'mock-exams' : 'practice'}`}><ArrowLeft className="mr-2 h-4 w-4" />Thoát đề</Link></Button><div className="flex flex-wrap items-center gap-2"><Badge variant="outline" className="border-primary/30 bg-primary-soft px-3 py-1.5 text-primary">Lớp {session.config.grade} · {isExam ? 'Thi thử' : 'Tự luyện'}</Badge>{isExam ? <Badge className="bg-warning-soft px-3 py-1.5 text-warning"><Clock3 className="mr-1.5 h-4 w-4" />{formatClock(timeLeft ?? 0)}</Badge> : <Badge className="bg-success-soft px-3 py-1.5 text-success"><CheckCircle2 className="mr-1.5 h-4 w-4" />Không giới hạn thời gian</Badge>}</div></div>
     <div className="mb-6 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary-soft via-card to-card p-5"><p className="text-xs font-bold uppercase tracking-wider text-primary">Đề cá nhân</p><h1 className="mt-1 text-xl font-bold text-foreground sm:text-2xl">{session.config.title}</h1><p className="mt-2 text-sm text-muted-foreground">Đã trả lời {answeredCount}/{session.questions.length} câu {isExam && `· Thời gian ${session.config.durationMinutes} phút`}</p></div>
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]"><Card className="min-w-0"><CardContent className="p-5 sm:p-7"><div className="mb-5 flex items-center justify-between gap-3"><span className="text-sm font-bold text-primary">Câu {currentIndex + 1}/{session.questions.length}</span><Badge variant="outline" className="border-border bg-muted text-muted-foreground">Level {currentQuestion.difficultyLevel}</Badge></div><div className="prose vivux-prose mb-6 max-w-none text-base leading-7 text-foreground sm:text-lg"><MathRenderer content={currentQuestion.content} /></div><GeometryDiagram data={currentQuestion.diagram} /><div className="grid gap-3 sm:grid-cols-2">{currentQuestion.options.map((option, index) => <button key={index} type="button" onClick={() => setAnswers((current) => ({ ...current, [currentQuestion.id]: index }))} className={cn('flex min-h-14 items-center gap-3 rounded-xl border p-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', answers[currentQuestion.id] === index ? 'border-primary bg-primary-soft ring-1 ring-primary' : 'border-border bg-surface hover:border-primary/60 hover:bg-muted')}><span className={cn('flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold', answers[currentQuestion.id] === index ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground')}>{['A', 'B', 'C', 'D'][index]}</span><span className="min-w-0 text-sm font-semibold text-foreground"><MathRenderer content={formatOptionMath(option)} /></span></button>)}</div><div className="mt-7 flex items-center justify-between gap-3 border-t border-border pt-5"><Button type="button" variant="outline" className="h-11" disabled={currentIndex === 0} onClick={() => setCurrentIndex((index) => Math.max(0, index - 1))}><ArrowLeft className="mr-2 h-4 w-4" />Câu trước</Button>{currentIndex === session.questions.length - 1 ? <Button type="button" className="h-11" onClick={() => submit()}><Send className="mr-2 h-4 w-4" />Nộp bài</Button> : <Button type="button" className="h-11" onClick={() => setCurrentIndex((index) => Math.min(session.questions.length - 1, index + 1))}>Câu sau<ArrowRight className="ml-2 h-4 w-4" /></Button>}</div></CardContent></Card>
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]"><Card className="min-w-0"><CardContent className="p-5 sm:p-7"><div className="mb-5 flex items-center justify-between gap-3"><span className="text-sm font-bold text-primary">Câu {currentIndex + 1}/{session.questions.length}</span><Badge variant="outline" className="border-border bg-muted text-muted-foreground">Level {currentQuestion.difficultyLevel}</Badge></div><div className="prose vivux-prose mb-6 max-w-none text-base leading-7 text-foreground sm:text-lg"><MathRenderer content={currentQuestion.content} /></div><GeometryDiagram data={currentQuestion.diagram} /><div className="grid gap-3 sm:grid-cols-2">{currentQuestion.options.map((option, index) => {
+      const isCorrect = index === currentQuestion.correctAnswer;
+      const isSelected = selectedAnswer === index;
+      return <button
+        key={index}
+        type="button"
+        onClick={() => selectAnswer(index)}
+        disabled={showPracticeFeedback}
+        aria-pressed={isSelected}
+        aria-label={`${['A', 'B', 'C', 'D'][index]}: ${option}${showPracticeFeedback ? isCorrect ? '. Đáp án đúng' : isSelected ? '. Bạn chọn, chưa chính xác' : '' : ''}`}
+        className={cn(
+          'flex min-h-14 items-center gap-3 rounded-xl border p-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+          showPracticeFeedback
+            ? isCorrect ? 'border-success bg-success-soft ring-1 ring-success' : isSelected ? 'border-destructive bg-destructive-soft' : 'border-border bg-surface opacity-75'
+            : isSelected ? 'border-primary bg-primary-soft ring-1 ring-primary' : 'border-border bg-surface hover:border-primary/60 hover:bg-muted',
+        )}
+      >
+        <span className={cn('flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold', showPracticeFeedback && isCorrect ? 'bg-success text-success-foreground' : showPracticeFeedback && isSelected ? 'bg-destructive text-destructive-foreground' : isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground')}>{['A', 'B', 'C', 'D'][index]}</span>
+        <span className="min-w-0 text-sm font-semibold text-foreground"><MathRenderer content={formatOptionMath(option)} /></span>
+        {showPracticeFeedback && isCorrect && <CheckCircle2 aria-hidden="true" className="ml-auto h-5 w-5 shrink-0 text-success" />}
+        {showPracticeFeedback && isSelected && !isCorrect && <XCircle aria-hidden="true" className="ml-auto h-5 w-5 shrink-0 text-destructive" />}
+      </button>;
+    })}</div>
+    {showPracticeFeedback && <div role="status" aria-live="polite" className={cn('mt-5 overflow-hidden rounded-xl border', selectedAnswer === currentQuestion.correctAnswer ? 'border-success/50' : 'border-destructive/50')}>
+      <div className={cn('flex flex-wrap items-center gap-2 px-4 py-3 text-sm font-bold', selectedAnswer === currentQuestion.correctAnswer ? 'bg-success-soft text-success' : 'bg-destructive-soft text-destructive')}>
+        {selectedAnswer === currentQuestion.correctAnswer ? <CheckCircle2 aria-hidden="true" className="h-5 w-5" /> : <XCircle aria-hidden="true" className="h-5 w-5" />}
+        {selectedAnswer === currentQuestion.correctAnswer ? 'Chính xác!' : 'Chưa chính xác!'}
+        <span className="sm:ml-auto">Đáp án đúng: {['A', 'B', 'C', 'D'][currentQuestion.correctAnswer]}</span>
+      </div>
+      {currentQuestion.solution && <div className="bg-muted/60 p-4"><div className="mb-2 flex items-center gap-2 text-sm font-bold text-foreground"><FileText aria-hidden="true" className="h-4 w-4" />Lời giải chi tiết</div><div className="prose vivux-prose max-w-none text-sm text-foreground"><MathRenderer content={currentQuestion.solution} variant="solution" /></div></div>}
+    </div>}
+    <div className="mt-7 flex items-center justify-between gap-3 border-t border-border pt-5"><Button type="button" variant="outline" className="h-11" disabled={currentIndex === 0} onClick={() => setCurrentIndex((index) => Math.max(0, index - 1))}><ArrowLeft className="mr-2 h-4 w-4" />Câu trước</Button>{currentIndex === session.questions.length - 1 ? <Button type="button" className="h-11" onClick={() => submit()}><Send className="mr-2 h-4 w-4" />Nộp bài</Button> : <Button type="button" className="h-11" onClick={() => setCurrentIndex((index) => Math.min(session.questions.length - 1, index + 1))}>Câu sau<ArrowRight className="ml-2 h-4 w-4" /></Button>}</div></CardContent></Card>
       <aside className="lg:sticky lg:top-24 lg:self-start"><Card level="supporting"><CardContent className="p-4"><div className="mb-3 flex items-center gap-2 text-sm font-bold text-foreground"><LayoutGrid className="h-4 w-4 text-primary" />Danh sách câu</div><div className="grid grid-cols-5 gap-2">{session.questions.map((question, index) => <button key={question.id} type="button" onClick={() => setCurrentIndex(index)} aria-label={`Câu ${index + 1}${answers[question.id] !== undefined ? ', đã trả lời' : ''}`} className={cn('flex h-10 items-center justify-center rounded-lg border text-sm font-bold transition-colors', currentIndex === index ? 'border-primary bg-primary text-primary-foreground' : answers[question.id] !== undefined ? 'border-success/40 bg-success-soft text-success' : 'border-border bg-surface text-muted-foreground hover:border-primary')}>{index + 1}</button>)}</div><Button type="button" variant="outline" className="mt-4 h-11 w-full" onClick={() => submit()}><Send className="mr-2 h-4 w-4" />Nộp bài ({answeredCount})</Button></CardContent></Card></aside></div></main>;
 }
 
 export default function PersonalExamTakePage() {
   return <Suspense fallback={<div className="container py-24 text-center text-muted-foreground">Đang mở đề...</div>}><PersonalExamRoom /></Suspense>;
 }
-

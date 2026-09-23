@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { useStreak } from '@/features/streak/hooks/use-streak';
+import { localStudyDate, studyDayBounds, useOnlineStudyStore } from '@/features/daily-goal/stores/online-study-store';
 import {
   DEFAULT_FLYTIEE_PROFILE,
   FLYTIEE_ACCESSORIES,
@@ -33,14 +34,7 @@ import type {
 const SATIETY_LOSS_PER_HOUR = 4;
 
 function todayKey() {
-  const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-}
-
-function startOfTodayIso() {
-  const date = new Date();
-  date.setHours(0, 0, 0, 0);
-  return date.toISOString();
+  return localStudyDate();
 }
 
 function createDefaultProfile(): FlytieeProfile {
@@ -119,6 +113,12 @@ export function useFlytiee() {
   const [clock, setClock] = useState(Date.now());
   const profileRef = useRef(profile);
   const userId = user?.id;
+  const online = useOnlineStudyStore();
+  const studyDay = online.userId === userId && online.date ? online.date : localStudyDate(new Date(clock));
+  const studyMinutes = online.userId === userId && online.date === todayKey()
+    ? Math.floor(online.seconds / 60)
+    : 0;
+  const currentEventStats = useMemo(() => ({ ...eventStats, studyMinutes }), [eventStats, studyMinutes]);
   const storageKey = userId ? `${FLYTIEE_STORAGE_PREFIX}:${userId}` : '';
 
   useEffect(() => {
@@ -158,10 +158,10 @@ export function useFlytiee() {
   const refreshMissions = useCallback(async () => {
     if (!userId) return;
     const supabase = getSupabaseClient();
-    const since = startOfTodayIso();
+    const { start, end } = studyDayBounds(studyDay);
     const [practiceResult, mockResult] = await Promise.all([
-      supabase.from('practice_progress').select('is_correct, difficulty_level').eq('user_id', userId).gte('answered_at', since),
-      supabase.from('mock_exam_attempts').select('id, duration_used').eq('user_id', userId).gte('created_at', since),
+      supabase.from('practice_progress').select('is_correct, difficulty_level').eq('user_id', userId).gte('answered_at', start).lt('answered_at', end),
+      supabase.from('mock_exam_attempts').select('id').eq('user_id', userId).gte('created_at', start).lt('created_at', end),
     ]);
 
     const practiceRows = practiceResult.data ?? [];
@@ -177,13 +177,7 @@ export function useFlytiee() {
     });
     const practiceCoinsEarned = Math.min(100, Object.entries(correctByLevel)
       .reduce((sum: number, [level, count]) => sum + Number(level) * count, 0));
-    const mockStudySeconds = (mockResult.data ?? []).reduce(
-      (sum: number, row: { duration_used?: number }) => sum + Math.max(0, Number(row.duration_used) || 0),
-      0,
-    );
-    const studyMinutes = practiceRows.length * 2 + Math.floor(mockStudySeconds / 60);
-
-    setEventStats({ streak: currentStreak, studyMinutes, correctByLevel, practiceCoinsEarned });
+    setEventStats({ streak: currentStreak, studyMinutes: 0, correctByLevel, practiceCoinsEarned });
 
     setMissions([
       { id: 'practice-5', title: 'Khởi động trí não', description: 'Hoàn thành 5 câu tự luyện hôm nay', current: Math.min(answered, 5), target: 5, xp: 20, coins: 20 },
@@ -191,7 +185,9 @@ export function useFlytiee() {
       { id: 'accuracy-80', title: 'Đôi cánh chính xác', description: 'Đạt ít nhất 80% sau 10 câu hôm nay', current: answered >= 10 ? Math.min(accuracy, 80) : 0, target: 80, xp: 30, coins: 30 },
       { id: 'mock-exam-1', title: 'Dũng cảm thử sức', description: 'Hoàn thành 1 bài thi thử hôm nay', current: Math.min(mockAttempts, 1), target: 1, xp: 45, coins: 45 },
     ]);
-  }, [currentStreak, userId]);
+  }, [currentStreak, studyDay, userId]);
+
+  useEffect(() => { void refreshMissions(); }, [refreshMissions]);
 
   useEffect(() => {
     if (!userId) {
@@ -223,11 +219,10 @@ export function useFlytiee() {
       setProfile(next);
       setLoading(false);
       if (!remoteValue) void persist(next);
-      void refreshMissions();
     }
     void load();
     return () => { cancelled = true; };
-  }, [persist, refreshMissions, storageKey, userId]);
+  }, [persist, storageKey, userId]);
 
   useEffect(() => {
     if (!userId) return;
@@ -283,7 +278,7 @@ export function useFlytiee() {
   const claimStudyReward = useCallback((minutes: number): FlytieeRewardResult | null => {
     const milestone = STUDY_MILESTONES.find((entry) => entry.minutes === minutes);
     const daily = dailyEventForToday(profileRef.current);
-    if (!milestone || eventStats.studyMinutes < minutes || daily.studyClaimedMilestones.includes(minutes)) return null;
+    if (!milestone || currentEventStats.studyMinutes < minutes || daily.studyClaimedMilestones.includes(minutes)) return null;
     const reward: FlytieeRewardResult = milestone.reward.kind === 'coins'
       ? { kind: 'coins', title: `Học đủ ${minutes} phút`, description: `Bạn nhận ${milestone.reward.amount} xu cho sự tập trung hôm nay!`, amount: milestone.reward.amount }
       : { kind: 'chest', title: `Học đủ ${minutes} phút`, description: 'Rương bạc đã được chuyển vào kho rương.', chestTier: milestone.reward.chestTier };
@@ -299,7 +294,7 @@ export function useFlytiee() {
       };
     }, reward.description);
     return reward;
-  }, [commit, eventStats.studyMinutes]);
+  }, [commit, currentEventStats.studyMinutes]);
 
   const claimPracticeCoins = useCallback((): FlytieeRewardResult | null => {
     const daily = dailyEventForToday(profileRef.current);
@@ -523,7 +518,7 @@ export function useFlytiee() {
     satiety,
     xpNeeded,
     missions,
-    eventStats,
+    eventStats: currentEventStats,
     dailyEvent,
     loading,
     saving,

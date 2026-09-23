@@ -8,6 +8,7 @@ import { AuthGuard } from '@/components/layout/auth-guard';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { SingleSessionMonitor } from '@/features/auth/components/single-session-monitor';
 import { StreakCheckIn } from '@/features/streak/components/streak-check-in';
+import { OnlineStudyTracker } from '@/features/daily-goal/components/online-study-tracker';
 import { cn } from '@/lib/utils';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -25,6 +26,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     <AuthGuard>
       <SingleSessionMonitor />
       <StreakCheckIn />
+      <OnlineStudyTracker />
       <div className="flex min-h-dvh flex-col bg-background">
         <a href="#main-content" className="vivux-skip-link">Đến nội dung chính</a>
         <div className={cn(

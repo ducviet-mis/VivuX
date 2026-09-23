@@ -84,6 +84,15 @@ export const FLYTIEE_SETS: FlytieeSet[] = [
     tone: 'gold',
     exclusiveMilestone: 200,
   },
+  {
+    id: 'azure-tide-dragon',
+    name: 'Long Vương Lam Hải',
+    description: 'Vương miện san hô pha lê, áo choàng lụa biển ôm trọn FlyTiee và thủy long phát sáng phía sau.',
+    eventName: 'Sự kiện Long Cung Tinh Hải',
+    effect: 'azure-tide',
+    tone: 'cyan',
+    milestone100Eligible: false,
+  },
 ];
 
 export function getFlytieeSet(id?: string | null) {

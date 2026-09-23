@@ -96,6 +96,14 @@
 .scene[data-set='phoenix-dawn'][data-mood='fly'] .phoenixCrest,
 .scene[data-set='phoenix-dawn'][data-mood='fly'] .phoenixTail,
 .scene[data-set='phoenix-dawn'][data-mood='fly'] .phoenixEmbers { animation-duration: 1.1s; }
+.seaEffect { pointer-events: none; }
+.seaTideRing { transform-box: fill-box; transform-origin: center; animation: sea-tide-turn 16s linear infinite; }
+.seaDragon { opacity: .42; filter: drop-shadow(0 0 7px #73ded7); transition: opacity 380ms ease; }
+.seaBubbles { opacity: .86; }
+.seaTail { transform-box: fill-box; transform-origin: 12% 55%; animation: sea-tail 4.6s ease-in-out infinite; }
+.seaScales { opacity: .82; }
+.scene[data-set='azure-tide-dragon'][data-mood='fly'] .seaDragon { opacity: .94; }
+.scene[data-set='azure-tide-dragon'][data-mood='fly'] .seaTideRing { animation-duration: 4.5s; }
 
 .closedEyes,
 .sleepZ,
@@ -222,8 +230,10 @@
 @keyframes phoenix-embers { 0%, 100% { transform: translateY(6px); opacity: .62; } 50% { transform: translateY(-10px); opacity: 1; } }
 @keyframes phoenix-crest { 0%, 100% { transform: rotate(-2deg) scaleY(.98); } 50% { transform: rotate(3deg) scaleY(1.04); } }
 @keyframes phoenix-veins { 0%, 100% { opacity: .64; } 50% { opacity: 1; } }
+@keyframes sea-tide-turn { to { transform: rotate(360deg); } }
+@keyframes sea-tail { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(4deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird *, .scene, .body, .eyes, .setEyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect, .shadowNinjaEffect, .ninjaSmoke, .ninjaShuriken, .ninjaRune, .mushroomGroveEffect, .mushroomBloom, .mushroomSpore, .mushroomStar { animation: none !important; }
+  .bird *, .scene, .body, .eyes, .setEyes, .brows, .waveWing, .restWing, .cosmicEffect, .cosmicOrbiter, .dinoDreamEffect, .dreamBubble, .snowEffect, .shadowNinjaEffect, .ninjaSmoke, .ninjaShuriken, .ninjaRune, .mushroomGroveEffect, .mushroomBloom, .mushroomSpore, .mushroomStar { animation: none !important; transition: none !important; }
   .sceneExit { display: none; }
 }

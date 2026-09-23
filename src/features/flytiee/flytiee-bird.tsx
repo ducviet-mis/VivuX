@@ -64,6 +64,21 @@ const PHOENIX_DAWN_SKIN: FlytieeSkin = {
   },
 };
 
+const AZURE_TIDE_SKIN: FlytieeSkin = {
+  id: 'azure-tide-dragon',
+  name: 'Long Vương Lam Hải',
+  price: 0,
+  description: 'Ánh xà cừ của biển sâu và những con sóng hiền hòa.',
+  personality: 'Dịu dàng',
+  mood: 'gentle',
+  palette: {
+    bodyStart: '#d8fff0', bodyMid: '#75d5cb', bodyEnd: '#358fa8',
+    outline: '#26637e', highlight: '#f5ffef', bellyStart: '#f8fff2',
+    bellyEnd: '#b8f0e4', cheek: '#eba7ae', eye: '#244960',
+    brow: '#4d8c91', accent: '#b8fff3',
+  },
+};
+
 function HeldAccessoryGrip({ skin }: { skin: FlytieeSkin }) {
   return <path d="M595 592Q622 574 645 591Q655 615 619 624L600 613" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6" strokeLinejoin="round"/>;
 }
@@ -129,6 +144,30 @@ function AccessoryLayers({ equipped, skin, showGrip = true }: { equipped: Flytie
 }
 
 function SetEffects({ setId }: { setId: string | null }) {
+  if (setId === 'azure-tide-dragon') return <g className={styles.seaEffect} aria-hidden="true">
+    <ellipse cx="472" cy="468" rx="302" ry="283" fill="#0d3852" opacity=".24"/>
+    <g className={styles.seaTideRing} fill="none" strokeLinecap="round">
+      <ellipse cx="472" cy="462" rx="272" ry="254" stroke="#1a647c" strokeWidth="20" opacity=".65"/>
+      <path d="M234 393C261 291 362 222 472 219C600 215 701 315 730 419M714 545C664 650 583 706 471 710C355 713 263 638 222 541" stroke="#8be8e0" strokeWidth="9" opacity=".87"/>
+      <path d="M261 350C310 265 384 234 465 233M690 591C636 663 555 695 482 695" stroke="#e5fff1" strokeWidth="4" opacity=".9"/>
+      <path d="M208 482Q233 499 252 485M699 513Q726 528 747 505" stroke="#c4fff4" strokeWidth="6"/>
+    </g>
+    <g className={styles.seaDragon} strokeLinejoin="round" strokeLinecap="round">
+      <path d="M211 548C175 484 187 377 239 316C277 273 316 246 368 234C473 208 564 199 648 249C699 280 724 306 744 297" fill="none" stroke="#126378" strokeWidth="38"/>
+      <path d="M211 548C175 484 187 377 239 316C277 273 316 246 368 234C473 208 564 199 648 249C699 280 724 306 744 297" fill="none" stroke="#55c4c3" strokeWidth="23"/>
+      <path d="M209 541C184 464 205 365 255 314C334 228 457 214 556 225" fill="none" stroke="#b5fff1" strokeWidth="6" opacity=".85"/>
+      <path d="M706 285Q723 263 752 270L775 284L756 296Q764 306 746 314L705 304Z" fill="#69d9d1" stroke="#1b7789" strokeWidth="7"/>
+      <path d="M713 271L708 244L722 253L736 225L742 268M751 271L763 246L765 278" fill="none" stroke="#a5f7e9" strokeWidth="8"/>
+      <path d="M753 302Q785 316 797 301M736 307Q763 337 793 333" fill="none" stroke="#9df5e8" strokeWidth="5"/>
+      <circle cx="746" cy="282" r="5" fill="#fff9c3"/>
+      <path d="M261 310l-9-32 24 16M304 267l-2-32 21 20M353 244l6-30 13 22M409 225l12-24 8 25M472 217l16-21 7 30M534 217l17-20 5 30M598 232l22-16-2 32" fill="#a6ede3" stroke="#2f91a2" strokeWidth="5"/>
+    </g>
+    <g className={styles.seaBubbles} fill="#dcfff4" stroke="#71d6d8" strokeWidth="4">
+      <circle cx="262" cy="276" r="11"/><circle cx="691" cy="385" r="8"/><circle cx="217" cy="595" r="7"/>
+      <circle cx="747" cy="578" r="12"/><circle cx="665" cy="672" r="6"/>
+    </g>
+  </g>;
+
   if (setId === 'phoenix-dawn') return <g className={styles.phoenixAura} aria-hidden="true">
     <ellipse cx="473" cy="461" rx="294" ry="274" fill="#27183d" opacity=".24"/>
     <ellipse cx="473" cy="461" rx="281" ry="258" fill="none" stroke="#8b3b52" strokeWidth="16" opacity=".28"/>
@@ -225,12 +264,13 @@ function SetCharacterFace({ skin }: { skin: FlytieeSkin }) {
   </>;
 }
 
-function NaturalSetBase({ skin, gradientId, phoenix = false }: { skin: FlytieeSkin; gradientId: string; phoenix?: boolean }) {
+function NaturalSetBase({ skin, gradientId, phoenix = false, tide = false }: { skin: FlytieeSkin; gradientId: string; phoenix?: boolean; tide?: boolean }) {
   return <>
     <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
     <g className={styles.waveWing}>
       <path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6"/>
       {phoenix && <g className={styles.phoenixWingFire} strokeLinejoin="round"><path d="M615 486Q665 453 686 381Q710 402 701 431Q729 404 740 432Q745 451 726 463Q760 443 761 473Q765 492 734 503Q678 542 619 532Z" fill="#d64f4c" stroke="#8d3650" strokeWidth="6"/><path d="M633 485Q679 447 688 405Q704 428 689 450Q720 429 728 444Q718 476 691 487Q721 471 738 477Q705 510 633 517Z" fill="#ff984d"/><path d="M644 486Q676 456 684 433Q689 451 675 469Q704 452 709 460Q697 488 644 504Z" fill="#ffe28a"/><path d="M650 482Q671 468 681 447" fill="none" stroke="#fff6c4" strokeWidth="5" strokeLinecap="round"/></g>}
+      {tide && <g strokeLinejoin="round" strokeLinecap="round"><path d="M610 492Q659 458 685 391Q704 408 698 439Q723 415 731 438Q735 461 712 472Q748 460 748 482Q722 515 614 536Z" fill="#328eae" stroke="#246a87" strokeWidth="6"/><path d="M626 488Q676 444 687 414Q694 443 676 462Q714 439 719 450Q708 478 683 493Q715 475 732 483Q697 509 628 518Z" fill="#6ed8d4"/><path d="M643 482Q671 456 681 442M641 504Q691 501 714 486" fill="none" stroke="#e2fff0" strokeWidth="6"/><circle cx="713" cy="462" r="6" fill="#eaffee"/></g>}
     </g>
     <path d="M366 267C342 239 338 217 350 203C363 189 389 210 413 237C407 201 416 175 433 173C452 171 461 206 463 236C480 213 500 205 511 218C520 230 507 253 491 267C609 285 671 396 666 532C663 663 595 730 467 735C340 741 240 695 226 576C209 433 251 303 366 267Z" fill={`url(#${gradientId}-body)`} stroke={skin.palette.outline} strokeWidth="7"/>
     <path d="M296 362C321 326 345 312 370 303M421 244C422 226 424 214 429 205" stroke={skin.palette.highlight} strokeWidth="12" strokeLinecap="round" opacity=".65"/>
@@ -238,10 +278,11 @@ function NaturalSetBase({ skin, gradientId, phoenix = false }: { skin: FlytieeSk
   </>;
 }
 
-function NaturalSetFrontWing({ skin, phoenix = false }: { skin: FlytieeSkin; phoenix?: boolean }) {
+function NaturalSetFrontWing({ skin, phoenix = false, tide = false }: { skin: FlytieeSkin; phoenix?: boolean; tide?: boolean }) {
   return <g className={styles.restWing}>
     <path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill={skin.palette.bodyEnd} stroke={skin.palette.outline} strokeWidth="6"/>
     {phoenix && <g className={styles.phoenixWingFire} strokeLinejoin="round"><path d="M264 435Q233 459 228 502Q228 549 265 585Q248 548 260 528Q260 560 295 591Q306 597 300 580Q274 543 286 502Q292 462 264 435Z" fill="#d9584c" stroke="#8d3650" strokeWidth="5"/><path d="M262 460Q239 484 242 517Q244 547 274 572Q259 538 272 518Q275 546 294 563Q275 519 283 493Q283 474 262 460Z" fill="#ffad59"/><path d="M260 486Q248 507 253 525Q257 542 269 551Q261 521 275 503Z" fill="#fff0a0"/></g>}
+    {tide && <g strokeLinejoin="round"><path d="M267 445Q244 457 239 505Q236 555 281 584Q265 550 277 517Q296 482 286 454Z" fill="#3b9fba" stroke="#216b88" strokeWidth="5"/><path d="M264 469Q251 499 258 529Q263 549 280 565Q270 533 284 501Z" fill="#80e2d8"/><path d="M253 503Q254 540 276 557" fill="none" stroke="#e0fff0" strokeWidth="6" strokeLinecap="round"/></g>}
     <path d="M262 478C253 511 271 548 289 561" stroke={skin.palette.highlight} strokeWidth="8" strokeLinecap="round"/>
   </g>;
 }
@@ -253,6 +294,8 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       ? MUSHROOM_KINGDOM_SKIN
       : setId === 'phoenix-dawn'
         ? PHOENIX_DAWN_SKIN
+      : setId === 'azure-tide-dragon'
+        ? AZURE_TIDE_SKIN
       : skin;
   const setGradientId = setId === 'shadow-ninja'
     ? `${gradientId}-shadow-ninja`
@@ -260,8 +303,16 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       ? `${gradientId}-mushroom-kingdom`
       : setId === 'phoenix-dawn'
         ? `${gradientId}-phoenix-dawn`
+      : setId === 'azure-tide-dragon'
+        ? `${gradientId}-azure-tide`
       : gradientId;
   return <g className={styles.fullSetCharacter} strokeLinejoin="round">
+    {setId === 'azure-tide-dragon' && <g className={styles.seaTail} strokeLinejoin="round">
+      <path d="M616 570Q709 522 767 558Q729 573 738 602Q767 639 743 687Q731 652 701 643Q679 707 626 729Q650 672 608 640Z" fill="#21799a" stroke="#16536e" strokeWidth="8"/>
+      <path d="M632 581Q704 547 750 563Q717 583 720 612Q744 647 729 669Q707 626 681 634Q667 685 639 706Q652 654 620 630Z" fill="#64d4d0"/>
+      <path d="M652 590Q705 573 727 582Q690 602 699 628Q682 619 671 627Q660 664 641 683Q648 641 631 618Z" fill="#c9fff0"/>
+      <path d="M643 595Q683 583 702 590M638 648Q645 663 639 683" fill="none" stroke="#f8fff4" strokeWidth="5" strokeLinecap="round"/>
+    </g>}
     {setId === 'phoenix-dawn' && <g className={styles.phoenixTail} strokeLinejoin="round">
       <path d="M632 559Q724 519 778 574Q728 554 736 604Q775 635 750 686Q738 655 704 653Q693 711 627 731Q652 677 605 651Z" fill="#b94158" stroke="#79304b" strokeWidth="8"/>
       <path d="M645 573Q731 546 758 585Q709 576 717 622Q738 647 724 665Q698 629 677 635Q672 688 640 706Q660 660 621 639Z" fill="#f27c49"/>
@@ -275,7 +326,49 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M620 578L650 550L675 575L645 606Z" fill="#6f4bb1" stroke="#1b0f2d" strokeWidth="7"/>
       <path d="M634 576L656 598M645 563L667 585" stroke="#e6d8ff" strokeWidth="4" strokeLinecap="round"/>
     </g>}
-    <NaturalSetBase skin={setSkin} gradientId={setGradientId} phoenix={setId === 'phoenix-dawn'}/>
+    <NaturalSetBase skin={setSkin} gradientId={setGradientId} phoenix={setId === 'phoenix-dawn'} tide={setId === 'azure-tide-dragon'}/>
+
+    {setId === 'azure-tide-dragon' && <>
+      {/* The robe covers the original round silhouette without touching the face. */}
+      <path d="M218 494Q296 533 375 540Q465 554 558 538Q627 526 659 494C683 555 674 634 646 685Q595 744 472 750Q339 748 274 701Q215 650 218 494Z" fill={`url(#${gradientId}-sea-cloak)`} stroke="#185670" strokeWidth="9"/>
+      <path d="M224 531Q255 555 316 572L306 662Q270 639 240 603ZM610 570Q647 557 660 531L652 611Q637 650 612 670Z" fill="#206b8a" stroke="#4ab7bd" strokeWidth="5"/>
+      <path d="M300 566Q384 596 466 600Q552 594 625 564L609 676Q572 728 466 736Q363 727 320 678Z" fill="#17647e" stroke="#58c2c4" strokeWidth="6"/>
+      <path d="M327 599Q393 626 466 627Q547 620 597 597L587 673Q540 713 466 718Q386 713 340 676Z" fill="#348fa2" opacity=".92"/>
+      <path d="M217 496Q342 540 466 543Q585 535 658 496" fill="none" stroke="#195972" strokeWidth="37" strokeLinecap="round"/>
+      <path d="M221 492Q350 527 466 530Q581 524 655 492" fill="none" stroke="#a7eee1" strokeWidth="25" strokeLinecap="round"/>
+      <path d="M240 502Q355 524 466 519Q568 518 633 500" fill="none" stroke="#f3fff1" strokeWidth="8" strokeLinecap="round"/>
+      <path d="M243 526Q350 565 466 565Q575 560 634 526" fill="none" stroke="#62cbd0" strokeWidth="7" strokeLinecap="round"/>
+      <path d="M259 594Q282 611 307 624M623 620Q643 602 650 578" fill="none" stroke="#a8e9dc" strokeWidth="6" strokeLinecap="round"/>
+      <g fill="#9de3d6" stroke="#3b9fa9" strokeWidth="4">
+        <path d="M279 584Q308 594 323 623L308 660Q282 644 279 584Z"/>
+        <path d="M335 610Q362 643 385 654L371 693Q341 673 335 610Z"/>
+        <path d="M604 604Q580 638 552 653L568 694Q596 671 604 604Z"/>
+      </g>
+      <path d="M324 682Q382 722 466 725Q550 719 608 679" fill="none" stroke="#b5fff0" strokeWidth="8" strokeLinecap="round"/>
+      <path d="M332 699Q391 735 467 739Q546 732 598 699" fill="none" stroke="#e4fff3" strokeWidth="4" strokeLinecap="round" opacity=".86"/>
+      <g className={styles.seaScales} fill="none" stroke="#baf7e6" strokeWidth="4" strokeLinecap="round" opacity=".9">
+        <path d="M373 639q18 22 37 0m5 13q20 22 40 0m6-13q18 22 37 0m5 13q20 22 40 0"/>
+        <path d="M388 675q19 21 38 0m9 12q20 20 41 0m9-12q19 21 38 0"/>
+      </g>
+      <path d="M336 739Q370 727 405 740L404 761H325Z" fill="#215c76" stroke="#17465e" strokeWidth="6"/>
+      <path d="M510 740Q553 725 590 740L595 761H507Z" fill="#215c76" stroke="#17465e" strokeWidth="6"/>
+      <path d="M336 748H396M519 748H581" stroke="#a6f1df" strokeWidth="5" strokeLinecap="round"/>
+      <g strokeLinejoin="round">
+        <path d="M342 313Q352 288 355 245L383 262Q397 214 425 186L452 244Q473 207 492 195Q505 240 502 268L536 233Q554 275 572 307Q459 284 342 313Z" fill="#276d88" stroke="#1b5873" strokeWidth="8"/>
+        <path d="M365 290Q373 265 371 262L393 280Q403 233 423 212L447 269Q477 230 489 218L495 283Q525 256 536 254L549 296Z" fill="#77d7d2"/>
+        <path d="M422 203L438 253L421 270L404 252ZM488 215L503 268L484 281L468 257Z" fill="#c8fff1" stroke="#50b4bc" strokeWidth="5"/>
+        <circle cx="420" cy="247" r="8" fill="#f8fff1"/><circle cx="486" cy="257" r="7" fill="#f8fff1"/>
+        <path d="M313 324Q459 278 614 318L617 348Q466 310 319 356Z" fill="#1d617f" stroke="#18526c" strokeWidth="7"/>
+        <path d="M331 330Q465 297 597 331" fill="none" stroke="#b8f9e7" strokeWidth="8" strokeLinecap="round"/>
+        <path d="M388 318Q464 300 539 317" fill="none" stroke="#f1fff1" strokeWidth="4" strokeLinecap="round"/>
+        <path d="M450 314L466 298L482 314L475 334H457Z" fill="#eaffee" stroke="#61bdc0" strokeWidth="5"/>
+      </g>
+      <path d="M393 532Q430 554 466 555Q502 550 537 529L515 576Q493 589 466 592Q440 589 417 577Z" fill="#5dc4c5" stroke="#277f96" strokeWidth="6"/>
+      <path d="M412 546Q466 571 518 544" fill="none" stroke="#eaffef" strokeWidth="6" strokeLinecap="round"/>
+      <path d="M466 553C490 568 493 590 466 615C439 590 442 568 466 553Z" fill={`url(#${gradientId}-sea-gem)`} stroke="#277e91" strokeWidth="6"/>
+      <path d="M466 568Q483 585 466 601Q449 585 466 568Z" fill="#f4fff0"/>
+      <path d="M438 619Q413 635 396 655M493 619Q519 634 536 656" fill="none" stroke="#c4fff0" strokeWidth="6" strokeLinecap="round"/>
+    </>}
 
     {setId === 'phoenix-dawn' && <>
       {/* The cloak follows the unchanged round body outline; face and wing joints stay clear. */}
@@ -459,7 +552,7 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M293 580Q308 604 324 618M636 578Q622 607 603 621" fill="none" stroke="#f3d47b" strokeWidth="4" strokeLinecap="round" opacity=".78"/>
       <path d="M347 581Q374 564 398 581M535 580Q559 564 584 578" fill="none" stroke="#b16fbb" strokeWidth="5" strokeLinecap="round"/>
     </>}
-    <NaturalSetFrontWing skin={setSkin} phoenix={setId === 'phoenix-dawn'}/>
+    <NaturalSetFrontWing skin={setSkin} phoenix={setId === 'phoenix-dawn'} tide={setId === 'azure-tide-dragon'}/>
   </g>;
 }
 
@@ -579,6 +672,9 @@ export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
       <linearGradient id={`${gradientId}-mushroom-kingdom-body`} x1=".1" y1="0" x2=".9" y2="1"><stop stopColor="#c0a6ff"/><stop offset=".46" stopColor="#674790"/><stop offset="1" stopColor="#1b122d"/></linearGradient>
       <linearGradient id={`${gradientId}-phoenix-dawn-body`} x1=".18" y1="0" x2=".82" y2="1"><stop stopColor="#fff2ac"/><stop offset=".48" stopColor="#f8b95a"/><stop offset="1" stopColor="#c05752"/></linearGradient>
       <linearGradient id={`${gradientId}-phoenix-cloak`} x1=".1" y1="0" x2=".86" y2="1"><stop stopColor="#263354"/><stop offset=".55" stopColor="#353354"/><stop offset="1" stopColor="#723d59"/></linearGradient>
+      <linearGradient id={`${gradientId}-azure-tide-body`} x1=".12" y1="0" x2=".84" y2="1"><stop stopColor="#e3fff0"/><stop offset=".45" stopColor="#84dcd0"/><stop offset="1" stopColor="#3389aa"/></linearGradient>
+      <linearGradient id={`${gradientId}-sea-cloak`} x1=".2" y1="0" x2=".8" y2="1"><stop stopColor="#247b9b"/><stop offset=".55" stopColor="#155773"/><stop offset="1" stopColor="#103b61"/></linearGradient>
+      <linearGradient id={`${gradientId}-sea-gem`} x1=".15" y1=".1" x2=".85" y2="1"><stop stopColor="#f5fff0"/><stop offset=".55" stopColor="#7ce9dd"/><stop offset="1" stopColor="#2383a2"/></linearGradient>
     </defs>
     {previousMood && <BirdScene key={`${previousMood}-out`} mood={previousMood} profile={profile} gradientId={gradientId} className={cn(styles.sceneExit, longTransition && styles.sceneTransitionLong)}/>}
     <BirdScene key={`${visibleMood}-in`} mood={visibleMood} profile={profile} gradientId={gradientId} className={cn(previousMood && styles.sceneEnter, longTransition && styles.sceneTransitionLong)}/>

@@ -43,7 +43,8 @@ export type FlytieeSetEffect =
   | 'gentle-snow'
   | 'shadow-eclipse'
   | 'mushroom-grove'
-  | 'phoenix-dawn';
+  | 'phoenix-dawn'
+  | 'azure-tide';
 
 export type FlytieeChestTier = 'bronze' | 'silver' | 'gold';
 
@@ -81,6 +82,7 @@ export interface FlytieeSet {
   effect: FlytieeSetEffect;
   tone: string;
   exclusiveMilestone?: number;
+  milestone100Eligible?: boolean;
 }
 
 export interface FlytieeProfile {

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Check,
   Clock3,
-  Coins,
   Flame,
   Gift,
   Mail,
@@ -21,6 +20,8 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { CHEST_LABELS, STREAK_REWARDS, STUDY_MILESTONES } from './event-config';
+import { FlytieeCoin } from './flytiee-coin';
+import { FlytieeCoinReward } from './flytiee-coin-reward';
 import type { FlytieeChestTier, FlytieeRewardResult } from './types';
 import type { useFlytiee } from './use-flytiee';
 import styles from './flytiee-events.module.css';
@@ -82,9 +83,9 @@ function RewardOverlay({ reward, openingTier, onClose }: {
         onOpenAutoFocus={(event) => event.preventDefault()}
       >
         <div className="relative p-6">
-          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+          {reward?.kind !== 'coins' && <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             {reward && Array.from({ length: 10 }, (_, index) => <span key={index} className={styles.confetti} />)}
-          </div>
+          </div>}
           {openingTier ? (
             <DialogHeader className="relative items-center text-center">
               <ChestArt tier={tier} opening className="mx-auto h-44 w-44" />
@@ -94,7 +95,7 @@ function RewardOverlay({ reward, openingTier, onClose }: {
           ) : (
             <div className="relative">
               <button type="button" onClick={onClose} className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Đóng thông báo phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-warning-soft text-warning shadow-card"><Sparkles aria-hidden="true" className="h-10 w-10" /></div>
+              {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} /> : <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-warning-soft text-warning shadow-card"><Sparkles aria-hidden="true" className="h-10 w-10" /></div>}
               <DialogHeader className="mt-4 items-center text-center">
                 <DialogDescription className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Phần thưởng đã nhận</DialogDescription>
                 <DialogTitle className="mt-2 text-2xl font-bold">{reward?.title}</DialogTitle>
@@ -191,7 +192,7 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
           {STREAK_REWARDS.map((item) => {
             const active = item.day === cycleDay;
             const passed = item.day < cycleDay;
-            return <div key={item.day} className={styles.rewardStep} data-state={active ? 'active' : passed ? 'passed' : 'upcoming'} data-tier={item.kind === 'chest' ? item.chestTier : 'coins'}><span className={styles.rewardOrb}>{item.kind === 'coins' ? <Coins aria-hidden="true" className="h-6 w-6" /> : <Gift aria-hidden="true" className="h-6 w-6" />}{passed && <Check aria-label="Đã qua" className="absolute -right-1 -top-1 h-5 w-5 rounded-full bg-success p-1 text-white" />}</span><span className={styles.rewardDay}>Ngày {item.day}</span><span className={styles.rewardLabel}>{item.label}</span></div>;
+            return <div key={item.day} className={styles.rewardStep} data-state={active ? 'active' : passed ? 'passed' : 'upcoming'} data-tier={item.kind === 'chest' ? item.chestTier : 'coins'}><span className={styles.rewardOrb}>{item.kind === 'coins' ? <FlytieeCoin className="h-7 w-7" /> : <Gift aria-hidden="true" className="h-6 w-6" />}{passed && <Check aria-label="Đã qua" className="absolute -right-1 -top-1 h-5 w-5 rounded-full bg-success p-1 text-white" />}</span><span className={styles.rewardDay}>Ngày {item.day}</span><span className={styles.rewardLabel}>{item.label}</span></div>;
           })}
           </div>
         </div>
@@ -216,7 +217,7 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
           <div className="mt-4 grid grid-cols-2 gap-2">
             {([1, 2, 3, 4] as const).map((level) => <div key={level} className={cn('p-3', styles.levelTile)}><p className="text-xs font-bold text-info">Level {level}</p><p className="mt-1 text-sm font-extrabold">{flytiee.eventStats.correctByLevel[level]} câu · +{level} xu/câu</p></div>)}
           </div>
-          <div className="mt-auto pt-4"><p className="mb-3 text-xs leading-5 text-muted-foreground">Tối đa 100 xu mỗi ngày. Câu đúng được tính theo Level tại thời điểm làm bài.</p><Button type="button" className={cn('w-full', availablePracticeCoins > 0 ? styles.eventPrimary : styles.eventSecondary)} disabled={availablePracticeCoins < 1} onClick={() => reveal(flytiee.claimPracticeCoins())}><Coins aria-hidden="true" className="h-4 w-4" />{availablePracticeCoins > 0 ? `Nhận ${availablePracticeCoins} xu` : flytiee.dailyEvent.practiceCoinsClaimed >= 100 ? 'Đã nhận đủ 100 xu' : 'Chưa có xu mới'}</Button></div>
+          <div className="mt-auto pt-4"><p className="mb-3 text-xs leading-5 text-muted-foreground">Tối đa 100 xu mỗi ngày. Câu đúng được tính theo Level tại thời điểm làm bài.</p><Button type="button" className={cn('w-full', availablePracticeCoins > 0 ? styles.eventPrimary : styles.eventSecondary)} disabled={availablePracticeCoins < 1} onClick={() => reveal(flytiee.claimPracticeCoins())}><FlytieeCoin className="h-5 w-5" />{availablePracticeCoins > 0 ? `Nhận ${availablePracticeCoins} xu` : flytiee.dailyEvent.practiceCoinsClaimed >= 100 ? 'Đã nhận đủ 100 xu' : 'Chưa có xu mới'}</Button></div>
         </section>
       </div>
 

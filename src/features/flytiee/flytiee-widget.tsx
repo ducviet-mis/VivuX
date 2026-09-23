@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   CalendarDays,
   Check,
-  Coins,
   Edit3,
   Gift,
   RefreshCw,
@@ -22,6 +21,8 @@ import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { ACCESSORY_SLOT_LABELS, FLYTIEE_ACCESSORIES, FLYTIEE_SETS, FLYTIEE_SKINS } from './config';
 import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
+import { FlytieeCoin } from './flytiee-coin';
+import { FlytieeCoinReward } from './flytiee-coin-reward';
 import { FlytieeEvents } from './flytiee-events';
 import type { FlytieeAccessorySlot, FlytieeMood } from './types';
 import { useFlytiee } from './use-flytiee';
@@ -78,6 +79,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
   const [selectedSkinId, setSelectedSkinId] = useState(FLYTIEE_SKINS[1].id);
   const [selectedSetId, setSelectedSetId] = useState(FLYTIEE_SETS[0].id);
   const [shopCategory, setShopCategory] = useState<ShopCategory>('set');
+  const [coinCelebration, setCoinCelebration] = useState<{ id: number; amount: number } | null>(null);
 
   const isHungry = flytiee.satiety <= 35;
   const selectedAccessory = FLYTIEE_ACCESSORIES.find((item) => item.id === selectedAccessoryId) ?? FLYTIEE_ACCESSORIES[0];
@@ -133,6 +135,12 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
     return () => window.clearTimeout(timer);
   }, [flytiee.clearMessage, flytiee.message]);
 
+  useEffect(() => {
+    if (!coinCelebration) return;
+    const timer = window.setTimeout(() => setCoinCelebration(null), 2600);
+    return () => window.clearTimeout(timer);
+  }, [coinCelebration]);
+
   const handleFeed = () => {
     flytiee.feed();
     setMood('eat');
@@ -150,6 +158,11 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
   const changeTab = (value: string) => {
     setTab(value);
     if (value === 'missions' || value === 'events') void flytiee.refreshMissions();
+  };
+
+  const claimMission = (mission: (typeof flytiee.missions)[number]) => {
+    flytiee.claimMission(mission);
+    setCoinCelebration({ id: Date.now(), amount: mission.coins });
   };
 
   if (!user) return null;
@@ -193,7 +206,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
             <p className="line-clamp-2 text-sm text-muted-foreground">{speech}</p>
             <div className={cn('flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold', variant === 'hero' ? 'mt-2' : 'mt-3')}>
               <span className="text-primary">Cấp {flytiee.profile.level}</span>
-              <span className="flex items-center gap-1 text-warning"><Coins aria-hidden="true" className="h-3.5 w-3.5" />{flytiee.profile.coins} xu</span>
+              <span className="flex items-center gap-1 text-warning"><FlytieeCoin className="h-4 w-4" />{flytiee.profile.coins} xu</span>
             </div>
             <span className={cn('inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:underline', variant === 'hero' ? 'mt-2' : 'mt-3')}>
               <Sparkles aria-hidden="true" className="h-3.5 w-3.5" /> Chơi cùng FlyTiee
@@ -214,9 +227,16 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
               </DialogTitle>
               <DialogDescription className="mt-1 hidden sm:block">Góc nghỉ ngơi, nhận thưởng và lớn lên cùng những tiến bộ nhỏ mỗi ngày.</DialogDescription>
             </div>
-            <span className={styles.headerBadge}><Coins aria-hidden="true" className="h-4 w-4" />{flytiee.profile.coins} xu</span>
+            <span className={styles.headerBadge}><FlytieeCoin className="h-5 w-5" />{flytiee.profile.coins} xu</span>
           </div>
         </DialogHeader>
+
+        {coinCelebration && open && (
+          <div key={coinCelebration.id} className={styles.coinCelebration} role="status" aria-live="polite">
+            <FlytieeCoinReward amount={coinCelebration.amount} compact />
+            <p className={styles.coinCelebrationLabel}>Xu đã vào ví FlyTiee!</p>
+          </div>
+        )}
 
         <Tabs value={tab} onValueChange={changeTab} className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <div className={cn('shrink-0 px-4 py-3 sm:px-7 sm:py-4', styles.tabBar)}>
@@ -273,9 +293,9 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                   const complete = mission.current >= mission.target;
                   const claimed = claimedToday(flytiee.profile.claimedMissionIds, mission.id);
                   return <article key={mission.id} className={cn('flex min-h-[210px] flex-col p-5', styles.missionCard)}>
-                    <div className="relative z-10 flex items-start justify-between gap-3"><span className={styles.miniIcon}><Gift aria-hidden="true" className="h-5 w-5" /></span><span className={styles.rewardPill}><Sparkles aria-hidden="true" className="h-3.5 w-3.5" />+{mission.xp} EXP · +{mission.coins} xu</span></div>
+                    <div className="relative z-10 flex items-start justify-between gap-3"><span className={styles.miniIcon}><Gift aria-hidden="true" className="h-5 w-5" /></span><span className={styles.rewardPill}>+{mission.xp} EXP <span aria-hidden="true">·</span> <FlytieeCoin className="h-4 w-4" />+{mission.coins} xu</span></div>
                     <h4 className="relative z-10 mt-4 text-base font-extrabold">{mission.title}</h4><p className="relative z-10 mt-1 text-sm leading-6 text-muted-foreground">{mission.description}</p>
-                    <div className="relative z-10 mt-auto pt-4"><div className="mb-2 flex justify-between text-xs font-bold"><span>{mission.current}/{mission.target}</span><span className="text-primary">{Math.round(mission.current / mission.target * 100)}%</span></div><Progress value={mission.current / mission.target * 100} /><Button type="button" className={cn('mt-4 w-full', complete && !claimed ? styles.primaryButton : styles.secondaryButton)} variant={claimed ? 'secondary' : complete ? 'default' : 'outline'} disabled={!complete || claimed} onClick={() => flytiee.claimMission(mission)}>{claimed ? <><Check aria-hidden="true" className="h-4 w-4" />Đã nhận</> : complete ? 'Nhận thưởng ngay' : 'Đang tiến hành'}</Button></div>
+                    <div className="relative z-10 mt-auto pt-4"><div className="mb-2 flex justify-between text-xs font-bold"><span>{mission.current}/{mission.target}</span><span className="text-primary">{Math.round(mission.current / mission.target * 100)}%</span></div><Progress value={mission.current / mission.target * 100} /><Button type="button" className={cn('mt-4 w-full', complete && !claimed ? styles.primaryButton : styles.secondaryButton)} variant={claimed ? 'secondary' : complete ? 'default' : 'outline'} disabled={!complete || claimed} onClick={() => claimMission(mission)}>{claimed ? <><Check aria-hidden="true" className="h-4 w-4" />Đã nhận</> : complete ? 'Nhận thưởng ngay' : 'Đang tiến hành'}</Button></div>
                   </article>;
                 })}
               </div>
@@ -300,7 +320,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
                 <section className="min-w-0">
                   <div className={cn('flex flex-wrap items-center justify-between gap-3', styles.shopHeader)}>
                     <div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Boutique & wardrobe</p><h3 className="mt-1 text-xl font-extrabold">Tủ đồ FlyTiee</h3><p className="mt-1 text-sm text-muted-foreground">Phối một diện mạo thật riêng hoặc săn Set sự kiện giới hạn.</p></div>
-                    <span className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-warning-soft px-4 text-sm font-bold text-warning"><Coins aria-hidden="true" className="h-4 w-4" />{flytiee.profile.coins} xu</span>
+                    <span className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-warning-soft px-4 text-sm font-bold text-warning"><FlytieeCoin className="h-5 w-5" />{flytiee.profile.coins} xu</span>
                   </div>
                   <div className={cn('mb-4 flex gap-2 overflow-x-auto pb-2', styles.categoryRail)} aria-label="Danh mục cửa hàng">
                     <Button type="button" size="sm" className={shopCategory === 'set' ? styles.primaryButton : styles.secondaryButton} variant={shopCategory === 'set' ? 'default' : 'outline'} onClick={() => setShopCategory('set')}><Sparkles aria-hidden="true" className="h-4 w-4" />Set sự kiện</Button>

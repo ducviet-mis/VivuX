@@ -4,6 +4,7 @@ import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { Grade, Lesson } from '../types';
 import { LESSON_META, GRADE_LABELS } from '../data/practice-data';
+import { fetchAllPages } from '../data/fetch-all-pages';
 
 export function usePracticeData() {
   const [grades, setGrades] = useState<Grade[]>([]);
@@ -18,12 +19,16 @@ export function usePracticeData() {
       setLoading(true);
       const supabase = getSupabaseClient();
       
-      const { data: questions, error } = await supabase
-        .from('practice_questions')
-        .select('lesson_id, id, difficulty_level')
-        .order('lesson_id');
-      
-      if (error || !questions) {
+      let questions: Array<{ lesson_id: string; id: string; difficulty_level?: number }>;
+      try {
+        questions = await fetchAllPages(async (from, to) => supabase
+          .from('practice_questions')
+          .select('lesson_id, id, difficulty_level')
+          .order('lesson_id')
+          .order('id')
+          .range(from, to));
+      } catch (error) {
+        console.error('Could not load all practice questions:', error);
         setLoading(false);
         return;
       }
@@ -43,10 +48,18 @@ export function usePracticeData() {
       const newSavedCounts: Record<string, number> = {};
       
       if (user?.id) {
-        const { data: progressData } = await supabase
-          .from('practice_progress')
-          .select('lesson_id, question_id, is_correct, difficulty_level')
-          .eq('user_id', user.id);
+        let progressData: Array<{ lesson_id: string; question_id: string; is_correct: boolean; difficulty_level?: number }> = [];
+        try {
+          progressData = await fetchAllPages(async (from, to) => supabase
+            .from('practice_progress')
+            .select('lesson_id, question_id, is_correct, difficulty_level')
+            .eq('user_id', user.id)
+            .order('lesson_id')
+            .order('question_id')
+            .range(from, to));
+        } catch (error) {
+          console.warn('Could not load all practice progress:', error);
+        }
           
         const progressCount = new Map<string, Set<string>>();
         const wrongCountMap = new Map<string, number>();
@@ -70,10 +83,18 @@ export function usePracticeData() {
         });
         
         // Fetch saved questions
-        const { data: savedData } = await supabase
-          .from('saved_questions')
-          .select('lesson_id, question_id, difficulty_level')
-          .eq('user_id', user.id);
+        let savedData: Array<{ lesson_id: string; question_id: string; difficulty_level?: number }> = [];
+        try {
+          savedData = await fetchAllPages(async (from, to) => supabase
+            .from('saved_questions')
+            .select('lesson_id, question_id, difficulty_level')
+            .eq('user_id', user.id)
+            .order('lesson_id')
+            .order('question_id')
+            .range(from, to));
+        } catch (error) {
+          console.warn('Could not load saved practice questions:', error);
+        }
 
         const savedCountMap = new Map<string, number>();
         (savedData || []).forEach((s: { lesson_id: string; question_id: string; difficulty_level?: number }) => {

@@ -13,6 +13,7 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { LESSON_META, GRADE_LABELS } from '@/features/practice/data/practice-data';
 import { useSavedQuestions } from '@/features/practice/hooks/use-saved-questions';
 import { PracticeCompletionDialog } from '@/features/practice/components/practice-completion-dialog';
+import { fetchAllPages } from '@/features/practice/data/fetch-all-pages';
 
 export default function LessonPracticePage() {
   const params = useParams();
@@ -54,17 +55,25 @@ export default function LessonPracticePage() {
   useEffect(() => {
     async function loadData() {
       setIsLoading(true);
+      setQuestions([]);
+      setAnsweredIds([]);
 
-      let query = supabase
-        .from('practice_questions')
-        .select('*')
-        .eq('lesson_id', lessonId);
-
-      if (level) {
-        query = query.eq('difficulty_level', level);
+      let data: any[] = [];
+      let questionFetchFailed = false;
+      try {
+        data = await fetchAllPages(async (from, to) => {
+          let query = supabase
+            .from('practice_questions')
+            .select('*')
+            .eq('lesson_id', lessonId);
+          if (level === 1) query = query.or('difficulty_level.eq.1,difficulty_level.eq.0,difficulty_level.is.null');
+          else if (level) query = query.eq('difficulty_level', level);
+          return query.order('order_index').order('id').range(from, to);
+        });
+      } catch (error) {
+        console.error('Could not load all lesson questions:', error);
+        questionFetchFailed = true;
       }
-
-      const { data, error } = await query;
 
       // Fetch lesson metadata from DB
       const { data: lessonData } = await supabase
@@ -81,7 +90,7 @@ export default function LessonPracticePage() {
         });
       }
 
-      if (data && !error) {
+      if (!questionFetchFailed) {
         let finalData = data;
 
         // Trộn câu theo tỉ lệ
@@ -131,20 +140,21 @@ export default function LessonPracticePage() {
       }
 
       if (user?.id && mode !== 'mix') {
-        let progQuery = supabase
-          .from('practice_progress')
-          .select('question_id')
-          .eq('lesson_id', lessonId)
-          .eq('user_id', user.id);
-
-        if (level) {
-          progQuery = progQuery.eq('difficulty_level', level);
-        }
-
-        const { data: progressData } = await progQuery;
-
-        if (progressData) {
+        try {
+          const progressData = await fetchAllPages<{ question_id: string }>(async (from, to) => {
+            let query = supabase
+              .from('practice_progress')
+              .select('question_id')
+              .eq('lesson_id', lessonId)
+              .eq('user_id', user.id);
+            if (level === 1) query = query.or('difficulty_level.eq.1,difficulty_level.eq.0,difficulty_level.is.null');
+            else if (level) query = query.eq('difficulty_level', level);
+            return query.order('question_id').range(from, to);
+          });
           setAnsweredIds(progressData.map((p: { question_id: string }) => p.question_id));
+        } catch (error) {
+          console.warn('Could not load all lesson progress:', error);
+          setAnsweredIds([]);
         }
       } else if (mode === 'mix') {
         setAnsweredIds([]);

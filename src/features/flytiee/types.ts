@@ -42,7 +42,8 @@ export type FlytieeSetEffect =
   | 'dino-dream'
   | 'gentle-snow'
   | 'shadow-eclipse'
-  | 'mushroom-grove';
+  | 'mushroom-grove'
+  | 'phoenix-dawn';
 
 export type FlytieeChestTier = 'bronze' | 'silver' | 'gold';
 
@@ -79,6 +80,7 @@ export interface FlytieeSet {
   eventName: string;
   effect: FlytieeSetEffect;
   tone: string;
+  exclusiveMilestone?: number;
 }
 
 export interface FlytieeProfile {

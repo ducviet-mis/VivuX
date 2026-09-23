@@ -367,7 +367,7 @@ export function useFlytiee() {
         const skin = randomItem(FLYTIEE_SKINS.filter((entry) => entry.id !== 'classic' && !current.ownedSkinIds.includes(entry.id)));
         if (skin) reward = { kind: 'skin', title: 'Skin mới!', description: `${skin.name} đã được thêm vào tủ đồ.`, itemId: skin.id };
       } else if (outcome === 6) {
-        const set = randomItem(FLYTIEE_SETS.filter((entry) => !current.ownedSetIds.includes(entry.id)));
+        const set = randomItem(FLYTIEE_SETS.filter((entry) => !entry.exclusiveMilestone && !current.ownedSetIds.includes(entry.id)));
         if (set) reward = { kind: 'set', title: 'Set sự kiện!', description: `${set.name} đã được mở khóa.`, itemId: set.id };
       }
     }

@@ -75,6 +75,15 @@ export const FLYTIEE_SETS: FlytieeSet[] = [
     effect: 'mushroom-grove',
     tone: 'coral',
   },
+  {
+    id: 'phoenix-dawn',
+    name: 'Phượng Hoàng Bình Minh',
+    description: 'Lông lửa sống động trên chỏm đầu, đôi cánh và đuôi; áo choàng xanh đêm viền vàng ôm trọn FlyTiee.',
+    eventName: 'Độc quyền chuỗi học 200 ngày',
+    effect: 'phoenix-dawn',
+    tone: 'gold',
+    exclusiveMilestone: 200,
+  },
 ];
 
 export function getFlytieeSet(id?: string | null) {

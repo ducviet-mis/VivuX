@@ -14,11 +14,16 @@ CREATE TABLE IF NOT EXISTS public.learning_streaks (
 
 CREATE TABLE IF NOT EXISTS public.learning_streak_claims (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  milestone INTEGER NOT NULL CHECK (milestone IN (10, 30, 50, 80, 100, 150)),
+  milestone INTEGER NOT NULL CHECK (milestone IN (10, 30, 50, 80, 100, 150, 200)),
   selected_set_id TEXT,
   claimed_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   PRIMARY KEY (user_id, milestone)
 );
+
+-- Also upgrades databases created before the 200-day reward existed.
+ALTER TABLE public.learning_streak_claims DROP CONSTRAINT IF EXISTS learning_streak_claims_milestone_check;
+ALTER TABLE public.learning_streak_claims ADD CONSTRAINT learning_streak_claims_milestone_check
+  CHECK (milestone IN (10, 30, 50, 80, 100, 150, 200));
 
 CREATE TABLE IF NOT EXISTS public.learning_streak_discounts (
   user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -114,7 +119,7 @@ BEGIN
   IF v_user IS NULL THEN
     RETURN jsonb_build_object('ok', FALSE, 'message', 'Bạn cần đăng nhập để nhận thưởng.');
   END IF;
-  IF p_milestone IS NULL OR p_milestone NOT IN (10, 30, 50, 80, 100, 150) THEN
+  IF p_milestone IS NULL OR p_milestone NOT IN (10, 30, 50, 80, 100, 150, 200) THEN
     RETURN jsonb_build_object('ok', FALSE, 'message', 'Mốc này chưa thể nhận quà.');
   END IF;
 
@@ -179,9 +184,16 @@ BEGIN
     ELSE
       v_message := 'Bạn đã có FlyInfinity trọn đời; mốc 150 đã được ghi nhận.';
     END IF;
+  ELSIF p_milestone = 200 THEN
+    v_owned := COALESCE(v_bird -> 'ownedSetIds', '[]'::JSONB);
+    IF NOT (v_owned ? 'phoenix-dawn') THEN
+      v_owned := v_owned || to_jsonb('phoenix-dawn'::TEXT);
+    END IF;
+    v_bird := jsonb_set(v_bird, '{ownedSetIds}', v_owned, TRUE);
+    v_message := 'Phượng Hoàng Bình Minh đã được mở khóa trong tủ đồ FlyTiee!';
   END IF;
 
-  IF p_milestone IN (10, 30, 50, 100) THEN
+  IF p_milestone IN (10, 30, 50, 100, 200) THEN
     UPDATE auth.users SET raw_user_meta_data = jsonb_set(v_metadata, '{flytiee}', v_bird, TRUE)
       WHERE id = v_user;
     -- Nếu đã cài bảng FlyTiee, giữ số dư/kho quà ở đó đồng bộ với metadata.
@@ -194,15 +206,18 @@ BEGIN
       ELSIF p_milestone = 50 THEN
         UPDATE public.flytiee_profiles SET chests = jsonb_set(chests, '{gold}',
           to_jsonb(COALESCE((chests ->> 'gold')::INTEGER, 0) + 5), TRUE) WHERE user_id = v_user;
-      ELSE
+      ELSIF p_milestone = 100 THEN
         UPDATE public.flytiee_profiles SET owned_set_ids = array_append(owned_set_ids, p_set_id)
           WHERE user_id = v_user AND NOT p_set_id = ANY(owned_set_ids);
+      ELSE
+        UPDATE public.flytiee_profiles SET owned_set_ids = array_append(owned_set_ids, 'phoenix-dawn')
+          WHERE user_id = v_user AND NOT 'phoenix-dawn' = ANY(owned_set_ids);
       END IF;
     END IF;
   END IF;
 
   INSERT INTO public.learning_streak_claims (user_id, milestone, selected_set_id)
-    VALUES (v_user, p_milestone, CASE WHEN p_milestone = 100 THEN p_set_id ELSE NULL END);
+    VALUES (v_user, p_milestone, CASE WHEN p_milestone = 100 THEN p_set_id WHEN p_milestone = 200 THEN 'phoenix-dawn' ELSE NULL END);
   RETURN jsonb_build_object('ok', TRUE, 'message', v_message, 'milestone', p_milestone);
 END;
 $$;

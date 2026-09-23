@@ -49,6 +49,21 @@ const MUSHROOM_KINGDOM_SKIN: FlytieeSkin = {
   },
 };
 
+const PHOENIX_DAWN_SKIN: FlytieeSkin = {
+  id: 'phoenix-dawn',
+  name: 'Phượng Hoàng Bình Minh',
+  price: 0,
+  description: 'Ngọn lửa bình minh của hành trình 200 ngày.',
+  personality: 'Rực rỡ',
+  mood: 'bright',
+  palette: {
+    bodyStart: '#fff0a2', bodyMid: '#f3ae4f', bodyEnd: '#bc5345',
+    outline: '#813948', highlight: '#fff5c7', bellyStart: '#fff2cb',
+    bellyEnd: '#f8c47c', cheek: '#ed8d83', eye: '#543450',
+    brow: '#865048', accent: '#ffd46a',
+  },
+};
+
 function HeldAccessoryGrip({ skin }: { skin: FlytieeSkin }) {
   return <path d="M595 592Q622 574 645 591Q655 615 619 624L600 613" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6" strokeLinejoin="round"/>;
 }
@@ -114,6 +129,18 @@ function AccessoryLayers({ equipped, skin, showGrip = true }: { equipped: Flytie
 }
 
 function SetEffects({ setId }: { setId: string | null }) {
+  if (setId === 'phoenix-dawn') return <g className={styles.phoenixAura} aria-hidden="true">
+    <ellipse cx="473" cy="461" rx="294" ry="274" fill="#27183d" opacity=".24"/>
+    <ellipse cx="473" cy="461" rx="281" ry="258" fill="none" stroke="#8b3b52" strokeWidth="16" opacity=".28"/>
+    <path d="M220 550C168 381 294 235 436 211M535 211C672 226 783 367 723 534" fill="none" stroke="#ffb957" strokeWidth="5" strokeLinecap="round" strokeDasharray="8 17" opacity=".85"/>
+    <path d="M247 656Q324 689 389 676M572 675Q654 685 715 626" fill="none" stroke="#e97455" strokeWidth="9" strokeLinecap="round" opacity=".6"/>
+    <g className={styles.phoenixEmbers} fill="#ffe8a2">
+      <circle cx="242" cy="402" r="7"/><circle cx="269" cy="302" r="5"/><circle cx="653" cy="240" r="6"/>
+      <circle cx="744" cy="431" r="7"/><circle cx="214" cy="579" r="5"/><circle cx="688" cy="705" r="5"/>
+      <path d="m277 509 6 11 12 3-9 8 2 13-11-6-11 6 2-13-9-8 12-3ZM702 328l5 9 10 2-7 8 1 10-9-5-9 5 2-10-8-8 11-2Z" fill="#ffb45d"/>
+    </g>
+  </g>;
+
   if (setId === 'cosmic-explorer') return <g className={styles.cosmicEffect} aria-hidden="true">
     <ellipse cx="468" cy="455" rx="284" ry="218" fill="#173a61" opacity=".12"/>
     <ellipse cx="468" cy="455" rx="282" ry="211" fill="none" stroke="#7bd8ff" strokeWidth="5" strokeDasharray="9 17" opacity=".68"/>
@@ -198,18 +225,25 @@ function SetCharacterFace({ skin }: { skin: FlytieeSkin }) {
   </>;
 }
 
-function NaturalSetBase({ skin, gradientId }: { skin: FlytieeSkin; gradientId: string }) {
+function NaturalSetBase({ skin, gradientId, phoenix = false }: { skin: FlytieeSkin; gradientId: string; phoenix?: boolean }) {
   return <>
     <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
-    <g className={styles.waveWing}><path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6"/></g>
+    <g className={styles.waveWing}>
+      <path d="M593 493C637 468 661 429 683 387C694 366 709 376 707 394L702 421C724 399 739 410 728 431L717 451C740 438 751 452 732 471C756 465 760 480 741 496C710 526 663 551 613 547Z" fill={skin.palette.bodyMid} stroke={skin.palette.outline} strokeWidth="6"/>
+      {phoenix && <g className={styles.phoenixWingFire} strokeLinejoin="round"><path d="M615 486Q665 453 686 381Q710 402 701 431Q729 404 740 432Q745 451 726 463Q760 443 761 473Q765 492 734 503Q678 542 619 532Z" fill="#d64f4c" stroke="#8d3650" strokeWidth="6"/><path d="M633 485Q679 447 688 405Q704 428 689 450Q720 429 728 444Q718 476 691 487Q721 471 738 477Q705 510 633 517Z" fill="#ff984d"/><path d="M644 486Q676 456 684 433Q689 451 675 469Q704 452 709 460Q697 488 644 504Z" fill="#ffe28a"/><path d="M650 482Q671 468 681 447" fill="none" stroke="#fff6c4" strokeWidth="5" strokeLinecap="round"/></g>}
+    </g>
     <path d="M366 267C342 239 338 217 350 203C363 189 389 210 413 237C407 201 416 175 433 173C452 171 461 206 463 236C480 213 500 205 511 218C520 230 507 253 491 267C609 285 671 396 666 532C663 663 595 730 467 735C340 741 240 695 226 576C209 433 251 303 366 267Z" fill={`url(#${gradientId}-body)`} stroke={skin.palette.outline} strokeWidth="7"/>
     <path d="M296 362C321 326 345 312 370 303M421 244C422 226 424 214 429 205" stroke={skin.palette.highlight} strokeWidth="12" strokeLinecap="round" opacity=".65"/>
     <SetCharacterFace skin={skin}/>
   </>;
 }
 
-function NaturalSetFrontWing({ skin }: { skin: FlytieeSkin }) {
-  return <g className={styles.restWing}><path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill={skin.palette.bodyEnd} stroke={skin.palette.outline} strokeWidth="6"/><path d="M262 478C253 511 271 548 289 561" stroke={skin.palette.highlight} strokeWidth="8" strokeLinecap="round"/></g>;
+function NaturalSetFrontWing({ skin, phoenix = false }: { skin: FlytieeSkin; phoenix?: boolean }) {
+  return <g className={styles.restWing}>
+    <path d="M267 432C241 444 228 479 234 521C239 561 259 588 294 606C310 614 322 606 319 592C315 577 298 557 295 536C293 511 308 484 302 460C298 442 284 429 267 432Z" fill={skin.palette.bodyEnd} stroke={skin.palette.outline} strokeWidth="6"/>
+    {phoenix && <g className={styles.phoenixWingFire} strokeLinejoin="round"><path d="M264 435Q233 459 228 502Q228 549 265 585Q248 548 260 528Q260 560 295 591Q306 597 300 580Q274 543 286 502Q292 462 264 435Z" fill="#d9584c" stroke="#8d3650" strokeWidth="5"/><path d="M262 460Q239 484 242 517Q244 547 274 572Q259 538 272 518Q275 546 294 563Q275 519 283 493Q283 474 262 460Z" fill="#ffad59"/><path d="M260 486Q248 507 253 525Q257 542 269 551Q261 521 275 503Z" fill="#fff0a0"/></g>}
+    <path d="M262 478C253 511 271 548 289 561" stroke={skin.palette.highlight} strokeWidth="8" strokeLinecap="round"/>
+  </g>;
 }
 
 function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: FlytieeSkin; gradientId: string }) {
@@ -217,13 +251,23 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
     ? SHADOW_NINJA_SKIN
     : setId === 'mushroom-kingdom'
       ? MUSHROOM_KINGDOM_SKIN
+      : setId === 'phoenix-dawn'
+        ? PHOENIX_DAWN_SKIN
       : skin;
   const setGradientId = setId === 'shadow-ninja'
     ? `${gradientId}-shadow-ninja`
     : setId === 'mushroom-kingdom'
       ? `${gradientId}-mushroom-kingdom`
+      : setId === 'phoenix-dawn'
+        ? `${gradientId}-phoenix-dawn`
       : gradientId;
   return <g className={styles.fullSetCharacter} strokeLinejoin="round">
+    {setId === 'phoenix-dawn' && <g className={styles.phoenixTail} strokeLinejoin="round">
+      <path d="M632 559Q724 519 778 574Q728 554 736 604Q775 635 750 686Q738 655 704 653Q693 711 627 731Q652 677 605 651Z" fill="#b94158" stroke="#79304b" strokeWidth="8"/>
+      <path d="M645 573Q731 546 758 585Q709 576 717 622Q738 647 724 665Q698 629 677 635Q672 688 640 706Q660 660 621 639Z" fill="#f27c49"/>
+      <path d="M667 594Q719 572 735 600Q696 596 697 632Q705 650 694 660Q683 628 658 630Z" fill="#ffcd6a"/>
+      <path d="M651 587Q708 575 731 603M633 658Q656 677 644 701" fill="none" stroke="#fff1bd" strokeWidth="6" strokeLinecap="round" opacity=".75"/>
+    </g>}
     {setId === 'shadow-ninja' && <g opacity=".98">
       <path d="M628 569L720 391L748 407L650 588Z" fill="#241334" stroke="#10091d" strokeWidth="9"/>
       <path d="M642 566L730 397" stroke="#c8b4ff" strokeWidth="6" strokeLinecap="round"/>
@@ -231,7 +275,49 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M620 578L650 550L675 575L645 606Z" fill="#6f4bb1" stroke="#1b0f2d" strokeWidth="7"/>
       <path d="M634 576L656 598M645 563L667 585" stroke="#e6d8ff" strokeWidth="4" strokeLinecap="round"/>
     </g>}
-    <NaturalSetBase skin={setSkin} gradientId={setGradientId}/>
+    <NaturalSetBase skin={setSkin} gradientId={setGradientId} phoenix={setId === 'phoenix-dawn'}/>
+
+    {setId === 'phoenix-dawn' && <>
+      {/* The cloak follows the unchanged round body outline; face and wing joints stay clear. */}
+      <path d="M218 497Q287 530 367 544Q465 560 562 539Q625 524 658 497C678 549 674 614 653 669Q621 727 561 739Q460 765 350 737Q282 714 244 665Q210 609 218 497Z" fill={`url(#${gradientId}-phoenix-cloak)`} stroke="#643c55" strokeWidth="9"/>
+      <path d="M231 532Q279 571 328 582L311 669Q267 646 240 608ZM605 581Q645 562 659 530L652 613Q635 653 611 674Z" fill="#2d3157" stroke="#8b5a66" strokeWidth="5"/>
+      <path d="M301 570Q373 597 466 602Q555 596 626 567L608 690Q558 730 467 733Q378 730 325 685Z" fill="#3b3458" stroke="#b36c66" strokeWidth="6"/>
+      <path d="M334 606Q393 634 466 637Q541 630 596 604L586 684Q534 717 466 716Q391 715 342 683Z" fill="#5c3a59" opacity=".85"/>
+      <path d="M219 500Q339 540 465 546Q588 540 657 500" fill="none" stroke="#713f52" strokeWidth="34" strokeLinecap="round"/>
+      <path d="M222 495Q345 530 465 534Q583 529 654 495" fill="none" stroke="#ffd67a" strokeWidth="22" strokeLinecap="round"/>
+      <path d="M241 500Q353 527 465 525Q575 522 635 499" fill="none" stroke="#fff1b8" strokeWidth="6" strokeLinecap="round"/>
+      <path d="M244 523Q465 585 639 522" fill="none" stroke="#e87956" strokeWidth="5" strokeLinecap="round"/>
+      <g fill="#e27457" stroke="#9d4956" strokeWidth="4">
+        <path d="M269 581Q301 598 322 625L311 664Q286 647 269 581Z"/>
+        <path d="M331 613Q363 647 389 659L375 695Q341 675 331 613Z"/>
+        <path d="M606 580Q631 595 647 579Q635 635 617 659Z"/>
+        <path d="M594 614Q573 648 545 661L562 696Q595 676 594 614Z"/>
+      </g>
+      <path d="M273 595Q295 608 307 630M345 626Q366 651 378 659M623 596Q612 625 604 635M579 631Q560 652 548 659" fill="none" stroke="#ffd27b" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M352 669Q468 720 585 667" fill="none" stroke="#f7a762" strokeWidth="7" strokeLinecap="round"/>
+      <path d="M353 685Q468 730 584 683" fill="none" stroke="#fff1b4" strokeWidth="4" strokeLinecap="round" opacity=".9"/>
+      <path d="M337 739Q369 726 407 740L404 762H323Z" fill="#49334e" stroke="#763e54" strokeWidth="6"/>
+      <path d="M508 740Q550 727 590 740L596 762H508Z" fill="#49334e" stroke="#763e54" strokeWidth="6"/>
+      <path d="M338 751H393M522 751H583" stroke="#ffca73" strokeWidth="5" strokeLinecap="round"/>
+      <g className={styles.phoenixCrest} strokeLinejoin="round">
+        <path d="M354 300Q330 251 351 195Q374 235 387 242Q379 175 427 133Q431 192 454 207Q468 156 499 143Q505 207 493 238Q532 204 558 230Q539 271 572 301Z" fill="#b93e50" stroke="#79364e" strokeWidth="8"/>
+        <path d="M367 291Q357 255 365 231Q389 270 402 263Q407 206 425 176Q433 231 454 247Q475 202 489 178Q495 236 475 260Q521 237 540 243Q523 271 549 296Z" fill="#f0784c"/>
+        <path d="M389 285Q398 249 418 219Q422 267 452 279Q468 253 484 218Q486 267 473 283Q510 260 527 279Z" fill="#ffd16d"/>
+        <path d="M430 263Q445 276 457 281Q475 252 478 241" fill="none" stroke="#fff1ad" strokeWidth="7" strokeLinecap="round"/>
+      </g>
+      <path d="M312 328Q465 287 619 325L613 353Q465 322 318 354Z" fill="#433451" stroke="#81495c" strokeWidth="7"/>
+      <path d="M324 330Q462 301 606 329" fill="none" stroke="#ffcb71" strokeWidth="8" strokeLinecap="round"/>
+      <path d="M339 340Q466 316 589 341" fill="none" stroke="#fff1b8" strokeWidth="3" strokeLinecap="round"/>
+      <path d="M464 311L475 325L469 344H454L449 325Z" fill="#ffeb9c" stroke="#c87551" strokeWidth="4"/>
+      <path d="M415 535Q442 552 466 556Q490 551 520 534L505 582Q487 595 466 597Q443 594 426 581Z" fill="#e77b5b" stroke="#9b4b56" strokeWidth="6"/>
+      <path d="M431 547Q466 566 506 546" fill="none" stroke="#ffe39b" strokeWidth="6" strokeLinecap="round"/>
+      <path d="M466 561L490 593L466 628L440 594Z" fill="#ffd476" stroke="#9d5050" strokeWidth="6"/>
+      <path d="M466 571L480 593L466 615L452 593Z" fill="#fff3ba"/>
+      <g className={styles.phoenixVeins} fill="none" stroke="#ffbe68" strokeWidth="5" strokeLinecap="round">
+        <path d="M435 633Q405 650 385 681M498 632Q530 652 548 681"/>
+        <path d="M436 691Q466 703 498 691" strokeWidth="4"/>
+      </g>
+    </>}
 
     {setId === 'cosmic-explorer' && <>
       <path d="M219 495Q461 563 659 495C673 540 675 585 661 627C642 687 602 720 559 733Q463 759 355 731C290 713 240 674 222 616C211 578 210 534 219 495Z" fill="#f5f9fd" stroke="#68829e" strokeWidth="8"/>
@@ -373,7 +459,7 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M293 580Q308 604 324 618M636 578Q622 607 603 621" fill="none" stroke="#f3d47b" strokeWidth="4" strokeLinecap="round" opacity=".78"/>
       <path d="M347 581Q374 564 398 581M535 580Q559 564 584 578" fill="none" stroke="#b16fbb" strokeWidth="5" strokeLinecap="round"/>
     </>}
-    <NaturalSetFrontWing skin={setSkin}/>
+    <NaturalSetFrontWing skin={setSkin} phoenix={setId === 'phoenix-dawn'}/>
   </g>;
 }
 
@@ -491,6 +577,8 @@ export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
       <linearGradient id={`${gradientId}-belly`} x2="0" y2="1"><stop stopColor={skin.palette.bellyStart}/><stop offset="1" stopColor={skin.palette.bellyEnd}/></linearGradient>
       <linearGradient id={`${gradientId}-shadow-ninja-body`} x1=".12" y1="0" x2=".86" y2="1"><stop stopColor="#b69aff"/><stop offset=".48" stopColor="#604096"/><stop offset="1" stopColor="#181026"/></linearGradient>
       <linearGradient id={`${gradientId}-mushroom-kingdom-body`} x1=".1" y1="0" x2=".9" y2="1"><stop stopColor="#c0a6ff"/><stop offset=".46" stopColor="#674790"/><stop offset="1" stopColor="#1b122d"/></linearGradient>
+      <linearGradient id={`${gradientId}-phoenix-dawn-body`} x1=".18" y1="0" x2=".82" y2="1"><stop stopColor="#fff2ac"/><stop offset=".48" stopColor="#f8b95a"/><stop offset="1" stopColor="#c05752"/></linearGradient>
+      <linearGradient id={`${gradientId}-phoenix-cloak`} x1=".1" y1="0" x2=".86" y2="1"><stop stopColor="#263354"/><stop offset=".55" stopColor="#353354"/><stop offset="1" stopColor="#723d59"/></linearGradient>
     </defs>
     {previousMood && <BirdScene key={`${previousMood}-out`} mood={previousMood} profile={profile} gradientId={gradientId} className={cn(styles.sceneExit, longTransition && styles.sceneTransitionLong)}/>}
     <BirdScene key={`${visibleMood}-in`} mood={visibleMood} profile={profile} gradientId={gradientId} className={cn(previousMood && styles.sceneEnter, longTransition && styles.sceneTransitionLong)}/>

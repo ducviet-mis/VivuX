@@ -107,8 +107,14 @@ CREATE TABLE IF NOT EXISTS public.flytiee_gift_codes (
   redemption_count INTEGER NOT NULL DEFAULT 0 CHECK (redemption_count >= 0),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CHECK (expires_at IS NULL OR starts_at IS NULL OR expires_at > starts_at)
+  CHECK (expires_at IS NULL OR starts_at IS NULL OR expires_at > starts_at),
+  CONSTRAINT flytiee_gift_codes_no_phoenix_check
+    CHECK (reward_kind <> 'set' OR (reward_value ->> 'item_id') IS DISTINCT FROM 'phoenix-dawn')
 );
+
+ALTER TABLE public.flytiee_gift_codes DROP CONSTRAINT IF EXISTS flytiee_gift_codes_no_phoenix_check;
+ALTER TABLE public.flytiee_gift_codes ADD CONSTRAINT flytiee_gift_codes_no_phoenix_check
+  CHECK (reward_kind <> 'set' OR (reward_value ->> 'item_id') IS DISTINCT FROM 'phoenix-dawn');
 
 CREATE TABLE IF NOT EXISTS public.flytiee_gift_code_redemptions (
   gift_code_id UUID NOT NULL REFERENCES public.flytiee_gift_codes(id) ON DELETE CASCADE,

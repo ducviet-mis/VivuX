@@ -147,20 +147,52 @@ function SetEffects({ setId }: { setId: string | null }) {
   if (setId === 'azure-tide-dragon') return <g className={styles.seaEffect} aria-hidden="true">
     <ellipse cx="472" cy="468" rx="302" ry="283" fill="#0d3852" opacity=".24"/>
     <g className={styles.seaTideRing} fill="none" strokeLinecap="round">
-      <ellipse cx="472" cy="462" rx="272" ry="254" stroke="#1a647c" strokeWidth="20" opacity=".65"/>
-      <path d="M234 393C261 291 362 222 472 219C600 215 701 315 730 419M714 545C664 650 583 706 471 710C355 713 263 638 222 541" stroke="#8be8e0" strokeWidth="9" opacity=".87"/>
-      <path d="M261 350C310 265 384 234 465 233M690 591C636 663 555 695 482 695" stroke="#e5fff1" strokeWidth="4" opacity=".9"/>
-      <path d="M208 482Q233 499 252 485M699 513Q726 528 747 505" stroke="#c4fff4" strokeWidth="6"/>
+      <path d="M226 415C246 301 354 218 468 211M707 514C677 632 583 706 469 711C354 713 258 635 226 544" stroke="#78d8d8" strokeWidth="5" strokeDasharray="16 20" opacity=".65"/>
+      <path d="M261 348C304 275 373 239 455 230M681 605C633 665 555 694 489 695" stroke="#dcfff0" strokeWidth="3" opacity=".7"/>
     </g>
     <g className={styles.seaDragon} strokeLinejoin="round" strokeLinecap="round">
-      <path d="M211 548C175 484 187 377 239 316C277 273 316 246 368 234C473 208 564 199 648 249C699 280 724 306 744 297" fill="none" stroke="#126378" strokeWidth="38"/>
-      <path d="M211 548C175 484 187 377 239 316C277 273 316 246 368 234C473 208 564 199 648 249C699 280 724 306 744 297" fill="none" stroke="#55c4c3" strokeWidth="23"/>
-      <path d="M209 541C184 464 205 365 255 314C334 228 457 214 556 225" fill="none" stroke="#b5fff1" strokeWidth="6" opacity=".85"/>
-      <path d="M706 285Q723 263 752 270L775 284L756 296Q764 306 746 314L705 304Z" fill="#69d9d1" stroke="#1b7789" strokeWidth="7"/>
-      <path d="M713 271L708 244L722 253L736 225L742 268M751 271L763 246L765 278" fill="none" stroke="#a5f7e9" strokeWidth="8"/>
-      <path d="M753 302Q785 316 797 301M736 307Q763 337 793 333" fill="none" stroke="#9df5e8" strokeWidth="5"/>
-      <circle cx="746" cy="282" r="5" fill="#fff9c3"/>
-      <path d="M261 310l-9-32 24 16M304 267l-2-32 21 20M353 244l6-30 13 22M409 225l12-24 8 25M472 217l16-21 7 30M534 217l17-20 5 30M598 232l22-16-2 32" fill="#a6ede3" stroke="#2f91a2" strokeWidth="5"/>
+      {/* A broad, scaled torso frames the bird; the head and claws remain outside its face. */}
+      <path d="M209 608Q176 570 178 505C179 406 220 327 293 276C374 220 466 204 553 213C630 220 685 254 721 293L695 339C631 292 566 272 491 273C404 273 329 303 275 361C232 408 216 471 226 530Q231 561 250 575Z" fill="#176a83" stroke="#0b4b68" strokeWidth="9"/>
+      <path d="M204 575C187 478 221 380 293 315C369 246 481 224 563 242Q631 258 687 310" fill="none" stroke="#59bcc0" strokeWidth="20" opacity=".82"/>
+      <path d="M210 529C209 423 257 342 331 289C423 225 536 221 619 256" fill="none" stroke="#b7f4df" strokeWidth="6" opacity=".92"/>
+      <path d="M181 550Q191 588 211 620L232 590L257 615L249 568" fill="#43aec0" stroke="#0b4b68" strokeWidth="7"/>
+      <g fill="#7bd6cc" stroke="#247c94" strokeWidth="5">
+        <path d="M244 354L233 315L263 333Z"/><path d="M288 303L284 263L313 283Z"/>
+        <path d="M339 269L345 230L367 257Z"/><path d="M398 241L413 204L430 237Z"/>
+        <path d="M466 226L485 192L496 230Z"/><path d="M535 229L562 199L562 243Z"/>
+        <path d="M596 247L630 226L619 268Z"/>
+      </g>
+      <g fill="none" stroke="#9ce6d7" strokeWidth="4" opacity=".82">
+        <path d="M231 396q15-12 29 2m-8-28q16-13 31 0m-10-26q15-14 30-2"/>
+        <path d="M313 302q16-12 31 0m-6-28q17-12 33 0m-5-26q18-11 32 1"/>
+        <path d="M429 237q16-10 30 4m-1-24q17-8 29 5m13-3q17-5 28 10"/>
+        <path d="M561 243q16-4 25 10m6-1q16-2 23 15m7 0q14 1 21 18"/>
+      </g>
+      {/* Two visible horns, swept mane, brow and long snout define the dragon at thumbnail size. */}
+      <path d="M661 278Q640 252 629 255L640 279L620 280L643 308L653 330L683 300Z" fill="#3b9db0" stroke="#155f7b" strokeWidth="7"/>
+      <path d="M650 279L632 263M652 301L628 287" fill="none" stroke="#a5f2df" strokeWidth="5"/>
+      <path d="M672 288Q654 257 673 219L690 250Q694 218 715 198L729 252Q746 234 763 238L757 282Z" fill="#c5f5e1" stroke="#247b93" strokeWidth="8"/>
+      <path d="M688 259Q677 230 675 207Q662 220 650 219M713 241Q724 217 721 193Q735 207 746 205M742 250Q756 232 767 227" fill="none" stroke="#d9fff0" strokeWidth="8" strokeLinecap="round"/>
+      <path d="M669 297Q665 265 688 251Q704 273 713 279Q729 246 746 249L751 289Z" fill="#358fa7" stroke="#12617c" strokeWidth="7"/>
+      <path d="M653 314Q669 272 709 269Q745 260 763 286L787 296Q800 305 795 320Q808 334 794 345L763 356Q746 371 716 356L687 365Q663 358 652 337Z" fill="#59bfc1" stroke="#0b4b68" strokeWidth="9"/>
+      <path d="M695 280Q724 270 745 288L771 299Q739 296 710 309Q681 313 661 334Q670 295 695 280Z" fill="#a8e9d9"/>
+      <path d="M709 322Q750 307 791 321Q798 327 794 338Q771 355 733 348L709 343Z" fill="#8bdbd0" stroke="#186e87" strokeWidth="6"/>
+      <path d="M735 346Q764 351 790 338Q776 361 748 361Q728 360 714 350Z" fill="#216f89" stroke="#0c526c" strokeWidth="5"/>
+      <path d="M750 347l6 12 7-9m7-2 5 9 6-12" fill="#effff0" stroke="#b2eee0" strokeWidth="2"/>
+      <path d="M682 314Q709 292 733 310" fill="none" stroke="#15516d" strokeWidth="9"/>
+      <path d="M681 318Q703 302 722 312" fill="none" stroke="#e8fff0" strokeWidth="3"/>
+      <ellipse cx="709" cy="310" rx="10" ry="13" fill="#fff8cd" stroke="#1b6680" strokeWidth="4"/>
+      <ellipse cx="713" cy="310" rx="4" ry="9" fill="#174660"/>
+      <circle cx="776" cy="324" r="5" fill="#155570"/>
+      <path d="M671 332Q647 337 641 361M682 344Q660 358 663 380" fill="none" stroke="#7ad7cb" strokeWidth="7"/>
+      <path d="M776 339Q793 356 802 376M750 352Q765 379 793 385" fill="none" stroke="#c1f4df" strokeWidth="5"/>
+      <path d="M721 359Q717 384 734 397L746 373Q751 395 766 404L773 359" fill="#54b6bd" stroke="#155f7b" strokeWidth="6"/>
+      <path d="M734 374Q730 390 738 396M758 375Q762 391 768 398" fill="none" stroke="#bcf9e6" strokeWidth="4"/>
+      {/* A clawed foreleg and finned tail prevent the body from reading as a plain ring. */}
+      <path d="M694 359Q723 378 730 417L755 439L739 458L707 440Q684 415 678 379Z" fill="#318fa8" stroke="#0b4b68" strokeWidth="7"/>
+      <path d="M730 430Q749 423 763 437L776 453L762 457L751 448L758 467L744 468L736 453L733 468L719 463L718 445Z" fill="#88ded0" stroke="#155b78" strokeWidth="6"/>
+      <path d="M746 452l10 9m-16-7 5 10" stroke="#f0fff0" strokeWidth="4"/>
+      <path d="M204 572Q192 601 178 617L211 607L226 637L240 598" fill="#75d4c9" stroke="#155f7b" strokeWidth="6"/>
     </g>
     <g className={styles.seaBubbles} fill="#dcfff4" stroke="#71d6d8" strokeWidth="4">
       <circle cx="262" cy="276" r="11"/><circle cx="691" cy="385" r="8"/><circle cx="217" cy="595" r="7"/>

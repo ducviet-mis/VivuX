@@ -458,8 +458,8 @@
   .brandMark { width: 40px; height: 40px; border-radius: 14px; }
   .headerBadge { display: none; }
   .tabBar { padding: 8px; }
-  .tabList { min-height: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 16px; }
-  .tabTrigger { min-height: 54px; flex-direction: column; gap: 3px; padding: 6px 2px; font-size: 11px; line-height: 1.15; }
+  .tabList { min-height: auto; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 16px; }
+  .tabTrigger { min-height: 54px; flex-direction: column; gap: 3px; padding: 6px 2px; font-size: 10px; line-height: 1.15; }
   .petStage { min-height: 365px; border-radius: 22px; }
   .petVisual { height: 305px; }
   .content { padding: 12px; scrollbar-gutter: auto; }

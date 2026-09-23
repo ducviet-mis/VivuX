@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   CalendarDays,
   Check,
+  Compass,
   Edit3,
   Gift,
   RefreshCw,
@@ -24,6 +25,7 @@ import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
 import { FlytieeCoin } from './flytiee-coin';
 import { FlytieeCoinReward } from './flytiee-coin-reward';
 import { FlytieeEvents } from './flytiee-events';
+import { FlytieeAdventure } from './flytiee-adventure';
 import type { FlytieeAccessorySlot, FlytieeMood } from './types';
 import { useFlytiee } from './use-flytiee';
 import styles from './flytiee-widget.module.css';
@@ -240,9 +242,10 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
 
         <Tabs value={tab} onValueChange={changeTab} className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <div className={cn('shrink-0 px-4 py-3 sm:px-7 sm:py-4', styles.tabBar)}>
-            <TabsList className={cn('grid h-auto w-full grid-cols-4', styles.tabList)}>
+            <TabsList className={cn('grid h-auto w-full grid-cols-5', styles.tabList)}>
               <TabsTrigger value="home" className={styles.tabTrigger}><Utensils aria-hidden="true" className="h-4 w-4" />Chăm sóc</TabsTrigger>
               <TabsTrigger value="missions" className={styles.tabTrigger}><Gift aria-hidden="true" className="h-4 w-4" />Nhiệm vụ</TabsTrigger>
+              <TabsTrigger value="adventure" className={styles.tabTrigger}><Compass aria-hidden="true" className="h-4 w-4" />Kỳ thú</TabsTrigger>
               <TabsTrigger value="events" className={styles.tabTrigger}><CalendarDays aria-hidden="true" className="h-4 w-4" />Sự kiện</TabsTrigger>
               <TabsTrigger value="shop" className={styles.tabTrigger}><Sparkles aria-hidden="true" className="h-4 w-4" />Cửa hàng</TabsTrigger>
             </TabsList>
@@ -303,6 +306,10 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
 
             <TabsContent value="events" className="mt-0">
               <FlytieeEvents flytiee={flytiee} />
+            </TabsContent>
+
+            <TabsContent value="adventure" className="mt-0">
+              <FlytieeAdventure flytiee={flytiee} />
             </TabsContent>
 
             <TabsContent value="shop" className="mt-0">

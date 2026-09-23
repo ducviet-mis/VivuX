@@ -513,6 +513,18 @@ export function useFlytiee() {
 
   const clearMessage = useCallback(() => setMessage(''), []);
 
+  const reloadProfile = useCallback(async () => {
+    if (!userId) return;
+    const { data, error } = await getSupabaseClient().auth.getUser();
+    if (error || !data.user) return;
+    const remote = data.user.user_metadata?.[FLYTIEE_METADATA_KEY];
+    if (!remote) return;
+    const next = normalizeFlytieeProfile(remote);
+    profileRef.current = next;
+    setProfile(next);
+    try { window.localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* Remote profile is authoritative. */ }
+  }, [storageKey, userId]);
+
   return {
     profile,
     satiety,
@@ -537,5 +549,6 @@ export function useFlytiee() {
     buyOrEquipSkin,
     refreshMissions,
     clearMessage,
+    reloadProfile,
   };
 }

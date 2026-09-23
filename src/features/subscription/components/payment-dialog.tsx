@@ -13,7 +13,8 @@ import {
 } from '@/components/ui/dialog';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
-import { calculateReferralDiscount, clampReferralDiscount, createTransferCode, formatCurrency, isReferralDiscountEligible } from '../utils';
+import { useStreak } from '@/features/streak/hooks/use-streak';
+import { calculateReferralDiscount, clampReferralDiscount, createTransferCode, formatCurrency, getStreakDiscountPercent, isReferralDiscountEligible } from '../utils';
 import type { PaidPlan, PaymentSettings } from '../types';
 
 interface PaymentDialogProps {
@@ -31,12 +32,13 @@ const EMPTY_SETTINGS: PaymentSettings = {
 
 export function PaymentDialog({ open, onOpenChange, plan }: PaymentDialogProps) {
   const user = useAuthStore((state) => state.user);
+  const { discountExpiresAt } = useStreak();
   const [settings, setSettings] = useState<PaymentSettings>(EMPTY_SETTINGS);
   const [copied, setCopied] = useState<string | null>(null);
   const [confirmedDemo, setConfirmedDemo] = useState(false);
   const transferCode = useMemo(() => createTransferCode(user?.id), [user?.id]);
   const discountPercent = plan && isReferralDiscountEligible(plan.code)
-    ? clampReferralDiscount(user?.referralDiscountPercent)
+    ? Math.max(clampReferralDiscount(user?.referralDiscountPercent), getStreakDiscountPercent(plan.code, discountExpiresAt))
     : 0;
   const discountAmount = plan ? calculateReferralDiscount(plan.price, discountPercent) : 0;
   const amountDue = plan ? plan.price - discountAmount : 0;
@@ -116,7 +118,7 @@ export function PaymentDialog({ open, onOpenChange, plan }: PaymentDialogProps) 
               </div>
               {discountPercent > 0 && (
                 <div className="mt-3 flex items-center justify-between gap-3 border-t border-border pt-3 text-sm">
-                  <span className="text-muted-foreground">Ưu đãi giới thiệu ({discountPercent}%)</span>
+                  <span className="text-muted-foreground">Ưu đãi {discountPercent === 50 ? 'streak' : 'giới thiệu'} ({discountPercent}%)</span>
                   <span className="font-semibold tabular-nums text-success">−{formatCurrency(discountAmount)}</span>
                 </div>
               )}

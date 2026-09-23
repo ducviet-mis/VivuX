@@ -1,0 +1,29 @@
+.cardButton { display: flex; width: 100%; min-height: 128px; align-items: center; gap: 20px; border: 1px solid rgb(var(--color-warning) / .26); border-radius: 22px; padding: 20px 24px; background: linear-gradient(115deg, rgb(var(--color-warning) / .12), rgb(var(--color-card)) 48%, rgb(var(--color-primary) / .06)); box-shadow: 0 12px 28px rgb(7 13 34 / .08); text-align: left; transition: border-color 180ms ease, box-shadow 180ms ease; }
+.cardButton:hover { border-color: rgb(var(--color-warning) / .6); box-shadow: 0 16px 35px rgb(7 13 34 / .14); }
+.cardButton:focus-visible { outline: 3px solid rgb(var(--color-primary)); outline-offset: 3px; }
+.flameFrame, .flameSmall { --flame-outer: #F1973D; --flame-middle: #F8C45A; --flame-core: #FFF0B9; display: grid; flex: 0 0 auto; place-items: center; color: #F5D379; }
+.flameFrame { width: 92px; height: 92px; border-radius: 26px; background: radial-gradient(circle, rgb(251 190 74 / .26), rgb(251 190 74 / .04) 68%); }
+.flameSmall { width: 44px; height: 44px; border-radius: 14px; background: rgb(var(--color-warning) / .1); }
+.flameArt { width: 67px; height: 80px; filter: drop-shadow(0 8px 7px rgb(173 81 30 / .2)); }
+.flameSmall .flameArt { width: 30px; height: 37px; }
+.flameOuter { fill: var(--flame-outer); }
+.flameMiddle { fill: var(--flame-middle); }
+.flameCore { fill: var(--flame-core); }
+.flameFrame[data-tier='1'], .flameSmall[data-tier='1'] { --flame-outer: #DF6A35; --flame-middle: #FFAC53; --flame-core: #FFE4A5; }
+.flameFrame[data-tier='2'], .flameSmall[data-tier='2'] { --flame-outer: #D95569; --flame-middle: #FC957D; --flame-core: #FFE0BA; }
+.flameFrame[data-tier='3'], .flameSmall[data-tier='3'] { --flame-outer: #426ECA; --flame-middle: #76A9F3; --flame-core: #E5EFFF; }
+.flameFrame[data-tier='4'], .flameSmall[data-tier='4'] { --flame-outer: #7651C3; --flame-middle: #AD8FF4; --flame-core: #EDE4FF; }
+.flameFrame[data-tier='5'], .flameSmall[data-tier='5'] { --flame-outer: #B34C9B; --flame-middle: #E886C0; --flame-core: #FFE9F7; }
+.flameFrame[data-tier='6'], .flameSmall[data-tier='6'] { --flame-outer: #168AA3; --flame-middle: #5DCEE0; --flame-core: #E1FAFF; }
+.flameFrame[data-tier='7'], .flameSmall[data-tier='7'] { --flame-outer: #8C5DC7; --flame-middle: #F2BA58; --flame-core: #FFF0C0; }
+.count { font-variant-numeric: tabular-nums; }
+.progressTrack { height: 7px; overflow: hidden; border-radius: 999px; background: rgb(var(--color-text-muted) / .14); }
+.progressFill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #EA8B43, #F6C165); transition: width 350ms ease; }
+.dialogBody { max-height: min(80dvh, 720px); overflow-y: auto; padding: 20px; }
+.milestone { position: relative; display: flex; gap: 14px; border: 1px solid rgb(var(--color-border) / .9); border-radius: 18px; padding: 14px; background: rgb(var(--color-card)); }
+.milestone[data-state='ready'] { border-color: rgb(var(--color-warning) / .6); background: linear-gradient(110deg, rgb(var(--color-warning) / .1), rgb(var(--color-card))); }
+.milestone[data-state='claimed'] { border-color: rgb(var(--color-success) / .28); }
+.rewardButton { min-height: 44px; }
+.select { width: 100%; min-height: 44px; border: 1px solid rgb(var(--color-border)); border-radius: 10px; padding: 0 10px; color: rgb(var(--color-text-primary)); background: rgb(var(--color-card)); }
+@media (max-width: 640px) { .cardButton { gap: 12px; padding: 16px; } .flameFrame { width: 68px; height: 74px; } .flameFrame .flameArt { width: 52px; height: 65px; } .dialogBody { padding: 12px; } }
+@media (prefers-reduced-motion: reduce) { .cardButton, .progressFill { transition: none; } }

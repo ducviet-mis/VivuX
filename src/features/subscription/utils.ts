@@ -51,6 +51,10 @@ export function calculateReferralDiscount(price: number, discountPercent?: numbe
   return Math.floor(price * clampReferralDiscount(discountPercent) / 100);
 }
 
+export function getStreakDiscountPercent(planCode: PaidPlanCode, expiresAt?: string | null): number {
+  return isReferralDiscountEligible(planCode) && expiresAt && new Date(expiresAt).getTime() > Date.now() ? 50 : 0;
+}
+
 export function canRedeemReferralCode(user: User | null | undefined, now = Date.now()): boolean {
   if (!user || user.referralRedeemedAt || !user.referralEligibleUntil) return false;
   const deadline = new Date(user.referralEligibleUntil).getTime();

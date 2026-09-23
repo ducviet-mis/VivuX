@@ -12,6 +12,7 @@ import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Card, CardContent } from '@/components/ui/card';
 import { ReferralHomePrompt } from '@/features/subscription/components/referral-home-prompt';
 import { FlytieeWidget } from '@/features/flytiee/flytiee-widget';
+import { StreakCard } from '@/features/streak/components/streak-card';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -46,6 +47,7 @@ export default function HomePage() {
             <FlytieeWidget variant="hero" />
           </div>
         </header>
+        {user && <StreakCard />}
         <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="min-w-0 space-y-6">
             <GoalRing />

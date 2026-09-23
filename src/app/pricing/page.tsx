@@ -19,6 +19,7 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { AccountTierBadge } from '@/features/subscription/components/account-tier-badge';
 import { GiftCodeForm } from '@/features/subscription/components/gift-code-form';
 import { PaymentDialog } from '@/features/subscription/components/payment-dialog';
+import { useStreak } from '@/features/streak/hooks/use-streak';
 import {
   FAQ_ITEMS,
   FLYMAX_CYCLES,
@@ -33,6 +34,7 @@ import {
   formatCurrency,
   formatExpiryDate,
   getEffectiveAccountTier,
+  getStreakDiscountPercent,
   isReferralDiscountEligible,
 } from '@/features/subscription/utils';
 import { cn } from '@/lib/utils';
@@ -42,6 +44,7 @@ type BillingCycle = (typeof FLYMAX_CYCLES)[number]['id'];
 export default function PricingPage() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
+  const { discountExpiresAt } = useStreak();
   const [billingCycle, setBillingCycle] = useState<BillingCycle>('yearly');
   const [selectedPlan, setSelectedPlan] = useState<PaidPlan | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -50,10 +53,11 @@ export default function PricingPage() {
   const flyMaxPlan = PAID_PLANS[selectedFlyMaxCycle.planCode];
   const expiryDate = currentTier === 'flymax' ? formatExpiryDate(user?.subscriptionExpiresAt) : null;
   const referralDiscountPercent = clampReferralDiscount(user?.referralDiscountPercent);
-  const flyMaxDiscountPercent = isReferralDiscountEligible(flyMaxPlan.code) ? referralDiscountPercent : 0;
+  const flyMaxDiscountPercent = Math.max(isReferralDiscountEligible(flyMaxPlan.code) ? referralDiscountPercent : 0, getStreakDiscountPercent(flyMaxPlan.code, discountExpiresAt));
   const flyMaxDiscount = calculateReferralDiscount(flyMaxPlan.price, flyMaxDiscountPercent);
   const flyMaxPrice = flyMaxPlan.price - flyMaxDiscount;
-  const infinityDiscount = calculateReferralDiscount(PAID_PLANS.flyinfinity.price, referralDiscountPercent);
+  const infinityDiscountPercent = Math.max(referralDiscountPercent, getStreakDiscountPercent('flyinfinity', discountExpiresAt));
+  const infinityDiscount = calculateReferralDiscount(PAID_PLANS.flyinfinity.price, infinityDiscountPercent);
   const infinityPrice = PAID_PLANS.flyinfinity.price - infinityDiscount;
 
   const openPayment = (plan: PaidPlan) => {
@@ -99,12 +103,12 @@ export default function PricingPage() {
         </section>
       )}
 
-      {user && referralDiscountPercent > 0 && (
+      {user && (referralDiscountPercent > 0 || getStreakDiscountPercent('flyinfinity', discountExpiresAt) > 0) && (
         <section className="mt-4 flex items-start gap-3 rounded-2xl border border-success/25 bg-success-soft/55 p-4 text-sm shadow-soft">
           <Sparkles aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-success" />
           <p className="leading-relaxed text-foreground">
-            <span className="font-bold">Ưu đãi giới thiệu của bạn: {referralDiscountPercent}%.</span>{' '}
-            Mức giá bên dưới đã tự áp dụng cho FlyMax 6 tháng, 1 năm và FlyInfinity.
+            <span className="font-bold">{getStreakDiscountPercent('flyinfinity', discountExpiresAt) > 0 ? 'Ưu đãi streak: giảm 50% trong 30 ngày.' : `Ưu đãi giới thiệu của bạn: ${referralDiscountPercent}%.`}</span>{' '}
+            Mức giá bên dưới áp dụng ưu đãi cao nhất cho FlyMax 6 tháng, 1 năm và FlyInfinity. Ưu đãi không cộng dồn.
           </p>
         </section>
       )}
@@ -157,7 +161,7 @@ export default function PricingPage() {
               </div>
             )}
             priceNote={[
-              flyMaxDiscountPercent > 0 ? `Ưu đãi giới thiệu ${flyMaxDiscountPercent}%: giảm ${formatCurrency(flyMaxDiscount)}` : '',
+              flyMaxDiscountPercent > 0 ? `Ưu đãi ${flyMaxDiscountPercent}%: giảm ${formatCurrency(flyMaxDiscount)}` : '',
               selectedFlyMaxCycle.savings > 0 ? `Tiết kiệm ${formatCurrency(selectedFlyMaxCycle.savings)} so với gói 1 tháng` : '',
             ].filter(Boolean).join(' · ') || undefined}
           />
@@ -173,7 +177,7 @@ export default function PricingPage() {
             current={currentTier === 'flyinfinity'}
             action={() => openPayment(PAID_PLANS.flyinfinity)}
             actionLabel={currentTier === 'flyinfinity' ? 'Gói hiện tại' : 'Chọn FlyInfinity'}
-            priceNote={referralDiscountPercent > 0 ? `Ưu đãi giới thiệu ${referralDiscountPercent}%: giảm ${formatCurrency(infinityDiscount)}` : undefined}
+            priceNote={infinityDiscountPercent > 0 ? `Ưu đãi ${infinityDiscountPercent}%: giảm ${formatCurrency(infinityDiscount)}` : undefined}
           />
         </div>
       </section>

@@ -229,6 +229,21 @@ export function useFlytiee() {
     return () => { cancelled = true; };
   }, [persist, refreshMissions, storageKey, userId]);
 
+  useEffect(() => {
+    if (!userId) return;
+    const syncStreakReward = async () => {
+      const { data } = await getSupabaseClient().auth.getUser();
+      const remote = data.user?.user_metadata?.[FLYTIEE_METADATA_KEY];
+      if (!remote) return;
+      const next = normalizeFlytieeProfile(remote);
+      profileRef.current = next;
+      setProfile(next);
+      try { window.localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* Supabase remains the source. */ }
+    };
+    window.addEventListener('flytiee:streak-reward', syncStreakReward);
+    return () => window.removeEventListener('flytiee:streak-reward', syncStreakReward);
+  }, [storageKey, userId]);
+
   const satiety = useMemo(() => calculateSatiety(profile, clock), [clock, profile]);
   const xpNeeded = xpNeededForLevel(profile.level);
   const dailyEvent = useMemo(() => dailyEventForToday(profile), [profile]);

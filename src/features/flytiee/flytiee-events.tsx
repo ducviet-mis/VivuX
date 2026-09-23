@@ -79,7 +79,7 @@ function RewardOverlay({ reward, openingTier, openedTier, onClose }: {
             <div className="relative">
               <button type="button" onClick={onClose} className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Đóng thông báo phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
               {openedTier && <p className={styles.chestRevealLabel}>{CHEST_LABELS[openedTier]} đã mở</p>}
-              {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} /> : <div className={cn('mx-auto flex h-20 w-20 items-center justify-center rounded-full shadow-card', openedTier ? styles.chestPrizeIcon : 'bg-warning-soft text-warning')}><Sparkles aria-hidden="true" className="h-10 w-10" /></div>}
+              {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} /> : reward?.kind === 'chest' && reward.chestTier ? <ChestArt tier={reward.chestTier} className="mx-auto h-24 w-24" /> : <div className={cn('mx-auto flex h-20 w-20 items-center justify-center rounded-full shadow-card', openedTier ? styles.chestPrizeIcon : 'bg-warning-soft text-warning')}><Sparkles aria-hidden="true" className="h-10 w-10" /></div>}
               <DialogHeader className="mt-4 items-center text-center">
                 <DialogDescription className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Phần thưởng đã nhận</DialogDescription>
                 <DialogTitle className="mt-2 text-2xl font-bold">{reward?.title}</DialogTitle>
@@ -183,7 +183,18 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
           {STREAK_REWARDS.map((item) => {
             const active = item.day === cycleDay;
             const passed = item.day < cycleDay;
-            return <div key={item.day} className={styles.rewardStep} data-state={active ? 'active' : passed ? 'passed' : 'upcoming'} data-tier={item.kind === 'chest' ? item.chestTier : 'coins'}><span className={styles.rewardOrb}>{item.kind === 'coins' ? <FlytieeCoin className="h-7 w-7" /> : <Gift aria-hidden="true" className="h-6 w-6" />}{passed && <Check aria-label="Đã qua" className="absolute -right-1 -top-1 h-5 w-5 rounded-full bg-success p-1 text-white" />}</span><span className={styles.rewardDay}>Ngày {item.day}</span><span className={styles.rewardLabel}>{item.label}</span></div>;
+            const claimed = active && flytiee.dailyEvent.streakClaimed;
+            const status = claimed ? 'Đã nhận' : active ? 'Chờ nhận' : passed ? 'Đã qua' : 'Sắp mở';
+            const chestCount = claimed && item.kind === 'chest' ? flytiee.profile.chests[item.chestTier] : null;
+            return <div key={item.day} className={styles.rewardStep} data-state={claimed ? 'claimed' : active ? 'active' : passed ? 'passed' : 'upcoming'} data-tier={item.kind === 'chest' ? item.chestTier : 'coins'} aria-label={`Ngày ${item.day}: ${item.label}. ${status}${chestCount !== null ? `. Trong kho: ${chestCount} rương` : ''}`}>
+              <span className={styles.rewardOrb}>
+                {item.kind === 'coins' ? <FlytieeCoin className="h-7 w-7" /> : <ChestArt tier={item.chestTier} className={styles.rewardChestArt} />}
+                {claimed && <span className={styles.rewardCheck}><Check aria-hidden="true" className="h-4 w-4" /></span>}
+              </span>
+              <span className={styles.rewardDay}>Ngày {item.day}</span>
+              <span className={styles.rewardLabel}>{item.label}</span>
+              <span className={styles.rewardStatus}>{claimed && <Check aria-hidden="true" className="h-3 w-3" />}{chestCount !== null ? `Đã nhận · Kho ${chestCount}` : status}</span>
+            </div>;
           })}
           </div>
         </div>

@@ -245,9 +245,31 @@
 .rewardStep[data-state='active'] .rewardOrb { color: rgb(var(--event-gold)); background: rgb(var(--event-gold) / .16); box-shadow: 0 0 0 3px rgb(var(--event-gold) / .18), 0 0 28px rgb(var(--event-gold) / .26); transform: translateY(-3px) scale(1.06); }
 .rewardStep[data-tier='gold'] .rewardOrb { color: rgb(var(--event-gold)); background: linear-gradient(145deg, rgb(var(--event-gold) / .28), rgb(var(--event-peach) / .1)); }
 .rewardStep[data-tier='silver'] .rewardOrb { color: rgb(196 218 244); background: rgb(145 166 199 / .17); }
+.rewardStep[data-state='claimed'] .rewardOrb {
+  box-shadow: 0 0 0 3px rgb(var(--color-success) / .3), 0 8px 22px rgb(4 8 28 / .16);
+}
+
+.rewardChestArt { width: 49px; height: 43px; filter: none; }
+.rewardCheck {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 2px solid rgb(var(--color-card));
+  border-radius: 50%;
+  color: white;
+  background: rgb(var(--color-success));
+  box-shadow: 0 3px 9px rgb(0 0 0 / .2);
+}
 
 .rewardDay { margin-top: 10px; color: rgb(var(--color-text-muted)); font-size: 11px; font-weight: 750; }
 .rewardLabel { margin-top: 3px; color: rgb(var(--color-text-primary)); font-size: 11px; font-weight: 850; }
+.rewardStatus { display: inline-flex; min-height: 18px; align-items: center; justify-content: center; gap: 2px; margin-top: 4px; color: rgb(var(--color-text-muted)); font-size: 10px; font-weight: 750; }
+.rewardStep[data-state='claimed'] .rewardStatus { color: rgb(var(--color-success)); }
+.rewardStep[data-state='active'] .rewardStatus { color: rgb(var(--event-gold)); }
 
 .eventCard {
   border: 1px solid rgb(var(--event-lavender) / .18);

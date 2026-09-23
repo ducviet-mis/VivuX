@@ -241,7 +241,7 @@ export function useFlytiee() {
 
   const satiety = useMemo(() => calculateSatiety(profile, clock), [clock, profile]);
   const xpNeeded = xpNeededForLevel(profile.level);
-  const dailyEvent = useMemo(() => dailyEventForToday(profile), [profile]);
+  const dailyEvent = useMemo(() => dailyEventForToday(profile), [profile, clock]);
 
   const rename = useCallback((name: string) => {
     const cleaned = name.trim().replace(/\s+/g, ' ').slice(0, 20);

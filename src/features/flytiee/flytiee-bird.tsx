@@ -143,7 +143,7 @@ function AccessoryLayers({ equipped, skin, showGrip = true }: { equipped: Flytie
   </>;
 }
 
-function SetEffects({ setId }: { setId: string | null }) {
+function SetEffects({ setId, gradientId }: { setId: string | null; gradientId: string }) {
   if (setId === 'azure-tide-dragon') return <g className={styles.seaEffect} aria-hidden="true">
     <ellipse cx="472" cy="468" rx="302" ry="283" fill="#0d3852" opacity=".24"/>
     <g className={styles.seaTideRing} fill="none" strokeLinecap="round">
@@ -201,13 +201,20 @@ function SetEffects({ setId }: { setId: string | null }) {
   </g>;
 
   if (setId === 'phoenix-dawn') return <g className={styles.phoenixAura} aria-hidden="true">
-    <ellipse cx="473" cy="461" rx="294" ry="274" fill="#27183d" opacity=".24"/>
-    <ellipse cx="473" cy="461" rx="281" ry="258" fill="none" stroke="#8b3b52" strokeWidth="16" opacity=".28"/>
-    <path d="M220 550C168 381 294 235 436 211M535 211C672 226 783 367 723 534" fill="none" stroke="#ffb957" strokeWidth="5" strokeLinecap="round" strokeDasharray="8 17" opacity=".85"/>
-    <path d="M247 656Q324 689 389 676M572 675Q654 685 715 626" fill="none" stroke="#e97455" strokeWidth="9" strokeLinecap="round" opacity=".6"/>
+    {/* Layered solar corona: broad flame tongues remain visible around the bird at card size. */}
+    <g className={styles.phoenixSun} strokeLinejoin="round">
+      <ellipse cx="473" cy="463" rx="278" ry="269" fill="#9b374d" opacity=".24"/>
+      <path d="M214 527Q176 480 180 437Q186 396 166 372Q201 379 220 410Q219 344 241 298Q248 338 264 354Q266 278 294 238Q302 282 323 285Q318 219 350 180Q362 221 381 231Q398 174 429 150Q425 193 446 210Q471 152 505 133Q494 187 513 212Q547 162 572 171Q551 216 568 239Q612 208 639 223Q606 251 609 282Q653 260 681 283Q646 304 664 341Q706 330 731 358Q697 370 705 408Q743 402 765 430Q727 440 739 478Q771 492 779 529Q740 509 720 532Q688 660 586 718Q478 781 345 719Q230 650 214 527Z" fill="#ad3d4b" opacity=".74"/>
+      <path d="M209 477Q206 407 245 370Q240 327 256 288Q268 328 284 339Q284 272 318 236Q318 281 341 290Q349 227 374 201Q382 247 406 251Q431 206 462 179Q456 230 477 238Q518 184 550 194Q526 239 547 264Q593 228 617 240Q584 269 597 298Q646 271 667 303Q632 321 650 353Q696 344 710 379Q675 392 694 425Q735 426 748 455Q709 469 718 512Q715 638 622 698Q484 789 345 704Q229 635 209 477Z" fill="#ec7046" opacity=".8"/>
+      <ellipse cx="473" cy="465" rx="270" ry="255" fill={`url(#${gradientId}-phoenix-sun-disc)`} stroke="#a4434a" strokeWidth="13"/>
+      <ellipse cx="473" cy="465" rx="266" ry="249" fill="none" stroke="#ffb456" strokeWidth="11"/>
+      <ellipse cx="473" cy="465" rx="251" ry="235" fill="none" stroke="#ffe29a" strokeWidth="4" opacity=".9"/>
+      <path d="M213 467Q205 399 244 353M303 272Q325 244 357 226M571 230Q629 249 662 298M704 359Q738 409 741 458M225 573Q247 648 304 681M627 685Q696 627 718 554" fill="none" stroke="#fff0b0" strokeWidth="7" strokeLinecap="round" opacity=".86"/>
+      <path d="M189 473l-19-12 22-3M258 284l-12-25 26 11M681 311l25-9-13 21M744 527l24 10-25 6M285 679l-8 25 23-14M669 670l18 23-4-26" fill="none" stroke="#ffd175" strokeWidth="5" strokeLinecap="round"/>
+    </g>
     <g className={styles.phoenixEmbers} fill="#ffe8a2">
-      <circle cx="242" cy="402" r="7"/><circle cx="269" cy="302" r="5"/><circle cx="653" cy="240" r="6"/>
-      <circle cx="744" cy="431" r="7"/><circle cx="214" cy="579" r="5"/><circle cx="688" cy="705" r="5"/>
+      <circle cx="188" cy="402" r="6"/><circle cx="269" cy="254" r="5"/><circle cx="629" cy="224" r="5"/>
+      <circle cx="751" cy="404" r="6"/><circle cx="200" cy="606" r="5"/><circle cx="688" cy="705" r="5"/>
       <path d="m277 509 6 11 12 3-9 8 2 13-11-6-11 6 2-13-9-8 12-3ZM702 328l5 9 10 2-7 8 1 10-9-5-9 5 2-10-8-8 11-2Z" fill="#ffb45d"/>
     </g>
   </g>;
@@ -350,6 +357,20 @@ function EventSetCharacter({ setId, skin, gradientId }: { setId: string; skin: F
       <path d="M645 573Q731 546 758 585Q709 576 717 622Q738 647 724 665Q698 629 677 635Q672 688 640 706Q660 660 621 639Z" fill="#f27c49"/>
       <path d="M667 594Q719 572 735 600Q696 596 697 632Q705 650 694 660Q683 628 658 630Z" fill="#ffcd6a"/>
       <path d="M651 587Q708 575 731 603M633 658Q656 677 644 701" fill="none" stroke="#fff1bd" strokeWidth="6" strokeLinecap="round" opacity=".75"/>
+    </g>}
+    {setId === 'phoenix-dawn' && <g className={styles.phoenixCapeTails} strokeLinejoin="round">
+      {/* Two trailing panels start at the shoulders; the bird's body and original wings stay untouched. */}
+      <path d="M311 510Q266 530 236 614Q204 704 172 778Q206 762 226 742Q217 780 225 804Q275 771 315 701Q338 654 365 578Z" fill={`url(#${gradientId}-phoenix-cloak)`} stroke="#793c54" strokeWidth="8"/>
+      <path d="M623 505Q671 521 703 611Q741 700 784 778Q752 765 730 741Q741 782 732 803Q669 762 625 682Q605 640 570 569Z" fill={`url(#${gradientId}-phoenix-cloak)`} stroke="#793c54" strokeWidth="8"/>
+      <path d="M290 546Q246 628 205 759Q231 737 251 710Q247 746 243 777Q301 712 334 603ZM643 541Q698 639 749 763Q722 737 704 705Q705 750 713 779Q650 709 611 599Z" fill="#bf4b55" opacity=".94"/>
+      <path d="M306 545Q260 638 199 776M622 543Q690 650 773 781" fill="none" stroke="#ffb45d" strokeWidth="9" strokeLinecap="round"/>
+      <path d="M301 553Q258 645 215 748M629 550Q688 648 755 748" fill="none" stroke="#fff0ad" strokeWidth="4" strokeLinecap="round" opacity=".85"/>
+      <path d="M193 767Q208 743 217 713Q213 751 224 764Q237 736 247 725M765 765Q744 742 731 710Q742 749 728 767Q716 740 704 726" fill="none" stroke="#f16b4e" strokeWidth="6" strokeLinecap="round"/>
+      <g className={styles.phoenixCapeEmbers} fill="#ffe4a2">
+        <path d="M177 734l5 10 10 2-8 7 1 10-9-5-9 5 2-10-8-7 10-2ZM776 729l4 9 10 2-7 7 1 9-8-4-9 4 2-9-7-7 10-2Z" fill="#ffbd64"/>
+        <circle cx="202" cy="701" r="5"/><circle cx="181" cy="685" r="3"/><circle cx="748" cy="695" r="5"/><circle cx="778" cy="682" r="3"/>
+        <path d="M213 685l-5-16M742 678l6-16" stroke="#ffe7aa" strokeWidth="4" strokeLinecap="round"/>
+      </g>
     </g>}
     {setId === 'shadow-ninja' && <g opacity=".98">
       <path d="M628 569L720 391L748 407L650 588Z" fill="#241334" stroke="#10091d" strokeWidth="9"/>
@@ -635,7 +656,7 @@ function BirdScene({ mood, profile, gradientId, className }: { mood: FlytieeMood
   const setId = profile.equippedSetId;
   const wearingConicalHat = !setId && profile.equipped.head === 'vietnam-conical-hat';
   return <g className={cn(styles.scene, className)} data-mood={mood} data-held={!setId && Boolean(profile.equipped.hand) ? 'true' : 'false'} data-skin={skin.id} data-set={setId ?? 'none'}>
-    <SetEffects setId={setId}/>
+    <SetEffects setId={setId} gradientId={gradientId}/>
     <ellipse cx="454" cy="760" rx="170" ry="18" fill="#7b84ae" opacity=".17"/>
     {setId ? <g className={styles.body}><EventSetCharacter setId={setId} skin={skin} gradientId={gradientId}/></g> : <g className={styles.body}>
       <g fill="#f4b66b" stroke="#d48a45" strokeWidth="5" strokeLinejoin="round"><path d="M365 696C351 711 350 731 338 739C327 747 329 757 342 758H390C408 757 405 744 391 739L390 701Z"/><path d="M510 702L514 739C500 748 505 758 519 758H564C580 757 579 748 565 740L546 696Z"/></g>
@@ -704,6 +725,7 @@ export function FlytieeBird({ mood, profile, className }: FlytieeBirdProps) {
       <linearGradient id={`${gradientId}-mushroom-kingdom-body`} x1=".1" y1="0" x2=".9" y2="1"><stop stopColor="#c0a6ff"/><stop offset=".46" stopColor="#674790"/><stop offset="1" stopColor="#1b122d"/></linearGradient>
       <linearGradient id={`${gradientId}-phoenix-dawn-body`} x1=".18" y1="0" x2=".82" y2="1"><stop stopColor="#fff2ac"/><stop offset=".48" stopColor="#f8b95a"/><stop offset="1" stopColor="#c05752"/></linearGradient>
       <linearGradient id={`${gradientId}-phoenix-cloak`} x1=".1" y1="0" x2=".86" y2="1"><stop stopColor="#263354"/><stop offset=".55" stopColor="#353354"/><stop offset="1" stopColor="#723d59"/></linearGradient>
+      <radialGradient id={`${gradientId}-phoenix-sun-disc`}><stop offset=".46" stopColor="#ffb551" stopOpacity=".34"/><stop offset=".79" stopColor="#f68646" stopOpacity=".55"/><stop offset="1" stopColor="#d04e49" stopOpacity=".82"/></radialGradient>
       <linearGradient id={`${gradientId}-azure-tide-body`} x1=".12" y1="0" x2=".84" y2="1"><stop stopColor="#e3fff0"/><stop offset=".45" stopColor="#84dcd0"/><stop offset="1" stopColor="#3389aa"/></linearGradient>
       <linearGradient id={`${gradientId}-sea-cloak`} x1=".2" y1="0" x2=".8" y2="1"><stop stopColor="#247b9b"/><stop offset=".55" stopColor="#155773"/><stop offset="1" stopColor="#103b61"/></linearGradient>
       <linearGradient id={`${gradientId}-sea-gem`} x1=".15" y1=".1" x2=".85" y2="1"><stop stopColor="#f5fff0"/><stop offset=".55" stopColor="#7ce9dd"/><stop offset="1" stopColor="#2383a2"/></linearGradient>

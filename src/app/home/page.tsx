@@ -37,17 +37,17 @@ export default function HomePage() {
   return (
     <>
       <div className="space-y-7">
-        <header className="relative overflow-hidden rounded-xl border border-border bg-hero px-5 py-4 sm:px-7 sm:py-5">
-          <div className="grid min-w-0 items-center gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-            <div className="min-w-0">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[.14em] text-primary">Không gian học tập</p>
-              <h1 className="text-[28px] font-bold leading-tight text-foreground sm:text-[34px]">{getGreeting()}, {user?.name || 'Bạn'}!</h1>
-              <p className="mt-2 text-sm text-muted-foreground sm:text-base">Sẵn sàng cho buổi học hôm nay chưa?</p>
-            </div>
+        <div className={`grid min-w-0 grid-cols-1 items-stretch gap-3 sm:gap-4 ${user ? 'sm:grid-cols-[minmax(0,1fr)_144px] lg:grid-cols-[minmax(0,1fr)_minmax(260px,320px)_minmax(136px,164px)]' : ''}`}>
+          <header className={`flex min-w-0 flex-col justify-center overflow-hidden rounded-xl border border-border bg-hero px-5 py-4 sm:px-6 ${user ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-[.14em] text-primary">Không gian học tập</p>
+            <h1 className="break-words text-2xl font-bold leading-tight text-foreground xl:text-[28px]">{getGreeting()}, {user?.name || 'Bạn'}!</h1>
+            <p className="mt-1.5 text-sm text-muted-foreground">Sẵn sàng cho buổi học hôm nay chưa?</p>
+          </header>
+          {user && <>
             <FlytieeWidget variant="hero" />
-          </div>
-        </header>
-        {user && <StreakCard />}
+            <StreakCard />
+          </>}
+        </div>
         <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="min-w-0 space-y-6">
             <GoalRing />

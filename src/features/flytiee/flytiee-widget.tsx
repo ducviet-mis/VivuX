@@ -172,7 +172,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
       <div
         className={cn(
           'w-full animate-pulse rounded-xl border border-border bg-card/80',
-          variant === 'hero' ? 'h-[120px]' : 'h-[172px]',
+          variant === 'hero' ? 'min-h-[120px] h-full' : 'h-[172px]',
         )}
         aria-label="Đang gọi FlyTiee"
       />
@@ -187,7 +187,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
           className={cn(
             'group grid w-full items-center overflow-hidden rounded-xl border border-border text-left shadow-soft transition-colors hover:border-primary/50 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
             variant === 'hero'
-              ? 'min-h-[112px] grid-cols-[92px_minmax(0,1fr)] bg-card/75 p-3 sm:min-h-[120px] sm:grid-cols-[108px_minmax(0,1fr)]'
+              ? 'h-full min-h-[120px] grid-cols-[92px_minmax(0,1fr)] bg-card/75 p-3 sm:grid-cols-[108px_minmax(0,1fr)]'
               : 'min-h-[172px] grid-cols-[132px_minmax(0,1fr)] bg-card p-4 sm:grid-cols-[145px_minmax(0,1fr)]',
           )}
           aria-label={`Mở cửa sổ của ${flytiee.profile.name}`}

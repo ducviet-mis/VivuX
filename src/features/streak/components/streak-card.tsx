@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Check, Gift, LockKeyhole, Sparkles } from 'lucide-react';
+import { Check, Gift, LockKeyhole, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { getSupabaseClient } from '@/lib/supabase/client';
@@ -28,8 +28,9 @@ export function StreakCard() {
   const [selectedSetId, setSelectedSetId] = useState(FLYTIEE_SETS[0].id);
   const [claiming, setClaiming] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const next = MILESTONES.find((item) => item.day > currentStreak);
-  const progress = next ? Math.min(100, currentStreak / next.day * 100) : 100;
+  const unclaimedCount = ready && !error
+    ? MILESTONES.filter((item) => item.day !== 200 && item.day <= currentStreak && !claimedMilestones.includes(item.day)).length
+    : 0;
 
   const claim = async (milestone: number) => {
     if (claiming !== null) return;
@@ -57,15 +58,10 @@ export function StreakCard() {
 
   return (
     <>
-      <button type="button" className={styles.cardButton} onClick={() => setOpen(true)} aria-label={`Mở hành trình streak, ${currentStreak} ngày liên tiếp`}>
+      <button type="button" className={styles.cardButton} onClick={() => setOpen(true)} aria-label={`Mở hành trình streak, ${currentStreak} ngày liên tiếp${unclaimedCount ? `, có ${unclaimedCount} phần thưởng chưa nhận` : ''}`}>
+        {unclaimedCount > 0 && <span className={styles.notification} aria-hidden="true" />}
         <StreakFlame days={currentStreak} />
-        <span className="min-w-0 flex-1">
-          <span className="block text-xs font-bold uppercase tracking-[.14em] text-warning">Ngọn lửa học tập</span>
-          <span className="mt-1 block text-xl font-extrabold text-foreground sm:text-2xl"><span className={styles.count}>{ready ? currentStreak : '…'}</span> ngày liên tiếp</span>
-          <span className="mt-1 block text-sm text-muted-foreground">{error ? 'Cần đồng bộ Supabase' : next ? `Còn ${Math.max(0, next.day - currentStreak)} ngày tới quà mốc ${next.day}` : 'Đã chạm mốc tối đa 200 ngày'}</span>
-          <span className={`mt-3 block ${styles.progressTrack}`}><span className={`block ${styles.progressFill}`} style={{ width: `${progress}%` }} /></span>
-        </span>
-        <ArrowRight aria-hidden="true" className="h-5 w-5 shrink-0 text-warning" />
+        <span className={styles.count}>{ready ? currentStreak : '…'}</span>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>

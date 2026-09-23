@@ -2,14 +2,67 @@
   animation: reward-arrive 420ms cubic-bezier(.2, .85, .3, 1.15) both;
 }
 
-.chestOpening {
-  animation: chest-wiggle 720ms ease-in-out both;
-  transform-origin: 50% 80%;
+.rewardCard[data-tier='bronze'] { --chest-accent: 219 149 96; --chest-accent-alt: 255 216 157; border-color: rgb(219 149 96 / .5) !important; background: radial-gradient(circle at 50% 8%, rgb(219 149 96 / .16), rgb(var(--color-card)) 60%); }
+.rewardCard[data-tier='silver'] { --chest-accent: 158 205 241; --chest-accent-alt: 238 250 255; border-color: rgb(158 205 241 / .55) !important; background: radial-gradient(circle at 50% 8%, rgb(158 205 241 / .18), rgb(var(--color-card)) 60%); }
+.rewardCard[data-tier='gold'] { --chest-accent: 246 185 75; --chest-accent-alt: 255 237 163; border-color: rgb(246 185 75 / .75) !important; background: radial-gradient(circle at 50% 8%, rgb(246 185 75 / .22), rgb(var(--color-card)) 63%); box-shadow: 0 0 42px rgb(246 185 75 / .16), 0 20px 55px rgb(3 8 30 / .32); }
+
+.chestArt { display: block; overflow: visible; filter: drop-shadow(0 8px 7px rgb(8 12 29 / .24)); }
+.chestArt[data-tier='gold'] { filter: drop-shadow(0 7px 12px rgb(246 176 62 / .32)); }
+.chestArt[data-tier='bronze'] { --chest-duration: 850ms; }
+.chestArt[data-tier='silver'] { --chest-duration: 1080ms; }
+.chestArt[data-tier='gold'] { --chest-duration: 1380ms; }
+.chestLid { transform-box: view-box; transform-origin: 50% 48%; }
+.chestBody { transform-box: view-box; transform-origin: center; }
+.chestLight { transform-box: view-box; transform-origin: 50% 48%; opacity: 0; }
+.chestSparks { opacity: 0; }
+.chestOpening .chestLid { animation: chest-lid-open var(--chest-duration) cubic-bezier(.18, .72, .2, 1) both; }
+.chestOpening .chestBody { animation: chest-body-open var(--chest-duration) ease-out both; }
+.chestOpening .chestLight { animation: chest-light-rise var(--chest-duration) ease-out both; }
+.chestOpening .chestSparks { animation: chest-sparks-rise var(--chest-duration) ease-out both; }
+
+.chestStage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  width: 208px;
+  height: 200px;
+  place-items: center;
+  margin: 0 auto 8px;
 }
 
-.chestGlow {
-  animation: chest-glow 900ms ease-out infinite alternate;
+.chestStage::before {
+  position: absolute;
+  z-index: -1;
+  inset: 10px 0 0;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgb(var(--chest-accent) / .36), transparent 68%);
+  content: '';
+  animation: chest-aura-rise 900ms ease-out both;
 }
+
+.rewardCard[data-tier='silver'] .chestStage::after {
+  position: absolute;
+  z-index: -1;
+  inset: 27px 23px 17px;
+  border: 2px solid rgb(191 234 255 / .55);
+  border-radius: 50%;
+  box-shadow: 0 0 0 14px rgb(191 234 255 / .065);
+  content: '';
+  animation: chest-prism-ring 1080ms ease-out both;
+}
+
+.rewardCard[data-tier='gold'] .chestStage::after {
+  position: absolute;
+  z-index: -1;
+  inset: -14px;
+  background: repeating-conic-gradient(from 8deg, rgb(255 230 156 / .5) 0deg 4deg, transparent 4deg 27deg);
+  mask-image: radial-gradient(circle, transparent 34%, black 45%, transparent 70%);
+  content: '';
+  animation: chest-gold-corona 1380ms ease-out both;
+}
+
+.chestRevealLabel { width: max-content; max-width: 100%; margin: 0 auto 16px; border: 1px solid rgb(var(--chest-accent) / .45); border-radius: 999px; padding: 6px 13px; color: rgb(var(--chest-accent)); background: rgb(var(--chest-accent) / .1); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.chestPrizeIcon { color: rgb(var(--chest-accent)); background: rgb(var(--chest-accent) / .17); box-shadow: 0 0 0 8px rgb(var(--chest-accent) / .055), 0 10px 26px rgb(var(--chest-accent) / .2); }
 
 .eventWorld {
   --event-lavender: 137 151 255;
@@ -249,7 +302,7 @@
 .chestCard[data-tier='bronze'] { border: 1px solid rgb(203 130 84 / .35); background: linear-gradient(155deg, rgb(169 105 69 / .13), rgb(var(--color-card) / .96)); }
 .chestCard[data-tier='silver'] { border: 1px solid rgb(184 205 235 / .32); background: linear-gradient(155deg, rgb(143 155 179 / .16), rgb(var(--color-card) / .96)); }
 .chestCard[data-tier='gold'] { border: 1px solid rgb(var(--event-gold) / .55); background: radial-gradient(circle at 50% 27%, rgb(var(--event-gold) / .2), transparent 37%), linear-gradient(155deg, rgb(216 158 36 / .14), rgb(var(--color-card) / .96)); box-shadow: 0 18px 45px rgb(var(--event-gold) / .12), inset 0 1px 0 rgb(255 255 255 / .1); }
-.chestCard[data-tier='gold']::before { position: absolute; inset: -50%; content: ''; background: conic-gradient(from 0deg, transparent, rgb(var(--event-gold) / .07), transparent 28%); animation: gold-rays 10s linear infinite; pointer-events: none; }
+.chestCard[data-tier='gold']::before { position: absolute; inset: -50%; content: ''; background: radial-gradient(circle, rgb(var(--event-gold) / .11), transparent 47%); pointer-events: none; }
 
 /* Light theme: deepen accent colors and keep reward surfaces distinct from white. */
 :global(html:not(.dark)) .eventWorld {
@@ -304,8 +357,12 @@
 :global(html:not(.dark)) .chestCard[data-tier='bronze'] { background: linear-gradient(155deg, rgb(255 242 232), rgb(255 255 255)); }
 :global(html:not(.dark)) .chestCard[data-tier='silver'] { background: linear-gradient(155deg, rgb(239 245 255), rgb(255 255 255)); }
 :global(html:not(.dark)) .chestCard[data-tier='gold'] { background: radial-gradient(circle at 50% 27%, rgb(255 226 139 / .55), transparent 38%), linear-gradient(155deg, rgb(255 249 229), rgb(255 255 255)); }
-
-@keyframes gold-rays { to { transform: rotate(360deg); } }
+:global(html:not(.dark)) .rewardCard[data-tier='bronze'] .chestRevealLabel { color: #754328; }
+:global(html:not(.dark)) .rewardCard[data-tier='silver'] .chestRevealLabel { color: #355878; }
+:global(html:not(.dark)) .rewardCard[data-tier='gold'] .chestRevealLabel { color: #885208; }
+:global(html:not(.dark)) .rewardCard[data-tier='bronze'] .chestPrizeIcon { color: #754328; }
+:global(html:not(.dark)) .rewardCard[data-tier='silver'] .chestPrizeIcon { color: #355878; }
+:global(html:not(.dark)) .rewardCard[data-tier='gold'] .chestPrizeIcon { color: #885208; }
 
 .confetti {
   position: absolute;
@@ -314,14 +371,15 @@
   width: 8px;
   height: 14px;
   border-radius: 999px;
-  background: rgb(var(--color-primary));
+  background: rgb(var(--chest-accent, var(--color-primary)));
   opacity: 0;
   animation: confetti-burst 900ms ease-out forwards;
 }
 
-.confetti:nth-child(2n) { background: rgb(var(--color-warning)); }
-.confetti:nth-child(3n) { background: rgb(var(--color-success)); }
-.confetti:nth-child(4n) { background: rgb(var(--color-info)); }
+.rewardCard[data-tier] .confetti:nth-child(2n) { background: rgb(var(--chest-accent-alt)); }
+.rewardCard:not([data-tier]) .confetti:nth-child(2n) { background: rgb(var(--color-warning)); }
+.rewardCard:not([data-tier]) .confetti:nth-child(3n) { background: rgb(var(--color-success)); }
+.rewardCard:not([data-tier]) .confetti:nth-child(4n) { background: rgb(var(--color-info)); }
 .confetti:nth-child(1) { --x: -140px; --y: -120px; --r: -40deg; animation-delay: 40ms; }
 .confetti:nth-child(2) { --x: -95px; --y: -155px; --r: 55deg; animation-delay: 80ms; }
 .confetti:nth-child(3) { --x: -45px; --y: -125px; --r: 120deg; }
@@ -332,23 +390,53 @@
 .confetti:nth-child(8) { --x: 150px; --y: -35px; --r: 380deg; animation-delay: 20ms; }
 .confetti:nth-child(9) { --x: -110px; --y: 25px; --r: 420deg; animation-delay: 90ms; }
 .confetti:nth-child(10) { --x: 105px; --y: 35px; --r: 470deg; animation-delay: 50ms; }
+.confetti:nth-child(11) { --x: -55px; --y: 50px; --r: 305deg; animation-delay: 110ms; }
+.confetti:nth-child(12) { --x: 62px; --y: 54px; --r: 395deg; animation-delay: 90ms; }
 
 @keyframes reward-arrive {
   from { opacity: 0; transform: translateY(18px) scale(.94); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes chest-wiggle {
-  0%, 100% { transform: rotate(0) scale(1); }
-  18% { transform: rotate(-6deg) scale(1.03); }
-  36% { transform: rotate(6deg) scale(1.06); }
-  54% { transform: rotate(-4deg) scale(1.08); }
-  72% { transform: rotate(3deg) scale(1.1); }
+@keyframes chest-lid-open {
+  0%, 19% { transform: translateY(0) rotate(0); }
+  27% { transform: translateY(3px) rotate(-2deg); }
+  66% { transform: translateY(-32px) rotate(-8deg); }
+  80% { transform: translateY(-27px) rotate(-6deg); }
+  100% { transform: translateY(-29px) rotate(-7deg); }
 }
 
-@keyframes chest-glow {
-  from { filter: drop-shadow(0 0 5px rgb(var(--color-warning) / .25)); }
-  to { filter: drop-shadow(0 0 18px rgb(var(--color-warning) / .7)); }
+@keyframes chest-body-open {
+  0%, 25%, 100% { transform: translateY(0); }
+  32% { transform: translateY(3px); }
+  45% { transform: translateY(-2px); }
+}
+
+@keyframes chest-light-rise {
+  0%, 30% { opacity: 0; transform: translateY(10px) scaleY(.35); }
+  65% { opacity: .6; }
+  100% { opacity: 1; transform: translateY(-8px) scaleY(1); }
+}
+
+@keyframes chest-sparks-rise {
+  0%, 35% { opacity: 0; transform: translateY(10px) scale(.65); }
+  75% { opacity: 1; }
+  100% { opacity: .8; transform: translateY(-18px) scale(1); }
+}
+
+@keyframes chest-aura-rise {
+  from { opacity: .25; transform: scale(.8); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes chest-prism-ring {
+  0%, 30% { opacity: 0; transform: scale(.55); }
+  100% { opacity: .9; transform: scale(1.1); }
+}
+
+@keyframes chest-gold-corona {
+  0%, 28% { opacity: 0; transform: scale(.58) rotate(-20deg); }
+  100% { opacity: .8; transform: scale(1.1) rotate(6deg); }
 }
 
 @keyframes confetti-burst {
@@ -359,12 +447,19 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rewardCard,
-  .chestOpening,
-  .chestGlow,
+  .chestOpening .chestLid,
+  .chestOpening .chestBody,
+  .chestOpening .chestLight,
+  .chestOpening .chestSparks,
+  .chestStage::before,
+  .chestStage::after,
   .confetti,
   .chestCard[data-tier='gold']::before {
     animation: none !important;
   }
+  .chestOpening .chestLid { transform: translateY(-29px) rotate(-7deg); }
+  .chestOpening .chestLight { opacity: 1; transform: translateY(-8px); }
+  .chestOpening .chestSparks { opacity: .8; transform: translateY(-18px); }
   .chestCard { transition: none; }
   .chestCard:hover { transform: none; }
 }

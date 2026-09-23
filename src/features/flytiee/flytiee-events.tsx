@@ -22,42 +22,24 @@ import { cn } from '@/lib/utils';
 import { CHEST_LABELS, STREAK_REWARDS, STUDY_MILESTONES } from './event-config';
 import { FlytieeCoin } from './flytiee-coin';
 import { FlytieeCoinReward } from './flytiee-coin-reward';
+import { ChestArt } from './flytiee-chest-art';
 import type { FlytieeChestTier, FlytieeRewardResult } from './types';
 import type { useFlytiee } from './use-flytiee';
 import styles from './flytiee-events.module.css';
 
 type FlytieeController = ReturnType<typeof useFlytiee>;
 
-const CHEST_TONES: Record<FlytieeChestTier, { shell: string; trim: string; light: string; card: string }> = {
-  bronze: { shell: '#a96945', trim: '#e1a26e', light: '#ffd0a8', card: 'border-[#a96945]/35 bg-[#a96945]/10' },
-  silver: { shell: '#8f9bb3', trim: '#dce4f2', light: '#ffffff', card: 'border-info/30 bg-info-soft' },
-  gold: { shell: '#d89e24', trim: '#ffe49a', light: '#fff9d8', card: 'border-warning/35 bg-warning-soft' },
+const CHEST_OPEN_MS: Record<FlytieeChestTier, number> = { bronze: 850, silver: 1080, gold: 1380 };
+const CHEST_OPEN_CAPTION: Record<FlytieeChestTier, string> = {
+  bronze: 'Chiếc khóa đồng vừa bật mở…',
+  silver: 'Ánh bạc đang tràn ra từ rương…',
+  gold: 'Kho báu vàng đang tỏa sáng…',
 };
 
-function ChestArt({ tier, opening = false, className }: { tier: FlytieeChestTier; opening?: boolean; className?: string }) {
-  const tone = CHEST_TONES[tier];
-  return (
-    <svg
-      viewBox="0 0 160 140"
-      className={cn(className, opening && styles.chestOpening, tier === 'gold' && styles.chestGlow)}
-      aria-hidden="true"
-    >
-      <ellipse cx="80" cy="125" rx="54" ry="9" fill="rgb(var(--color-text-primary) / .12)" />
-      <path d="M27 57c0-25 19-43 53-43s53 18 53 43v14H27V57Z" fill={tone.shell} stroke={tone.trim} strokeWidth="6" />
-      <path d="M39 54c4-17 18-27 41-27s37 10 41 27" fill="none" stroke={tone.light} strokeLinecap="round" strokeWidth="7" opacity=".55" />
-      <path d="M22 65h116v55a9 9 0 0 1-9 9H31a9 9 0 0 1-9-9V65Z" fill={tone.shell} stroke={tone.trim} strokeWidth="6" />
-      <path d="M22 69h116" stroke={tone.light} strokeWidth="7" opacity=".55" />
-      <path d="M70 61h20v42H70z" fill={tone.trim} />
-      <rect x="66" y="83" width="28" height="28" rx="7" fill={tone.light} stroke={tone.trim} strokeWidth="5" />
-      <circle cx="80" cy="96" r="4" fill={tone.shell} />
-      {tier === 'gold' && <g fill={tone.light}><path d="m18 36 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" /><path d="m142 23 2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5Z" /></g>}
-    </svg>
-  );
-}
-
-function RewardOverlay({ reward, openingTier, onClose }: {
+function RewardOverlay({ reward, openingTier, openedTier, onClose }: {
   reward: FlytieeRewardResult | null;
   openingTier: FlytieeChestTier | null;
+  openedTier: FlytieeChestTier | null;
   onClose: () => void;
 }) {
   const actionRef = useRef<HTMLButtonElement>(null);
@@ -73,29 +55,31 @@ function RewardOverlay({ reward, openingTier, onClose }: {
   }, [onClose, reward]);
 
   if (!reward && !openingTier) return null;
-  const tier = openingTier ?? reward?.chestTier ?? 'gold';
+  const tier = openingTier ?? openedTier ?? 'bronze';
   return (
     <Dialog open onOpenChange={(open) => {
       if (!open && !openingTier) onClose();
     }}>
       <DialogContent
         className={cn('z-[70] w-full max-w-sm overflow-hidden border-primary/30 p-0 text-center [&>button]:hidden', styles.rewardCard)}
+        data-tier={openingTier ?? openedTier ?? undefined}
         onOpenAutoFocus={(event) => event.preventDefault()}
       >
         <div className="relative p-6">
-          {reward?.kind !== 'coins' && <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-            {reward && Array.from({ length: 10 }, (_, index) => <span key={index} className={styles.confetti} />)}
+          {reward && (openedTier || reward.kind !== 'coins') && <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+            {Array.from({ length: openedTier === 'gold' ? 12 : openedTier === 'silver' ? 10 : 8 }, (_, index) => <span key={index} className={styles.confetti} />)}
           </div>}
           {openingTier ? (
             <DialogHeader className="relative items-center text-center">
-              <ChestArt tier={tier} opening className="mx-auto h-44 w-44" />
+              <div className={styles.chestStage}><ChestArt tier={tier} opening className="mx-auto h-48 w-48" /></div>
               <DialogTitle className="text-xl font-bold">Đang mở {CHEST_LABELS[tier]}…</DialogTitle>
-              <DialogDescription className="text-sm text-muted-foreground">Một phần quà bất ngờ đang bay tới!</DialogDescription>
+              <DialogDescription className="text-sm text-muted-foreground">{CHEST_OPEN_CAPTION[tier]}</DialogDescription>
             </DialogHeader>
           ) : (
             <div className="relative">
               <button type="button" onClick={onClose} className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Đóng thông báo phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
-              {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} /> : <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-warning-soft text-warning shadow-card"><Sparkles aria-hidden="true" className="h-10 w-10" /></div>}
+              {openedTier && <p className={styles.chestRevealLabel}>{CHEST_LABELS[openedTier]} đã mở</p>}
+              {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} /> : <div className={cn('mx-auto flex h-20 w-20 items-center justify-center rounded-full shadow-card', openedTier ? styles.chestPrizeIcon : 'bg-warning-soft text-warning')}><Sparkles aria-hidden="true" className="h-10 w-10" /></div>}
               <DialogHeader className="mt-4 items-center text-center">
                 <DialogDescription className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Phần thưởng đã nhận</DialogDescription>
                 <DialogTitle className="mt-2 text-2xl font-bold">{reward?.title}</DialogTitle>
@@ -116,6 +100,9 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
   const [redeemingMail, setRedeemingMail] = useState(false);
   const [reward, setReward] = useState<FlytieeRewardResult | null>(null);
   const [openingTier, setOpeningTier] = useState<FlytieeChestTier | null>(null);
+  const [openedTier, setOpenedTier] = useState<FlytieeChestTier | null>(null);
+  const chestTimerRef = useRef<number | null>(null);
+  useEffect(() => () => { if (chestTimerRef.current !== null) window.clearTimeout(chestTimerRef.current); }, []);
   const cycleDay = Math.max(1, (flytiee.eventStats.streak - 1) % 7 + 1);
   const studyProgress = Math.min(100, flytiee.eventStats.studyMinutes / 90 * 100);
   const practiceProgress = Math.min(100, flytiee.eventStats.practiceCoinsEarned);
@@ -127,18 +114,22 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
   const correctTotal = useMemo(() => Object.values(flytiee.eventStats.correctByLevel).reduce((sum, count) => sum + count, 0), [flytiee.eventStats.correctByLevel]);
 
   const reveal = (result: FlytieeRewardResult | null) => {
-    if (result) setReward(result);
+    if (result) { setOpenedTier(null); setReward(result); }
   };
 
   const handleOpenChest = (tier: FlytieeChestTier) => {
     if (flytiee.profile.chests[tier] < 1 || openingTier) return;
     setReward(null);
+    setOpenedTier(tier);
     setOpeningTier(tier);
-    window.setTimeout(() => {
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : CHEST_OPEN_MS[tier];
+    chestTimerRef.current = window.setTimeout(() => {
+      chestTimerRef.current = null;
       const result = flytiee.openChest(tier);
       setOpeningTier(null);
       if (result) setReward(result);
-    }, 850);
+      else setOpenedTier(null);
+    }, duration);
   };
 
   const submitMail = async (event: React.FormEvent) => {
@@ -159,7 +150,7 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
 
   return (
     <div className={cn('space-y-5', styles.eventWorld)}>
-      <RewardOverlay reward={reward} openingTier={openingTier} onClose={() => setReward(null)} />
+      <RewardOverlay reward={reward} openingTier={openingTier} openedTier={openedTier} onClose={() => { setReward(null); setOpenedTier(null); }} />
 
       <section className={styles.festivalBanner}>
         <div className="relative z-10 max-w-2xl">
@@ -228,7 +219,21 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
       <section aria-labelledby="chest-inventory-title">
         <div className="mb-4 flex items-end justify-between gap-3"><div><p className={styles.eyebrow}>Treasure vault</p><h3 id="chest-inventory-title" className="mt-1 text-xl font-extrabold">Kho rương FlyTiee</h3><p className="mt-1 text-sm text-muted-foreground">Mỗi chiếc rương cất một bất ngờ — rương càng hiếm, quà càng cuốn hút.</p></div><span className="rounded-full bg-primary-soft px-3 py-1.5 text-sm font-extrabold text-primary">{totalChests} rương</span></div>
         <div className="grid gap-4 sm:grid-cols-3">
-          {(['bronze', 'silver', 'gold'] as FlytieeChestTier[]).map((tier) => <article key={tier} data-tier={tier} className={cn('p-4 text-center', styles.chestCard)}><div className="relative z-10"><ChestArt tier={tier} className={cn('mx-auto', tier === 'gold' ? 'h-36 w-36' : 'h-28 w-28')} /><h4 className={cn('font-extrabold', tier === 'gold' && 'text-lg text-warning')}>{CHEST_LABELS[tier]}</h4><p className="mt-1 text-sm text-muted-foreground">Đang có <span className="font-extrabold text-foreground">{flytiee.profile.chests[tier]}</span></p><Button type="button" className={cn('mt-4 w-full', flytiee.profile.chests[tier] > 0 ? styles.eventPrimary : styles.eventSecondary)} variant={flytiee.profile.chests[tier] > 0 ? 'default' : 'outline'} disabled={flytiee.profile.chests[tier] < 1 || Boolean(openingTier)} onClick={() => handleOpenChest(tier)}><PackageOpen aria-hidden="true" className="h-4 w-4" />{flytiee.profile.chests[tier] > 0 ? tier === 'gold' ? 'Mở kho báu' : 'Mở rương' : 'Chưa có rương'}</Button></div></article>)}
+          {(['bronze', 'silver', 'gold'] as FlytieeChestTier[]).map((tier) => (
+            <article key={tier} data-tier={tier} className={cn('p-4 text-center', styles.chestCard)}>
+              <div className="relative z-10">
+                <div className="flex h-36 items-center justify-center">
+                  <ChestArt tier={tier} className={cn(tier === 'gold' ? 'h-36 w-36' : 'h-28 w-28')} />
+                </div>
+                <h4 className={cn('font-extrabold', tier === 'gold' && 'text-lg text-warning')}>{CHEST_LABELS[tier]}</h4>
+                <p className="mt-1 text-sm text-muted-foreground">Đang có <span className="font-extrabold text-foreground">{flytiee.profile.chests[tier]}</span></p>
+                <Button type="button" className={cn('mt-4 w-full', flytiee.profile.chests[tier] > 0 ? styles.eventPrimary : styles.eventSecondary)} variant={flytiee.profile.chests[tier] > 0 ? 'default' : 'outline'} disabled={flytiee.profile.chests[tier] < 1 || Boolean(openingTier)} onClick={() => handleOpenChest(tier)}>
+                  <PackageOpen aria-hidden="true" className="h-4 w-4" />
+                  {flytiee.profile.chests[tier] > 0 ? tier === 'gold' ? 'Mở kho báu' : 'Mở rương' : 'Chưa có rương'}
+                </Button>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </div>

@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import { normalizeLatexInput } from '@/lib/math/normalize-latex';
+import { prepareMathContent, wrapBareMathEnvironments } from '@/lib/math/math-content';
 
 interface MathRendererProps {
   content: string;
@@ -76,20 +77,31 @@ function formatRawMathInText(value: string) {
   return parts.join('');
 }
 
+/** Keep Vietnamese prose intact while typesetting recognizable Unicode math atoms. */
+function formatUnicodeMathInText(value: string) {
+  const notation = /(?<![A-Za-zÀ-ỹĐđ0-9])(?:∠\s*[A-Z]{1,4}(?:\s*(?:=|≈|≠)\s*\d+(?:°)?)?|[△∆]\s*[A-Z]{3}|[A-Za-z]{1,4}\s*[⟂∥∈∉≤≥≠≈]\s*(?:[A-Za-z0-9]{1,4}|\{[^{}\n]+\})|√\s*(?:\([^()\n]+\)|[A-Za-z0-9]+)|[A-Za-z0-9]+[⁰¹²³⁴⁵⁶⁷⁸⁹₀-₉]+|\d+(?:[.,]\d+)?°|[½¼¾])(?![A-Za-zÀ-ỹĐđ0-9])/g;
+  return splitMathParts(value).map((part) => {
+    if (part.type === 'text') return part.value.replace(notation, (match) => `$${match}$`);
+    return part.type === 'display-math' ? `$$${part.value}$$` : `$${part.value}$`;
+  }).join('');
+}
+
 /** Recognize simple slash expressions inside prose without touching URLs or dates. */
 function formatPlainTextMath(value: string) {
   const slashExpression = /(?<![A-Za-zÀ-ỹĐđ0-9/:.])(?:[+-]?(?:\d+(?:\.\d+)?|[A-Za-z]{1,2}(?:\^\{?[-+]?\d+\}?)?|\([^()\n]+\)))\s*\/\s*(?:\([^()\n]+\)|[A-Za-z]{1,2}(?:\^\{?[-+]?\d+\}?)?|\d+(?:\.\d+)?)(?![A-Za-zÀ-ỹĐđ0-9/])/g;
-  const withFractions = value.replace(slashExpression, (match) => `$${match}$`);
-
-  return splitMathParts(withFractions).map((part) => {
-    if (part.type === 'text') return formatRawMathInText(part.value);
-    return part.type === 'display-math' ? `$$${part.value}$$` : `$${part.value}$`;
+  return splitMathParts(wrapBareMathEnvironments(value)).map((part) => {
+    if (part.type !== 'text') return part.type === 'display-math' ? `$$${part.value}$$` : `$${part.value}$`;
+    const withFractions = part.value.replace(slashExpression, (match) => `$${match}$`);
+    return splitMathParts(withFractions).map((fractionPart) => {
+      if (fractionPart.type === 'text') return formatUnicodeMathInText(formatRawMathInText(fractionPart.value));
+      return fractionPart.type === 'display-math' ? `$$${fractionPart.value}$$` : `$${fractionPart.value}$`;
+    }).join('');
   }).join('');
 }
 
 function splitMathParts(content: string): MathPart[] {
   const parts: MathPart[] = [];
-  const pattern = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$)/g;
+  const pattern = /(\$\$[\s\S]*?\$\$|(?<!\$)\$(?!\$)[\s\S]*?(?<!\$)\$(?!\$))/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
@@ -128,7 +140,7 @@ function shouldDisplayFormula(math: string) {
  */
 export function formatOptionMath(opt: string): string {
   if (!opt || typeof opt !== 'string') return opt || '';
-  let s = opt.trim();
+  let s = prepareMathContent(opt.trim());
 
   // If already contains $ ... $, normalize inside the math blocks
   if (s.includes('$')) {
@@ -136,7 +148,7 @@ export function formatOptionMath(opt: string): string {
       const math = displayMath ?? inlineMath;
       const m = normalizeMathOperators(math);
 
-      if (looksLikeProse(m)) return formatPlainTextMath(m);
+      if (!/\\begin\{/.test(m) && looksLikeProse(m)) return formatPlainTextMath(m);
       return displayMath !== undefined ? '$$' + m + '$$' : '$' + m + '$';
     });
 
@@ -177,12 +189,12 @@ export function formatOptionMath(opt: string): string {
   // "Với A, B là hai biểu thức tùy ý, A^2 - B^2 = ...". Wrapping the
   // whole sentence makes KaTeX discard normal word spacing.
   const withoutLatexCommands = s.replace(/\\[a-zA-Z]+/g, '');
-  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/⁄∕=<>.,;:|·÷×−≤≥≠≈√∞π]+$/.test(s)
+  const isMathOnly = /^[\s0-9A-Za-z\\^_{}()[\]+\-*/⁄∕=<>.,;:|·÷×−≤≥≠≈√∞π∠△∆⟂∥∈∉⊂⊆∪∩∅°²³¹⁴⁵⁶⁷⁸⁹⁰₀-₉⇒⇔→←±∓½¼¾]+$/.test(s)
     && !/(?:https?:\/\/|www\.)/i.test(s)
     && !/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(s)
     && !(/\s/.test(withoutLatexCommands) && /[A-Za-z]{3,}/.test(withoutLatexCommands));
 
-  if (isMathOnly && (/[\\^_\/⁄∕×÷−≤≥≠≈√∞π]/.test(s))) {
+  if (isMathOnly && (/[\\^_\/⁄∕×÷−≤≥≠≈√∞π∠△∆⟂∥∈∉⊂⊆∪∩∅°²³¹⁴⁵⁶⁷⁸⁹⁰₀-₉⇒⇔→←±∓½¼¾]/.test(s))) {
     return `$${s}$`;
   }
 

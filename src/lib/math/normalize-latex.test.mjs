@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import katex from 'katex';
 import { normalizeLatexInput, normalizeSlashFractions } from './normalize-latex.ts';
+import { prepareMathContent, wrapBareMathEnvironments } from './math-content.ts';
 
 test('turns the exam answer examples into stacked fractions', () => {
   assert.equal(normalizeLatexInput('1/x + 2'), '\\frac{1}{x} + 2');
@@ -32,4 +33,30 @@ test('generated fractions are valid KaTeX', () => {
   for (const expression of ['1/x + 2', 'x/(y+1)', '(x+1)/(y-1)', '1/(x/y)', 'x^2/y^3']) {
     assert.doesNotThrow(() => katex.renderToString(normalizeLatexInput(expression), { throwOnError: true }));
   }
+});
+
+test('repairs solution imports without exposing citation markers or aligned commands', () => {
+  const imported = 'Theo định lí tổng các góc trong một tứ giác[cite: 4]:\n\\begin{aligned}\\widehat D &= 360^\\circ-(65^\\circ+115^\\circ+80^\\circ) \\\\ &= 100^\\circ\\end{aligned}';
+  const prepared = prepareMathContent(imported);
+  assert.equal(prepared.includes('[cite:'), false);
+  const wrapped = wrapBareMathEnvironments(prepared);
+  assert.match(wrapped, /\$\$\\begin\{aligned\}/);
+  const formula = wrapped.slice(wrapped.indexOf('$$') + 2, -2);
+  const normalized = normalizeLatexInput(formula);
+  assert.match(normalized, /\\\\ &= 100/);
+  assert.doesNotThrow(() => katex.renderToString(normalized, { displayMode: true, throwOnError: true }));
+});
+
+test('recognizes alternate delimiters and common geometry and Unicode notation', () => {
+  assert.equal(prepareMathContent('Góc \\(A+B\\) và \\[x²=4\\]'), 'Góc $A+B$ và $$x²=4$$');
+  for (const expression of ['∠ABC = 90°', '△ABC ⟂ DE', 'x² + √(x+1)', 'A ∈ {1;2}', '½ + ¼ = ¾']) {
+    assert.doesNotThrow(() => katex.renderToString(normalizeLatexInput(expression), { throwOnError: true }), expression);
+  }
+});
+
+test('repairs fully double-escaped math environments without losing row breaks', () => {
+  const escaped = '\\\\begin{aligned}x&=1\\\\\\\\y&=2\\\\end{aligned}';
+  const repaired = prepareMathContent(escaped);
+  assert.equal(repaired, '\\begin{aligned}x&=1\\\\y&=2\\end{aligned}');
+  assert.doesNotThrow(() => katex.renderToString(normalizeLatexInput(repaired), { displayMode: true, throwOnError: true }));
 });

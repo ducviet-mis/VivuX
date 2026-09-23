@@ -1,0 +1,55 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+import { normalizeLatexInput } from '../../../lib/math/normalize-latex.ts';
+import { prepareMathContent, wrapBareMathEnvironments } from '../../../lib/math/math-content.ts';
+
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
+const katex = require('katex');
+const React = require('react');
+const { renderToStaticMarkup } = require('react-dom/server');
+const filename = fileURLToPath(new URL('./math-renderer.tsx', import.meta.url));
+const compiled = ts.transpileModule(readFileSync(filename, 'utf8'), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
+}).outputText;
+const moduleStub = { exports: {} };
+const localRequire = (name) => {
+  if (name === 'katex/dist/katex.min.css') return {};
+  if (name === '@/lib/math/normalize-latex') return { normalizeLatexInput };
+  if (name === '@/lib/math/math-content') return { prepareMathContent, wrapBareMathEnvironments };
+  return require(name);
+};
+vm.runInNewContext(compiled, { module: moduleStub, exports: moduleStub.exports, require: localRequire, console }, { filename });
+const { formatOptionMath, MathRenderer } = moduleStub.exports;
+
+test('keeps a geometry solution environment whole and removes source citations', () => {
+  const source = 'Theo định lí[cite: 4]:\n\\begin{aligned}\\widehat D &= 360^\\circ-(65^\\circ+115^\\circ+80^\\circ) \\\\ &= 100^\\circ\\end{aligned}';
+  const formatted = formatOptionMath(source);
+  assert.equal(formatted.includes('[cite:'), false);
+  assert.match(formatted, /\$\$\\begin\{aligned\}[\s\S]*\\end\{aligned\}\$\$/);
+  const formula = formatted.match(/\$\$([\s\S]*?)\$\$/)?.[1];
+  assert.ok(formula);
+  assert.doesNotThrow(() => katex.renderToString(normalizeLatexInput(formula), { displayMode: true, throwOnError: true }));
+  const html = renderToStaticMarkup(React.createElement(MathRenderer, { content: source, variant: 'solution' }));
+  assert.doesNotMatch(html, /katex-error|\[cite:/);
+  assert.match(html, /katex-display/);
+});
+
+test('recognizes Unicode math in prose, alternate delimiters, and leaves URLs alone', () => {
+  const formatted = formatOptionMath('Góc ∠ABC = 90° và AB ⟂ CD. Xem https://flydo.vn/a/b');
+  assert.match(formatted, /\$∠ABC = 90°\$/);
+  assert.match(formatted, /\$AB ⟂ CD\$/);
+  assert.match(formatted, /https:\/\/flydo\.vn\/a\/b/);
+  assert.equal(formatOptionMath('\\(x+1\\) và \\[x²=4\\]'), '$x+1$ và $$x²=4$$');
+});
+
+test('preserves an explicit multiline math block and recognizes plain typed options', () => {
+  const formula = '$\\begin{aligned}x&=1\\\\y&=2\\end{aligned}$';
+  assert.equal(formatOptionMath(formula), formula);
+  assert.equal(formatOptionMath('90°'), '$90°$');
+  assert.equal(formatOptionMath('x² + ½'), '$x² + ½$');
+});

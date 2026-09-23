@@ -5,7 +5,7 @@ const SIZING_DELIMITER_COMMANDS = new Set([
   'lbrace', 'rbrace', 'langle', 'rangle',
   'lfloor', 'rfloor', 'lceil', 'rceil',
   'lgroup', 'rgroup', 'lmoustache', 'rmoustache',
-  'vert', 'Vert', 'backslash',
+  'vert', 'Vert', 'lvert', 'rvert', 'lVert', 'rVert', 'backslash',
   'uparrow', 'downarrow', 'updownarrow',
   'Uparrow', 'Downarrow', 'Updownarrow',
 ]);
@@ -214,8 +214,13 @@ function removeMalformedSizingCommands(latex: string) {
 export function normalizeLatexInput(latex: string) {
   let fixed = latex;
 
-  // Fix double backslashes in commands like \\widehat -> \widehat.
-  fixed = fixed.replace(/\\\\([a-zA-Z]+)/g, '\\$1');
+  // A doubled slash may be a JSON-escaped command or an aligned-row separator.
+  // Preserve row separators when the source already has a real math environment.
+  const escapedEnvironment = /\\\\begin\{/.test(fixed);
+  const hasMathEnvironment = /\\begin\{/.test(fixed);
+  if (escapedEnvironment || !hasMathEnvironment) {
+    fixed = fixed.replace(/\\\\([a-zA-Z]+)/g, '\\$1');
+  }
 
   fixed = fixed.replace(/(?<![a-zA-Z\\])LeftRightarrow(?![a-zA-Z])/g, '\\Leftrightarrow');
   fixed = fixed.replace(/(?<![a-zA-Z\\])cdot([a-zA-Z])/g, '\\cdot $1');
@@ -230,6 +235,32 @@ export function normalizeLatexInput(latex: string) {
   fixed = fixed.replace(/!=/g, ' \\neq ');
   fixed = fixed
     .replace(/[−–]/g, '-')
+    .replace(/⇔/g, ' \\Leftrightarrow ')
+    .replace(/⇒/g, ' \\Rightarrow ')
+    .replace(/→/g, ' \\rightarrow ')
+    .replace(/←/g, ' \\leftarrow ')
+    .replace(/∠/g, ' \\angle ')
+    .replace(/[△∆]/g, ' \\triangle ')
+    .replace(/⟂/g, ' \\perp ')
+    .replace(/∥/g, ' \\parallel ')
+    .replace(/∈/g, ' \\in ')
+    .replace(/∉/g, ' \\notin ')
+    .replace(/⊆/g, ' \\subseteq ')
+    .replace(/⊂/g, ' \\subset ')
+    .replace(/∪/g, ' \\cup ')
+    .replace(/∩/g, ' \\cap ')
+    .replace(/∅/g, ' \\emptyset ')
+    .replace(/≡/g, ' \\equiv ')
+    .replace(/≅/g, ' \\cong ')
+    .replace(/∝/g, ' \\propto ')
+    .replace(/±/g, ' \\pm ')
+    .replace(/∓/g, ' \\mp ')
+    .replace(/√\s*\(([^()]*)\)/g, '\\sqrt{$1}')
+    .replace(/√\s*([A-Za-z0-9]+)/g, '\\sqrt{$1}')
+    .replace(/√/g, '\\sqrt ')
+    .replace(/½/g, '\\frac{1}{2}')
+    .replace(/¼/g, '\\frac{1}{4}')
+    .replace(/¾/g, '\\frac{3}{4}')
     .replace(/[⁄∕]/g, '/')
     .replace(/×/g, ' \\times ')
     .replace(/÷/g, ' \\div ')
@@ -238,13 +269,24 @@ export function normalizeLatexInput(latex: string) {
     .replace(/≠/g, ' \\neq ')
     .replace(/≈/g, ' \\approx ')
     .replace(/∞/g, ' \\infty ')
+    .replace(/Δ/g, ' \\Delta ')
+    .replace(/θ/g, ' \\theta ')
+    .replace(/μ/g, ' \\mu ')
+    .replace(/σ/g, ' \\sigma ')
+    .replace(/φ/g, ' \\varphi ')
+    .replace(/°/g, '^\\circ')
     .replace(/π/g, ' \\pi ');
+
+  const superscriptDigits: Record<string, string> = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁺': '+', '⁻': '-' };
+  fixed = fixed.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/g, (digits) => `^{${digits.split('').map((digit) => superscriptDigits[digit]).join('')}}`);
+  fixed = fixed.replace(/[₀₁₂₃₄₅₆₇₈₉]+/g, (digits) => `_{${digits.split('').map((digit) => String('₀₁₂₃₄₅₆₇₈₉'.indexOf(digit))).join('')}}`);
 
   const commands = [
     'cdot', 'frac', 'text', 'Rightarrow', 'Leftrightarrow', 'leftarrow', 'rightarrow', 'neq', 'circ', 'widehat',
     'sqrt', 'pi', 'alpha', 'beta', 'gamma', 'Delta', 'times', 'div', 'leq', 'geq', 'pm', 'infty', 'approx',
     'sin', 'cos', 'tan', 'cot', 'log', 'ln', 'lim', 'sum', 'prod', 'int', 'in', 'subset', 'cup', 'cap', 'emptyset',
-    'triangle', 'angle', 'perp', 'parallel', 'Leftarrow',
+    'triangle', 'angle', 'perp', 'parallel', 'Leftarrow', 'notin', 'subseteq', 'equiv', 'cong', 'propto',
+    'theta', 'mu', 'sigma', 'varphi',
   ];
 
   commands.forEach((command) => {

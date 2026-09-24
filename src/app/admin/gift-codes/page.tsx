@@ -41,6 +41,7 @@ type FlymaxCode = {
 };
 
 const adminEmails = new Set(['vietdang293.vn@gmail.com', 'vietdang293@gmail.com']);
+const giftCodeSetupHint = 'Hãy chạy file src/lib/supabase/admin-gift-codes.sql trong Supabase SQL Editor của đúng dự án FlyDo, rồi bấm “Kiểm tra lại quyền”.';
 const redeemableSets = FLYTIEE_SETS.filter((set) => !set.exclusiveMilestone);
 const rewardItems = {
   accessory: FLYTIEE_ACCESSORIES,
@@ -82,6 +83,7 @@ export default function GiftCodesAdminPage() {
   const [flytieeCodes, setFlytieeCodes] = useState<FlytieeCode[]>([]);
   const [flymaxCodes, setFlymaxCodes] = useState<FlymaxCode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [accessReady, setAccessReady] = useState<boolean | null>(null);
   const [saving, setSaving] = useState(false);
   const [busyCode, setBusyCode] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -99,6 +101,16 @@ export default function GiftCodesAdminPage() {
   const loadCodes = useCallback(async () => {
     setLoading(true);
     const supabase = getSupabaseClient();
+    const { data: canManage, error: accessError } = await supabase.rpc('flydo_is_gift_code_admin');
+    if (accessError || !canManage) {
+      setAccessReady(false);
+      setError(accessError
+        ? `Chưa cài quyền quản trị mã quà tặng trên Supabase. ${giftCodeSetupHint}`
+        : 'Phiên đăng nhập hiện tại không được Supabase xác nhận là ADMIN. Hãy đăng nhập lại bằng đúng email ADMIN.');
+      setLoading(false);
+      return;
+    }
+    setAccessReady(true);
     const [birdie, max] = await Promise.all([
       supabase.from('flytiee_gift_codes').select('id,code,title,reward_kind,reward_value,is_active,expires_at,max_redemptions,redemption_count,created_at').order('created_at', { ascending: false }).limit(50),
       supabase.from('gift_codes').select('code,name,flymax_days,is_active,expires_at,max_redemptions,usage_count,created_at').order('created_at', { ascending: false }).limit(50),
@@ -129,6 +141,7 @@ export default function GiftCodesAdminPage() {
     if (!isAdmin || saving) return;
     setError('');
     setSuccess('');
+    if (accessReady !== true) return setError(`Chưa thể tạo mã. ${giftCodeSetupHint}`);
 
     const normalizedCode = code.trim().toUpperCase();
     const title = name.trim();
@@ -164,7 +177,10 @@ export default function GiftCodesAdminPage() {
     const { error: insertError } = await getSupabaseClient().from(table).insert(payload);
     setSaving(false);
     if (insertError) {
-      setError(insertError.code === '23505' ? 'Mã này đã tồn tại. Hãy tạo mã mới.' : `Không thể tạo mã: ${insertError.message}`);
+      setError(insertError.code === '23505' ? 'Mã này đã tồn tại. Hãy tạo mã mới.'
+        : insertError.code === '42501' || insertError.message.toLowerCase().includes('row-level security')
+          ? `Chính sách tạo mã chưa được áp dụng. ${giftCodeSetupHint}`
+          : `Không thể tạo mã: ${insertError.message}`);
       return;
     }
     setSuccess(`Đã tạo ${type === 'flymax' ? 'mã FlyMax' : 'mã FlyTiee'}: ${normalizedCode}. Sao chép mã ở danh sách bên dưới để gửi cho học sinh.`);
@@ -174,7 +190,7 @@ export default function GiftCodesAdminPage() {
   };
 
   const toggleCode = async (gift: FlytieeCode | FlymaxCode) => {
-    if (!isAdmin || busyCode) return;
+    if (!isAdmin || busyCode || accessReady !== true) return;
     setError('');
     const table = type === 'flymax' ? 'gift_codes' : 'flytiee_gift_codes';
     setBusyCode(gift.code);
@@ -278,9 +294,9 @@ export default function GiftCodesAdminPage() {
               </div>
             </div>
 
-            {error ? <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">{error}</p> : null}
+            {error ? <div role="alert" className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive"><p>{error}</p>{accessReady === false || error.includes('Chính sách tạo mã') ? <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => { setError(''); void loadCodes(); }}>Kiểm tra lại quyền</Button> : null}</div> : null}
             {success ? <p role="status" className="rounded-lg border border-success/30 bg-success/10 p-3 text-sm text-success">{success}</p> : null}
-            <Button type="submit" disabled={saving} className="min-h-11 w-full sm:w-auto"><Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />{saving ? 'Đang tạo mã…' : 'Tạo mã quà tặng'}</Button>
+            <Button type="submit" disabled={saving || accessReady !== true} className="min-h-11 w-full sm:w-auto"><Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />{saving ? 'Đang tạo mã…' : 'Tạo mã quà tặng'}</Button>
           </form>
         </CardContent>
       </Card>

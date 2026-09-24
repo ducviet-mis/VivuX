@@ -256,11 +256,12 @@ export function useFlytiee() {
 
   const claimMission = useCallback((mission: FlytieeMission) => {
     const claimId = `${todayKey()}:${mission.id}`;
-    if (mission.current < mission.target || profileRef.current.claimedMissionIds.includes(claimId)) return;
+    if (mission.current < mission.target || profileRef.current.claimedMissionIds.includes(claimId)) return false;
     commit((current) => {
       const rewarded = addReward(current, mission.xp, mission.coins);
       return { ...rewarded, claimedMissionIds: [...rewarded.claimedMissionIds, claimId].slice(-120) };
     }, `Đã nhận ${mission.xp} EXP và ${mission.coins} xu!`);
+    return true;
   }, [commit]);
 
   const claimStreakReward = useCallback((): FlytieeRewardResult | null => {

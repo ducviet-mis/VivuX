@@ -23,10 +23,9 @@ import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { ACCESSORY_SLOT_LABELS, FLYTIEE_ACCESSORIES, FLYTIEE_SETS, FLYTIEE_SKINS } from './config';
 import { FlytieeBird, FlytieeAccessoryPreview } from './flytiee-bird';
 import { FlytieeCoin } from './flytiee-coin';
-import { FlytieeCoinReward } from './flytiee-coin-reward';
-import { FlytieeEvents } from './flytiee-events';
+import { FlytieeEvents, FlytieeRewardOverlay } from './flytiee-events';
 import { FlytieeAdventure } from './flytiee-adventure';
-import type { FlytieeAccessorySlot, FlytieeMood } from './types';
+import type { FlytieeAccessorySlot, FlytieeMood, FlytieeRewardResult } from './types';
 import { useFlytiee } from './use-flytiee';
 import styles from './flytiee-widget.module.css';
 
@@ -81,7 +80,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
   const [selectedSkinId, setSelectedSkinId] = useState(FLYTIEE_SKINS[1].id);
   const [selectedSetId, setSelectedSetId] = useState(FLYTIEE_SETS[0].id);
   const [shopCategory, setShopCategory] = useState<ShopCategory>('set');
-  const [coinCelebration, setCoinCelebration] = useState<{ id: number; amount: number } | null>(null);
+  const [missionReward, setMissionReward] = useState<FlytieeRewardResult | null>(null);
 
   const isHungry = flytiee.satiety <= 35;
   const selectedAccessory = FLYTIEE_ACCESSORIES.find((item) => item.id === selectedAccessoryId) ?? FLYTIEE_ACCESSORIES[0];
@@ -137,12 +136,6 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
     return () => window.clearTimeout(timer);
   }, [flytiee.clearMessage, flytiee.message]);
 
-  useEffect(() => {
-    if (!coinCelebration) return;
-    const timer = window.setTimeout(() => setCoinCelebration(null), 2600);
-    return () => window.clearTimeout(timer);
-  }, [coinCelebration]);
-
   const handleFeed = () => {
     flytiee.feed();
     setMood('eat');
@@ -163,8 +156,9 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
   };
 
   const claimMission = (mission: (typeof flytiee.missions)[number]) => {
-    flytiee.claimMission(mission);
-    setCoinCelebration({ id: Date.now(), amount: mission.coins });
+    if (flytiee.claimMission(mission)) {
+      setMissionReward({ kind: 'coins', title: mission.title, description: 'Nhiệm vụ hoàn thành — phần thưởng đã vào tài khoản.', amount: mission.coins, xp: mission.xp });
+    }
   };
 
   if (!user) return null;
@@ -233,12 +227,7 @@ export function FlytieeWidget({ variant = 'sidebar' }: FlytieeWidgetProps) {
           </div>
         </DialogHeader>
 
-        {coinCelebration && open && (
-          <div key={coinCelebration.id} className={styles.coinCelebration} role="status" aria-live="polite">
-            <FlytieeCoinReward amount={coinCelebration.amount} compact />
-            <p className={styles.coinCelebrationLabel}>Xu đã vào ví FlyTiee!</p>
-          </div>
-        )}
+        {missionReward && open && <FlytieeRewardOverlay reward={missionReward} profile={flytiee.profile} onClose={() => setMissionReward(null)} />}
 
         <Tabs value={tab} onValueChange={changeTab} className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <div className={cn('shrink-0 px-4 py-3 sm:px-7 sm:py-4', styles.tabBar)}>

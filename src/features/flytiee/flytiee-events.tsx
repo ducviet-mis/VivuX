@@ -20,10 +20,12 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { CHEST_LABELS, STREAK_REWARDS, STUDY_MILESTONES } from './event-config';
+import { FLYTIEE_ACCESSORIES, FLYTIEE_SETS, FLYTIEE_SKINS } from './config';
+import { FlytieeBird } from './flytiee-bird';
 import { FlytieeCoin } from './flytiee-coin';
 import { FlytieeCoinReward } from './flytiee-coin-reward';
 import { ChestArt } from './flytiee-chest-art';
-import type { FlytieeChestTier, FlytieeRewardResult } from './types';
+import type { FlytieeChestTier, FlytieeProfile, FlytieeRewardResult } from './types';
 import type { useFlytiee } from './use-flytiee';
 import styles from './flytiee-events.module.css';
 
@@ -36,10 +38,11 @@ const CHEST_OPEN_CAPTION: Record<FlytieeChestTier, string> = {
   gold: 'Kho báu vàng đang tỏa sáng…',
 };
 
-function RewardOverlay({ reward, openingTier, openedTier, onClose }: {
+export function FlytieeRewardOverlay({ reward, profile, openingTier = null, openedTier = null, onClose }: {
   reward: FlytieeRewardResult | null;
-  openingTier: FlytieeChestTier | null;
-  openedTier: FlytieeChestTier | null;
+  profile: FlytieeProfile;
+  openingTier?: FlytieeChestTier | null;
+  openedTier?: FlytieeChestTier | null;
   onClose: () => void;
 }) {
   const actionRef = useRef<HTMLButtonElement>(null);
@@ -56,19 +59,32 @@ function RewardOverlay({ reward, openingTier, openedTier, onClose }: {
 
   if (!reward && !openingTier) return null;
   const tier = openingTier ?? openedTier ?? 'bronze';
+  const set = reward?.kind === 'set' ? FLYTIEE_SETS.find((item) => item.id === reward.itemId) : null;
+  const skin = reward?.kind === 'skin' ? FLYTIEE_SKINS.find((item) => item.id === reward.itemId) : null;
+  const accessory = reward?.kind === 'accessory' ? FLYTIEE_ACCESSORIES.find((item) => item.id === reward.itemId) : null;
+  const prizeName = reward?.kind === 'coins' ? `${(reward.amount ?? 0).toLocaleString('vi-VN')} xu FlyTiee`
+    : reward?.kind === 'chest' && reward.chestTier ? CHEST_LABELS[reward.chestTier]
+      : set?.name ?? skin?.name ?? accessory?.name ?? reward?.title ?? '';
+  const previewProfile: FlytieeProfile = set
+    ? { ...profile, equippedSetId: set.id, equipped: {} }
+    : skin
+      ? { ...profile, equippedSetId: null, equippedSkinId: skin.id }
+      : accessory
+        ? { ...profile, equippedSetId: null, equipped: { [accessory.slot]: accessory.id } }
+        : profile;
+  const itemDescription = set?.description ?? skin?.description ?? accessory?.description;
   return (
     <Dialog open onOpenChange={(open) => {
       if (!open && !openingTier) onClose();
     }}>
       <DialogContent
-        className={cn('z-[70] w-full max-w-sm overflow-hidden border-primary/30 p-0 text-center [&>button]:hidden', styles.rewardCard)}
+        className={cn('z-[70] w-[calc(100%-1.5rem)] max-w-[480px] overflow-x-hidden overflow-y-auto p-0 text-center [&>button]:hidden', styles.rewardCard)}
         data-tier={openingTier ?? openedTier ?? undefined}
+        data-kind={reward?.kind ?? 'opening'}
+        data-tone={set?.tone ?? undefined}
         onOpenAutoFocus={(event) => event.preventDefault()}
       >
-        <div className="relative p-6">
-          {reward && (openedTier || reward.kind !== 'coins') && <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-            {Array.from({ length: openedTier === 'gold' ? 12 : openedTier === 'silver' ? 10 : 8 }, (_, index) => <span key={index} className={styles.confetti} />)}
-          </div>}
+        <div className={styles.rewardLayout}>
           {openingTier ? (
             <DialogHeader className="relative items-center text-center">
               <div className={styles.chestStage}><ChestArt tier={tier} opening className="mx-auto h-48 w-48" /></div>
@@ -76,17 +92,25 @@ function RewardOverlay({ reward, openingTier, openedTier, onClose }: {
               <DialogDescription className="text-sm text-muted-foreground">{CHEST_OPEN_CAPTION[tier]}</DialogDescription>
             </DialogHeader>
           ) : (
-            <div className="relative">
-              <button type="button" onClick={onClose} className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Đóng thông báo phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
-              {openedTier && <p className={styles.chestRevealLabel}>{CHEST_LABELS[openedTier]} đã mở</p>}
-              {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} /> : reward?.kind === 'chest' && reward.chestTier ? <ChestArt tier={reward.chestTier} className="mx-auto h-24 w-24" /> : <div className={cn('mx-auto flex h-20 w-20 items-center justify-center rounded-full shadow-card', openedTier ? styles.chestPrizeIcon : 'bg-warning-soft text-warning')}><Sparkles aria-hidden="true" className="h-10 w-10" /></div>}
-              <DialogHeader className="mt-4 items-center text-center">
-                <DialogDescription className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Phần thưởng đã nhận</DialogDescription>
-                <DialogTitle className="mt-2 text-2xl font-bold">{reward?.title}</DialogTitle>
-                <DialogDescription className="mt-2 text-sm leading-6 text-muted-foreground">{reward?.description}</DialogDescription>
+            <>
+              <button type="button" onClick={onClose} className={styles.rewardClose} aria-label="Đóng phần thưởng"><X aria-hidden="true" className="h-5 w-5" /></button>
+              <div className={styles.rewardIntro}><span className={styles.rewardIntroLine} /><span>QUÀ MỚI CỦA BẠN</span><span className={styles.rewardIntroLine} /></div>
+              <div className={styles.rewardVisual} aria-label={`Phần thưởng: ${prizeName}`}>
+                <span className={styles.rewardVisualOrbit} aria-hidden="true" />
+                {reward?.kind === 'coins' ? <FlytieeCoinReward amount={reward.amount ?? 0} />
+                  : reward?.kind === 'chest' && reward.chestTier ? <ChestArt tier={reward.chestTier} className={styles.rewardChest} />
+                    : set || skin || accessory ? <FlytieeBird mood="idle" profile={previewProfile} className={styles.rewardBird} />
+                      : <Gift aria-hidden="true" className={styles.rewardFallback} />}
+              </div>
+              <DialogHeader className={styles.rewardCopy}>
+                {openedTier && <DialogDescription className={styles.rewardSource}>TỪ {CHEST_LABELS[openedTier].toUpperCase()}</DialogDescription>}
+                <DialogTitle className={styles.rewardName}>{prizeName}</DialogTitle>
+                <DialogDescription className={styles.rewardDescription}>{itemDescription ?? reward?.description}</DialogDescription>
+                {reward?.xp ? <p className={styles.rewardDestination}>+{reward.xp} EXP · Nhiệm vụ hoàn thành</p> : null}
+                {itemDescription && <p className={styles.rewardDestination}>Đã thêm vào tủ đồ FlyTiee</p>}
               </DialogHeader>
-              <Button ref={actionRef} type="button" className={cn('mt-6 w-full', styles.eventPrimary)} onClick={onClose}>Tuyệt quá!</Button>
-            </div>
+              <Button ref={actionRef} type="button" className={cn('w-full', styles.eventPrimary, styles.rewardAction)} onClick={onClose}>{set ? 'Tuyệt đẹp! Tiếp tục' : 'Tiếp tục cùng FlyTiee'}</Button>
+            </>
           )}
         </div>
       </DialogContent>
@@ -150,7 +174,7 @@ export function FlytieeEvents({ flytiee }: { flytiee: FlytieeController }) {
 
   return (
     <div className={cn('space-y-5', styles.eventWorld)}>
-      <RewardOverlay reward={reward} openingTier={openingTier} openedTier={openedTier} onClose={() => { setReward(null); setOpenedTier(null); }} />
+      <FlytieeRewardOverlay reward={reward} profile={flytiee.profile} openingTier={openingTier} openedTier={openedTier} onClose={() => { setReward(null); setOpenedTier(null); }} />
 
       <section className={styles.festivalBanner}>
         <div className="relative z-10 max-w-2xl">

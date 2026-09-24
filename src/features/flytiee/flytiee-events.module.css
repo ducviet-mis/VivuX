@@ -1,6 +1,34 @@
 .rewardCard {
-  animation: reward-arrive 420ms cubic-bezier(.2, .85, .3, 1.15) both;
+  border: 1px solid rgb(var(--color-primary) / .28) !important;
+  background: rgb(var(--color-card));
+  box-shadow: 0 24px 70px rgb(6 11 33 / .35);
 }
+
+.rewardLayout { position: relative; padding: 27px 24px 24px; animation: reward-arrive 380ms cubic-bezier(.2,.8,.25,1) both; }
+.rewardClose { position: absolute; z-index: 3; top: 11px; right: 11px; display: grid; width: 44px; height: 44px; place-items: center; border-radius: 50%; color: rgb(var(--color-text-muted)); transition: background 160ms, color 160ms; }
+.rewardClose:hover { color: rgb(var(--color-text-primary)); background: rgb(var(--color-primary) / .1); }
+.rewardClose:focus-visible { outline: 2px solid rgb(var(--color-primary)); outline-offset: 2px; }
+.rewardIntro { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 0 40px; color: rgb(var(--color-primary)); font-size: 11px; font-weight: 900; letter-spacing: .18em; white-space: nowrap; }
+.rewardIntroLine { width: 30px; height: 1px; background: currentColor; opacity: .36; }
+.rewardVisual { position: relative; isolation: isolate; display: grid; width: min(100%, 336px); height: 224px; place-items: center; overflow: hidden; margin: 18px auto 0; border: 1px solid rgb(167 190 255 / .25); border-radius: 26px; background: radial-gradient(circle at 50% 48%, #344b78, #1c2b4e 60%, #17213d); box-shadow: inset 0 1px 0 rgb(255 255 255 / .16), 0 12px 30px rgb(17 28 60 / .16); }
+.rewardVisual::before { position: absolute; right: -39px; bottom: -65px; width: 155px; height: 155px; border: 1px solid rgb(207 222 255 / .2); border-radius: 50%; content: ''; }
+.rewardVisualOrbit { position: absolute; width: 190px; height: 190px; border: 1px dashed rgb(177 202 255 / .27); border-radius: 50%; pointer-events: none; }
+.rewardCard[data-kind='set'] .rewardVisual { height: 258px; background: radial-gradient(circle at 50% 50%, #3c426d, #1e2b4b 65%, #152038); }
+.rewardCard[data-tone='gold'] .rewardVisual { background: radial-gradient(circle at 50% 46%, #765447, #3b3655 58%, #20243e); }
+.rewardCard[data-tone='cyan'] .rewardVisual { background: radial-gradient(circle at 50% 46%, #2b6577, #203956 60%, #182843); }
+.rewardCard[data-tone='mint'] .rewardVisual { background: radial-gradient(circle at 50% 46%, #35665c, #23445a 60%, #182940); }
+.rewardCard[data-kind='coins'] .rewardVisual { background: radial-gradient(circle at 50% 45%, #66513c, #2b3454 65%, #1b2947); }
+.rewardBird { position: relative; z-index: 1; width: 254px; height: 235px; max-width: 95%; filter: drop-shadow(0 8px 11px rgb(4 13 29 / .2)); animation: reward-art-in 500ms cubic-bezier(.15,.78,.25,1.1) both; }
+.rewardCard[data-kind='set'] .rewardBird { width: 284px; height: 263px; }
+.rewardChest { position: relative; z-index: 1; width: 158px; height: 158px; filter: drop-shadow(0 13px 12px rgb(0 0 0 / .28)); animation: reward-art-in 500ms cubic-bezier(.15,.78,.25,1.1) both; }
+.rewardFallback { position: relative; z-index: 1; width: 70px; height: 70px; color: #d5c2ff; }
+.rewardCopy { align-items: center; padding: 17px 4px 0; text-align: center !important; }
+.rewardSource { color: rgb(var(--color-primary)) !important; font-size: 11px !important; font-weight: 850; letter-spacing: .14em; }
+.rewardName { max-width: 100%; margin-top: 3px; color: rgb(var(--color-text-primary)); font-size: clamp(22px, 5vw, 28px) !important; font-weight: 900 !important; line-height: 1.15 !important; overflow-wrap: anywhere; }
+.rewardDescription { max-width: 350px; margin-top: 6px; color: rgb(var(--color-text-muted)); font-size: 14px; line-height: 1.55; }
+.rewardDestination { margin-top: 8px; color: rgb(var(--color-success)); font-size: 12px; font-weight: 750; }
+.rewardAction { min-height: 46px; margin-top: 22px; }
+@keyframes reward-art-in { from { opacity: 0; transform: translateY(14px) scale(.91); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 .rewardCard[data-tier='bronze'] { --chest-accent: 219 149 96; --chest-accent-alt: 255 216 157; border-color: rgb(219 149 96 / .5) !important; background: radial-gradient(circle at 50% 8%, rgb(219 149 96 / .16), rgb(var(--color-card)) 60%); }
 .rewardCard[data-tier='silver'] { --chest-accent: 158 205 241; --chest-accent-alt: 238 250 255; border-color: rgb(158 205 241 / .55) !important; background: radial-gradient(circle at 50% 8%, rgb(158 205 241 / .18), rgb(var(--color-card)) 60%); }
@@ -468,7 +496,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rewardCard,
+  .rewardLayout,
+  .rewardBird,
+  .rewardChest,
   .chestOpening .chestLid,
   .chestOpening .chestBody,
   .chestOpening .chestLight,

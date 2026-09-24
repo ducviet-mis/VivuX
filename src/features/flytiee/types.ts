@@ -70,6 +70,7 @@ export interface FlytieeRewardResult {
   title: string;
   description: string;
   amount?: number;
+  xp?: number;
   chestTier?: FlytieeChestTier;
   itemId?: string;
 }

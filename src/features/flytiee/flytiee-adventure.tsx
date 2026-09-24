@@ -106,18 +106,15 @@ function GateArt({ level }: { level: Level }) {
 }
 
 function prizeGradient(prizes: Prize[]) {
-  let start = 0;
-  const stops = prizes.map((prize) => {
-    const end = start + prize.chance * 3.6;
-    const value = `${prize.tone} ${start}deg ${end}deg`;
-    start = end;
-    return value;
-  });
+  const sliceDegrees = 360 / prizes.length;
+  const stops = prizes.map((prize, index) =>
+    `${prize.tone} ${index * sliceDegrees}deg ${(index + 1) * sliceDegrees}deg`,
+  );
   return `conic-gradient(${stops.join(', ')})`;
 }
 
 function prizeCenter(prizes: Prize[], index: number) {
-  return (prizes.slice(0, index).reduce((sum, prize) => sum + prize.chance, 0) + prizes[index].chance / 2) * 3.6;
+  return (index + 0.5) * (360 / prizes.length);
 }
 
 export function FlytieeAdventure({ flytiee }: { flytiee: Controller }) {
@@ -418,12 +415,12 @@ export function FlytieeAdventure({ flytiee }: { flytiee: Controller }) {
               <div className={styles.wheelOuter}>
                 <span className={styles.wheelPointer} aria-hidden="true" />
                 <div className={styles.wheelRotor} data-spinning={spinning} style={{ background: prizeGradient(prizes), transform: `rotate(${rotation}deg)` }}>
-                  {prizes.map((prize, index) => prize.chance >= 12 ? <span key={index} className={styles.wheelLabel} style={{ '--slice-angle': `${prizeCenter(prizes, index)}deg` } as CSSProperties}>{prize.coins ? <FlytieeCoin /> : <Star size={16} aria-hidden="true" />}{prize.label}</span> : null)}
+                  {prizes.map((prize, index) => <span key={index} className={styles.wheelLabel} style={{ '--slice-angle': `${prizeCenter(prizes, index)}deg` } as CSSProperties}>{prize.coins ? <FlytieeCoin /> : <Star size={16} aria-hidden="true" />}{prize.label}</span>)}
                 </div>
                 <span className={styles.wheelHub}><Sparkles size={26} aria-hidden="true" /></span>
               </div>
               <button type="button" className={styles.spinButton} disabled={busy || spinning || run.status !== 'won'} onClick={() => void spin()}>{busy ? 'Đang chuẩn bị quà…' : spinning ? 'Vòng quay đang xoay…' : 'Quay nhận quà'}<Sparkles size={20} aria-hidden="true" /></button>
-              <div className={styles.odds}><span>Tỉ lệ phần thưởng</span><div>{prizes.map((prize, index) => <span key={index}><i style={{ background: prize.tone }} />{prize.label} <b>{prize.chance}%</b></span>)}</div></div>
+              <div className={styles.odds}><span>Tỉ lệ phần thưởng</span><p>Các ô trên vòng quay bằng nhau để dễ nhìn; xác suất nhận quà theo tỉ lệ bên dưới.</p><div>{prizes.map((prize, index) => <span key={index}><i style={{ background: prize.tone }} />{prize.label} <b>{prize.chance}%</b></span>)}</div></div>
             </>
           )}
           <p className={styles.tomorrow}>Lượt mới bắt đầu lúc 00:00 ngày mai (giờ Việt Nam).</p>

@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BookOpen, CheckCircle2, Clipboard, Code2, Edit3, Eye, Loader2, Plus, Save, Sparkles, Trash2, UploadCloud, X } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
+import { ArrowDown, ArrowUp, BookOpen, CheckCircle2, Clipboard, Code2, Edit3, Eye, GripVertical, Loader2, Plus, Save, Sparkles, Trash2, UploadCloud, X } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
@@ -40,6 +40,10 @@ export default function AdminTheoryPage() {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
+  const [reorderingLessonId, setReorderingLessonId] = useState<string | null>(null);
+  const [draggingLessonId, setDraggingLessonId] = useState<string | null>(null);
+  const [dragOverLessonId, setDragOverLessonId] = useState<string | null>(null);
+  const pointerDragRef = useRef<string | null>(null);
 
   const [selectedLessonId, setSelectedLessonId] = useState('');
   const [jsonText, setJsonText] = useState('');
@@ -60,7 +64,8 @@ export default function AdminTheoryPage() {
       .select('*')
       .order('grade', { ascending: true })
       .order('chapter_sort_order', { ascending: true })
-      .order('sort_order', { ascending: true });
+      .order('sort_order', { ascending: true })
+      .order('id', { ascending: true });
     if (loadError) setError('Không tải được dữ liệu. Hãy chạy tệp theory-schema.sql trên Supabase trước.');
     else {
       setLessons((data ?? []) as TheoryLesson[]);
@@ -109,6 +114,83 @@ export default function AdminTheoryPage() {
     groups[key].push(lesson);
     return groups;
   }, {}), [lessons]);
+
+  async function moveLesson(sourceId: string, targetId: string) {
+    if (reorderingLessonId || sourceId === targetId) return;
+    const source = lessons.find((lesson) => lesson.id === sourceId);
+    const target = lessons.find((lesson) => lesson.id === targetId);
+    if (!source || !target || source.grade !== target.grade || source.chapter !== target.chapter) return;
+
+    const siblings = lessons
+      .filter((lesson) => lesson.grade === source.grade && lesson.chapter === source.chapter)
+      .sort((a, b) => a.sort_order - b.sort_order || a.id.localeCompare(b.id));
+    const from = siblings.findIndex((lesson) => lesson.id === sourceId);
+    const to = siblings.findIndex((lesson) => lesson.id === targetId);
+    if (from < 0 || to < 0 || from === to) return;
+
+    const reordered = [...siblings];
+    reordered.splice(to, 0, reordered.splice(from, 1)[0]);
+    const changed = reordered
+      .map((lesson, index) => ({ lesson, sortOrder: index }))
+      .filter(({ lesson, sortOrder }) => lesson.sort_order !== sortOrder);
+    if (changed.length === 0) return;
+
+    setReorderingLessonId(sourceId);
+    setError('');
+    setNotice('');
+    const supabase = getSupabaseClient();
+    const results = await Promise.all(changed.map(({ lesson, sortOrder }) => supabase
+      .from('theory_lessons')
+      .update({ sort_order: sortOrder })
+      .eq('id', lesson.id)
+      .select('id')
+      .single()));
+    const failure = results.find((result) => result.error || !result.data);
+
+    if (failure) {
+      await Promise.all(changed.map(({ lesson }) => supabase
+        .from('theory_lessons')
+        .update({ sort_order: lesson.sort_order })
+        .eq('id', lesson.id)));
+      await loadLessons();
+      setError('Không thể đổi thứ tự bài học. ' + (failure.error?.message ?? 'Hãy kiểm tra quyền Admin rồi thử lại.'));
+    } else {
+      const nextOrders = new Map(changed.map(({ lesson, sortOrder }) => [lesson.id, sortOrder]));
+      setLessons((current) => current
+        .map((lesson) => nextOrders.has(lesson.id) ? { ...lesson, sort_order: nextOrders.get(lesson.id)! } : lesson)
+        .sort((a, b) => a.grade - b.grade || a.chapter_sort_order - b.chapter_sort_order || a.sort_order - b.sort_order || a.id.localeCompare(b.id)));
+      setNotice('Đã chuyển “' + source.title + '” sang vị trí ' + (to + 1) + '. Thứ tự mới sẽ hiện ở trang học sinh.');
+    }
+    setReorderingLessonId(null);
+  }
+
+  function findDropTarget(event: PointerEvent<HTMLButtonElement>, sourceId: string) {
+    const source = lessons.find((lesson) => lesson.id === sourceId);
+    const row = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-theory-lesson-id]');
+    if (!source || !row || row.dataset.theoryGrade !== String(source.grade) || row.dataset.theoryChapter !== source.chapter) return null;
+    return row.dataset.theoryLessonId !== sourceId ? row.dataset.theoryLessonId ?? null : null;
+  }
+
+  function handleDragStart(event: PointerEvent<HTMLButtonElement>, lessonId: string) {
+    if (reorderingLessonId || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointerDragRef.current = lessonId;
+    setDraggingLessonId(lessonId);
+    setDragOverLessonId(null);
+  }
+
+  function handleDragMove(event: PointerEvent<HTMLButtonElement>) {
+    if (pointerDragRef.current) setDragOverLessonId(findDropTarget(event, pointerDragRef.current));
+  }
+
+  function handleDragEnd(event: PointerEvent<HTMLButtonElement>, cancelled = false) {
+    const sourceId = pointerDragRef.current;
+    const targetId = sourceId && !cancelled ? findDropTarget(event, sourceId) : null;
+    pointerDragRef.current = null;
+    setDraggingLessonId(null);
+    setDragOverLessonId(null);
+    if (sourceId && targetId) void moveLesson(sourceId, targetId);
+  }
 
   function resetForm() {
     setForm(EMPTY_FORM);
@@ -303,11 +385,54 @@ export default function AdminTheoryPage() {
           </Card>
 
           <Card className="rounded-2xl border-border">
-            <CardHeader><CardTitle className="text-xl">Danh sách bài lý thuyết ({lessons.length})</CardTitle></CardHeader>
+            <CardHeader>
+              <CardTitle className="text-xl">Danh sách bài lý thuyết ({lessons.length})</CardTitle>
+              <p className="text-sm text-muted-foreground">Giữ biểu tượng kéo để đổi thứ tự bài trong cùng chương. Trên điện thoại hoặc bàn phím, dùng nút lên/xuống.</p>
+            </CardHeader>
             <CardContent>
               {loading ? <div className="flex items-center justify-center gap-2 py-10 text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin" />Đang tải...</div> : lessons.length === 0 ? <p className="py-10 text-center text-muted-foreground">Chưa có bài lý thuyết nào.</p> : (
-                <div className="space-y-6">{Object.entries(groupedLessons).map(([group, rows]) => <section key={group}><h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-muted-foreground">{group}</h3><div className="space-y-2">{rows.map((lesson) => <div key={lesson.id} className="flex flex-col gap-3 rounded-xl border border-border bg-muted/20 p-4 sm:flex-row sm:items-center"><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><p className="font-bold text-foreground">{lesson.title}</p><Badge variant="outline" className={lesson.is_published ? 'border-success/30 bg-success-soft text-success' : ''}>{lesson.is_published ? 'Đã xuất bản' : 'Bản nháp'}</Badge></div>{lesson.summary && <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">{lesson.summary}</p>}</div><div className="flex gap-2"><Button variant="outline" size="icon" onClick={() => editLesson(lesson)} aria-label={'Sửa ' + lesson.title} className="h-11 w-11"><Edit3 className="h-4 w-4" /></Button><Button variant="outline" size="icon" onClick={() => deleteLesson(lesson)} aria-label={'Xóa ' + lesson.title} className="h-11 w-11 text-destructive hover:bg-destructive-soft hover:text-destructive"><Trash2 className="h-4 w-4" /></Button></div></div>)}</div></section>)}</div>
+                <div className="space-y-6">{Object.entries(groupedLessons).map(([group, rows]) => (
+                  <section key={group}>
+                    <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-muted-foreground">{group}</h3>
+                    <div className="space-y-2">{rows.map((lesson, index) => (
+                      <div
+                        key={lesson.id}
+                        data-theory-lesson-id={lesson.id}
+                        data-theory-grade={lesson.grade}
+                        data-theory-chapter={lesson.chapter}
+                        className={'flex flex-wrap items-center gap-2 rounded-xl border bg-muted/20 p-2 transition-colors sm:flex-nowrap sm:p-3 ' + (dragOverLessonId === lesson.id ? 'border-primary bg-primary-soft ring-2 ring-primary/30' : 'border-border') + (draggingLessonId === lesson.id ? ' opacity-50' : '')}
+                      >
+                        <button
+                          type="button"
+                          onPointerDown={(event) => handleDragStart(event, lesson.id)}
+                          onPointerMove={handleDragMove}
+                          onPointerUp={handleDragEnd}
+                          onPointerCancel={(event) => handleDragEnd(event, true)}
+                          disabled={reorderingLessonId !== null || rows.length < 2}
+                          className="flex h-11 w-11 shrink-0 touch-none cursor-grab items-center justify-center rounded-lg border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 active:cursor-grabbing"
+                          style={{ touchAction: 'none' }}
+                          aria-label={'Kéo để đổi vị trí bài ' + lesson.title}
+                          title="Giữ và kéo để đổi vị trí"
+                        >
+                          {reorderingLessonId === lesson.id ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <GripVertical className="h-5 w-5" aria-hidden="true" />}
+                        </button>
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-sm font-bold text-primary" aria-label={'Vị trí ' + (index + 1)}>{index + 1}</span>
+                        <div className="min-w-0 flex-1 basis-[calc(100%-7rem)] sm:basis-auto">
+                          <div className="flex flex-wrap items-center gap-2"><p className="font-bold text-foreground">{lesson.title}</p><Badge variant="outline" className={lesson.is_published ? 'border-success/30 bg-success-soft text-success' : ''}>{lesson.is_published ? 'Đã xuất bản' : 'Bản nháp'}</Badge></div>
+                          {lesson.summary && <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">{lesson.summary}</p>}
+                        </div>
+                        <div className="flex w-full justify-end gap-1 sm:w-auto">
+                          <Button variant="ghost" size="icon" disabled={index === 0 || reorderingLessonId !== null} onClick={() => moveLesson(lesson.id, rows[index - 1].id)} aria-label={'Đưa ' + lesson.title + ' lên trước'} className="h-11 w-11"><ArrowUp className="h-4 w-4" aria-hidden="true" /></Button>
+                          <Button variant="ghost" size="icon" disabled={index === rows.length - 1 || reorderingLessonId !== null} onClick={() => moveLesson(lesson.id, rows[index + 1].id)} aria-label={'Đưa ' + lesson.title + ' xuống sau'} className="h-11 w-11"><ArrowDown className="h-4 w-4" aria-hidden="true" /></Button>
+                          <Button variant="outline" size="icon" onClick={() => editLesson(lesson)} aria-label={'Sửa ' + lesson.title} className="h-11 w-11"><Edit3 className="h-4 w-4" /></Button>
+                          <Button variant="outline" size="icon" onClick={() => deleteLesson(lesson)} aria-label={'Xóa ' + lesson.title} className="h-11 w-11 text-destructive hover:bg-destructive-soft hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                        </div>
+                      </div>
+                    ))}</div>
+                  </section>
+                ))}</div>
               )}
+              <span className="sr-only" role="status" aria-live="polite">{notice || error}</span>
             </CardContent>
           </Card>
         </TabsContent>

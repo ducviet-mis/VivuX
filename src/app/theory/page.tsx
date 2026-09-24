@@ -36,7 +36,8 @@ function TheoryContent() {
         .eq('grade', grade)
         .eq('is_published', true)
         .order('chapter_sort_order', { ascending: true })
-        .order('sort_order', { ascending: true });
+        .order('sort_order', { ascending: true })
+        .order('id', { ascending: true });
 
       if (!mounted) return;
       if (lessonError) {

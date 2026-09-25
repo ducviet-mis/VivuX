@@ -20,6 +20,7 @@ import { GiftCodeForm } from '@/features/subscription/components/gift-code-form'
 import { ReferralProgram } from '@/features/subscription/components/referral-program';
 import { ACCOUNT_TIER_META } from '@/features/subscription/config';
 import { formatExpiryDate, getEffectiveAccountTier } from '@/features/subscription/utils';
+import { isAdminEmail } from '@/features/auth/lib/is-admin-email';
 
 type Tab = 'personal' | 'membership' | 'security';
 
@@ -43,7 +44,10 @@ export default function ProfilePage() {
 
   return (
     <div className="container max-w-5xl py-8">
-      <h1 className="text-[28px] sm:text-[34px] font-bold mb-6">Cài đặt tài khoản</h1>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-[28px] font-bold sm:text-[34px]">Cài đặt tài khoản</h1>
+        {isAdminEmail(user.email) && <Button asChild variant="outline" className="min-h-11 md:hidden"><Link href="/admin"><Shield className="h-4 w-4" aria-hidden="true" />Quản trị</Link></Button>}
+      </div>
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar */}

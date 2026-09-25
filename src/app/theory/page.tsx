@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { getSupabaseClient } from '@/lib/supabase/client';
+import { MobileGradePicker } from '@/components/layout/mobile-grade-picker';
 import type { TheoryLesson } from '@/features/theory/types';
 
 type LessonWithCount = TheoryLesson & { questionCount: number };
@@ -86,7 +87,8 @@ function TheoryContent() {
       <div className="container max-w-5xl py-16 text-center">
         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-soft text-primary"><LibraryBig className="h-7 w-7" /></div>
         <h1 className="text-2xl font-bold text-foreground">Vui lòng chọn lớp</h1>
-        <p className="mt-3 text-muted-foreground">Mở menu “Lý thuyết” phía trên và chọn lớp bạn muốn học.</p>
+        <p className="mt-3 text-muted-foreground">Chọn lớp để xem bài lý thuyết.</p>
+        <div className="mx-auto mt-6 max-w-md text-left"><MobileGradePicker hrefForGrade={(selectedGrade) => `/theory?grade=${selectedGrade}`} /></div>
       </div>
     );
   }
@@ -101,6 +103,7 @@ function TheoryContent() {
         <Badge variant="outline" className="mb-3 border-primary/30 bg-primary-soft text-primary"><LibraryBig className="mr-1.5 h-3.5 w-3.5" />Kho kiến thức</Badge>
         <h1 className="text-2xl font-bold text-foreground md:text-3xl">Lý thuyết Toán lớp {grade}</h1>
         <p className="mt-2 text-sm text-muted-foreground sm:text-base">Đọc kiến thức trọng tâm và kiểm tra nhanh ngay sau từng bài.</p>
+        <div className="mt-5"><MobileGradePicker currentGrade={grade} hrefForGrade={(selectedGrade) => `/theory?grade=${selectedGrade}`} /></div>
       </div>
 
       {error ? <div className="rounded-2xl border border-destructive/30 bg-destructive-soft p-5 text-destructive">{error}</div> : lessons.length === 0 ? (

@@ -15,7 +15,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className="border border-border bg-surface" aria-label="Chuyển giao diện" disabled>
+      <Button variant="ghost" size="icon" className="h-11 w-11 border border-border bg-surface" aria-label="Chuyển giao diện" disabled>
         <Sun className="h-5 w-5" />
       </Button>
     );
@@ -25,7 +25,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="rounded-md border border-border bg-surface hover:bg-muted"
+      className="h-11 w-11 rounded-md border border-border bg-surface hover:bg-muted"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       aria-label={theme === "dark" ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"}
     >

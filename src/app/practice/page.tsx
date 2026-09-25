@@ -1,11 +1,14 @@
 'use client';
 
 import React, { Suspense, useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { usePracticeData } from '@/features/practice/hooks/use-practice-data';
 import { LessonList } from '@/features/practice/components/lesson-list';
+import { MobileGradePicker } from '@/components/layout/mobile-grade-picker';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ChevronRight, BookOpen } from 'lucide-react';
+import { ChevronRight, BookOpen, WandSparkles } from 'lucide-react';
 
 function PracticeContent() {
   const searchParams = useSearchParams();
@@ -35,7 +38,9 @@ function PracticeContent() {
     return (
       <div className="container max-w-6xl py-12 text-center">
         <h2 className="text-2xl font-bold text-foreground mb-4">Vui lòng chọn Lớp</h2>
-        <p className="text-muted-foreground">Sử dụng menu "Tự luyện" phía trên để chọn Lớp bạn muốn luyện tập.</p>
+        <p className="text-muted-foreground">Chọn lớp để bắt đầu luyện tập.</p>
+        <div className="mx-auto mt-6 max-w-md text-left"><MobileGradePicker grades={grades.map((grade) => grade.id)} hrefForGrade={(grade) => `/practice?grade=${grade}`} /></div>
+        <Button asChild variant="outline" className="mt-5 md:hidden"><Link href="/personal-exams?source=practice"><WandSparkles className="h-4 w-4" aria-hidden="true" />Tạo đề cá nhân</Link></Button>
       </div>
     );
   }
@@ -50,6 +55,8 @@ function PracticeContent() {
         </h1>
         <p className="text-muted-foreground mt-1 md:mt-2 text-sm md:text-base hidden md:block">Chọn chuyên đề bên trái để bắt đầu luyện tập</p>
         <p className="text-muted-foreground mt-1 text-sm md:hidden">Chọn chuyên đề để bắt đầu luyện tập</p>
+        <div className="mt-5"><MobileGradePicker currentGrade={selectedGrade.id} grades={grades.map((grade) => grade.id)} hrefForGrade={(grade) => `/practice?grade=${grade}`} /></div>
+        <Button asChild variant="outline" className="mt-3 md:hidden"><Link href="/personal-exams?source=practice"><WandSparkles className="h-4 w-4" aria-hidden="true" />Tạo đề cá nhân</Link></Button>
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">

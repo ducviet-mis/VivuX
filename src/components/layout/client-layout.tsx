@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { FloatingBottomNav } from '@/components/layout/floating-bottom-nav';
 import { AuthGuard } from '@/components/layout/auth-guard';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { SingleSessionMonitor } from '@/features/auth/components/single-session-monitor';
@@ -21,6 +22,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     pathname?.match(/^\/practice\/[a-zA-Z0-9-]+$/) && !pathname.match(/\/saved|\/wrong/)
   );
   const isImmersiveMode = isMockExamRoom || isPracticeRoom;
+  const showMobileNav = !isImmersiveMode && pathname !== '/login' && pathname !== '/register';
 
   return (
     <AuthGuard>
@@ -37,12 +39,15 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         </div>
         <main id="main-content" tabIndex={-1} className={cn(
           "min-w-0 flex-1 focus-visible:outline-none",
-          isMockExamRoom ? "w-full" : isImmersiveMode ? "w-full md:vivux-page" : "vivux-page"
+          isMockExamRoom ? "w-full" : isImmersiveMode ? "w-full md:vivux-page" : "vivux-page",
+          showMobileNav && "pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-8"
         )}>
           {children}
         </main>
+        {showMobileNav && <FloatingBottomNav />}
         <div className={cn(
-          isMockExamRoom ? "hidden" : isPracticeRoom ? "hidden md:block" : "block"
+          isMockExamRoom ? "hidden" : isPracticeRoom ? "hidden md:block" : "block",
+          showMobileNav && "pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-0"
         )}><Footer /></div>
       </div>
     </AuthGuard>

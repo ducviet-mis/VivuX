@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, Menu, X, LogOut, User, ChevronDown, Shield, FileText, BookText, Crown, LibraryBig, WandSparkles } from "lucide-react";
+import { Menu, X, LogOut, User, ChevronDown, Shield, Crown, WandSparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { APP_NAME } from "@/lib/constants";
 import { useAuthStore } from "@/features/auth/stores/auth-store";
 import { useState } from "react";
 import { AccountTierBadge } from "@/features/subscription/components/account-tier-badge";
 import { getEffectiveAccountTier } from "@/features/subscription/utils";
+import { desktopNavigationItems } from "@/components/layout/navigation-items";
+import { isAdminEmail } from "@/features/auth/lib/is-admin-email";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -20,15 +21,8 @@ export function Navbar() {
   const { user, logout } = useAuthStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const navItems = [
-    { label: "Trang chủ", href: "/home", icon: Home },
-    { label: "Lý thuyết", href: "/theory", icon: LibraryBig },
-    { label: "Tự luyện", href: "/practice", icon: BookOpen },
-    { label: "Thi thử", href: "/mock-exams", icon: FileText },
-    { label: "Cẩm nang", href: "/handbook", icon: BookText },
-    { label: "Gói FlyDo", href: "/pricing", icon: Crown },
-  ];
-  const isAdmin = user?.email === "vietdang293.vn@gmail.com" || user?.email === "vietdang293@gmail.com";
+  const navItems = desktopNavigationItems;
+  const isAdmin = isAdminEmail(user?.email);
   const accountTier = getEffectiveAccountTier(user);
   const handleLogout = () => {
     setDropdownOpen(false);
@@ -113,21 +107,26 @@ export function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild><Link href="/profile"><User aria-hidden="true" />Thông tin tài khoản</Link></DropdownMenuItem>
                 <DropdownMenuItem asChild><Link href="/pricing"><Crown aria-hidden="true" />Gói đăng ký</Link></DropdownMenuItem>
-                {isAdmin && <DropdownMenuItem asChild><Link href="/admin"><Shield aria-hidden="true" />ADMIN</Link></DropdownMenuItem>}
+                {isAdmin && <DropdownMenuItem asChild className="hidden md:flex"><Link href="/admin"><Shield aria-hidden="true" />ADMIN</Link></DropdownMenuItem>}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={handleLogout} className="text-destructive focus:bg-destructive-soft focus:text-destructive"><LogOut aria-hidden="true" />Đăng xuất</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild className="hidden sm:inline-flex"><Link href="/login">Đăng nhập</Link></Button>
+            <>
+              <Link href="/login" aria-label="Đăng nhập" className="flex h-11 w-11 items-center justify-center rounded-md border border-border bg-surface hover:bg-muted sm:hidden">
+                <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary-soft text-primary"><User aria-hidden="true" className="h-4 w-4" /></AvatarFallback></Avatar>
+              </Link>
+              <Button asChild className="hidden sm:inline-flex"><Link href="/login">Đăng nhập</Link></Button>
+            </>
           )}
-          <Button variant="ghost" size="icon" className="border border-border xl:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Đóng menu" : "Mở menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation">
+          <Button variant="ghost" size="icon" className="hidden border border-border md:inline-flex xl:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Đóng menu" : "Mở menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation">
             {mobileOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
           </Button>
         </div>
       </div>
       {mobileOpen && (
-        <div id="mobile-navigation" className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-border bg-surface px-4 py-4 xl:hidden">
+        <div id="mobile-navigation" className="hidden max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-border bg-surface px-4 py-4 md:block xl:hidden">
           <div className="mx-auto grid max-w-3xl grid-cols-2 gap-2 sm:grid-cols-3">
             {navItems.map(item => {
               const Icon = item.icon;

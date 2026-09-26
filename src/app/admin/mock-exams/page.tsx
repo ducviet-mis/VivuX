@@ -14,6 +14,7 @@ import { MOCK_EXAM_CATEGORIES, type MockExamCategory } from '@/features/mock-exa
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface MockExamTopic { id: string; name: string; grade: number; }
+interface ExamChapterGroup { id: string; title: string; exams: any[]; topic?: MockExamTopic; }
 const isAdminEmail = (email?: string | null) => email === 'vietdang293.vn@gmail.com' || email === 'vietdang293@gmail.com';
 
 const createInternalExamCode = () => {
@@ -42,25 +43,32 @@ export default function MockExamsAdminPage() {
   const [saving, setSaving] = useState(false);
   const [editingExam, setEditingExam] = useState<any | null>(null);
   const [listGrade, setListGrade] = useState('8');
-  const [openCategories, setOpenCategories] = useState<string[]>(['midterm_1']);
+  const [openCategories, setOpenCategories] = useState<string[]>(['midterm_1', 'topic']);
   const [editTitle, setEditTitle] = useState('');
   const [editDuration, setEditDuration] = useState('45');
   const [savingEdit, setSavingEdit] = useState(false);
+  const [deletingTopicId, setDeletingTopicId] = useState<string | null>(null);
 
   const topicsForGrade = useMemo(() => topics.filter((topic) => topic.grade === parseInt(grade)), [topics, grade]);
-  const topicNameById = useMemo(() => Object.fromEntries(topics.map((topic) => [topic.id, topic.name])), [topics]);
   const examGroups = useMemo(() => MOCK_EXAM_CATEGORIES.map((item) => {
     const categoryExams = exams.filter((exam) => String(exam.grade) === listGrade && (exam.category || 'midterm_1') === item.id);
-    if (categoryExams.length === 0) return null;
-    const chapters = item.id === 'topic'
-      ? Array.from(new Set(categoryExams.map((exam) => exam.topic_id || '__ungrouped__'))).map((id) => ({
-          id,
-          title: id === '__ungrouped__' ? 'Chưa gắn chuyên đề' : topicNameById[id] || 'Chuyên đề đã xóa',
-          exams: categoryExams.filter((exam) => (exam.topic_id || '__ungrouped__') === id),
-        }))
+    const gradeTopics = topics.filter((topic) => String(topic.grade) === listGrade);
+    if (categoryExams.length === 0 && (item.id !== 'topic' || gradeTopics.length === 0)) return null;
+    const chapters: ExamChapterGroup[] = item.id === 'topic'
+      ? [
+          ...gradeTopics.map((topic) => ({ id: topic.id, title: topic.name, exams: categoryExams.filter((exam) => exam.topic_id === topic.id), topic })),
+          ...Array.from(new Set(categoryExams.map((exam) => exam.topic_id || '__ungrouped__')))
+            .filter((id) => id === '__ungrouped__' || !gradeTopics.some((topic) => topic.id === id))
+            .map((id) => ({
+              id,
+              title: id === '__ungrouped__' ? 'Chưa gắn chuyên đề' : 'Chuyên đề đã xóa',
+              exams: categoryExams.filter((exam) => (exam.topic_id || '__ungrouped__') === id),
+              topic: undefined,
+            })),
+        ]
       : [{ id: item.id, title: '', exams: categoryExams }];
     return { ...item, count: categoryExams.length, chapters };
-  }).filter((item): item is NonNullable<typeof item> => item !== null), [exams, listGrade, topicNameById]);
+  }).filter((item): item is NonNullable<typeof item> => item !== null), [exams, listGrade, topics]);
 
   const fetchData = async () => {
     const supabase = getSupabaseClient();
@@ -119,6 +127,29 @@ export default function MockExamsAdminPage() {
     const { error } = await getSupabaseClient().from('mock_exams').delete().eq('id', examId);
     if (error) alert('Không thể xóa đề: ' + error.message);
     else setExams((current) => current.filter((exam) => exam.id !== examId));
+  };
+
+  const handleDeleteTopic = async (topic: MockExamTopic) => {
+    if (deletingTopicId || exams.some((exam) => exam.topic_id === topic.id)) return;
+    if (!confirm(`Xóa chuyên đề trống “${topic.name}” của lớp ${topic.grade}?`)) return;
+
+    setDeletingTopicId(topic.id);
+    const supabase = getSupabaseClient();
+    const { data: linkedExams, error: checkError } = await supabase.from('mock_exams').select('id').eq('topic_id', topic.id).limit(1);
+    if (checkError || linkedExams?.length) {
+      alert(checkError ? `Không thể kiểm tra chuyên đề: ${checkError.message}` : 'Chuyên đề đã có đề thi. Hãy tải lại danh sách trước khi xóa.');
+      await fetchData();
+      setDeletingTopicId(null);
+      return;
+    }
+
+    const { error } = await supabase.from('mock_exam_topics').delete().eq('id', topic.id);
+    if (error) alert('Không thể xóa chuyên đề: ' + error.message);
+    else {
+      setTopics((current) => current.filter((item) => item.id !== topic.id));
+      if (topicId === topic.id) setTopicId('');
+    }
+    setDeletingTopicId(null);
   };
 
   const openEditExam = (exam: any) => {
@@ -182,7 +213,8 @@ export default function MockExamsAdminPage() {
               </summary>
               <div className="space-y-5 border-t border-border px-4 py-5 sm:px-5">
                 {group.chapters.map((chapter) => <div key={chapter.id} className="space-y-3">
-                  {chapter.title && <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground"><span className="h-4 w-0.5 rounded-full bg-primary" aria-hidden="true" />{chapter.title}<span className="font-normal text-muted-foreground">({chapter.exams.length})</span></h3>}
+                  {chapter.title && <div className="flex flex-wrap items-center justify-between gap-2"><h3 className="flex min-w-0 items-center gap-2 text-sm font-semibold text-foreground"><span className="h-4 w-0.5 shrink-0 rounded-full bg-primary" aria-hidden="true" /><span className="break-words">{chapter.title}</span><span className="shrink-0 font-normal text-muted-foreground">({chapter.exams.length} đề)</span></h3>{chapter.topic && chapter.exams.length === 0 && <Button type="button" variant="outline" onClick={() => void handleDeleteTopic(chapter.topic!)} disabled={deletingTopicId !== null} className="min-h-10 border-destructive/30 text-destructive hover:border-destructive hover:bg-destructive-soft hover:text-destructive" aria-label={`Xóa chuyên đề trống ${chapter.title}`}><Trash2 className="h-4 w-4" aria-hidden="true" />{deletingTopicId === chapter.topic.id ? 'Đang xóa...' : 'Xóa chuyên đề trống'}</Button>}</div>}
+                  {chapter.exams.length === 0 && <p className="rounded-lg border border-dashed border-border bg-muted/20 px-4 py-3 text-sm text-muted-foreground">Chuyên đề này chưa có đề thi.</p>}
                   <div className="grid gap-3 xl:grid-cols-2">{chapter.exams.map((exam) => <Card key={exam.id} className="rounded-xl border-border shadow-none"><CardContent className="flex flex-wrap items-start justify-between gap-3 p-4"><div className="min-w-0 flex-1 space-y-2"><h4 className="break-words font-bold text-foreground">{exam.title}</h4><div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{exam.duration} phút</span>{exam.created_at && <span className="inline-flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" />{formatCreatedDate(exam.created_at)}</span>}</div></div><div className="flex shrink-0 gap-2"><Button variant="outline" size="icon" onClick={() => openEditExam(exam)} className="h-11 w-11 border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary" aria-label={`Sửa đề ${exam.title}`}><Pencil className="h-4 w-4" /></Button><Button variant="destructive" size="icon" onClick={() => handleDelete(exam.id)} className="h-11 w-11 bg-destructive-soft text-destructive hover:bg-destructive-soft" aria-label={`Xóa đề ${exam.title}`}><Trash2 className="h-4 w-4" /></Button></div></CardContent></Card>)}</div>
                 </div>)}
               </div>

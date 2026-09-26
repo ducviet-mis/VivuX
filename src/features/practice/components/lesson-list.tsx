@@ -182,9 +182,12 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                             aria-label={`Thi lại câu sai (${wrongCount})`}
                             aria-disabled={wrongCount === 0}
                             onClick={() => { if (wrongCount > 0) router.push(`/practice/wrong/${lesson.id}?level=${level.id}`); }}
-                            className={cn('h-11 w-11 rounded-md border-border', wrongCount > 0 ? 'border-destructive/35 bg-destructive-soft text-destructive hover:bg-destructive-soft/80' : 'cursor-not-allowed text-muted-foreground opacity-50')}
+                            className={cn('relative h-11 w-11 rounded-md border-border', wrongCount > 0 ? 'border-destructive/35 bg-destructive-soft text-destructive hover:bg-destructive-soft/80' : 'cursor-not-allowed bg-muted/40 text-muted-foreground')}
                           >
                             <RotateCcw aria-hidden="true" className="h-4 w-4" />
+                            <span aria-hidden="true" className={cn('absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-card px-0.5 text-[10px] font-bold leading-none tabular-nums', wrongCount > 0 ? 'bg-destructive text-destructive-foreground' : 'bg-muted text-muted-foreground')}>
+                              {wrongCount > 99 ? '99+' : wrongCount}
+                            </span>
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent side="top">{wrongCount > 0 ? `Thi lại ${wrongCount} câu sai` : 'Chưa có câu sai'}</TooltipContent>
@@ -199,9 +202,12 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                             aria-label={`Câu hỏi đã lưu (${savedCount})`}
                             aria-disabled={savedCount === 0}
                             onClick={() => { if (savedCount > 0) router.push(`/practice/saved/${lesson.id}?level=${level.id}`); }}
-                            className={cn('h-11 w-11 rounded-md border-border', savedCount > 0 ? 'border-primary/30 bg-primary-soft text-primary hover:bg-primary-soft/80' : 'cursor-not-allowed text-muted-foreground opacity-50')}
+                            className={cn('relative h-11 w-11 rounded-md border-border', savedCount > 0 ? 'border-primary/30 bg-primary-soft text-primary hover:bg-primary-soft/80' : 'cursor-not-allowed bg-muted/40 text-muted-foreground')}
                           >
                             <ShoppingBasket aria-hidden="true" className="h-4 w-4" />
+                            <span aria-hidden="true" className={cn('absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-card px-0.5 text-[10px] font-bold leading-none tabular-nums', savedCount > 0 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground')}>
+                              {savedCount > 99 ? '99+' : savedCount}
+                            </span>
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent side="top">{savedCount > 0 ? `${savedCount} câu hỏi đã lưu` : 'Chưa có câu hỏi đã lưu'}</TooltipContent>

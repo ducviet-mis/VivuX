@@ -568,17 +568,17 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2">
                 <Plus className="w-5 h-5 text-primary" />
-                Thêm chuyên đề mới
+                Thêm bài tự luyện vào chương
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
                 <div className="space-y-2 lg:col-span-2">
                   <Label>Lớp</Label>
-                  <Input type="number" value={grade} onChange={e => setGrade(e.target.value)} placeholder="VD: 8" />
+                  <Input type="number" value={grade} onChange={e => { setGrade(e.target.value); setChapter(''); setIsNewChapter(false); }} placeholder="VD: 8" />
                 </div>
                 <div className="space-y-2 lg:col-span-4">
-                  <Label>Tên Chương / Nhóm</Label>
+                  <Label>Chương</Label>
                   {!isNewChapter ? (
                     <Select
                       value={chapter}
@@ -625,7 +625,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                   )}
                 </div>
                 <div className="space-y-2 lg:col-span-4">
-                  <Label>Tên Bài Học</Label>
+                  <Label>Bài học</Label>
                   <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="VD: Phép cộng phân thức" />
                 </div>
 
@@ -642,7 +642,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Database className="w-5 h-5 text-primary" />
-                Danh sách chuyên đề ({lessons.length})
+                Danh sách chương và bài ({lessons.length} bài)
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -655,7 +655,7 @@ INSERT INTO public.practice_lessons (id, grade, chapter, title) VALUES
                 <div className="space-y-8">
                   {groupedLessons.map(gradeGroup => (
                     <div key={gradeGroup.gradeNum}>
-                      <h3 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Chuyên đề Toán Lớp {gradeGroup.gradeNum}</h3>
+                      <h3 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Toán Lớp {gradeGroup.gradeNum}</h3>
                       <div className="space-y-4">
                         {gradeGroup.chapters.map((ch) => {
                           const chapterId = `g${gradeGroup.gradeNum}-c${ch.title}`;

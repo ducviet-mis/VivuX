@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { RichTextEditor } from '@/features/handbook/components/rich-text-editor';
+import { AdminLessonPicker } from '@/components/admin/lesson-picker';
 import { MathRenderer } from '@/features/practice/components/math-renderer';
 import { TheoryQuestionPreview } from '@/features/theory/components/theory-question-preview';
 import { buildTheoryAiPrompt, parseTheoryQuestionJson, THEORY_JSON_EXAMPLE } from '@/features/theory/theory-import';
@@ -441,7 +442,7 @@ export default function AdminTheoryPage() {
           <Card className="rounded-2xl border-border">
             <CardHeader><CardTitle className="flex items-center gap-2 text-xl"><Sparkles className="h-5 w-5 text-primary" />Nhập câu hỏi kiểm tra bằng JSON</CardTitle></CardHeader>
             <CardContent className="space-y-5">
-              <div className="space-y-2"><Label>1. Chọn bài lý thuyết</Label><Select value={selectedLessonId} onValueChange={setSelectedLessonId}><SelectTrigger><SelectValue placeholder="Chọn bài để thêm câu hỏi" /></SelectTrigger><SelectContent>{lessons.map((lesson) => <SelectItem key={lesson.id} value={lesson.id}>Lớp {lesson.grade} · {lesson.title}</SelectItem>)}</SelectContent></Select></div>
+              <div className="space-y-3"><p className="text-sm font-semibold text-foreground">1. Chọn Lớp → Chương → Bài lý thuyết</p><AdminLessonPicker lessons={lessons} value={selectedLessonId} onChange={(id) => { setSelectedLessonId(id); setPreviewQuestions([]); setPreviewErrors([]); }} idPrefix="theory-questions" /></div>
 
               {selectedLesson && (
                 <section className="rounded-2xl border border-border bg-muted/20 p-4 sm:p-5" aria-labelledby="existing-theory-questions-title">

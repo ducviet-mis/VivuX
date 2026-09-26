@@ -8,9 +8,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { Plus, Trash2, Clock, CalendarDays, FileText, FolderTree, AlertCircle, Pencil } from 'lucide-react';
+import { Plus, Trash2, Clock, CalendarDays, FileText, FolderTree, AlertCircle, Pencil, ChevronDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { getMockExamCategoryLabel, MOCK_EXAM_CATEGORIES, type MockExamCategory } from '@/features/mock-exams/exam-categories';
+import { MOCK_EXAM_CATEGORIES, type MockExamCategory } from '@/features/mock-exams/exam-categories';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface MockExamTopic { id: string; name: string; grade: number; }
@@ -41,12 +41,26 @@ export default function MockExamsAdminPage() {
   const [duration, setDuration] = useState('45');
   const [saving, setSaving] = useState(false);
   const [editingExam, setEditingExam] = useState<any | null>(null);
+  const [listGrade, setListGrade] = useState('8');
+  const [openCategories, setOpenCategories] = useState<string[]>(['midterm_1']);
   const [editTitle, setEditTitle] = useState('');
   const [editDuration, setEditDuration] = useState('45');
   const [savingEdit, setSavingEdit] = useState(false);
 
   const topicsForGrade = useMemo(() => topics.filter((topic) => topic.grade === parseInt(grade)), [topics, grade]);
   const topicNameById = useMemo(() => Object.fromEntries(topics.map((topic) => [topic.id, topic.name])), [topics]);
+  const examGroups = useMemo(() => MOCK_EXAM_CATEGORIES.map((item) => {
+    const categoryExams = exams.filter((exam) => String(exam.grade) === listGrade && (exam.category || 'midterm_1') === item.id);
+    if (categoryExams.length === 0) return null;
+    const chapters = item.id === 'topic'
+      ? Array.from(new Set(categoryExams.map((exam) => exam.topic_id || '__ungrouped__'))).map((id) => ({
+          id,
+          title: id === '__ungrouped__' ? 'Chưa gắn chuyên đề' : topicNameById[id] || 'Chuyên đề đã xóa',
+          exams: categoryExams.filter((exam) => (exam.topic_id || '__ungrouped__') === id),
+        }))
+      : [{ id: item.id, title: '', exams: categoryExams }];
+    return { ...item, count: categoryExams.length, chapters };
+  }).filter((item): item is NonNullable<typeof item> => item !== null), [exams, listGrade, topicNameById]);
 
   const fetchData = async () => {
     const supabase = getSupabaseClient();
@@ -93,7 +107,8 @@ export default function MockExamsAdminPage() {
     if (error) alert('Không thể tạo đề: ' + error.message);
     else {
       alert('Đã tạo đề. Vào mục "Nhập đề JSON" trong ADMIN để dán JSON và thêm câu hỏi cho đề này.');
-      setTitle(''); setTopicId(''); setNewTopicName('');
+      setTitle(''); setTopicId(''); setNewTopicName(''); setListGrade(grade);
+      setOpenCategories((current) => current.includes(category) ? current : [...current, category]);
       await fetchData();
     }
     setSaving(false);
@@ -154,7 +169,26 @@ export default function MockExamsAdminPage() {
           </div><Button onClick={handleAddExam} disabled={saving} className="mt-6 h-11 w-full rounded-md bg-primary px-8 font-bold text-primary-foreground md:w-auto">{saving ? 'Đang tạo...' : 'Tạo đề thi'}</Button></CardContent>
         </Card>
 
-        <section className="space-y-4"><div className="flex items-center gap-2"><FileText className="h-5 w-5 text-primary" /><h2 className="text-lg font-bold text-foreground">Danh sách đề thi thử</h2></div>{exams.length === 0 ? <div className="rounded-2xl border border-dashed border-border bg-card py-12 text-center text-muted-foreground">Chưa có đề thi thử nào.</div> : <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{exams.map((exam) => <Card key={exam.id} className="overflow-hidden rounded-2xl border-border shadow-soft"><CardContent className="flex items-start justify-between gap-4 p-4 sm:p-5"><div className="min-w-0 space-y-3"><div className="flex flex-wrap gap-2"><Badge variant="outline" className="border-primary bg-primary-soft text-primary">Lớp {exam.grade}</Badge><Badge variant="outline" className="border-border bg-muted text-muted-foreground">{getMockExamCategoryLabel(exam.category)}</Badge><Badge variant="outline" className="border-primary bg-primary-soft text-primary"><Clock className="mr-1 h-3 w-3" />{exam.duration} phút</Badge>{exam.created_at && <Badge variant="outline" className="border-border bg-muted text-muted-foreground"><CalendarDays className="mr-1 h-3 w-3" />Tạo {formatCreatedDate(exam.created_at)}</Badge>}</div><h3 className="text-lg font-bold text-foreground">{exam.title}</h3>{exam.topic_id && <p className="flex items-center gap-1.5 text-sm text-muted-foreground"><FolderTree className="h-4 w-4" />{topicNameById[exam.topic_id] || 'Chuyên đề đã xóa'}</p>}</div><div className="flex shrink-0 gap-2"><Button variant="outline" size="icon" onClick={() => openEditExam(exam)} className="h-11 w-11 rounded-md border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary" aria-label={`Sửa đề ${exam.title}`}><Pencil className="h-4 w-4" /></Button><Button variant="destructive" size="icon" onClick={() => handleDelete(exam.id)} className="h-11 w-11 rounded-md bg-destructive-soft text-destructive hover:bg-destructive-soft" aria-label={`Xóa đề ${exam.title}`}><Trash2 className="h-4 w-4" /></Button></div></CardContent></Card>)}</div>}</section>
+        <section className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div><h2 className="flex items-center gap-2 text-lg font-bold text-foreground"><FileText className="h-5 w-5 text-primary" />Danh sách đề thi thử</h2><p className="mt-1 text-sm text-muted-foreground">Lớp → Danh mục → Chuyên đề → Đề thi</p></div>
+            <div className="w-40 space-y-1.5"><Label htmlFor="exam-list-grade">Xem lớp</Label><Select value={listGrade} onValueChange={setListGrade}><SelectTrigger id="exam-list-grade" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[6, 7, 8, 9].map((value) => <SelectItem key={value} value={String(value)}>Lớp {value}</SelectItem>)}</SelectContent></Select></div>
+          </div>
+          {examGroups.length === 0 ? <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-12 text-center text-muted-foreground">Lớp {listGrade} chưa có đề thi thử.</div> : examGroups.map((group) => (
+            <details key={`${listGrade}-${group.id}`} className="group overflow-hidden rounded-2xl border border-border bg-card" open={openCategories.includes(group.id)} onToggle={(event) => { const isOpen = event.currentTarget.open; setOpenCategories((current) => isOpen ? current.includes(group.id) ? current : [...current, group.id] : current.filter((id) => id !== group.id)); }}>
+              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-semibold text-foreground marker:hidden hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary [&::-webkit-details-marker]:hidden sm:px-5">
+                <span className="flex min-w-0 items-center gap-3"><FolderTree className="h-5 w-5 shrink-0 text-primary" /><span className="truncate">{group.label}</span><Badge variant="outline" className="border-border bg-muted text-muted-foreground">{group.count} đề</Badge></span>
+                <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <div className="space-y-5 border-t border-border px-4 py-5 sm:px-5">
+                {group.chapters.map((chapter) => <div key={chapter.id} className="space-y-3">
+                  {chapter.title && <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground"><span className="h-4 w-0.5 rounded-full bg-primary" aria-hidden="true" />{chapter.title}<span className="font-normal text-muted-foreground">({chapter.exams.length})</span></h3>}
+                  <div className="grid gap-3 xl:grid-cols-2">{chapter.exams.map((exam) => <Card key={exam.id} className="rounded-xl border-border shadow-none"><CardContent className="flex flex-wrap items-start justify-between gap-3 p-4"><div className="min-w-0 flex-1 space-y-2"><h4 className="break-words font-bold text-foreground">{exam.title}</h4><div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{exam.duration} phút</span>{exam.created_at && <span className="inline-flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" />{formatCreatedDate(exam.created_at)}</span>}</div></div><div className="flex shrink-0 gap-2"><Button variant="outline" size="icon" onClick={() => openEditExam(exam)} className="h-11 w-11 border-border text-muted-foreground hover:border-primary hover:bg-primary-soft hover:text-primary" aria-label={`Sửa đề ${exam.title}`}><Pencil className="h-4 w-4" /></Button><Button variant="destructive" size="icon" onClick={() => handleDelete(exam.id)} className="h-11 w-11 bg-destructive-soft text-destructive hover:bg-destructive-soft" aria-label={`Xóa đề ${exam.title}`}><Trash2 className="h-4 w-4" /></Button></div></CardContent></Card>)}</div>
+                </div>)}
+              </div>
+            </details>
+          ))}
+        </section>
       </>}
 
       <Dialog open={!!editingExam} onOpenChange={(open) => !open && setEditingExam(null)}>

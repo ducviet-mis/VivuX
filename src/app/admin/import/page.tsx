@@ -11,12 +11,14 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { AdminLessonPicker, type AdminLessonOption } from '@/components/admin/lesson-picker';
+import { MOCK_EXAM_CATEGORIES } from '@/features/mock-exams/exam-categories';
 import { MathRenderer, formatOptionMath } from '@/features/practice/components/math-renderer';
 import { GeometryDiagram } from '@/features/geometry/components/geometry-diagram';
 import { buildAiPrompt, parseQuestionJson, type ImportedQuestion, type ImportTarget } from '@/features/question-import/json-import';
 
-type LessonOption = { id: string; grade: number; chapter: string; title: string };
-type ExamOption = { id: string; grade: number; title: string };
+type ExamOption = { id: string; grade: number; title: string; category: string | null; topic_id: string | null };
+type TopicOption = { id: string; grade: number; name: string };
 
 const GEOMETRY_JSON_EXAMPLE = JSON.stringify({
   questions: [
@@ -86,10 +88,14 @@ export default function JsonQuestionImportPage() {
   const router = useRouter();
   const { user, initialized, isLoading } = useAuthStore();
   const [target, setTarget] = useState<ImportTarget>('practice');
-  const [lessons, setLessons] = useState<LessonOption[]>([]);
+  const [lessons, setLessons] = useState<AdminLessonOption[]>([]);
   const [exams, setExams] = useState<ExamOption[]>([]);
+  const [topics, setTopics] = useState<TopicOption[]>([]);
   const [lessonId, setLessonId] = useState('');
   const [examId, setExamId] = useState('');
+  const [examGrade, setExamGrade] = useState('');
+  const [examCategory, setExamCategory] = useState('');
+  const [examTopicId, setExamTopicId] = useState('');
   const [level, setLevel] = useState('1');
   const [jsonText, setJsonText] = useState('');
   const [questions, setQuestions] = useState<ImportedQuestion[]>([]);
@@ -108,14 +114,17 @@ export default function JsonQuestionImportPage() {
     if (!user || !isAdminEmail(user.email)) return;
     const loadDestinations = async () => {
       const supabase = getSupabaseClient();
-      const [lessonsResult, examsResult] = await Promise.all([
-        supabase.from('practice_lessons').select('id, grade, chapter, title').order('grade').order('chapter').order('id'),
-        supabase.from('mock_exams').select('id, grade, title').order('created_at', { ascending: false }),
+      const [lessonsResult, examsResult, topicsResult] = await Promise.all([
+        supabase.from('practice_lessons').select('*').order('grade').order('chapter').order('id'),
+        supabase.from('mock_exams').select('id, grade, title, category, topic_id').order('created_at', { ascending: false }),
+        supabase.from('mock_exam_topics').select('id, grade, name').order('grade').order('sort_order'),
       ]);
       if (lessonsResult.error) setErrors(['Không tải được danh sách bài tự luyện. Hãy kiểm tra Supabase.']);
       if (examsResult.error) setErrors((current) => [...current, 'Không tải được danh sách đề thi thử. Hãy kiểm tra Supabase.']);
-      setLessons((lessonsResult.data || []) as LessonOption[]);
+      if (topicsResult.error) setErrors((current) => [...current, 'Không tải được danh sách chuyên đề thi thử. Hãy kiểm tra Supabase.']);
+      setLessons((lessonsResult.data || []) as AdminLessonOption[]);
       setExams((examsResult.data || []) as ExamOption[]);
+      setTopics((topicsResult.data || []) as TopicOption[]);
       setLoadingDestinations(false);
     };
     void loadDestinations();
@@ -124,11 +133,18 @@ export default function JsonQuestionImportPage() {
   const destinationName = useMemo(() => {
     if (target === 'practice') {
       const lesson = lessons.find((item) => item.id === lessonId);
-      return lesson ? `Lớp ${lesson.grade} · ${lesson.title}` : 'bài tự luyện đã chọn';
+      return lesson ? `Lớp ${lesson.grade} · ${lesson.chapter} · ${lesson.title}` : 'bài tự luyện đã chọn';
     }
     const exam = exams.find((item) => item.id === examId);
     return exam ? `Lớp ${exam.grade} · ${exam.title}` : 'đề thi thử đã chọn';
   }, [examId, exams, lessonId, lessons, target]);
+
+  const examGrades = useMemo(() => Array.from(new Set(exams.map((exam) => exam.grade))).sort((a, b) => a - b), [exams]);
+  const examCategories = useMemo(() => MOCK_EXAM_CATEGORIES.filter((item) => exams.some((exam) => String(exam.grade) === examGrade && (exam.category || 'midterm_1') === item.id)), [examGrade, exams]);
+  const examTopics = useMemo(() => topics.filter((topic) => String(topic.grade) === examGrade && exams.some((exam) => exam.topic_id === topic.id)), [examGrade, exams, topics]);
+  const filteredExams = useMemo(() => exams.filter((exam) => String(exam.grade) === examGrade && (exam.category || 'midterm_1') === examCategory && (examCategory !== 'topic' || (exam.topic_id || '__ungrouped__') === examTopicId)), [examCategory, examGrade, examTopicId, exams]);
+
+  const clearPreview = () => { setQuestions([]); setErrors([]); setMessage(''); };
 
   const handlePreview = () => {
     const result = parseQuestionJson(jsonText);
@@ -211,7 +227,7 @@ export default function JsonQuestionImportPage() {
         <CardContent className="space-y-6 p-5 sm:p-6">
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="space-y-2"><Label htmlFor="content-target">1. Loại nội dung</Label><Select value={target} onValueChange={(value) => { setTarget(value as ImportTarget); setQuestions([]); setErrors([]); setMessage(''); }}><SelectTrigger id="content-target" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="practice">Tự luyện</SelectItem><SelectItem value="mock_exam">Thi thử</SelectItem></SelectContent></Select></div>
-            {target === 'practice' ? <><div className="space-y-2"><Label htmlFor="lesson-target">2. Bài tự luyện</Label><Select value={lessonId} onValueChange={setLessonId}><SelectTrigger id="lesson-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn bài để thêm câu hỏi" /></SelectTrigger><SelectContent>{lessons.map((lesson) => <SelectItem key={lesson.id} value={lesson.id}>Lớp {lesson.grade} · {lesson.chapter} · {lesson.title}</SelectItem>)}</SelectContent></Select></div><div className="space-y-2"><Label htmlFor="practice-level">3. Level câu hỏi</Label><Select value={level} onValueChange={setLevel}><SelectTrigger id="practice-level" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[['1', 'Level 1 · Nhận biết'], ['2', 'Level 2 · Thông hiểu'], ['3', 'Level 3 · Vận dụng'], ['4', 'Level 4 · Vận dụng cao']].map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select></div></> : <div className="space-y-2"><Label htmlFor="exam-target">2. Đề thi thử</Label><Select value={examId} onValueChange={setExamId}><SelectTrigger id="exam-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn đề để thêm câu hỏi" /></SelectTrigger><SelectContent>{exams.map((exam) => <SelectItem key={exam.id} value={exam.id}>Lớp {exam.grade} · {exam.title}</SelectItem>)}</SelectContent></Select></div>}
+            {target === 'practice' ? <div className="space-y-4 lg:col-span-2"><p className="text-sm font-semibold text-foreground">2. Chọn đúng Lớp → Chương → Bài tự luyện</p><AdminLessonPicker lessons={lessons} value={lessonId} onChange={(id) => { setLessonId(id); clearPreview(); }} idPrefix="import-practice" /><div className="max-w-sm space-y-2"><Label htmlFor="practice-level">3. Level câu hỏi</Label><Select value={level} onValueChange={(next) => { setLevel(next); clearPreview(); }}><SelectTrigger id="practice-level" className="h-11 bg-surface"><SelectValue /></SelectTrigger><SelectContent>{[['1', 'Level 1 · Nhận biết'], ['2', 'Level 2 · Thông hiểu'], ['3', 'Level 3 · Vận dụng'], ['4', 'Level 4 · Vận dụng cao']].map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select></div></div> : <div className="space-y-4 lg:col-span-2"><p className="text-sm font-semibold text-foreground">2. Chọn đúng Lớp → Danh mục → Đề thi</p><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"><div className="space-y-2"><Label htmlFor="exam-grade">Lớp</Label><Select value={examGrade} onValueChange={(next) => { setExamGrade(next); setExamCategory(''); setExamTopicId(''); setExamId(''); clearPreview(); }}><SelectTrigger id="exam-grade" className="h-11 bg-surface"><SelectValue placeholder="Chọn lớp" /></SelectTrigger><SelectContent>{examGrades.map((item) => <SelectItem key={item} value={String(item)}>Lớp {item}</SelectItem>)}</SelectContent></Select></div><div className="space-y-2"><Label htmlFor="exam-category">Danh mục</Label><Select value={examCategory} onValueChange={(next) => { setExamCategory(next); setExamTopicId(''); setExamId(''); clearPreview(); }} disabled={!examGrade}><SelectTrigger id="exam-category" className="h-11 bg-surface"><SelectValue placeholder="Chọn danh mục" /></SelectTrigger><SelectContent>{examCategories.map((item) => <SelectItem key={item.id} value={item.id}>{item.label}</SelectItem>)}</SelectContent></Select></div>{examCategory === 'topic' && <div className="space-y-2"><Label htmlFor="exam-topic">Chương / chuyên đề</Label><Select value={examTopicId} onValueChange={(next) => { setExamTopicId(next); setExamId(''); clearPreview(); }}><SelectTrigger id="exam-topic" className="h-11 bg-surface"><SelectValue placeholder="Chọn chuyên đề" /></SelectTrigger><SelectContent>{examTopics.map((topic) => <SelectItem key={topic.id} value={topic.id}>{topic.name}</SelectItem>)}{exams.some((exam) => String(exam.grade) === examGrade && exam.category === 'topic' && !exam.topic_id) && <SelectItem value="__ungrouped__">Chưa gắn chuyên đề</SelectItem>}</SelectContent></Select></div>}<div className="space-y-2"><Label htmlFor="exam-target">Đề thi</Label><Select value={examId} onValueChange={(next) => { setExamId(next); clearPreview(); }} disabled={!examCategory || (examCategory === 'topic' && !examTopicId)}><SelectTrigger id="exam-target" className="h-11 bg-surface"><SelectValue placeholder="Chọn đề để thêm câu hỏi" /></SelectTrigger><SelectContent>{filteredExams.map((exam) => <SelectItem key={exam.id} value={exam.id}>{exam.title}</SelectItem>)}</SelectContent></Select></div></div></div>}
           </div>
 
           <div className="rounded-xl border border-primary/30 bg-primary-soft/40 p-4">

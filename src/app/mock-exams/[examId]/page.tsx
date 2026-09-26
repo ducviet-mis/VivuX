@@ -45,6 +45,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
     : null;
 
   const toggleFullscreen = async () => {
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
@@ -66,6 +67,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
   useEffect(() => {
     if (!exam || window.sessionStorage.getItem('flydo-open-exam-fullscreen') !== 'true') return;
     window.sessionStorage.removeItem('flydo-open-exam-fullscreen');
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;
     void document.documentElement.requestFullscreen?.().catch(() => undefined);
   }, [exam]);
 
@@ -357,7 +359,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
             variant="outline"
             size="icon"
             onClick={toggleFullscreen}
-            className="h-11 w-11 rounded-md border-border"
+            className="hidden h-11 w-11 rounded-md border-border lg:inline-flex"
             aria-label={isFullscreen ? 'Thoát chế độ toàn màn hình' : 'Bật chế độ toàn màn hình'}
             title={isFullscreen ? 'Thoát toàn màn hình' : 'Bật toàn màn hình'}
           >

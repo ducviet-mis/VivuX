@@ -13,6 +13,8 @@ import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { getReadPostIds } from '@/features/handbook/utils/reading-status';
+import { StudyHeading } from '@/components/shared/study-heading';
+import { HandbookCover } from '@/features/handbook/components/handbook-cover';
 
 const CATEGORIES: HandbookCategory[] = ['Toán & Đời sống', 'Phương pháp học toán', 'Bản đồ lý thuyết'];
 
@@ -111,17 +113,9 @@ export default function HandbookHubPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-2 sm:py-4">
+    <div className="study-page">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
-            Cẩm nang
-          </h1>
-          <p className="text-muted-foreground text-sm sm:text-base mt-1">
-            Khám phá thế giới Toán học qua những góc nhìn mới mẻ
-          </p>
-        </div>
+      <StudyHeading eyebrow="Cẩm nang · Nuôi dưỡng sự tò mò" title="Một góc nhìn mới về Toán." description="Những câu chuyện, phương pháp và ý tưởng để việc học trở nên gần gũi hơn.">
 
         {isAdmin && (
           <Button
@@ -132,7 +126,7 @@ export default function HandbookHubPage() {
             Viết bài mới
           </Button>
         )}
-      </div>
+      </StudyHeading>
 
       {/* Category Filter Pills */}
       <div className="flex flex-row overflow-x-auto snap-x [&::-webkit-scrollbar]:hidden gap-2 sm:gap-2.5 mb-6 sm:mb-8 pb-1">
@@ -180,7 +174,7 @@ export default function HandbookHubPage() {
           {featuredPost && (
             <div className="group relative">
               <Link href={`/handbook/${featuredPost.id}`} className="block">
-                <div className="flex flex-col lg:flex-row gap-5 lg:gap-8 bg-card rounded-2xl lg:rounded-xl p-3 sm:p-5 border border-border shadow-soft hover:shadow-card hover:border-primary transition-all duration-200">
+                <div className="flex flex-col lg:flex-row gap-5 lg:gap-9 bg-card rounded-xl p-3 sm:p-5 border border-border shadow-soft hover:shadow-card hover:border-primary/40 transition-colors duration-200">
 
                 {/* Image (Bounded Height, max 280px on desktop) */}
                 <div className="w-full lg:w-[48%] shrink-0">
@@ -192,7 +186,7 @@ export default function HandbookHubPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">Không có ảnh</div>
+                      <HandbookCover category={featuredPost.category} />
                     )}
                   </div>
                 </div>
@@ -207,11 +201,11 @@ export default function HandbookHubPage() {
                       {readPostIds.includes(featuredPost.id) && <Badge variant="outline" className="gap-1 rounded-md border-success/40 text-success"><CheckCircle2 aria-hidden="true" className="h-3.5 w-3.5" /> Đã đọc</Badge>}
                     </div>
 
-                    <h2 className="text-lg sm:text-xl lg:text-[22px] font-bold text-foreground leading-snug mb-2.5 group-hover:text-primary transition-colors line-clamp-2">
+                    <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight text-foreground leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-3">
                       {featuredPost.title}
                     </h2>
 
-                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4">
+                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed line-clamp-3 mb-5">
                       {featuredPost.sapo}
                     </p>
                   </div>
@@ -257,13 +251,13 @@ export default function HandbookHubPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
               {gridPosts.map(post => (
                 <div key={post.id} className="group relative">
-                  <Link href={`/handbook/${post.id}`} className="flex flex-col bg-card rounded-2xl border border-border shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+                  <Link href={`/handbook/${post.id}`} className="flex h-full flex-col bg-card rounded-xl border border-border shadow-soft hover:shadow-card hover:border-primary/30 transition-colors duration-200 overflow-hidden">
 
                   <div className="relative w-full h-44 sm:h-48 bg-muted overflow-hidden shrink-0">
                     {post.cover_url ? (
                       <img src={post.cover_url} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">Không có ảnh</div>
+                      <HandbookCover category={post.category} />
                     )}
                     <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
                       <Badge className="bg-card/95 text-foreground hover:bg-card border-0 shadow-soft backdrop-blur-sm text-xs px-2 py-0.5">
@@ -274,11 +268,11 @@ export default function HandbookHubPage() {
                   </div>
 
                   <div className="p-4 flex flex-col flex-1">
-                    <h3 className="text-base font-bold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors leading-snug">
+                    <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors leading-snug">
                       {post.title}
                     </h3>
 
-                    <p className="text-muted-foreground text-xs leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">
                       {post.sapo}
                     </p>
 

@@ -254,7 +254,7 @@ export default function HandbookReadingPage({ params }: { params: { id: string }
 
       {/* Main Content (Rich Text) */}
       <div
-        className="prose prose-base md:prose-lg vivux-prose max-w-none prose-headings:font-bold prose-headings:text-foreground prose-a:text-primary prose-img:rounded-2xl prose-img:shadow-soft leading-relaxed tracking-normal"
+        className="study-article-body prose prose-base md:prose-lg vivux-prose max-w-none prose-headings:font-semibold prose-headings:text-foreground prose-a:text-primary prose-img:rounded-xl prose-img:shadow-soft tracking-normal"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 

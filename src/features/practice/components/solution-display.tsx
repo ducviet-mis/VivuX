@@ -19,11 +19,11 @@ export function SolutionDisplay({ isCorrect, correctAnswer, solution, onNext, is
 
   return (
     <div className={cn(
-      "mt-6 rounded-xl border overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300",
-      isCorrect ? "border-success" : "border-destructive"
+      "mt-7 rounded-xl border overflow-hidden animate-in fade-in duration-200",
+      isCorrect ? "border-success/35" : "border-destructive/35"
     )}>
       <div className={cn(
-        "px-4 py-3 flex items-center gap-2 font-medium",
+        "px-4 py-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium",
         isCorrect
           ? "bg-success-soft text-success"
           : "bg-destructive-soft text-destructive"
@@ -35,8 +35,8 @@ export function SolutionDisplay({ isCorrect, correctAnswer, solution, onNext, is
         </span>
       </div>
 
-      <div className="p-6 bg-muted text-foreground">
-        <h4 className="font-bold text-xs text-muted-foreground mb-4 uppercase tracking-wider">Lời giải chi tiết</h4>
+      <div className="p-5 sm:p-6 bg-card text-foreground">
+        <h4 className="font-semibold text-sm text-muted-foreground mb-4">Cùng xem lời giải</h4>
         <div className="text-[15px] text-foreground sm:text-base">
           <MathRenderer content={solution} variant="solution" />
         </div>

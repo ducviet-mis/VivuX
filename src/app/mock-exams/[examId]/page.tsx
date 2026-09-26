@@ -388,13 +388,14 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
 
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-6 md:flex-row md:px-6 md:py-6">
         {/* Main Content (Question) */}
-        <main className="flex-1 pb-20 md:pb-0">
+        <main className="min-w-0 flex-1 pb-20 md:pb-0">
           <div className="max-w-3xl mx-auto">
             {currentQuestion && (
-              <div className="bg-card rounded-none md:rounded-xl p-4 md:p-8 shadow-none md:shadow-float dark:shadow-none border-y md:border border-border">
-                <h2 className="text-lg md:text-xl font-bold text-foreground mb-4 md:mb-6">
-                  Câu {currentIndex + 1}:
-                </h2>
+              <div className="study-question bg-card rounded-none md:rounded-xl p-5 md:p-8 shadow-none md:shadow-card border-y md:border border-border">
+                <div className="mb-6 flex items-center justify-between gap-3 border-b border-border pb-4">
+                  <h2 className="text-base font-semibold text-primary">Câu {currentIndex + 1}<span className="ml-1 font-normal text-muted-foreground">/ {questions.length}</span></h2>
+                  <span className="text-xs text-muted-foreground">Chọn một đáp án</span>
+                </div>
                 <div className="prose vivux-prose max-w-none mb-8 text-lg text-foreground">
                   <MathRenderer content={currentQuestion.content} />
                 </div>
@@ -410,7 +411,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                         onClick={() => setAnswers(prev => ({ ...prev, [currentQuestion.id]: idx }))}
                         aria-pressed={isSelected}
                         className={cn(
-                          "w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all duration-200 text-left group",
+                          "w-full min-w-0 flex items-center gap-3 sm:gap-4 p-4 rounded-xl border transition-colors duration-200 text-left group",
                           isSelected
                             ? "border-primary bg-primary-soft shadow-card ring-2 ring-primary/20"
                             : "border-border hover:border-primary hover:bg-muted bg-card dark:bg-transparent"
@@ -425,7 +426,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                           {['A', 'B', 'C', 'D'][idx]}
                         </div>
                         <div className={cn(
-                          "flex-1",
+                          "min-w-0 flex-1 overflow-x-auto",
                           isSelected ? "text-primary font-medium" : "text-foreground"
                         )}>
                           <MathRenderer content={formatOptionMath(opt)} />
@@ -462,7 +463,7 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
         </main>
 
         {/* Sidebar (Grid) */}
-        <aside className="hidden md:block w-80 shrink-0">
+        <aside className="hidden md:block w-60 xl:w-72 shrink-0">
           <div className="bg-card rounded-xl border border-border shadow-card overflow-hidden md:sticky md:top-24">
             <div className="p-4 border-b border-border font-bold text-foreground flex justify-between items-center bg-muted/50">
               <span>Danh sách câu</span>
@@ -470,7 +471,11 @@ export default function MockExamRoomPage({ params }: { params: { examId: string 
                 {Object.keys(answers).length} / {questions.length}
               </span>
             </div>
-            <div className="p-4 max-h-[40vh] md:max-h-[calc(100vh-300px)] overflow-y-auto">
+            <div className="px-4 pt-4">
+              <div role="progressbar" aria-label="Số câu đã trả lời" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={Object.keys(answers).length} className="h-1.5 overflow-hidden rounded-full bg-track"><div className="h-full rounded-full bg-primary" style={{ width: `${questions.length ? Object.keys(answers).length / questions.length * 100 : 0}%` }} /></div>
+              <p className="mt-3 text-xs text-muted-foreground">Còn {questions.length - Object.keys(answers).length} câu chưa trả lời</p>
+            </div>
+            <div className="p-4 max-h-[40vh] md:max-h-[calc(100vh-360px)] overflow-y-auto">
               <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-5 gap-2">
                 {questions.map((q, idx) => {
                   const isAnswered = answers[q.id] !== undefined;

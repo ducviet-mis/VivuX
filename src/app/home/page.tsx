@@ -13,6 +13,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ReferralHomePrompt } from '@/features/subscription/components/referral-home-prompt';
 import { FlytieeWidget } from '@/features/flytiee/flytiee-widget';
 import { StreakCard } from '@/features/streak/components/streak-card';
+import { ContinueLearning } from '@/features/dashboard/components/continue-learning';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -36,10 +37,10 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="space-y-7">
+      <div className="study-page space-y-7">
         <div className={`grid min-w-0 grid-cols-1 items-stretch gap-3 sm:gap-4 ${user ? 'sm:grid-cols-[minmax(0,1fr)_144px] lg:grid-cols-[minmax(0,1fr)_minmax(260px,320px)_minmax(136px,164px)]' : ''}`}>
-          <header className={`flex min-w-0 flex-col justify-center overflow-hidden rounded-xl border border-border bg-hero px-5 py-4 sm:px-6 ${user ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-[.14em] text-primary">Không gian học tập</p>
+          <header className={`flex min-w-0 flex-col justify-center overflow-hidden px-1 py-4 sm:pr-6 ${user ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
+            <p className="study-eyebrow mb-2">Một ngày, một bước tiến</p>
             <h1 className="break-words text-2xl font-bold leading-tight text-foreground xl:text-[28px]">{getGreeting()}, {user?.name || 'Bạn'}!</h1>
             <p className="mt-1.5 text-sm text-muted-foreground">Sẵn sàng cho buổi học hôm nay chưa?</p>
           </header>
@@ -50,8 +51,8 @@ export default function HomePage() {
         </div>
         <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="min-w-0 space-y-6">
+            <ContinueLearning />
             <GoalRing />
-            <StatsOverviewCard />
             <section aria-labelledby="practice-heading">
               <div className="mb-4">
                 <h2 id="practice-heading" className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">Tự luyện theo chuyên đề</h2>
@@ -65,7 +66,7 @@ export default function HomePage() {
                         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-md ${grade.tone}`}><BookOpen aria-hidden="true" className="h-5 w-5" /></div>
                         <div className="min-w-0 flex-1">
                           <h3 className="text-lg font-semibold text-foreground">{grade.title}</h3>
-                          <p className="mt-0.5 text-sm text-muted-foreground">Toán học {grade.title.toLowerCase()}</p>
+                          <p className="mt-0.5 text-sm text-muted-foreground">Khám phá các chuyên đề</p>
                         </div>
                         <ArrowUpRight aria-hidden="true" className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
                       </CardContent>
@@ -74,6 +75,7 @@ export default function HomePage() {
                 ))}
               </div>
             </section>
+            <StatsOverviewCard />
           </div>
           <aside aria-label="Thông tin học tập bổ trợ" className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-1">
             <CountdownCard />

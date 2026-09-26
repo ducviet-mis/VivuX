@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { ReadingGuide } from '@/components/shared/reading-guide';
 import { TheoryContent } from './theory-content';
 import styles from './theory-reader.module.css';
 
@@ -13,6 +15,8 @@ export function TheoryReader({ title, summary, chapter, grade, content }: {
 }) {
   const [preferences, setPreferences] = useState<Preferences>(DEFAULTS);
   const [ready, setReady] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const bodyId = useId().replace(/:/g, '') + '-theory-body';
 
   useEffect(() => {
     try {
@@ -23,10 +27,10 @@ export function TheoryReader({ title, summary, chapter, grade, content }: {
           size: ['small', 'default', 'large'].includes(saved.size) ? saved.size : DEFAULTS.size,
           spacing: ['normal', 'relaxed'].includes(saved.spacing) ? saved.spacing : DEFAULTS.spacing,
         });
-      }
+      } else setPreferences((value) => ({ ...value, theme: resolvedTheme === 'light' ? 'light' : 'dark' }));
     } catch { /* Reading remains usable when browser storage is unavailable. */ }
     setReady(true);
-  }, []);
+  }, [resolvedTheme]);
 
   function update<K extends keyof Preferences>(key: K, value: Preferences[K]) {
     const next = { ...preferences, [key]: value };
@@ -35,6 +39,8 @@ export function TheoryReader({ title, summary, chapter, grade, content }: {
   }
 
   return (
+    <div className="study-reading-layout">
+    <ReadingGuide targetId={bodyId} contentKey={content} />
     <article className={styles.reader} data-theme={preferences.theme} data-size={preferences.size} data-spacing={preferences.spacing} aria-label="Nội dung lý thuyết">
       <div className={styles.column}>
         <div className={styles.toolbar}>
@@ -65,8 +71,9 @@ export function TheoryReader({ title, summary, chapter, grade, content }: {
           <h1>{title}</h1>
           {summary && <p>{summary}</p>}
         </header>
-        <div className={styles.body}><TheoryContent html={content} className="theory-prose" /></div>
+        <div id={bodyId} className={styles.body}><TheoryContent html={content} className="theory-prose" /></div>
       </div>
     </article>
+    </div>
   );
 }

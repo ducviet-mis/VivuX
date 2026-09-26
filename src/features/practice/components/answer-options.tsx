@@ -3,6 +3,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { MathRenderer, formatOptionMath } from './math-renderer';
+import { Check, X } from 'lucide-react';
 
 interface AnswerOptionsProps {
   options: string[];
@@ -32,7 +33,7 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
             stateClass = "bg-destructive-soft border-destructive shadow-soft";
             letterClass = "bg-destructive text-destructive-foreground font-bold";
           } else {
-            stateClass = "bg-card border-border opacity-50 grayscale-[0.5]";
+            stateClass = "bg-card border-border";
           }
         }
 
@@ -44,9 +45,9 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
             aria-pressed={isSelected}
             aria-label={`${letters[idx]}: ${option}${isAnswered ? (isCorrect ? '. Đáp án đúng' : isSelected ? '. Bạn đã chọn, chưa chính xác' : '') : ''}`}
             className={cn(
-              "flex items-center gap-3 md:gap-4 p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all duration-200 text-left group",
+              "flex min-w-0 items-center gap-3 md:gap-4 p-4 md:p-5 rounded-xl border transition-colors duration-200 text-left group disabled:cursor-default",
               stateClass,
-              !isAnswered && "hover:shadow-card hover:-translate-y-0.5"
+              !isAnswered && "hover:shadow-soft"
             )}
           >
             <div className={cn(
@@ -56,9 +57,11 @@ export function AnswerOptions({ options, selectedAnswer, correctAnswer, onSelect
             )}>
               {letters[idx]}
             </div>
-            <div className="flex-1 text-foreground">
+            <div className="min-w-0 flex-1 overflow-x-auto text-foreground">
               <MathRenderer content={formatOptionMath(option)} />
             </div>
+            {isAnswered && isCorrect && <Check aria-hidden="true" className="h-5 w-5 shrink-0 text-success" />}
+            {isAnswered && isSelected && !isCorrect && <X aria-hidden="true" className="h-5 w-5 shrink-0 text-destructive" />}
           </button>
         );
       })}

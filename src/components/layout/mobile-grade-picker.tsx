@@ -7,11 +7,12 @@ type MobileGradePickerProps = {
   currentGrade?: number;
   hrefForGrade: (grade: number) => string;
   grades?: number[];
+  allSizes?: boolean;
 };
 
-export function MobileGradePicker({ currentGrade, hrefForGrade, grades = [6, 7, 8, 9] }: MobileGradePickerProps) {
+export function MobileGradePicker({ currentGrade, hrefForGrade, grades = [6, 7, 8, 9], allSizes = false }: MobileGradePickerProps) {
   return (
-    <nav aria-label="Chọn lớp" className="md:hidden">
+    <nav aria-label="Chọn lớp" className={allSizes ? undefined : 'md:hidden'}>
       <p className="mb-2 text-sm font-semibold text-foreground">Chọn lớp</p>
       <div className="flex gap-2 overflow-x-auto pb-1">
         {grades.map((grade) => (

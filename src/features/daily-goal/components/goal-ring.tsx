@@ -13,7 +13,7 @@ function GoalMetric({ percent, current, target, label, suffix, tone, icon: Icon 
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - Math.min(100, percent) / 100 * circumference;
   return (
-    <div className="flex min-w-0 items-center gap-4 rounded-lg bg-muted/50 p-4 sm:flex-col sm:items-start sm:gap-3">
+    <div className="flex min-w-0 items-center gap-4 border-b border-border/60 py-4 last:border-0 sm:flex-col sm:items-start sm:gap-3 sm:border-b-0 sm:border-r sm:px-4 sm:first:pl-0 sm:last:pr-0">
       <div className={`relative h-[76px] w-[76px] shrink-0 ${tone}`} role="img" aria-label={`${label}: ${current}/${target} ${suffix}, ${percent}%`}>
         <svg viewBox="0 0 76 76" className="h-full w-full -rotate-90" aria-hidden="true">
           <circle cx="38" cy="38" r={radius} fill="none" stroke="currentColor" strokeWidth="5" className="text-track" />
@@ -37,10 +37,10 @@ export function GoalRing() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between gap-3 pb-5">
-        <div><CardTitle as="h2">Mục tiêu hằng ngày</CardTitle><p className="mt-1 text-sm text-muted-foreground">Từng bước nhỏ, tiến bộ mỗi ngày.</p></div>
+        <div><CardTitle as="h2">Hôm nay của bạn</CardTitle><p className="mt-1 text-sm text-muted-foreground">Mỗi chút tập trung đều đáng ghi nhận.</p></div>
         <GoalSettingDialog />
       </CardHeader>
-      <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <CardContent className="grid grid-cols-1 gap-0 sm:grid-cols-3">
         <GoalMetric label="Thời gian học" icon={Clock3} percent={percentages.study} current={progress.studyMinutes} target={goals.studyMinutes} suffix="phút" tone="text-primary" />
         <GoalMetric label="Câu hoàn thành" icon={ListChecks} percent={percentages.questions} current={progress.questionsCount} target={goals.questionsCount} suffix="câu" tone="text-info" />
         <GoalMetric label="Chính xác" icon={Target} percent={currentAccuracy} current={currentAccuracy} target={100} suffix="%" tone="text-special" />

@@ -38,18 +38,17 @@ export function QuestionCard({
   const progressPercent = ((currentIndex) / totalQuestions) * 100;
 
   return (
-    <div className="w-full">
-      <div className="flex items-center mb-6 px-2">
-        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-primary-soft text-primary text-sm font-bold shadow-soft border border-primary/50">
-          Câu {currentIndex + 1} / {totalQuestions}
-        </div>
+    <div className="study-question w-full">
+      <div className="mb-3 flex items-center justify-between gap-3 px-4 md:px-1">
+        <p className="text-sm font-semibold text-foreground">Câu <span className="text-primary">{currentIndex + 1}</span><span className="ml-1 font-normal text-muted-foreground">/ {totalQuestions}</span></p>
+        <span className="text-xs text-muted-foreground">Chọn một đáp án</span>
       </div>
 
-      <Progress value={progressPercent} aria-label="Tiến độ làm bài" className="h-2 md:h-3 mb-6 md:mb-10 bg-muted rounded-full overflow-hidden [&>div]:bg-primary" />
+      <Progress value={progressPercent} aria-label="Vị trí câu hỏi" className="mb-5 h-1 bg-track md:mb-6 [&>div]:bg-primary" />
 
-      <div className="bg-card rounded-none md:rounded-xl shadow-none md:shadow-soft border-y md:border border-border p-4 md:p-12">
+      <div className="bg-card rounded-none md:rounded-xl shadow-none md:shadow-card border-y md:border border-border p-5 sm:p-7 md:p-9">
         <div className="mb-6 flex flex-col items-stretch gap-4 md:mb-10 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0 flex-1 text-lg font-bold leading-relaxed text-foreground md:text-2xl">
+          <div className="min-w-0 flex-1 text-lg font-medium leading-relaxed text-foreground md:text-xl">
             <MathRenderer content={question.content} />
           </div>
 

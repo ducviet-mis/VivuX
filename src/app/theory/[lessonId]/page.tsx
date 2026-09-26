@@ -39,7 +39,7 @@ export default function TheoryLessonPage() {
   if (error || !lesson) return <div className="container max-w-3xl py-16 text-center"><p className="font-semibold text-destructive">{error}</p><Button asChild variant="outline" className="mt-5"><Link href="/theory"><ArrowLeft className="h-4 w-4" />Về trang Lý thuyết</Link></Button></div>;
 
   return (
-    <div className="container max-w-5xl px-3 py-6 sm:px-6 md:py-10">
+    <div className="study-page">
       <Button asChild variant="ghost" className="mb-5 -ml-3 min-h-11"><Link href={'/theory?grade=' + lesson.grade}><ArrowLeft className="h-4 w-4" />Lý thuyết lớp {lesson.grade}</Link></Button>
       <TheoryReader title={lesson.title} summary={lesson.summary} grade={lesson.grade} chapter={lesson.chapter} content={lesson.content} />
 

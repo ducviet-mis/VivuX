@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { PageHeader } from '@/components/shared/page-header';
+import { StudyHeading } from '@/components/shared/study-heading';
 import { MobileGradePicker } from '@/components/layout/mobile-grade-picker';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -109,10 +109,11 @@ function MockExamsContent() {
   const activeCategoryLabel = category === 'topic' && selectedTopicName ? selectedTopicName : getMockExamCategoryLabel(category);
 
   return (
-    <div className="container max-w-6xl py-4 md:py-8">
-      <PageHeader title={`Thi thử Lớp ${grade}`} description="Chọn một danh mục để luyện đề đúng giai đoạn học tập của bạn." />
-      <div className="mt-5"><MobileGradePicker currentGrade={Number(grade)} hrefForGrade={(selectedGrade) => `/mock-exams?grade=${selectedGrade}`} /></div>
-      <Button asChild variant="outline" className="mt-3 md:hidden"><Link href="/personal-exams?source=mock-exams"><WandSparkles className="h-4 w-4" aria-hidden="true" />Tạo đề cá nhân</Link></Button>
+    <div className="study-page">
+      <StudyHeading eyebrow="Thi thử · Tự tin vào phòng thi" title={`Thi thử lớp ${grade}`} description="Chọn đề phù hợp, tập trung làm bài và nhìn lại những gì đã học.">
+        <Button asChild variant="outline"><Link href="/personal-exams?source=mock-exams"><WandSparkles className="h-4 w-4" aria-hidden="true" />Tạo đề cá nhân</Link></Button>
+      </StudyHeading>
+      <div className="mb-5 md:hidden"><MobileGradePicker currentGrade={Number(grade)} hrefForGrade={(selectedGrade) => `/mock-exams?grade=${selectedGrade}`} /></div>
 
       <div className="mt-6 lg:hidden">
         <Card className="border-border bg-card shadow-soft"><CardContent className="space-y-3 p-4"><div className="flex items-center gap-2 text-sm font-bold text-foreground"><ListFilter className="h-4 w-4 text-primary" />Danh mục đề</div>

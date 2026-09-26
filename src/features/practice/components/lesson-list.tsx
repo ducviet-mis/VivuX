@@ -72,7 +72,7 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
   return (
     <TooltipProvider delayDuration={200}>
     <div className="space-y-8 md:space-y-12">
-      {lessons.map((lesson) => {
+      {lessons.map((lesson, lessonIndex) => {
         const availableLevels = LEVELS.filter((level) => {
           const levelKey = `${lesson.id}_${level.id}`;
           return (progress[levelKey]?.total || 0) > 0;
@@ -81,8 +81,9 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
         return (
           <div key={lesson.id} className="w-full">
             {/* Tên bài học */}
-            <h3 className="text-lg md:text-xl font-bold text-foreground mb-4 md:mb-6 border-b border-border pb-2">
-              {lesson.title}
+            <h3 className="mb-5 flex items-center gap-3 text-lg font-semibold text-foreground md:text-xl">
+              <span aria-hidden="true" className="text-2xl font-light tabular-nums text-primary/70">{String(lessonIndex + 1).padStart(2, '0')}</span>
+              <span>{lesson.title}</span>
             </h3>
 
             {/* Chỉ hiển thị những Level đã có câu hỏi. */}
@@ -112,12 +113,13 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                 return (
                   <div
                     key={level.id}
-                    className="flex flex-col p-3 md:p-4 bg-card rounded-xl md:rounded-2xl border border-border shadow-soft hover:shadow-card hover:border-primary transition-all group"
+                    className="study-lesson-card group flex flex-col rounded-xl border p-4 transition-colors md:p-5"
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 font-bold leading-snug text-foreground text-sm md:text-base">
-                          Level {level.id} - {level.name}
+                          <span className="mb-2 block text-xs font-medium tracking-wide text-muted-foreground">Level {level.id}</span>
+                          {level.name}
                           {isCompleted && (
                             <>
                               <CheckCircle2 aria-hidden="true" className="ml-1.5 inline h-4 w-4 align-[-2px] text-success" />
@@ -146,7 +148,7 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                       </div>
 
                       {hasProgress ? (
-                        <div className="rounded-xl border border-border/70 bg-muted/45 px-3 py-2.5">
+                        <div className="border-t border-border/70 pt-3">
                           <div className="flex items-center justify-between gap-3 text-xs">
                             <span className="font-medium text-muted-foreground">Độ chính xác</span>
                             <span className="font-bold tabular-nums text-foreground">{accuracyPercent}%</span>
@@ -161,7 +163,7 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                           </div>
                         </div>
                       ) : (
-                        <p className="rounded-xl border border-dashed border-border px-3 py-2.5 text-xs text-muted-foreground">Chưa có dữ liệu làm bài</p>
+                        <p className="border-t border-border/70 py-3 text-xs leading-5 text-muted-foreground">Sẵn sàng bắt đầu bài luyện này.</p>
                       )}
                     </div>
 

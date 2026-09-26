@@ -2,20 +2,14 @@
 
 import React, { useState } from 'react';
 import { Lesson } from '../types';
-import { CheckCircle2, RotateCcw, ShoppingBasket, Trash2, Loader2, Check, X, Play, MoreVertical } from 'lucide-react';
+import { CheckCircle2, RotateCcw, ShoppingBasket, Trash2, Loader2, Check, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/features/auth/stores/auth-store';
 import { cn } from '@/lib/utils';
 import { MixModeDialog } from './mix-mode-dialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface LessonListProps {
   lessons: Lesson[];
@@ -76,6 +70,7 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
   };
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="space-y-8 md:space-y-12">
       {lessons.map((lesson) => {
         const availableLevels = LEVELS.filter((level) => {
@@ -97,8 +92,8 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                   'mb-4 grid grid-cols-1 gap-3 md:gap-4',
                   availableLevels.length === 1 && 'max-w-sm',
                   availableLevels.length === 2 && 'sm:grid-cols-2',
-                  availableLevels.length === 3 && 'sm:grid-cols-2 lg:grid-cols-3',
-                  availableLevels.length >= 4 && 'sm:grid-cols-2 lg:grid-cols-4',
+                  availableLevels.length === 3 && 'sm:grid-cols-2 xl:grid-cols-3',
+                  availableLevels.length >= 4 && 'sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4',
                 )}
               >
                 {availableLevels.map(level => {
@@ -170,52 +165,64 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
                       )}
                     </div>
 
-                    <div className="mt-auto flex items-center gap-2 pt-4">
+                    <div className="mt-auto flex items-center gap-1.5 pt-4">
                       <Button
                         onClick={() => router.push(`/practice/${lesson.id}?level=${level.id}`)}
-                        className="flex-1 rounded-md h-11 bg-primary hover:opacity-90 text-primary-foreground font-bold shadow-card transition-all"
+                        className="min-w-0 flex-1 rounded-md h-11 bg-primary px-2 hover:opacity-90 text-primary-foreground font-bold shadow-card transition-all"
                       >
-                        <Play className="w-4 h-4 mr-1.5 hidden md:block" />
                         Luyện tập
                       </Button>
 
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="icon" aria-label="Các lựa chọn luyện tập" className="w-11 h-11 rounded-md shrink-0 text-muted-foreground border-border hover:bg-muted">
-                            <MoreVertical className="w-5 h-5" />
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            aria-label={`Thi lại câu sai (${wrongCount})`}
+                            aria-disabled={wrongCount === 0}
+                            onClick={() => { if (wrongCount > 0) router.push(`/practice/wrong/${lesson.id}?level=${level.id}`); }}
+                            className={cn('h-11 w-11 rounded-md border-border', wrongCount > 0 ? 'border-destructive/35 bg-destructive-soft text-destructive hover:bg-destructive-soft/80' : 'cursor-not-allowed text-muted-foreground opacity-50')}
+                          >
+                            <RotateCcw aria-hidden="true" className="h-4 w-4" />
                           </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 bg-card border-border shadow-float">
-                          <DropdownMenuItem
-                            disabled={wrongCount === 0}
-                            onClick={(e) => { e.stopPropagation(); router.push(`/practice/wrong/${lesson.id}?level=${level.id}`); }}
-                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-destructive-soft focus:bg-destructive-soft text-destructive font-medium"
-                          >
-                            <RotateCcw className="w-4 h-4" />
-                            <span>Thi lại câu sai ({wrongCount})</span>
-                          </DropdownMenuItem>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{wrongCount > 0 ? `Thi lại ${wrongCount} câu sai` : 'Chưa có câu sai'}</TooltipContent>
+                      </Tooltip>
 
-                          <DropdownMenuItem
-                            disabled={savedCount === 0}
-                            onClick={(e) => { e.stopPropagation(); router.push(`/practice/saved/${lesson.id}?level=${level.id}`); }}
-                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-primary-soft focus:bg-primary-soft text-primary font-medium mt-1"
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            aria-label={`Câu hỏi đã lưu (${savedCount})`}
+                            aria-disabled={savedCount === 0}
+                            onClick={() => { if (savedCount > 0) router.push(`/practice/saved/${lesson.id}?level=${level.id}`); }}
+                            className={cn('h-11 w-11 rounded-md border-border', savedCount > 0 ? 'border-primary/30 bg-primary-soft text-primary hover:bg-primary-soft/80' : 'cursor-not-allowed text-muted-foreground opacity-50')}
                           >
-                            <ShoppingBasket className="w-4 h-4" />
-                            <span>Câu hỏi đã lưu ({savedCount})</span>
-                          </DropdownMenuItem>
+                            <ShoppingBasket aria-hidden="true" className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{savedCount > 0 ? `${savedCount} câu hỏi đã lưu` : 'Chưa có câu hỏi đã lưu'}</TooltipContent>
+                      </Tooltip>
 
-                          <DropdownMenuSeparator className="my-2 bg-muted" />
-
-                          <DropdownMenuItem
-                            disabled={!hasProgress || isResetting}
-                            onClick={(e) => handleReset(e, lesson.id, level.id)}
-                            className="flex items-center gap-2 p-3 rounded-xl cursor-pointer hover:bg-muted focus:bg-muted text-muted-foreground font-medium"
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            aria-label="Xóa tiến độ Level này"
+                            aria-disabled={!hasProgress || isResetting}
+                            onClick={(e) => { if (hasProgress && !isResetting) void handleReset(e, lesson.id, level.id); }}
+                            className={cn('h-11 w-11 rounded-md border-border text-muted-foreground', hasProgress ? 'hover:border-destructive/35 hover:bg-destructive-soft hover:text-destructive' : 'cursor-not-allowed opacity-50')}
                           >
-                            {isResetting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                            <span>Xóa tiến độ Level này</span>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                            {isResetting ? <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" /> : <Trash2 aria-hidden="true" className="h-4 w-4" />}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{hasProgress ? 'Xóa tiến độ Level này' : 'Chưa có tiến độ để xóa'}</TooltipContent>
+                      </Tooltip>
                     </div>
                   </div>
                 );
@@ -241,5 +248,6 @@ export function LessonList({ lessons, progress, wrongCounts = {}, savedCounts = 
         );
       })}
     </div>
+    </TooltipProvider>
   );
 }
